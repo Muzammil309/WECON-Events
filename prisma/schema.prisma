@@ -1,0 +1,178 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  username      String   @unique
+  passwordHash  String
+  createdAt     DateTime @default(now())
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  venue       String?
+  startAt     DateTime
+  endAt       DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  tickets     TicketType[]
+  sessions    Session[]
+  rooms       Room[]
+  submissions Submission[]
+  orders      Order[]
+  resources   Resource[]
+}
+
+model TicketType {
+  id            String   @id @default(cuid())
+  event         Event    @relation(fields: [eventId], references: [id])
+  eventId       String
+  name          String
+  description   String?
+  priceCents    Int      @default(0)
+  currency      String   @default("USD")
+  quantityTotal Int
+  quantitySold  Int      @default(0)
+  salesStart    DateTime
+  salesEnd      DateTime
+  tickets       Ticket[]
+}
+
+model Order {
+  id         String   @id @default(cuid())
+  event      Event    @relation(fields: [eventId], references: [id])
+  eventId    String
+  buyerName  String
+  buyerEmail String
+  totalCents Int
+  status     OrderStatus @default(PENDING)
+  createdAt  DateTime @default(now())
+  tickets    Ticket[]
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  CANCELLED
+}
+
+model Ticket {
+  id           String   @id @default(cuid())
+  order        Order    @relation(fields: [orderId], references: [id])
+  orderId      String
+  ticketType   TicketType @relation(fields: [ticketTypeId], references: [id])
+  ticketTypeId String
+  attendeeName  String
+  attendeeEmail String
+  qrCode       String   @unique
+  status       TicketStatus @default(VALID)
+  checkedInAt  DateTime?
+  checkIns     CheckInLog[]
+}
+
+enum TicketStatus {
+  VALID
+  USED
+  CANCELLED
+}
+
+model CheckInLog {
+  id        String   @id @default(cuid())
+  ticket    Ticket   @relation(fields: [ticketId], references: [id])
+  ticketId  String
+  scannedAt DateTime @default(now())
+  scanner   String?
+}
+
+model Room {
+  id        String   @id @default(cuid())
+  event     Event    @relation(fields: [eventId], references: [id])
+  eventId   String
+  name      String
+  capacity  Int?
+  location  String?
+  sessions  Session[]
+}
+
+model Speaker {
+  id       String   @id @default(cuid())
+  name     String
+  bio      String?
+  avatarUrl String?
+  sessions SessionSpeaker[]
+}
+
+model Session {
+  id          String   @id @default(cuid())
+  event       Event    @relation(fields: [eventId], references: [id])
+  eventId     String
+  title       String
+  abstract    String?
+  track       String?
+  startAt     DateTime
+  endAt       DateTime
+  room        Room?    @relation(fields: [roomId], references: [id])
+  roomId      String?
+  speakers    SessionSpeaker[]
+  resources   Resource[]
+  feedback    Feedback[]
+}
+
+model SessionSpeaker {
+  session   Session @relation(fields: [sessionId], references: [id])
+  sessionId String
+  speaker   Speaker @relation(fields: [speakerId], references: [id])
+  speakerId String
+
+  @@id([sessionId, speakerId])
+}
+
+model Submission {
+  id         String   @id @default(cuid())
+  event      Event    @relation(fields: [eventId], references: [id])
+  eventId    String
+  title      String
+  abstract   String
+  speakerName String
+  email      String
+  status     SubmissionStatus @default(SUBMITTED)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+enum SubmissionStatus {
+  SUBMITTED
+  ACCEPTED
+  REJECTED
+}
+
+model Resource {
+  id        String   @id @default(cuid())
+  session   Session? @relation(fields: [sessionId], references: [id])
+  sessionId String?
+  event     Event?   @relation(fields: [eventId], references: [id])
+  eventId   String?
+  title     String
+  url       String
+  createdAt DateTime @default(now())
+}
+
+model Feedback {
+  id        String   @id @default(cuid())
+  session   Session  @relation(fields: [sessionId], references: [id])
+  sessionId String
+  rating    Int
+  comment   String?
+  attendeeEmail String?
+  createdAt DateTime @default(now())
+}
