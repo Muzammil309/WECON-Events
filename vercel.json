@@ -3,7 +3,13 @@
   "buildCommand": "npm run build",
   "installCommand": "npm install",
   "env": {
-    "NEXT_PUBLIC_SITE_NAME": "WECON Masawat"
+    "NEXT_PUBLIC_SITE_NAME": "WECON Masawat",
+    "DATABASE_URL": "@database_url",
+    "NEXTAUTH_SECRET": "@nextauth_secret",
+    "NEXTAUTH_URL": "@nextauth_url",
+    "JWT_SECRET": "@jwt_secret",
+    "ADMIN_USERNAME": "@admin_username",
+    "ADMIN_PASSWORD": "@admin_password"
   },
   "build": {
     "env": {

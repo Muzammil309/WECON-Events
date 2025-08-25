@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -12,7 +12,7 @@ interface LoginForm {
   rememberMe: boolean;
 }
 
-export default function LoginPage() {
+function LoginPageContent() {
   const [form, setForm] = useState<LoginForm>({
     email: '',
     password: '',
@@ -242,5 +242,13 @@ export default function LoginPage() {
         </motion.div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+      <LoginPageContent />
+    </Suspense>
   );
 }
