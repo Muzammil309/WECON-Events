@@ -6,7 +6,8 @@ const secretKey = encoder.encode(appConfig.jwtSecret);
 
 export type AuthTokenPayload = {
   sub: string;
-  role: 'admin';
+  role: string;
+  email?: string;
 };
 
 export async function createAuthToken(payload: AuthTokenPayload): Promise<string> {

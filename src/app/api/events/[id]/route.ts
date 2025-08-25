@@ -7,17 +7,18 @@ const prisma = new PrismaClient();
 // GET /api/events/[id] - Get single event
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
     const event = await prisma.event.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         sessions: {
-          orderBy: { startTime: 'asc' }
+          orderBy: { startAt: 'asc' }
         },
         tickets: {
-          orderBy: { createdAt: 'desc' }
+          orderBy: { salesStart: 'desc' }
         },
         _count: {
           select: {
@@ -53,8 +54,9 @@ export async function GET(
 // PUT /api/events/[id] - Update event
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
     // Verify authentication
     const authResult = await verifyAuthTokenFromRequest(request);
@@ -84,7 +86,7 @@ export async function PUT(
 
     // Check if event exists
     const existingEvent = await prisma.event.findUnique({
-      where: { id: params.id }
+      where: { id }
     });
 
     if (!existingEvent) {
@@ -119,7 +121,7 @@ export async function PUT(
     if (location !== undefined) updateData.venue = location;
 
     const event = await prisma.event.update({
-      where: { id: params.id },
+      where: { id },
       data: updateData,
       include: {
         _count: {
@@ -149,8 +151,9 @@ export async function PUT(
 // DELETE /api/events/[id] - Delete event
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
     // Verify authentication
     const authResult = await verifyAuthTokenFromRequest(request);
@@ -163,7 +166,7 @@ export async function DELETE(
 
     // Check if event exists
     const existingEvent = await prisma.event.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         _count: {
           select: {
@@ -197,7 +200,7 @@ export async function DELETE(
     }
 
     await prisma.event.delete({
-      where: { id: params.id }
+      where: { id }
     });
 
     return NextResponse.json({

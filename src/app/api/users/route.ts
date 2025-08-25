@@ -52,12 +52,7 @@ export async function GET(request: NextRequest) {
           role: true,
           emailVerified: true,
           createdAt: true,
-          updatedAt: true,
-          _count: {
-            select: {
-              tickets: true
-            }
-          }
+          updatedAt: true
         }
       }),
       prisma.user.count({ where })
