@@ -1,0 +1,12 @@
+﻿{
+  "name": "WECON Masawat",
+  "short_name": "Masawat",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0b12",
+  "theme_color": "#6d28d9",
+  "description": "Futuristic open-source event platform",
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "64x64 32x32 24x24 16x16", "type": "image/x-icon" }
+  ]
+}

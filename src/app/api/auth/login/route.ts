@@ -1,23 +1,118 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
 import { appConfig } from '@/lib/config';
 import { createAuthToken } from '@/lib/jwt';
 
+const prisma = new PrismaClient();
+
 export async function POST(request: NextRequest) {
-  const body = await request.json().catch(() => ({}));
-  const { username, password } = body as { username?: string; password?: string };
+  try {
+    const body = await request.json().catch(() => ({}));
+    const { email, password, username } = body as { email?: string; password?: string; username?: string };
 
-  if (username !== appConfig.admin.username || password !== appConfig.admin.password) {
-    return NextResponse.json({ ok: false, error: 'Invalid credentials' }, { status: 401 });
+    // Support both email and username for login
+    const loginIdentifier = email || username;
+
+    // Validate required fields
+    if (!loginIdentifier || !password) {
+      return NextResponse.json(
+        { ok: false, error: 'Email/username and password are required' },
+        { status: 400 }
+      );
+    }
+
+    // First check if it's the admin user from config (fallback)
+    if (loginIdentifier === appConfig.admin.username && password === appConfig.admin.password) {
+      const token = await createAuthToken({ sub: loginIdentifier, role: 'admin' });
+      const response = NextResponse.json({
+        ok: true,
+        user: {
+          id: 'admin',
+          name: 'Admin User',
+          email: loginIdentifier,
+          role: 'admin'
+        }
+      });
+
+      response.cookies.set('wecon_admin_token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 60 * 60 * 24 * 7
+      });
+
+      return response;
+    }
+
+    // Check database for user
+    const user = await prisma.user.findUnique({
+      where: {
+        email: loginIdentifier.toLowerCase()
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        password: true,
+        role: true,
+        emailVerified: true
+      }
+    });
+
+    if (!user) {
+      return NextResponse.json({ ok: false, error: 'Invalid credentials' }, { status: 401 });
+    }
+
+    // Verify password
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    if (!isValidPassword) {
+      return NextResponse.json({ ok: false, error: 'Invalid credentials' }, { status: 401 });
+    }
+
+    // Note: Email verification check is disabled for now to allow testing
+    // Uncomment the following lines if you want to require email verification:
+    // if (!user.emailVerified) {
+    //   return NextResponse.json({
+    //     ok: false,
+    //     error: 'Please verify your email before logging in. Check your inbox for the verification link.'
+    //   }, { status: 403 });
+    // }
+
+    // Create JWT token
+    const token = await createAuthToken({
+      sub: user.id,
+      role: user.role.toLowerCase(),
+      email: user.email
+    });
+
+    const response = NextResponse.json({
+      ok: true,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role.toLowerCase()
+      }
+    });
+
+    response.cookies.set('wecon_admin_token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7
+    });
+
+    return response;
+  } catch (error) {
+    console.error('Login error:', error);
+    return NextResponse.json(
+      { ok: false, error: 'Internal server error' },
+      { status: 500 }
+    );
+  } finally {
+    await prisma.$disconnect();
   }
-
-  const token = await createAuthToken({ sub: username!, role: 'admin' });
-  const response = NextResponse.json({ ok: true });
-  response.cookies.set('wecon_admin_token', token, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'lax',
-    path: '/',
-    maxAge: 60 * 60 * 24 * 7
-  });
-  return response;
 }

@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database for development
+  postgres-dev:
+    image: postgres:15-alpine
+    container_name: wecon-postgres-dev
+    environment:
+      POSTGRES_DB: wecon_masawat_dev
+      POSTGRES_USER: wecon_dev
+      POSTGRES_PASSWORD: wecon_dev_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    networks:
+      - wecon-dev-network
+    restart: unless-stopped
+
+  # Redis for development
+  redis-dev:
+    image: redis:7-alpine
+    container_name: wecon-redis-dev
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_dev_data:/data
+    networks:
+      - wecon-dev-network
+    restart: unless-stopped
+
+  # MinIO for development file storage
+  minio-dev:
+    image: minio/minio:latest
+    container_name: wecon-minio-dev
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin123
+    ports:
+      - "9002:9000"
+      - "9003:9001"
+    volumes:
+      - minio_dev_data:/data
+    networks:
+      - wecon-dev-network
+    command: server /data --console-address ":9001"
+    restart: unless-stopped
+
+  # Adminer for database management
+  adminer:
+    image: adminer:latest
+    container_name: wecon-adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - wecon-dev-network
+    restart: unless-stopped
+
+volumes:
+  postgres_dev_data:
+    driver: local
+  redis_dev_data:
+    driver: local
+  minio_dev_data:
+    driver: local
+
+networks:
+  wecon-dev-network:
+    driver: bridge
