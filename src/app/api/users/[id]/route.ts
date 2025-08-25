@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { verifyAuthTokenFromRequest } from '@/lib/jwt';
 import bcrypt from 'bcryptjs';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 // GET /api/users/[id] - Get single user
 export async function GET(
@@ -51,8 +49,6 @@ export async function GET(
       { ok: false, error: 'Failed to fetch user' },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -211,7 +207,5 @@ export async function DELETE(
       { ok: false, error: 'Failed to delete user' },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }

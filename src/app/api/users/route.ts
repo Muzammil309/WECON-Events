@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { verifyAuthTokenFromRequest } from '@/lib/jwt';
 import bcrypt from 'bcryptjs';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 // GET /api/users - Get all users
 export async function GET(request: NextRequest) {
@@ -74,8 +72,6 @@ export async function GET(request: NextRequest) {
       { ok: false, error: 'Failed to fetch users' },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -169,7 +165,5 @@ export async function POST(request: NextRequest) {
       { ok: false, error: 'Failed to create user' },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }

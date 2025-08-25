@@ -1,10 +1,8 @@
 ﻿import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import { appConfig } from '@/lib/config';
 import { createAuthToken } from '@/lib/jwt';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 export async function POST(request: NextRequest) {
   try {
@@ -112,7 +110,5 @@ export async function POST(request: NextRequest) {
       { ok: false, error: 'Internal server error' },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }

@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
 import { verifyAuthTokenFromRequest } from '@/lib/jwt';
-
-const prisma = new PrismaClient();
+import { prisma } from '@/lib/prisma';
 
 // GET /api/events/[id] - Get single event
 export async function GET(
@@ -46,8 +44,6 @@ export async function GET(
       { ok: false, error: 'Failed to fetch event' },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -143,8 +139,6 @@ export async function PUT(
       { ok: false, error: 'Failed to update event' },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
 
@@ -213,7 +207,5 @@ export async function DELETE(
       { ok: false, error: 'Failed to delete event' },
       { status: 500 }
     );
-  } finally {
-    await prisma.$disconnect();
   }
 }
