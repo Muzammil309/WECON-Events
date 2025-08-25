@@ -47,57 +47,7 @@ export function Footer() {
     { name: 'GDPR', href: '/gdpr' },
   ];
 
-  // Define social links with explicit typing to prevent hydration issues
-  const socialLinks: Array<{
-    name: string;
-    href: string;
-    icon: React.ComponentType<{ className?: string }>;
-    target: '_blank';
-    rel: 'noopener noreferrer';
-  }> = [
-    {
-      name: 'Twitter',
-      href: 'https://twitter.com/weconmasawat',
-      icon: Twitter,
-      target: '_blank',
-      rel: 'noopener noreferrer'
-    },
-    {
-      name: 'LinkedIn',
-      href: 'https://linkedin.com/company/weconmasawat',
-      icon: Linkedin,
-      target: '_blank',
-      rel: 'noopener noreferrer'
-    },
-    {
-      name: 'GitHub',
-      href: 'https://github.com/weconmasawat',
-      icon: Github,
-      target: '_blank',
-      rel: 'noopener noreferrer'
-    },
-    {
-      name: 'Instagram',
-      href: 'https://instagram.com/weconmasawat',
-      icon: Instagram,
-      target: '_blank',
-      rel: 'noopener noreferrer'
-    },
-    {
-      name: 'Facebook',
-      href: 'https://facebook.com/weconmasawat',
-      icon: Facebook,
-      target: '_blank',
-      rel: 'noopener noreferrer'
-    },
-    {
-      name: 'YouTube',
-      href: 'https://youtube.com/weconmasawat',
-      icon: Youtube,
-      target: '_blank',
-      rel: 'noopener noreferrer'
-    },
-  ];
+
 
   return (
     <footer className="bg-gray-900 text-white relative">
@@ -257,18 +207,60 @@ export function Footer() {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="flex items-center gap-4"
             >
-              {socialLinks.map((social) => (
-                <a
-                  key={social.name}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-all"
-                  aria-label={social.name}
-                >
-                  <social.icon className="h-4 w-4" />
-                </a>
-              ))}
+              <a
+                href="https://twitter.com/weconmasawat"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-all"
+                aria-label="Twitter"
+              >
+                <Twitter className="h-4 w-4" />
+              </a>
+              <a
+                href="https://linkedin.com/company/weconmasawat"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-all"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="h-4 w-4" />
+              </a>
+              <a
+                href="https://github.com/weconmasawat"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-all"
+                aria-label="GitHub"
+              >
+                <Github className="h-4 w-4" />
+              </a>
+              <a
+                href="https://instagram.com/weconmasawat"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-all"
+                aria-label="Instagram"
+              >
+                <Instagram className="h-4 w-4" />
+              </a>
+              <a
+                href="https://facebook.com/weconmasawat"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-all"
+                aria-label="Facebook"
+              >
+                <Facebook className="h-4 w-4" />
+              </a>
+              <a
+                href="https://youtube.com/weconmasawat"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-all"
+                aria-label="YouTube"
+              >
+                <Youtube className="h-4 w-4" />
+              </a>
             </motion.div>
           </div>
         </div>

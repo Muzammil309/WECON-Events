@@ -1,7 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { Eye, EyeOff, Mail, Lock, Github, Chrome, ArrowLeft, Sparkles } from 'lucide-react';
 import { PageSection } from '@/components/ui/PageSection';
 
@@ -20,6 +21,8 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get('redirect');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,8 +44,21 @@ export default function LoginPage() {
       const data = await response.json();
 
       if (data.ok) {
-        // Redirect to dashboard or previous page
-        window.location.href = '/admin';
+        // Use redirect URL if provided, otherwise redirect based on user role
+        if (redirectUrl) {
+          window.location.href = redirectUrl;
+        } else {
+          const userRole = data.user?.role?.toLowerCase();
+
+          if (userRole === 'admin' || userRole === 'organizer') {
+            window.location.href = '/admin';
+          } else if (userRole === 'attendee' || userRole === 'speaker') {
+            window.location.href = '/attendee';
+          } else {
+            // Default fallback to attendee dashboard
+            window.location.href = '/attendee';
+          }
+        }
       } else {
         setError(data.error || 'Login failed');
       }

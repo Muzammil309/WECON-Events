@@ -53,17 +53,20 @@ export default function AttendeeLayout({ children }: AttendeeLayoutProps) {
       
       if (response.ok) {
         const data = await response.json();
-        if (data.user && data.user.role !== 'ADMIN') {
+        const userRole = data.user?.role?.toLowerCase();
+
+        // Allow attendees, speakers, and admins to access attendee dashboard
+        if (userRole === 'attendee' || userRole === 'speaker' || userRole === 'admin' || userRole === 'organizer') {
           setIsAuthenticated(true);
         } else {
-          router.push('/auth/login');
+          router.push('/login?redirect=/attendee');
         }
       } else {
-        router.push('/auth/login');
+        router.push('/login?redirect=/attendee');
       }
     } catch (error) {
       console.error('Authentication check failed:', error);
-      router.push('/auth/login');
+      router.push('/login?redirect=/attendee');
     } finally {
       setIsLoading(false);
     }
@@ -94,10 +97,10 @@ export default function AttendeeLayout({ children }: AttendeeLayoutProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex">
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-40 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         >
@@ -106,9 +109,7 @@ export default function AttendeeLayout({ children }: AttendeeLayoutProps) {
       )}
 
       {/* Sidebar */}
-      <div className={`fixed top-0 left-0 bottom-0 z-50 w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transform transition-transform duration-300 ease-in-out ${
-        sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-      } max-h-screen overflow-hidden`}>
+      <div className={`${sidebarOpen ? 'fixed' : 'hidden'} lg:relative lg:flex flex-col w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-transform duration-300 ease-in-out h-screen overflow-hidden z-50 lg:z-auto`}>
         <div className="flex flex-col h-full">
           {/* Logo */}
           <div className="flex items-center justify-between h-16 px-6 border-b border-gray-200 dark:border-gray-700">
@@ -175,7 +176,7 @@ export default function AttendeeLayout({ children }: AttendeeLayoutProps) {
       </div>
 
       {/* Main content */}
-      <div className="lg:pl-64 min-h-screen">
+      <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
         {/* Top bar */}
         <div className="sticky top-0 z-30 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between h-16 px-6">
@@ -185,7 +186,7 @@ export default function AttendeeLayout({ children }: AttendeeLayoutProps) {
             >
               <Menu className="h-5 w-5" />
             </button>
-            
+
             <div className="flex items-center gap-4 ml-auto">
               <button className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 relative">
                 <Bell className="h-5 w-5" />
@@ -199,7 +200,7 @@ export default function AttendeeLayout({ children }: AttendeeLayoutProps) {
         </div>
 
         {/* Page content */}
-        <main className="p-6 min-h-[calc(100vh-4rem)]">
+        <main className="flex-1 p-6 overflow-y-auto">
           <div className="max-w-7xl mx-auto">
             {children}
           </div>

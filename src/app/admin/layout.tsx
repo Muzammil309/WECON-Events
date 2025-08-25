@@ -56,7 +56,16 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       });
 
       if (response.ok) {
-        setIsAuthenticated(true);
+        const data = await response.json();
+        const userRole = data.user?.role?.toLowerCase();
+
+        // Check if user has admin or organizer role
+        if (userRole === 'admin' || userRole === 'organizer') {
+          setIsAuthenticated(true);
+        } else {
+          // Redirect non-admin users to attendee dashboard
+          router.push('/attendee');
+        }
       } else {
         // Redirect to login with return URL
         router.push('/login?redirect=/admin');
@@ -97,7 +106,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex">
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <div
@@ -109,9 +118,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       )}
 
       {/* Sidebar */}
-      <div className={`fixed top-0 left-0 bottom-0 z-50 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transform transition-all duration-300 ease-in-out ${
-        sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-      } ${sidebarCollapsed ? 'lg:w-16' : 'lg:w-64'} w-64 max-h-screen overflow-hidden`}>
+      <div className={`${sidebarOpen ? 'fixed' : 'hidden'} lg:relative lg:flex flex-col bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 ease-in-out ${
+        sidebarCollapsed ? 'lg:w-16' : 'lg:w-64'
+      } w-64 h-screen overflow-hidden z-50 lg:z-auto`}>
         <div className="flex flex-col h-full">
           {/* Logo */}
           <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200 dark:border-gray-700">
@@ -209,9 +218,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       </div>
 
       {/* Main content */}
-      <div className={`min-h-screen transition-all duration-300 ease-in-out ${
-        sidebarCollapsed ? 'lg:pl-16' : 'lg:pl-64'
-      }`}>
+      <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
         {/* Top bar */}
         <div className="sticky top-0 z-30 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between h-16 px-6">
@@ -232,7 +239,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         </div>
 
         {/* Page content */}
-        <main className="p-6 min-h-[calc(100vh-4rem)]">
+        <main className="flex-1 p-6 overflow-y-auto">
           <div className="max-w-7xl mx-auto">
             {children}
           </div>
