@@ -39,7 +39,7 @@ NEXTAUTH_SECRET=d48a7fac2990b9cca4a08ed6457203ee06b2b16f1a396ff47094712b9fa91239
 JWT_SECRET=86f164addc398e6da202c8f62fa8155dacdead8cf9fbf7189e5356e1a12a87c8
 
 # Application URLs (UPDATED DOMAIN)
-NEXTAUTH_URL=https://wecon-events.vercel.app
+NEXTAUTH_URL=https://wecon-masawat.vercel.app
 
 # Admin Credentials
 ADMIN_USERNAME=admin
