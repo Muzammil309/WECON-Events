@@ -95,12 +95,12 @@ CREATE POLICY "Admins can view all tickets" ON "Ticket"
 Set these in your Vercel project dashboard:
 
 ```env
-# Database Connection
-DATABASE_URL=postgresql://postgres:[PASSWORD]@[HOST]:5432/postgres
+# Database Connection (Supabase)
+DATABASE_URL=postgresql://postgres:[YOUR-PASSWORD]@db.xhkbbctbyyeoucwmdspr.supabase.co:5432/postgres
 
 # Authentication Secrets (generate random strings)
-NEXTAUTH_SECRET=your-super-secret-key-change-this-in-production
-JWT_SECRET=your-jwt-secret-change-this-in-production
+NEXTAUTH_SECRET=d48a7fac2990b9cca4a08ed6457203ee06b2b16f1a396ff47094712b9fa91239
+JWT_SECRET=86f164addc398e6da202c8f62fa8155dacdead8cf9fbf7189e5356e1a12a87c8
 
 # Application URLs
 NEXTAUTH_URL=https://wecon-events.vercel.app
