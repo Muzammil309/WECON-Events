@@ -8,7 +8,7 @@
 ## Possible Issues & Solutions
 
 ### 1. **Password Verification**
-Please verify in your Supabase dashboard that the password is exactly: `Muzammil9971`
+Please verify in your Supabase dashboard that the password matches your actual database password
 
 ### 2. **Project Status**
 Check that your Supabase project status is "Active" (not "Paused" or "Setting up")
@@ -19,22 +19,22 @@ If the current format doesn't work, try these alternatives:
 
 **Format 1 (Current):**
 ```env
-DATABASE_URL="postgresql://postgres:Muzammil9971@db.negldflnvdjqoukvftyx.supabase.co:5432/postgres"
+DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@db.[PROJECT-REF].supabase.co:5432/postgres"
 ```
 
 **Format 2 (URL Encoded):**
 ```env
-DATABASE_URL="postgresql://postgres:Muzammil9971@db.negldflnvdjqoukvftyx.supabase.co:5432/postgres?sslmode=require"
+DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@db.[PROJECT-REF].supabase.co:5432/postgres?sslmode=require"
 ```
 
 **Format 3 (With SSL parameters):**
 ```env
-DATABASE_URL="postgresql://postgres:Muzammil9971@db.negldflnvdjqoukvftyx.supabase.co:5432/postgres?sslmode=require&connect_timeout=10"
+DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@db.[PROJECT-REF].supabase.co:5432/postgres?sslmode=require&connect_timeout=10"
 ```
 
 ### 4. **Get Exact Connection String from Supabase**
 
-1. Go to: https://supabase.com/dashboard/project/negldflnvdjqoukvftyx/settings/database
+1. Go to: https://supabase.com/dashboard/project/[YOUR-PROJECT-REF]/settings/database
 2. Find "Connection string" section
 3. Copy the EXACT string (it should include your password)
 4. Replace the entire DATABASE_URL with that exact string

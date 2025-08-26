@@ -12,10 +12,10 @@ Go to your Vercel project settings and set these environment variables:
 
 ```env
 # Database Connection (Supabase Connection Pooling)
-DATABASE_URL=postgresql://postgres.negldflnvdjqoukvftyx:Muzammil9971@aws-1-ap-southeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true
+DATABASE_URL=postgresql://postgres.[PROJECT-REF]:[YOUR-PASSWORD]@aws-1-ap-southeast-1.pooler.supabase.com:6543/postgres?pgbouncer=true
 
 # Direct Database URL (for migrations)
-DIRECT_URL=postgresql://postgres.negldflnvdjqoukvftyx:Muzammil9971@aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres
+DIRECT_URL=postgresql://postgres.[PROJECT-REF]:[YOUR-PASSWORD]@aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres
 
 # Application URLs (Updated Domain)
 NEXTAUTH_URL=https://wecon-masawat.vercel.app
@@ -29,8 +29,8 @@ ADMIN_USERNAME=admin
 ADMIN_PASSWORD=admin123
 
 # Supabase Direct Access
-NEXT_PUBLIC_SUPABASE_URL=https://negldflnvdjqoukvftyx.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5lZ2xkZmxudmRqcW91a3ZmdHl4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTYxNDQxNDIsImV4cCI6MjA3MTcyMDE0Mn0.je32vCE8ki1DD2yLHVHKJtrrWk6b-KgejAJP6NrMFAQ
+NEXT_PUBLIC_SUPABASE_URL=https://[YOUR-PROJECT-REF].supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=[YOUR-ANON-KEY]
 
 # Site Configuration
 NEXT_PUBLIC_SITE_NAME=WECON Masawat

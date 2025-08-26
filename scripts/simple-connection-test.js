@@ -20,7 +20,7 @@ try {
 // Test 2: Try to connect with psql (if available)
 console.log('🔌 Testing direct PostgreSQL connection...');
 try {
-  const connectionString = 'postgresql://postgres:Muzammil9971@db.negldflnvdjqoukvftyx.supabase.co:5432/postgres';
+  const connectionString = 'postgresql://postgres:[PASSWORD]@db.[PROJECT-REF].supabase.co:5432/postgres';
   console.log(`Connection string: ${connectionString.replace(/:[^@]+@/, ':****@')}`);
   
   // Try a simple connection test
@@ -30,8 +30,8 @@ try {
 }
 
 console.log('\n📋 Troubleshooting checklist:');
-console.log('1. ✅ Project Reference ID: negldflnvdjqoukvftyx');
-console.log('2. ❓ Password: Muzammil9971 (verify this is correct)');
+console.log('1. ✅ Project Reference ID: [YOUR-PROJECT-REF]');
+console.log('2. ❓ Password: [YOUR-PASSWORD] (verify this is correct)');
 console.log('3. ❓ Project Status: Check if project is active in Supabase dashboard');
 console.log('4. ❓ Network: Check if your network allows connections to Supabase');
 
