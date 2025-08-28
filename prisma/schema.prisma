@@ -41,6 +41,10 @@ model User {
   exhibitorProfile  ExhibitorProfile?
   speakerProfile    SpeakerProfile?
   attendeeProfile   AttendeeProfile?
+  sessionBookmarks  SessionBookmark[]
+  connectionRequests Connection[] @relation("ConnectionRequester")
+  connectionReceived Connection[] @relation("ConnectionRecipient")
+  checkIns          CheckIn[]
 }
 
 enum UserRole {
@@ -210,6 +214,7 @@ model Room {
   equipment String[]
   isAccessible Boolean @default(false)
   sessions  Session[]
+  checkIns  CheckIn[]
 }
 
 // Speaker model replaced by SpeakerProfile linked to User
@@ -228,6 +233,8 @@ model Session {
   speakers    SessionSpeaker[]
   resources   Resource[]
   feedback    Feedback[]
+  bookmarks   SessionBookmark[]
+  checkIns    CheckIn[]
 }
 
 model SessionSpeaker {
@@ -351,6 +358,7 @@ model Venue {
   updatedAt   DateTime @updatedAt
   rooms       Room[]
   stalls      Stall[]
+  checkIns    CheckIn[]
 }
 
 model Stall {
@@ -467,4 +475,44 @@ model EventAnalytics {
   expenses        Float    @default(0)
   metadata        Json?    // Additional analytics data
   createdAt       DateTime @default(now())
+}
+
+model SessionBookmark {
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String
+  session   Session @relation(fields: [sessionId], references: [id])
+  sessionId String
+  createdAt DateTime @default(now())
+
+  @@id([userId, sessionId])
+}
+
+model Connection {
+  id          String   @id @default(cuid())
+  requester   User     @relation("ConnectionRequester", fields: [requesterId], references: [id])
+  requesterId String
+  recipient   User     @relation("ConnectionRecipient", fields: [recipientId], references: [id])
+  recipientId String
+  status      String   @default("pending") // pending, accepted, declined
+  message     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([requesterId, recipientId])
+}
+
+model CheckIn {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  session   Session? @relation(fields: [sessionId], references: [id])
+  sessionId String?
+  venue     Venue?   @relation(fields: [venueId], references: [id])
+  venueId   String?
+  room      Room?    @relation(fields: [roomId], references: [id])
+  roomId    String?
+  type      String   // session, venue, room, event
+  checkInAt DateTime @default(now())
+  checkOutAt DateTime?
+  metadata  Json?    // Additional check-in data
 }
