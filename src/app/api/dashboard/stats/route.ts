@@ -21,13 +21,13 @@ export async function GET(request: NextRequest) {
 
     // Build where clause based on user role
     let eventFilter: any = {};
-    if (!['SUPER_ADMIN', 'ADMIN'].includes(authResult.userRole)) {
+    if (!['SUPER_ADMIN', 'ADMIN'].includes(authResult.payload?.role?.toUpperCase())) {
       // Non-admin users only see events they manage or are involved with
       eventFilter = {
         OR: [
-          { managerId: authResult.userId },
-          { staff: { some: { staffId: authResult.userId } } },
-          { sessions: { some: { speakers: { some: { speaker: { userId: authResult.userId } } } } } }
+          { managerId: authResult.payload?.sub },
+          { staff: { some: { staffId: authResult.payload?.sub } } },
+          { sessions: { some: { speakers: { some: { speaker: { userId: authResult.payload?.sub } } } } } }
         ]
       };
     }

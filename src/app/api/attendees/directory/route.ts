@@ -99,7 +99,7 @@ export async function GET(request: NextRequest) {
 
     // Calculate networking compatibility for each attendee
     const currentUserProfile = await prisma.attendeeProfile.findUnique({
-      where: { userId: authResult.userId },
+      where: { userId: authResult.payload?.sub },
       select: { interests: true }
     });
 

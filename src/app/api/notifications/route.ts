@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
 
     // Build where clause
     const where: any = {
-      userId: authResult.userId
+      userId: authResult.payload?.sub
     };
 
     if (unreadOnly) {

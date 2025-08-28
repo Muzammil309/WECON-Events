@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     // Get user's bookmarked sessions
     const bookmarkedSessions = await prisma.sessionBookmark.findMany({
       where: {
-        userId: authResult.userId,
+        userId: authResult.payload?.sub,
         session: {
           eventId: eventId
         }
@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
             resources: true,
             feedback: {
               where: {
-                giverId: authResult.userId
+                giverId: authResult.payload?.sub
               },
               select: {
                 rating: true,
@@ -113,7 +113,7 @@ export async function GET(request: NextRequest) {
 
     // Get user's interests for recommendations
     const userProfile = await prisma.attendeeProfile.findUnique({
-      where: { userId: authResult.userId },
+      where: { userId: authResult.payload?.sub },
       select: { interests: true }
     });
 
@@ -233,7 +233,7 @@ export async function POST(request: NextRequest) {
       const existingBookmark = await prisma.sessionBookmark.findUnique({
         where: {
           userId_sessionId: {
-            userId: authResult.userId,
+            userId: authResult.payload?.sub,
             sessionId: sessionId
           }
         }
@@ -249,7 +249,7 @@ export async function POST(request: NextRequest) {
       // Create bookmark
       await prisma.sessionBookmark.create({
         data: {
-          userId: authResult.userId,
+          userId: authResult.payload?.sub,
           sessionId: sessionId
         }
       });
@@ -263,7 +263,7 @@ export async function POST(request: NextRequest) {
       await prisma.sessionBookmark.delete({
         where: {
           userId_sessionId: {
-            userId: authResult.userId,
+            userId: authResult.payload?.sub,
             sessionId: sessionId
           }
         }

@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
     }
 
     const profile = await prisma.attendeeProfile.findUnique({
-      where: { userId: authResult.userId },
+      where: { userId: authResult.payload?.sub },
       include: {
         user: {
           select: {
@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
       // Create default profile if it doesn't exist
       const newProfile = await prisma.attendeeProfile.create({
         data: {
-          userId: authResult.userId,
+          userId: authResult.payload?.sub,
           interests: [],
           networkingOptIn: true
         },
@@ -131,10 +131,10 @@ export async function PUT(request: NextRequest) {
     if (networkingOptIn !== undefined) profileUpdateData.networkingOptIn = networkingOptIn;
 
     const updatedProfile = await prisma.attendeeProfile.upsert({
-      where: { userId: authResult.userId },
+      where: { userId: authResult.payload?.sub },
       update: profileUpdateData,
       create: {
-        userId: authResult.userId,
+        userId: authResult.payload?.sub,
         interests: interests || [],
         dietaryReqs,
         accessibilityReqs,

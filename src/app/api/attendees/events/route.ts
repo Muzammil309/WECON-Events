@@ -15,12 +15,12 @@ export async function GET(request: NextRequest) {
       select: {
         id: true,
         name: true,
-        startDate: true,
-        endDate: true,
+        startAt: true,
+        endAt: true,
         status: true
       },
       orderBy: {
-        startDate: 'asc'
+        startAt: 'asc'
       },
       take: 5
     });
@@ -31,8 +31,8 @@ export async function GET(request: NextRequest) {
         {
           id: 'demo-event-1',
           name: 'WECON Masawat 2024',
-          startDate: new Date('2024-03-15T09:00:00Z'),
-          endDate: new Date('2024-03-17T18:00:00Z'),
+          startAt: new Date('2024-03-15T09:00:00Z'),
+          endAt: new Date('2024-03-17T18:00:00Z'),
           status: 'LIVE'
         }
       ];
@@ -55,8 +55,8 @@ export async function GET(request: NextRequest) {
       {
         id: 'demo-event-1',
         name: 'WECON Masawat 2024',
-        startDate: new Date('2024-03-15T09:00:00Z'),
-        endDate: new Date('2024-03-17T18:00:00Z'),
+        startAt: new Date('2024-03-15T09:00:00Z'),
+        endAt: new Date('2024-03-17T18:00:00Z'),
         status: 'LIVE'
       }
     ];
