@@ -29,41 +29,76 @@ function LoginPageContent() {
     setIsLoading(true);
     setError('');
 
+    // Validate form data
+    if (!form.email || !form.password) {
+      setError('Please enter both email and password');
+      setIsLoading(false);
+      return;
+    }
+
+    if (!form.email.includes('@')) {
+      setError('Please enter a valid email address');
+      setIsLoading(false);
+      return;
+    }
+
     try {
+      console.log('🔍 Login attempt:', { email: form.email, password: '***' });
+
+      // Add cache-busting and explicit headers
       const response = await fetch('/api/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Cache-Control': 'no-cache',
+          'Pragma': 'no-cache'
         },
         body: JSON.stringify({
-          email: form.email,
+          email: form.email.trim(),
           password: form.password,
         }),
+        cache: 'no-store'
       });
 
-      const data = await response.json();
+      console.log('📡 Response status:', response.status);
+      console.log('📡 Response ok:', response.ok);
 
-      if (data.ok) {
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      console.log('📦 Response data:', data);
+
+      if (data.ok && data.user) {
+        console.log('✅ Login successful, redirecting...');
+
         // Use redirect URL if provided, otherwise redirect based on user role
         if (redirectUrl) {
+          console.log('🔄 Redirecting to:', redirectUrl);
           window.location.href = redirectUrl;
         } else {
           const userRole = data.user?.role?.toLowerCase();
+          console.log('🎭 User role:', userRole);
 
-          if (userRole === 'admin' || userRole === 'organizer') {
+          if (userRole === 'super_admin' || userRole === 'admin' || userRole === 'organizer' || userRole === 'staff_manager' || userRole === 'sponsor_manager') {
+            console.log('🔄 Redirecting to admin dashboard');
             window.location.href = '/admin';
-          } else if (userRole === 'attendee' || userRole === 'speaker') {
+          } else if (userRole === 'attendee' || userRole === 'speaker' || userRole === 'staff' || userRole === 'volunteer') {
+            console.log('🔄 Redirecting to attendee dashboard');
             window.location.href = '/attendee';
           } else {
-            // Default fallback to attendee dashboard
+            console.log('🔄 Redirecting to default attendee dashboard');
             window.location.href = '/attendee';
           }
         }
       } else {
-        setError(data.error || 'Login failed');
+        console.log('❌ Login failed:', data.error);
+        setError(data.error || 'Login failed - invalid response format');
       }
-    } catch (err) {
-      setError('Network error. Please try again.');
+    } catch (err: any) {
+      console.error('🚨 Login error:', err);
+      setError(`Login failed: ${err.message || 'Network error. Please try again.'}`);
     } finally {
       setIsLoading(false);
     }
