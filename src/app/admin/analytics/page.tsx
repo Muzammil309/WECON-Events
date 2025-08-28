@@ -2,7 +2,32 @@
 
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { BarChart3, Users, Calendar, Ticket, TrendingUp, TrendingDown } from 'lucide-react';
+import {
+  BarChart3,
+  Users,
+  Calendar,
+  Ticket,
+  TrendingUp,
+  TrendingDown,
+  Activity,
+  Zap,
+  Globe,
+  Smartphone,
+  Monitor,
+  Building2,
+  Award,
+  Clock,
+  MapPin,
+  Wifi,
+  AlertTriangle,
+  DollarSign,
+  Eye,
+  MessageSquare,
+  Star,
+  Download,
+  Filter,
+  RefreshCw
+} from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface AnalyticsData {
@@ -19,6 +44,31 @@ interface AnalyticsData {
     description: string;
     timestamp: string;
   }>;
+  // Phase 3 Advanced Analytics
+  realTimeMetrics: {
+    activeUsers: number;
+    liveStreams: number;
+    digitalSignageViews: number;
+    mobileAppSessions: number;
+  };
+  sponsorshipMetrics: {
+    totalValue: number;
+    activeSponsors: number;
+    conversionRate: number;
+    avgDealSize: number;
+  };
+  staffMetrics: {
+    totalStaff: number;
+    activeNow: number;
+    taskCompletion: number;
+    avgResponseTime: number;
+  };
+  contentMetrics: {
+    totalContent: number;
+    publishedToday: number;
+    totalViews: number;
+    engagementRate: number;
+  };
 }
 
 export default function AnalyticsPage() {
@@ -57,7 +107,32 @@ export default function AnalyticsPage() {
               description: 'New event created: Tech Workshop',
               timestamp: '2024-01-14T16:45:00Z'
             }
-          ]
+          ],
+          // Phase 3 Advanced Analytics
+          realTimeMetrics: {
+            activeUsers: 342,
+            liveStreams: 3,
+            digitalSignageViews: 1250,
+            mobileAppSessions: 89
+          },
+          sponsorshipMetrics: {
+            totalValue: 90000,
+            activeSponsors: 8,
+            conversionRate: 65.5,
+            avgDealSize: 11250
+          },
+          staffMetrics: {
+            totalStaff: 35,
+            activeNow: 28,
+            taskCompletion: 87.5,
+            avgResponseTime: 4.2
+          },
+          contentMetrics: {
+            totalContent: 156,
+            publishedToday: 12,
+            totalViews: 8950,
+            engagementRate: 73.8
+          }
         };
         
         setAnalytics(mockData);
@@ -118,13 +193,88 @@ export default function AnalyticsPage() {
     }
   ];
 
+  // Phase 3 Advanced Analytics Stats
+  const realTimeStats = [
+    {
+      title: 'Active Users',
+      value: analytics.realTimeMetrics.activeUsers.toString(),
+      icon: Activity,
+      color: 'text-green-600',
+      description: 'Currently online'
+    },
+    {
+      title: 'Live Streams',
+      value: analytics.realTimeMetrics.liveStreams.toString(),
+      icon: Zap,
+      color: 'text-red-600',
+      description: 'Active sessions'
+    },
+    {
+      title: 'Signage Views',
+      value: analytics.realTimeMetrics.digitalSignageViews.toLocaleString(),
+      icon: Monitor,
+      color: 'text-blue-600',
+      description: 'Today'
+    },
+    {
+      title: 'Mobile Sessions',
+      value: analytics.realTimeMetrics.mobileAppSessions.toString(),
+      icon: Smartphone,
+      color: 'text-purple-600',
+      description: 'Active now'
+    }
+  ];
+
+  const sponsorshipStats = [
+    {
+      title: 'Total Value',
+      value: `$${(analytics.sponsorshipMetrics.totalValue / 1000).toFixed(0)}K`,
+      icon: DollarSign,
+      color: 'text-green-600'
+    },
+    {
+      title: 'Active Sponsors',
+      value: analytics.sponsorshipMetrics.activeSponsors.toString(),
+      icon: Building2,
+      color: 'text-blue-600'
+    },
+    {
+      title: 'Conversion Rate',
+      value: `${analytics.sponsorshipMetrics.conversionRate}%`,
+      icon: TrendingUp,
+      color: 'text-purple-600'
+    },
+    {
+      title: 'Avg Deal Size',
+      value: `$${analytics.sponsorshipMetrics.avgDealSize.toLocaleString()}`,
+      icon: Award,
+      color: 'text-orange-600'
+    }
+  ];
+
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Analytics</h1>
-        <p className="text-gray-600 dark:text-gray-300">
-          Track your event performance and user engagement
-        </p>
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Advanced Analytics</h1>
+          <p className="text-gray-600 dark:text-gray-300">
+            Real-time insights across all platform components and user engagement metrics
+          </p>
+        </div>
+        <div className="flex gap-3">
+          <button className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+            <Filter className="h-4 w-4" />
+            Filter
+          </button>
+          <button className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+            <Download className="h-4 w-4" />
+            Export
+          </button>
+          <button className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+            <RefreshCw className="h-4 w-4" />
+            Refresh
+          </button>
+        </div>
       </div>
 
       {/* Stats Grid */}
@@ -190,6 +340,126 @@ export default function AnalyticsPage() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Real-time Metrics */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Activity className="h-5 w-5" />
+            Real-time Metrics
+          </CardTitle>
+          <CardDescription>Live platform activity and engagement</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {realTimeStats.map((stat, index) => {
+              const Icon = stat.icon;
+              return (
+                <div key={index} className="text-center">
+                  <div className="flex justify-center mb-2">
+                    <div className="p-3 bg-gray-100 dark:bg-gray-800 rounded-full">
+                      <Icon className={`h-6 w-6 ${stat.color}`} />
+                    </div>
+                  </div>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{stat.value}</p>
+                  <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{stat.title}</p>
+                  <p className="text-xs text-gray-500">{stat.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Sponsorship Analytics */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Building2 className="h-5 w-5" />
+            Sponsorship Performance
+          </CardTitle>
+          <CardDescription>Revenue and partnership metrics</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {sponsorshipStats.map((stat, index) => {
+              const Icon = stat.icon;
+              return (
+                <div key={index} className="flex items-center gap-3">
+                  <div className="p-2 bg-gray-100 dark:bg-gray-800 rounded-lg">
+                    <Icon className={`h-5 w-5 ${stat.color}`} />
+                  </div>
+                  <div>
+                    <p className="text-lg font-bold text-gray-900 dark:text-white">{stat.value}</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">{stat.title}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Staff & Content Metrics */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Users className="h-5 w-5" />
+              Staff Performance
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-600 dark:text-gray-400">Total Staff</span>
+                <span className="font-semibold">{analytics.staffMetrics.totalStaff}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-600 dark:text-gray-400">Active Now</span>
+                <span className="font-semibold text-green-600">{analytics.staffMetrics.activeNow}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-600 dark:text-gray-400">Task Completion</span>
+                <span className="font-semibold">{analytics.staffMetrics.taskCompletion}%</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-600 dark:text-gray-400">Avg Response Time</span>
+                <span className="font-semibold">{analytics.staffMetrics.avgResponseTime}min</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <FileText className="h-5 w-5" />
+              Content Performance
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-600 dark:text-gray-400">Total Content</span>
+                <span className="font-semibold">{analytics.contentMetrics.totalContent}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-600 dark:text-gray-400">Published Today</span>
+                <span className="font-semibold text-blue-600">{analytics.contentMetrics.publishedToday}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-600 dark:text-gray-400">Total Views</span>
+                <span className="font-semibold">{analytics.contentMetrics.totalViews.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-gray-600 dark:text-gray-400">Engagement Rate</span>
+                <span className="font-semibold">{analytics.contentMetrics.engagementRate}%</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

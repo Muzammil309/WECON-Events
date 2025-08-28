@@ -1,9 +1,15 @@
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log('🌱 Starting database seeding...');
+
+  // Hash passwords for security
+  const hashedAdminPassword = await bcrypt.hash('admin123', 12);
+  const hashedAttendeePassword = await bcrypt.hash('attendee123', 12);
+  const hashedSpeakerPassword = await bcrypt.hash('speaker123', 12);
 
   // Create admin user
   const adminUser = await prisma.user.upsert({
@@ -11,7 +17,7 @@ async function main() {
     update: {},
     create: {
       email: 'admin@wecon-masawat.com',
-      password: 'admin123', // In production, this should be hashed
+      password: hashedAdminPassword,
       name: 'Admin User',
       role: 'SUPER_ADMIN',
       isActive: true,
@@ -27,7 +33,7 @@ async function main() {
     update: {},
     create: {
       email: 'attendee@wecon-masawat.com',
-      password: 'attendee123', // In production, this should be hashed
+      password: hashedAttendeePassword,
       name: 'Demo Attendee',
       role: 'ATTENDEE',
       isActive: true,
@@ -123,7 +129,7 @@ async function main() {
     update: {},
     create: {
       email: 'speaker@wecon-masawat.com',
-      password: 'speaker123', // In production, this should be hashed
+      password: hashedSpeakerPassword,
       name: 'Dr. Sarah Johnson',
       role: 'SPEAKER',
       isActive: true,

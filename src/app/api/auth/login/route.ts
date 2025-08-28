@@ -7,13 +7,17 @@ import { prisma } from '@/lib/prisma';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json().catch(() => ({}));
+    console.log('Login request body:', body);
     const { email, password, username } = body as { email?: string; password?: string; username?: string };
 
     // Support both email and username for login
     const loginIdentifier = email || username;
+    console.log('Login identifier:', loginIdentifier);
+    console.log('Password provided:', !!password);
 
     // Validate required fields
     if (!loginIdentifier || !password) {
+      console.log('Missing required fields - identifier:', !!loginIdentifier, 'password:', !!password);
       return NextResponse.json(
         { ok: false, error: 'Email/username and password are required' },
         { status: 400 }
@@ -45,6 +49,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check database for user
+    console.log('Searching for user with email:', loginIdentifier.toLowerCase());
     const user = await prisma.user.findUnique({
       where: {
         email: loginIdentifier.toLowerCase()
@@ -59,7 +64,9 @@ export async function POST(request: NextRequest) {
       }
     });
 
+    console.log('User found:', !!user);
     if (!user) {
+      console.log('User not found in database');
       return NextResponse.json({ ok: false, error: 'Invalid credentials' }, { status: 401 });
     }
 
