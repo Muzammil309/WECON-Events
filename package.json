@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
-    "vercel-build": "prisma generate && next build",
+    "vercel-build": "prisma generate && prisma db push && node scripts/setup-production-db.js && next build",
+    "db:setup": "node scripts/setup-production-db.js",
     "db:migrate": "prisma migrate deploy",
     "db:push": "prisma db push",
     "db:studio": "prisma studio"
