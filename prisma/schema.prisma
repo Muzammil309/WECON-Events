@@ -3,9 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -111,7 +110,7 @@ model Event {
   status      EventStatus @default(DRAFT)
   maxAttendees Int?
   category    String?
-  tags        String[]
+  tags        String? // JSON array as string
   website     String?
   contactEmail String?
   logoUrl     String?
@@ -211,7 +210,7 @@ model Room {
   name      String
   capacity  Int?
   location  String?
-  equipment String[]
+  equipment String? // JSON array as string
   isAccessible Boolean @default(false)
   sessions  Session[]
   checkIns  CheckIn[]
@@ -294,7 +293,7 @@ model AttendeeProfile {
   id              String   @id @default(cuid())
   user            User     @relation(fields: [userId], references: [id])
   userId          String   @unique
-  interests       String[]
+  interests       String? // JSON array as string
   dietaryReqs     String?
   accessibilityReqs String?
   emergencyContact String?
@@ -309,9 +308,9 @@ model SpeakerProfile {
   user            User     @relation(fields: [userId], references: [id])
   userId          String   @unique
   bio             String?
-  expertise       String[]
-  speakingTopics  String[]
-  pastEvents      String[]
+  expertise       String? // JSON array as string
+  speakingTopics  String? // JSON array as string
+  pastEvents      String? // JSON array as string
   socialLinks     Json?
   availableForNetworking Boolean @default(true)
   createdAt       DateTime @default(now())
@@ -329,7 +328,7 @@ model ExhibitorProfile {
   companyDescription String?
   logoUrl         String?
   website         String?
-  products        String[]
+  products        String? // JSON array as string
   stallNumber     String?
   stallSize       String?
   setupRequirements String?
@@ -350,7 +349,7 @@ model Venue {
   address     String?
   description String?
   capacity    Int?
-  facilities  String[]
+  facilities  String? // JSON array as string
   mapUrl      String?
   coordinates Json?
   isAccessible Boolean @default(false)
@@ -394,9 +393,9 @@ model Task {
   assigneeId  String?
   creator     User       @relation("TaskCreator", fields: [creatorId], references: [id])
   creatorId   String
-  tags        String[]
-  dependencies String[]  // Task IDs this task depends on
-  attachments String[]   // File URLs
+  tags        String? // JSON array as string
+  dependencies String?  // JSON array of task IDs this task depends on
+  attachments String?   // JSON array of file URLs
   comments    TaskComment[]
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
@@ -454,7 +453,7 @@ model Sponsor {
   contactName String
   contactEmail String
   contactPhone String?
-  benefits    String[] // List of sponsorship benefits
+  benefits    String? // JSON array of sponsorship benefits
   amount      Float?
   status      String   @default("pending")
   createdAt   DateTime @default(now())
