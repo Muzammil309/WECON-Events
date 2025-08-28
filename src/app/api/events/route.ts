@@ -38,12 +38,25 @@ export async function GET(request: NextRequest) {
         where,
         skip,
         take: limit,
-        orderBy: { createdAt: 'desc' },
+        orderBy: { startAt: 'desc' },
         include: {
+          manager: {
+            select: {
+              id: true,
+              name: true,
+              email: true
+            }
+          },
           _count: {
             select: {
               tickets: true,
-              sessions: true
+              sessions: true,
+              orders: true,
+              venues: true,
+              tasks: true,
+              staff: true,
+              sponsors: true,
+              exhibitors: true
             }
           }
         }
