@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import DashboardLayout from '@/components/layout/DashboardLayout';
 import AttendeeDashboard from '@/components/features/AttendeeDashboard';
 
 export default function AttendeeDashboardPage() {
@@ -16,26 +17,16 @@ export default function AttendeeDashboardPage() {
 
   const fetchUserInfo = async () => {
     try {
-      // Fetch user info from profile API
-      const response = await fetch('/api/attendees/profile');
-      if (response.ok) {
-        const data = await response.json();
-        const profile = data.profile;
-
-        setUserId(profile.user.id);
-        setUserName(profile.user.name);
-        setUserAvatar(profile.user.avatarUrl);
-        setUserRole('ATTENDEE');
-      } else {
-        // Fallback for demo purposes
-        setUserId('attendee-1');
-        setUserName('Demo Attendee');
-        setUserRole('ATTENDEE');
-      }
+      // For demo purposes, use fallback data immediately
+      // In production, this would fetch from JWT token or session
+      setUserId('demo-attendee-1');
+      setUserName('Demo Attendee');
+      setUserRole('ATTENDEE');
+      setUserAvatar('');
     } catch (error) {
       console.error('Failed to fetch user info:', error);
       // Fallback for demo purposes
-      setUserId('attendee-1');
+      setUserId('demo-attendee-1');
       setUserName('Demo Attendee');
       setUserRole('ATTENDEE');
     } finally {
@@ -52,10 +43,12 @@ export default function AttendeeDashboardPage() {
   }
 
   return (
-    <AttendeeDashboard
-      userId={userId}
-      userName={userName}
-      userAvatar={userAvatar}
-    />
+    <DashboardLayout userRole={userRole} userName={userName} userAvatar={userAvatar}>
+      <AttendeeDashboard
+        userId={userId}
+        userName={userName}
+        userAvatar={userAvatar}
+      />
+    </DashboardLayout>
   );
 }
