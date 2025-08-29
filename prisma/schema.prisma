@@ -123,8 +123,8 @@ model Event {
   updatedAt   DateTime @updatedAt
 
   // Relationships
-  manager     User     @relation("EventManager", fields: [managerId], references: [id])
-  managerId   String
+  manager     User?    @relation("EventManager", fields: [managerId], references: [id])
+  managerId   String?
   tickets     TicketType[]
   sessions    Session[]
   rooms       Room[]
@@ -392,8 +392,8 @@ model Task {
   actualHours    Int?
   assignee    User?      @relation("TaskAssignee", fields: [assigneeId], references: [id])
   assigneeId  String?
-  creator     User       @relation("TaskCreator", fields: [creatorId], references: [id])
-  creatorId   String
+  creator     User?      @relation("TaskCreator", fields: [creatorId], references: [id])
+  creatorId   String?
   tags        String? // JSON array as string
   dependencies String?  // JSON array of task IDs this task depends on
   attachments String?   // JSON array of file URLs
