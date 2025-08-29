@@ -41,14 +41,22 @@ import {
   Users as NetworkIcon,
   Zap,
   Target,
-  Activity
+  Activity,
+  LayoutDashboard,
+  Menu,
+  X,
+  ChevronLeft,
+  Sparkles,
+  GraduationCap,
+  Building,
+  MessageSquare,
+  LogOut
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Progress } from '@/components/ui/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Link from 'next/link';
 
 interface AttendeeStats {
@@ -130,7 +138,20 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
   const [loading, setLoading] = useState(true);
   const [selectedEventId, setSelectedEventId] = useState<string>('');
   const [events, setEvents] = useState<{ id: string; name: string }[]>([]);
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeView, setActiveView] = useState('overview');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  const navigationItems = [
+    { id: 'overview', name: 'Overview', icon: LayoutDashboard },
+    { id: 'schedule', name: 'Schedule', icon: Calendar },
+    { id: 'networking', name: 'Networking', icon: Users },
+    { id: 'exhibitors', name: 'Exhibitors', icon: Building },
+    { id: 'sessions', name: 'Sessions', icon: GraduationCap },
+    { id: 'maps', name: 'Maps', icon: Map },
+    { id: 'feedback', name: 'Feedback', icon: Star },
+    { id: 'profile', name: 'Profile', icon: Settings },
+  ];
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -523,7 +544,7 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
   }
 
   return (
-    <div className="space-y-6">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex">
       {/* Enhanced Welcome Header */}
       <div className="bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 rounded-xl p-8 text-white relative overflow-hidden shadow-lg">
         <div className="absolute inset-0 bg-black/10"></div>

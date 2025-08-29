@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import DashboardLayout from '@/components/layout/DashboardLayout';
-import AttendeeDashboard from '@/components/features/AttendeeDashboard';
+import AttendeeDashboard from '@/components/features/AttendeeDashboardNew';
 
 export default function AttendeeDashboardPage() {
   const [userRole, setUserRole] = useState('ATTENDEE');
