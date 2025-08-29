@@ -26,7 +26,8 @@ import {
   Star,
   Download,
   Filter,
-  RefreshCw
+  RefreshCw,
+  FileText
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
