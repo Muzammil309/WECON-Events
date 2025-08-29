@@ -13,7 +13,8 @@ const prisma = new PrismaClient({
     db: {
       url: process.env.DATABASE_URL || "postgresql://postgres.xhkbbctbyyeoucwmdspr:Masawat2024!@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres"
     }
-  }
+  },
+  log: ['query', 'info', 'warn', 'error']
 });
 
 async function setupProductionDatabase() {
