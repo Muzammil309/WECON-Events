@@ -523,9 +523,9 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="space-y-6">
       {/* Enhanced Welcome Header */}
-      <div className="bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 rounded-xl p-8 text-white mb-8 relative overflow-hidden">
+      <div className="bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 rounded-xl p-8 text-white relative overflow-hidden shadow-lg">
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="relative z-10">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
@@ -615,9 +615,9 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
       )}
 
       {/* Enhanced Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Link href="/attendee/schedule">
-          <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer border-l-4 border-l-blue-500 hover:scale-105">
+          <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer border-l-4 border-l-blue-500 hover:scale-[1.02] bg-white">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -642,7 +642,7 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
         </Link>
 
         <Link href="/attendee/networking">
-          <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer border-l-4 border-l-green-500 hover:scale-105">
+          <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer border-l-4 border-l-green-500 hover:scale-[1.02] bg-white">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -671,7 +671,7 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
         </Link>
 
         <Link href="/attendee/messages">
-          <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer border-l-4 border-l-purple-500 hover:scale-105">
+          <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer border-l-4 border-l-purple-500 hover:scale-[1.02] bg-white">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -693,7 +693,7 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
           </Card>
         </Link>
 
-        <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer border-l-4 border-l-orange-500 hover:scale-105">
+        <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer border-l-4 border-l-orange-500 hover:scale-[1.02] bg-white">
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -715,23 +715,23 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
       </div>
 
       {/* Main Dashboard Content with Tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:grid-cols-4">
-          <TabsTrigger value="overview" className="flex items-center gap-2">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6 mt-8">
+        <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:grid-cols-4 bg-white shadow-sm border">
+          <TabsTrigger value="overview" className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white">
             <BarChart3 className="h-4 w-4" />
-            Overview
+            <span className="hidden sm:inline">Overview</span>
           </TabsTrigger>
-          <TabsTrigger value="schedule" className="flex items-center gap-2">
+          <TabsTrigger value="schedule" className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white">
             <Calendar className="h-4 w-4" />
-            Schedule
+            <span className="hidden sm:inline">Schedule</span>
           </TabsTrigger>
-          <TabsTrigger value="networking" className="flex items-center gap-2">
+          <TabsTrigger value="networking" className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white">
             <Users className="h-4 w-4" />
-            Networking
+            <span className="hidden sm:inline">Networking</span>
           </TabsTrigger>
-          <TabsTrigger value="exhibitors" className="flex items-center gap-2">
+          <TabsTrigger value="exhibitors" className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white">
             <Building2 className="h-4 w-4" />
-            Exhibitors
+            <span className="hidden sm:inline">Exhibitors</span>
           </TabsTrigger>
         </TabsList>
 
@@ -739,15 +739,15 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
         <TabsContent value="overview" className="space-y-6">
           <div className="grid lg:grid-cols-2 gap-6">
             {/* Upcoming Sessions */}
-            <Card className="shadow-sm">
-              <CardHeader className="pb-3">
+            <Card className="shadow-sm bg-white border border-gray-200">
+              <CardHeader className="pb-3 border-b border-gray-100">
                 <CardTitle className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Clock className="h-5 w-5 text-blue-600" />
-                    Upcoming Sessions
+                    <span className="text-lg font-semibold text-gray-900">Upcoming Sessions</span>
                   </div>
                   <Link href="/attendee/schedule">
-                    <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700">
+                    <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700 hover:bg-blue-50">
                       View All <ChevronRight className="h-4 w-4 ml-1" />
                     </Button>
                   </Link>
@@ -851,15 +851,15 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
             </Card>
 
             {/* Networking Suggestions */}
-            <Card className="shadow-sm">
-              <CardHeader className="pb-3">
+            <Card className="shadow-sm bg-white border border-gray-200">
+              <CardHeader className="pb-3 border-b border-gray-100">
                 <CardTitle className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Users className="h-5 w-5 text-green-600" />
-                    Networking Suggestions
+                    <span className="text-lg font-semibold text-gray-900">Networking Suggestions</span>
                   </div>
                   <Link href="/attendee/networking">
-                    <Button variant="ghost" size="sm" className="text-green-600 hover:text-green-700">
+                    <Button variant="ghost" size="sm" className="text-green-600 hover:text-green-700 hover:bg-green-50">
                       View All <ChevronRight className="h-4 w-4 ml-1" />
                     </Button>
                   </Link>
@@ -945,11 +945,11 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
           {/* Recent Activity & Notifications */}
           <div className="grid lg:grid-cols-2 gap-6">
             {/* Recent Activity */}
-            <Card className="shadow-sm">
-              <CardHeader className="pb-3">
+            <Card className="shadow-sm bg-white border border-gray-200">
+              <CardHeader className="pb-3 border-b border-gray-100">
                 <CardTitle className="flex items-center gap-2">
                   <Activity className="h-5 w-5 text-purple-600" />
-                  Recent Activity
+                  <span className="text-lg font-semibold text-gray-900">Recent Activity</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -976,12 +976,12 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
             </Card>
 
             {/* Notifications */}
-            <Card className="shadow-sm">
-              <CardHeader className="pb-3">
+            <Card className="shadow-sm bg-white border border-gray-200">
+              <CardHeader className="pb-3 border-b border-gray-100">
                 <CardTitle className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Bell className="h-5 w-5 text-orange-600" />
-                    Notifications
+                    <span className="text-lg font-semibold text-gray-900">Notifications</span>
                   </div>
                   {stats?.notifications?.filter(n => !n.isRead).length > 0 && (
                     <Badge className="bg-red-500 text-white">
@@ -1026,11 +1026,11 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
         <TabsContent value="schedule" className="space-y-6">
           {/* Recommended Sessions */}
           {stats?.recommendedSessions && stats.recommendedSessions.length > 0 && (
-            <Card className="shadow-sm">
-              <CardHeader className="pb-3">
+            <Card className="shadow-sm bg-white border border-gray-200">
+              <CardHeader className="pb-3 border-b border-gray-100">
                 <CardTitle className="flex items-center gap-2">
                   <Star className="h-5 w-5 text-yellow-500" />
-                  Recommended for You
+                  <span className="text-lg font-semibold text-gray-900">Recommended for You</span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -1099,11 +1099,11 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
         <TabsContent value="networking" className="space-y-6">
           <div className="grid lg:grid-cols-2 gap-6">
             {/* All Networking Suggestions */}
-            <Card className="shadow-sm">
-              <CardHeader className="pb-3">
+            <Card className="shadow-sm bg-white border border-gray-200">
+              <CardHeader className="pb-3 border-b border-gray-100">
                 <CardTitle className="flex items-center gap-2">
                   <Users className="h-5 w-5 text-green-600" />
-                  All Networking Suggestions
+                  <span className="text-lg font-semibold text-gray-900">All Networking Suggestions</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -1169,11 +1169,11 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
             </Card>
 
             {/* Networking Stats */}
-            <Card className="shadow-sm">
-              <CardHeader className="pb-3">
+            <Card className="shadow-sm bg-white border border-gray-200">
+              <CardHeader className="pb-3 border-b border-gray-100">
                 <CardTitle className="flex items-center gap-2">
                   <BarChart3 className="h-5 w-5 text-blue-600" />
-                  Networking Stats
+                  <span className="text-lg font-semibold text-gray-900">Networking Stats</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
@@ -1223,11 +1223,11 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
 
         {/* Exhibitors Tab */}
         <TabsContent value="exhibitors" className="space-y-6">
-          <Card className="shadow-sm">
-            <CardHeader className="pb-3">
+          <Card className="shadow-sm bg-white border border-gray-200">
+            <CardHeader className="pb-3 border-b border-gray-100">
               <CardTitle className="flex items-center gap-2">
                 <Building2 className="h-5 w-5 text-purple-600" />
-                Event Exhibitors
+                <span className="text-lg font-semibold text-gray-900">Event Exhibitors</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
