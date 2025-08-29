@@ -716,24 +716,66 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
 
       {/* Main Dashboard Content with Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6 mt-8">
-        <TabsList className="grid w-full grid-cols-4 lg:w-auto lg:grid-cols-4 bg-white shadow-sm border">
-          <TabsTrigger value="overview" className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white">
-            <BarChart3 className="h-4 w-4" />
-            <span className="hidden sm:inline">Overview</span>
-          </TabsTrigger>
-          <TabsTrigger value="schedule" className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white">
-            <Calendar className="h-4 w-4" />
-            <span className="hidden sm:inline">Schedule</span>
-          </TabsTrigger>
-          <TabsTrigger value="networking" className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white">
-            <Users className="h-4 w-4" />
-            <span className="hidden sm:inline">Networking</span>
-          </TabsTrigger>
-          <TabsTrigger value="exhibitors" className="flex items-center gap-2 data-[state=active]:bg-blue-600 data-[state=active]:text-white">
-            <Building2 className="h-4 w-4" />
-            <span className="hidden sm:inline">Exhibitors</span>
-          </TabsTrigger>
-        </TabsList>
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-1">
+          <TabsList className="grid w-full grid-cols-3 lg:grid-cols-8 bg-transparent gap-1">
+            <TabsTrigger
+              value="overview"
+              className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-sm hover:bg-gray-100 data-[state=active]:hover:bg-blue-600"
+            >
+              <BarChart3 className="h-4 w-4" />
+              <span className="hidden sm:inline">Overview</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="schedule"
+              className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-sm hover:bg-gray-100 data-[state=active]:hover:bg-blue-600"
+            >
+              <Calendar className="h-4 w-4" />
+              <span className="hidden sm:inline">Schedule</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="networking"
+              className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-sm hover:bg-gray-100 data-[state=active]:hover:bg-blue-600"
+            >
+              <Users className="h-4 w-4" />
+              <span className="hidden sm:inline">Networking</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="exhibitors"
+              className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-sm hover:bg-gray-100 data-[state=active]:hover:bg-blue-600"
+            >
+              <Building2 className="h-4 w-4" />
+              <span className="hidden sm:inline">Exhibitors</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="sessions"
+              className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-sm hover:bg-gray-100 data-[state=active]:hover:bg-blue-600"
+            >
+              <Target className="h-4 w-4" />
+              <span className="hidden sm:inline">Sessions</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="maps"
+              className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-sm hover:bg-gray-100 data-[state=active]:hover:bg-blue-600"
+            >
+              <Map className="h-4 w-4" />
+              <span className="hidden sm:inline">Maps</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="feedback"
+              className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-sm hover:bg-gray-100 data-[state=active]:hover:bg-blue-600"
+            >
+              <Star className="h-4 w-4" />
+              <span className="hidden sm:inline">Feedback</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="profile"
+              className="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all data-[state=active]:bg-blue-600 data-[state=active]:text-white data-[state=active]:shadow-sm hover:bg-gray-100 data-[state=active]:hover:bg-blue-600"
+            >
+              <Settings className="h-4 w-4" />
+              <span className="hidden sm:inline">Profile</span>
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         {/* Overview Tab */}
         <TabsContent value="overview" className="space-y-6">
@@ -1221,6 +1263,126 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
           </div>
         </TabsContent>
 
+        {/* Sessions Tab */}
+        <TabsContent value="sessions" className="space-y-6">
+          <div className="grid lg:grid-cols-2 gap-6">
+            {/* Learning Labs */}
+            <Card className="shadow-sm bg-white border border-gray-200">
+              <CardHeader className="pb-3 border-b border-gray-100">
+                <CardTitle className="flex items-center gap-2">
+                  <Target className="h-5 w-5 text-blue-600" />
+                  <span className="text-lg font-semibold text-gray-900">Learning Labs</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  {[
+                    { title: "AI & Machine Learning Workshop", time: "10:00 AM - 12:00 PM", instructor: "Dr. Sarah Ahmed", level: "Intermediate", spots: "8/20" },
+                    { title: "Digital Marketing Strategies", time: "2:00 PM - 4:00 PM", instructor: "Mark Johnson", level: "Beginner", spots: "15/25" },
+                    { title: "Data Analytics Bootcamp", time: "3:00 PM - 5:00 PM", instructor: "Prof. Ali Khan", level: "Advanced", spots: "5/15" }
+                  ].map((lab, idx) => (
+                    <div key={idx} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-gray-900 mb-1">{lab.title}</h4>
+                          <div className="flex items-center gap-4 text-sm text-gray-600 mb-2">
+                            <div className="flex items-center gap-1">
+                              <Clock className="h-4 w-4" />
+                              {lab.time}
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Users className="h-4 w-4" />
+                              {lab.instructor}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Badge variant={lab.level === 'Beginner' ? 'secondary' : lab.level === 'Intermediate' ? 'default' : 'destructive'}>
+                              {lab.level}
+                            </Badge>
+                            <span className="text-sm text-gray-500">Spots: {lab.spots}</span>
+                          </div>
+                        </div>
+                        <Button size="sm" className="ml-4">Register</Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Skill Clinics */}
+            <Card className="shadow-sm bg-white border border-gray-200">
+              <CardHeader className="pb-3 border-b border-gray-100">
+                <CardTitle className="flex items-center gap-2">
+                  <Zap className="h-5 w-5 text-orange-600" />
+                  <span className="text-lg font-semibold text-gray-900">Skill Clinics</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  {[
+                    { title: "Public Speaking Mastery", time: "11:00 AM - 12:30 PM", duration: "90 min", type: "Interactive" },
+                    { title: "Leadership in Tech", time: "1:00 PM - 2:30 PM", duration: "90 min", type: "Panel" },
+                    { title: "Networking Skills", time: "4:00 PM - 5:00 PM", duration: "60 min", type: "Workshop" }
+                  ].map((clinic, idx) => (
+                    <div key={idx} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-gray-900 mb-1">{clinic.title}</h4>
+                          <div className="flex items-center gap-4 text-sm text-gray-600 mb-2">
+                            <div className="flex items-center gap-1">
+                              <Clock className="h-4 w-4" />
+                              {clinic.time}
+                            </div>
+                            <span>({clinic.duration})</span>
+                          </div>
+                          <Badge variant="outline">{clinic.type}</Badge>
+                        </div>
+                        <Button size="sm" variant="outline">Join</Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Story Circles */}
+          <Card className="shadow-sm bg-white border border-gray-200">
+            <CardHeader className="pb-3 border-b border-gray-100">
+              <CardTitle className="flex items-center gap-2">
+                <MessageCircle className="h-5 w-5 text-green-600" />
+                <span className="text-lg font-semibold text-gray-900">Story Circles</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {[
+                  { title: "Startup Success Stories", time: "12:00 PM", participants: 8, maxParticipants: 12, topic: "Entrepreneurship" },
+                  { title: "Career Transition Tales", time: "2:30 PM", participants: 6, maxParticipants: 10, topic: "Career Growth" },
+                  { title: "Innovation Journeys", time: "4:30 PM", participants: 10, maxParticipants: 15, topic: "Technology" }
+                ].map((circle, idx) => (
+                  <div key={idx} className="border rounded-lg p-4 hover:bg-gray-50 transition-colors">
+                    <h4 className="font-semibold text-gray-900 mb-2">{circle.title}</h4>
+                    <div className="space-y-2 text-sm text-gray-600">
+                      <div className="flex items-center gap-1">
+                        <Clock className="h-4 w-4" />
+                        {circle.time}
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Users className="h-4 w-4" />
+                        {circle.participants}/{circle.maxParticipants} participants
+                      </div>
+                      <Badge variant="secondary" className="text-xs">{circle.topic}</Badge>
+                    </div>
+                    <Button size="sm" className="w-full mt-3">Join Circle</Button>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
         {/* Exhibitors Tab */}
         <TabsContent value="exhibitors" className="space-y-6">
           <Card className="shadow-sm bg-white border border-gray-200">
@@ -1271,6 +1433,328 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
                     </div>
                   </div>
                 ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Maps Tab */}
+        <TabsContent value="maps" className="space-y-6">
+          <div className="grid lg:grid-cols-2 gap-6">
+            {/* Interactive Floor Plan */}
+            <Card className="shadow-sm bg-white border border-gray-200">
+              <CardHeader className="pb-3 border-b border-gray-100">
+                <CardTitle className="flex items-center gap-2">
+                  <Map className="h-5 w-5 text-blue-600" />
+                  <span className="text-lg font-semibold text-gray-900">Interactive Floor Plan</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="bg-gray-100 rounded-lg h-64 flex items-center justify-center mb-4">
+                  <div className="text-center">
+                    <Map className="h-12 w-12 text-gray-400 mx-auto mb-2" />
+                    <p className="text-gray-600">Interactive venue map will load here</p>
+                    <p className="text-sm text-gray-500">Click on areas to get directions</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <Button variant="outline" size="sm" className="flex items-center gap-2">
+                    <Navigation className="h-4 w-4" />
+                    Get Directions
+                  </Button>
+                  <Button variant="outline" size="sm" className="flex items-center gap-2">
+                    <Download className="h-4 w-4" />
+                    Download Map
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Location Directory */}
+            <Card className="shadow-sm bg-white border border-gray-200">
+              <CardHeader className="pb-3 border-b border-gray-100">
+                <CardTitle className="flex items-center gap-2">
+                  <LocationIcon className="h-5 w-5 text-green-600" />
+                  <span className="text-lg font-semibold text-gray-900">Location Directory</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="space-y-3">
+                  {[
+                    { name: "Main Conference Hall", floor: "Ground Floor", capacity: "500 seats", amenities: ["WiFi", "AC", "Projector"] },
+                    { name: "Learning Lab A", floor: "1st Floor", capacity: "25 seats", amenities: ["WiFi", "Whiteboard", "Computers"] },
+                    { name: "Learning Lab B", floor: "1st Floor", capacity: "20 seats", amenities: ["WiFi", "Flipchart", "Projector"] },
+                    { name: "Exhibition Hall", floor: "Ground Floor", capacity: "50 booths", amenities: ["WiFi", "Power", "Storage"] },
+                    { name: "Networking Lounge", floor: "2nd Floor", capacity: "100 people", amenities: ["WiFi", "Refreshments", "Seating"] }
+                  ].map((location, idx) => (
+                    <div key={idx} className="border rounded-lg p-3 hover:bg-gray-50 transition-colors">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-gray-900">{location.name}</h4>
+                          <p className="text-sm text-gray-600">{location.floor} • {location.capacity}</p>
+                          <div className="flex flex-wrap gap-1 mt-2">
+                            {location.amenities.map((amenity, i) => (
+                              <Badge key={i} variant="secondary" className="text-xs">{amenity}</Badge>
+                            ))}
+                          </div>
+                        </div>
+                        <Button size="sm" variant="ghost">
+                          <Navigation className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Quick Access */}
+          <Card className="shadow-sm bg-white border border-gray-200">
+            <CardHeader className="pb-3 border-b border-gray-100">
+              <CardTitle className="flex items-center gap-2">
+                <Zap className="h-5 w-5 text-orange-600" />
+                <span className="text-lg font-semibold text-gray-900">Quick Access</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {[
+                  { icon: Coffee, label: "Food Court", location: "Ground Floor" },
+                  { icon: Wifi, label: "WiFi Zones", location: "All Floors" },
+                  { icon: Users, label: "Registration", location: "Main Entrance" },
+                  { icon: Phone, label: "Help Desk", location: "Ground Floor" }
+                ].map((item, idx) => (
+                  <div key={idx} className="text-center p-4 border rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+                    <item.icon className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+                    <h4 className="font-semibold text-gray-900 text-sm">{item.label}</h4>
+                    <p className="text-xs text-gray-600">{item.location}</p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Feedback Tab */}
+        <TabsContent value="feedback" className="space-y-6">
+          <div className="grid lg:grid-cols-2 gap-6">
+            {/* Session Feedback */}
+            <Card className="shadow-sm bg-white border border-gray-200">
+              <CardHeader className="pb-3 border-b border-gray-100">
+                <CardTitle className="flex items-center gap-2">
+                  <Star className="h-5 w-5 text-yellow-500" />
+                  <span className="text-lg font-semibold text-gray-900">Session Feedback</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  {[
+                    { session: "Future of Event Technology", speaker: "Dr. Sarah Ahmed", attended: true, rated: false },
+                    { session: "Digital Transformation in Events", speaker: "Mark Johnson", attended: true, rated: true },
+                    { session: "Panel: Digital Transformation in Events", speaker: "Multiple Speakers", attended: false, rated: false }
+                  ].map((session, idx) => (
+                    <div key={idx} className="border rounded-lg p-4">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-gray-900 mb-1">{session.session}</h4>
+                          <p className="text-sm text-gray-600 mb-2">Speaker: {session.speaker}</p>
+                          <div className="flex items-center gap-2">
+                            {session.attended ? (
+                              <Badge className="bg-green-100 text-green-800">Attended</Badge>
+                            ) : (
+                              <Badge variant="secondary">Not Attended</Badge>
+                            )}
+                            {session.rated && (
+                              <Badge className="bg-yellow-100 text-yellow-800">Rated</Badge>
+                            )}
+                          </div>
+                        </div>
+                        {session.attended && !session.rated && (
+                          <Button size="sm">Rate Session</Button>
+                        )}
+                        {session.rated && (
+                          <Button size="sm" variant="outline">View Rating</Button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Event Feedback */}
+            <Card className="shadow-sm bg-white border border-gray-200">
+              <CardHeader className="pb-3 border-b border-gray-100">
+                <CardTitle className="flex items-center gap-2">
+                  <Heart className="h-5 w-5 text-red-500" />
+                  <span className="text-lg font-semibold text-gray-900">Event Feedback</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  <div className="text-center p-6 border-2 border-dashed border-gray-300 rounded-lg">
+                    <Heart className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+                    <h3 className="font-semibold text-gray-900 mb-2">Share Your Experience</h3>
+                    <p className="text-gray-600 mb-4">Help us improve future events with your feedback</p>
+                    <Button className="w-full">Provide Event Feedback</Button>
+                  </div>
+
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-gray-900">Quick Polls</h4>
+                    {[
+                      { question: "How would you rate the venue?", answered: false },
+                      { question: "Was the content relevant to your interests?", answered: true },
+                      { question: "How likely are you to recommend this event?", answered: false }
+                    ].map((poll, idx) => (
+                      <div key={idx} className="border rounded-lg p-3">
+                        <div className="flex items-center justify-between">
+                          <p className="text-sm font-medium text-gray-900">{poll.question}</p>
+                          {poll.answered ? (
+                            <Badge className="bg-green-100 text-green-800">Answered</Badge>
+                          ) : (
+                            <Button size="sm" variant="outline">Answer</Button>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </TabsContent>
+
+        {/* Profile Tab */}
+        <TabsContent value="profile" className="space-y-6">
+          <div className="grid lg:grid-cols-2 gap-6">
+            {/* Profile Information */}
+            <Card className="shadow-sm bg-white border border-gray-200">
+              <CardHeader className="pb-3 border-b border-gray-100">
+                <CardTitle className="flex items-center gap-2">
+                  <Settings className="h-5 w-5 text-blue-600" />
+                  <span className="text-lg font-semibold text-gray-900">Profile Information</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-4">
+                    <Avatar className="w-16 h-16">
+                      <AvatarImage src={userAvatar} />
+                      <AvatarFallback className="bg-blue-100 text-blue-600 text-lg font-bold">
+                        {userName.split(' ').map(n => n[0]).join('')}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-gray-900">{userName}</h3>
+                      <p className="text-gray-600">attendee@wecon-masawat.com</p>
+                      <Button size="sm" variant="outline" className="mt-2">Edit Profile</Button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">Company</label>
+                      <p className="text-gray-900">Tech Solutions Inc.</p>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">Job Title</label>
+                      <p className="text-gray-900">Software Developer</p>
+                    </div>
+                    <div>
+                      <label className="text-sm font-medium text-gray-700">Interests</label>
+                      <div className="flex flex-wrap gap-2 mt-1">
+                        {["AI/ML", "Web Development", "Cloud Computing", "DevOps"].map((interest, idx) => (
+                          <Badge key={idx} variant="secondary">{interest}</Badge>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Event Preferences */}
+            <Card className="shadow-sm bg-white border border-gray-200">
+              <CardHeader className="pb-3 border-b border-gray-100">
+                <CardTitle className="flex items-center gap-2">
+                  <Bell className="h-5 w-5 text-orange-600" />
+                  <span className="text-lg font-semibold text-gray-900">Event Preferences</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-gray-900">Notification Settings</h4>
+                    {[
+                      { label: "Session reminders", enabled: true },
+                      { label: "Networking suggestions", enabled: true },
+                      { label: "Event updates", enabled: false },
+                      { label: "Exhibitor messages", enabled: true }
+                    ].map((setting, idx) => (
+                      <div key={idx} className="flex items-center justify-between">
+                        <span className="text-sm text-gray-700">{setting.label}</span>
+                        <div className={`w-10 h-6 rounded-full ${setting.enabled ? 'bg-blue-600' : 'bg-gray-300'} relative cursor-pointer transition-colors`}>
+                          <div className={`w-4 h-4 bg-white rounded-full absolute top-1 transition-transform ${setting.enabled ? 'translate-x-5' : 'translate-x-1'}`}></div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="space-y-3">
+                    <h4 className="font-semibold text-gray-900">Privacy Settings</h4>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-gray-700">Show profile to other attendees</span>
+                        <div className="w-10 h-6 rounded-full bg-blue-600 relative cursor-pointer">
+                          <div className="w-4 h-4 bg-white rounded-full absolute top-1 translate-x-5 transition-transform"></div>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm text-gray-700">Allow networking requests</span>
+                        <div className="w-10 h-6 rounded-full bg-blue-600 relative cursor-pointer">
+                          <div className="w-4 h-4 bg-white rounded-full absolute top-1 translate-x-5 transition-transform"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* My QR Code */}
+          <Card className="shadow-sm bg-white border border-gray-200">
+            <CardHeader className="pb-3 border-b border-gray-100">
+              <CardTitle className="flex items-center gap-2">
+                <QrCode className="h-5 w-5 text-purple-600" />
+                <span className="text-lg font-semibold text-gray-900">My QR Code</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="flex flex-col lg:flex-row items-center gap-6">
+                <div className="bg-gray-100 p-8 rounded-lg">
+                  <div className="w-32 h-32 bg-white border-2 border-gray-300 rounded-lg flex items-center justify-center">
+                    <QrCode className="h-16 w-16 text-gray-400" />
+                  </div>
+                </div>
+                <div className="flex-1 text-center lg:text-left">
+                  <h3 className="font-semibold text-gray-900 mb-2">Your Personal QR Code</h3>
+                  <p className="text-gray-600 mb-4">
+                    Use this QR code for quick check-ins, networking, and accessing event features.
+                    Other attendees can scan this to connect with you instantly.
+                  </p>
+                  <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
+                    <Button variant="outline" size="sm">
+                      <Download className="h-4 w-4 mr-2" />
+                      Download
+                    </Button>
+                    <Button variant="outline" size="sm">
+                      <Share2 className="h-4 w-4 mr-2" />
+                      Share
+                    </Button>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
