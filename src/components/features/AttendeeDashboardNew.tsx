@@ -66,6 +66,8 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [dashboardData, setDashboardData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
   const navigationItems = [
     { id: 'overview', name: 'Overview', icon: LayoutDashboard },
@@ -83,7 +85,54 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
     return () => clearInterval(timer);
   }, []);
 
+  useEffect(() => {
+    fetchDashboardData();
+  }, [userId]);
+
+  const fetchDashboardData = async () => {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No authentication token found');
+        return;
+      }
+
+      const response = await fetch('/api/attendees/dashboard', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        if (result.ok) {
+          setDashboardData(result.data);
+        } else {
+          console.error('Failed to fetch dashboard data:', result.error);
+        }
+      } else {
+        console.error('Failed to fetch dashboard data:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const renderContent = () => {
+    if (loading) {
+      return (
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        </div>
+      );
+    }
+
+    const stats = dashboardData?.stats || {};
+    const user = dashboardData?.user || { name: userName };
+
     switch (activeView) {
       case 'overview':
         return (
@@ -96,15 +145,15 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
                   <div className="flex items-center gap-4">
                     <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
                       <Avatar className="w-14 h-14">
-                        <AvatarImage src={userAvatar} />
+                        <AvatarImage src={userAvatar || user.avatarUrl} />
                         <AvatarFallback className="bg-white/30 text-white text-lg font-bold">
-                          {userName.split(' ').map(n => n[0]).join('')}
+                          {(user.name || userName).split(' ').map(n => n[0]).join('')}
                         </AvatarFallback>
                       </Avatar>
                     </div>
                     <div>
                       <h1 className="text-3xl lg:text-4xl font-bold mb-2">
-                        Welcome back, {userName}!
+                        Welcome back, {user.name || userName}!
                       </h1>
                       <p className="text-blue-100 text-lg">
                         {currentTime.toLocaleDateString('en-US', {
@@ -117,26 +166,26 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
                       <div className="flex items-center gap-4 mt-2">
                         <div className="flex items-center gap-1">
                           <Activity className="h-4 w-4" />
-                          <span className="text-sm">Engagement Score: 87%</span>
+                          <span className="text-sm">Engagement Score: {stats.engagementScore || 87}%</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <CheckCircle className="h-4 w-4" />
-                          <span className="text-sm">3 check-ins today</span>
+                          <span className="text-sm">{stats.checkInsToday || 0} check-ins today</span>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="flex flex-wrap items-center gap-3">
-                    <Button 
-                      variant="secondary" 
+                    <Button
+                      variant="secondary"
                       className="bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm"
                       onClick={() => setActiveView('profile')}
                     >
                       <QrCode className="h-4 w-4 mr-2" />
                       My QR Code
                     </Button>
-                    <Button 
-                      variant="secondary" 
+                    <Button
+                      variant="secondary"
                       className="bg-white/20 hover:bg-white/30 text-white border-white/30 backdrop-blur-sm"
                       onClick={() => setActiveView('maps')}
                     >
@@ -151,9 +200,9 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
             {/* Quick Stats */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[
-                { label: 'Events Attending', value: '2', icon: Calendar, color: 'blue' },
-                { label: 'Sessions Booked', value: '8', icon: Bookmark, color: 'green' },
-                { label: 'Connections Made', value: '12', icon: Users, color: 'purple' },
+                { label: 'Events Attending', value: stats.eventsAttending || '1', icon: Calendar, color: 'blue' },
+                { label: 'Sessions Booked', value: stats.bookmarkedSessions || '0', icon: Bookmark, color: 'green' },
+                { label: 'Connections Made', value: stats.networkingConnections || '0', icon: Users, color: 'purple' },
                 { label: 'Feedback Given', value: '5', icon: Star, color: 'orange' }
               ].map((stat, idx) => (
                 <Card key={idx} className="shadow-sm bg-white border border-gray-200">
@@ -182,22 +231,49 @@ export default function AttendeeDashboard({ userId, userName, userAvatar }: Atte
               </CardHeader>
               <CardContent className="p-6">
                 <div className="space-y-4">
-                  {[
-                    { title: 'Future of Event Technology', time: '10:00 AM', speaker: 'Dr. Sarah Ahmed', room: 'Main Hall' },
-                    { title: 'Digital Marketing Workshop', time: '2:00 PM', speaker: 'Mark Johnson', room: 'Lab A' },
-                    { title: 'Networking Session', time: '4:30 PM', speaker: 'Multiple Speakers', room: 'Lounge' }
-                  ].map((session, idx) => (
-                    <div key={idx} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors">
-                      <div className="flex-1">
-                        <h4 className="font-semibold text-gray-900">{session.title}</h4>
-                        <p className="text-sm text-gray-600">{session.speaker} • {session.room}</p>
+                  {dashboardData?.upcomingSessions?.length > 0 ? (
+                    dashboardData.upcomingSessions.slice(0, 3).map((session, idx) => (
+                      <div key={session.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-gray-900">{session.title}</h4>
+                          <p className="text-sm text-gray-600">
+                            {session.speakers?.[0]?.speaker?.user?.name || 'TBD'} • {session.room?.name || 'TBD'}
+                          </p>
+                          <div className="flex items-center gap-2 mt-1">
+                            {session.isBookmarked && (
+                              <Badge className="bg-green-100 text-green-800 text-xs">Bookmarked</Badge>
+                            )}
+                            <Badge variant="outline" className="text-xs">{session.track || 'General'}</Badge>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="font-medium text-blue-600">
+                            {new Date(session.startAt).toLocaleTimeString('en-US', {
+                              hour: 'numeric',
+                              minute: '2-digit',
+                              hour12: true
+                            })}
+                          </p>
+                          <Button size="sm" variant="outline" onClick={() => setActiveView('schedule')}>
+                            View Details
+                          </Button>
+                        </div>
                       </div>
-                      <div className="text-right">
-                        <p className="font-medium text-blue-600">{session.time}</p>
-                        <Button size="sm" variant="outline">View Details</Button>
-                      </div>
+                    ))
+                  ) : (
+                    <div className="text-center py-8 text-gray-500">
+                      <Calendar className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+                      <p>No upcoming sessions found</p>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="mt-2"
+                        onClick={() => setActiveView('sessions')}
+                      >
+                        Browse Sessions
+                      </Button>
                     </div>
-                  ))}
+                  )}
                 </div>
               </CardContent>
             </Card>

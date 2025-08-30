@@ -1,11 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import DashboardLayout from '@/components/layout/DashboardLayout';
 import AttendeeDashboard from '@/components/features/AttendeeDashboardNew';
 
 export default function AttendeeDashboardPage() {
-  const [userRole, setUserRole] = useState('ATTENDEE');
   const [userName, setUserName] = useState('');
   const [userId, setUserId] = useState('');
   const [userAvatar, setUserAvatar] = useState('');
@@ -21,14 +19,12 @@ export default function AttendeeDashboardPage() {
       // In production, this would fetch from JWT token or session
       setUserId('demo-attendee-1');
       setUserName('Demo Attendee');
-      setUserRole('ATTENDEE');
       setUserAvatar('');
     } catch (error) {
       console.error('Failed to fetch user info:', error);
       // Fallback for demo purposes
       setUserId('demo-attendee-1');
       setUserName('Demo Attendee');
-      setUserRole('ATTENDEE');
     } finally {
       setLoading(false);
     }
@@ -43,12 +39,10 @@ export default function AttendeeDashboardPage() {
   }
 
   return (
-    <DashboardLayout userRole={userRole} userName={userName} userAvatar={userAvatar}>
-      <AttendeeDashboard
-        userId={userId}
-        userName={userName}
-        userAvatar={userAvatar}
-      />
-    </DashboardLayout>
+    <AttendeeDashboard
+      userId={userId}
+      userName={userName}
+      userAvatar={userAvatar}
+    />
   );
 }
