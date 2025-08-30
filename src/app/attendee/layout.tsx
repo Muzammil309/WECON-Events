@@ -25,7 +25,7 @@ interface AttendeeLayoutProps {
 }
 
 const navigationItems = [
-  { name: 'Dashboard', href: '/attendee', icon: Home },
+  { name: 'Overview', href: '/attendee', icon: Home },
   { name: 'My Schedule', href: '/attendee/schedule', icon: Calendar },
   { name: 'Networking', href: '/attendee/networking', icon: Users },
   { name: 'Event Map', href: '/attendee/map', icon: Map },
@@ -33,6 +33,7 @@ const navigationItems = [
   { name: 'My Tickets', href: '/attendee/tickets', icon: Ticket },
   { name: 'QR Code', href: '/attendee/qr-code', icon: QrCode },
   { name: 'Feedback', href: '/attendee/feedback', icon: Star },
+  { name: 'Profile', href: '/attendee/profile', icon: User },
 ];
 
 export default function AttendeeLayout({ children }: AttendeeLayoutProps) {

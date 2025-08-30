@@ -18,7 +18,8 @@ import {
   X,
   Sparkles,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  CheckSquare
 } from 'lucide-react';
 
 interface AdminLayoutProps {
@@ -33,12 +34,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const router = useRouter();
 
   const navigationItems = [
-    { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
+    { name: 'Overview', href: '/admin', icon: LayoutDashboard },
+    { name: 'Staff Management', href: '/admin/staff', icon: Users },
+    { name: 'Task Management', href: '/admin/tasks', icon: CheckSquare },
+    { name: 'Sessions & Locations', href: '/admin/sessions', icon: Calendar },
+    { name: 'Exhibitions', href: '/admin/exhibitions', icon: Monitor },
+    { name: 'Analytics & Logistics', href: '/admin/analytics', icon: BarChart3 },
     { name: 'Events', href: '/admin/events', icon: Calendar },
     { name: 'Tickets', href: '/admin/tickets', icon: Ticket },
-    { name: 'Users', href: '/admin/users', icon: Users },
-    { name: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
-    { name: 'Sessions', href: '/admin/sessions', icon: FileText },
     { name: 'Digital Signage', href: '/admin/signage', icon: Monitor },
     { name: 'Notifications', href: '/admin/notifications', icon: Bell },
     { name: 'Settings', href: '/admin/settings', icon: Settings },
