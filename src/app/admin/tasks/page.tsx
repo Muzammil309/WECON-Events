@@ -52,12 +52,12 @@ interface StaffMember {
   name: string;
   role: string;
 }
-  const [events, setEvents] = useState<{ id: string; name: string }[]>([]);
-
 
 export default function TaskManagement() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [staff, setStaff] = useState<StaffMember[]>([]);
+  const [events, setEvents] = useState<{ id: string; name: string }[]>([]);
+
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
@@ -79,9 +79,12 @@ export default function TaskManagement() {
       if (res.ok) {
         const data = await res.json();
         setEvents((data.events || []).map((e: any) => ({ id: e.id, name: e.name })));
+      } else {
+        setEvents([]);
       }
     } catch (e) {
       console.error('Error fetching events', e);
+      setEvents([]);
     }
   };
 
