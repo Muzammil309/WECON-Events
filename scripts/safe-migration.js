@@ -126,7 +126,7 @@ async function ensureRequiredUsers() {
             email: userData.email,
             password: hashedPassword,
             role: userData.role,
-            emailVerified: new Date(),
+            emailVerified: true,
           }
         });
         console.log(`✅ Created user: ${userData.email}`);

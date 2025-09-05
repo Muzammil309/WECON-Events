@@ -118,8 +118,8 @@ export default function TicketsManagement() {
     
     if (!formData.name.trim()) errors.name = 'Ticket name is required';
     if (!formData.description.trim()) errors.description = 'Description is required';
-    if (formData.price < 0) errors.price = 'Price must be 0 or greater';
-    if (formData.totalQuantity < 1) errors.totalQuantity = 'Quantity must be at least 1';
+    if (Number(formData.price) < 0) errors.price = 'Price must be 0 or greater';
+    if (Number(formData.totalQuantity) < 1) errors.totalQuantity = 'Quantity must be at least 1';
     if (!formData.eventId) errors.eventId = 'Please select an event';
     if (!formData.saleStartDate) errors.saleStartDate = 'Sale start date is required';
     if (!formData.saleEndDate) errors.saleEndDate = 'Sale end date is required';

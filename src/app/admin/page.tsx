@@ -79,7 +79,6 @@ export default function AdminOverview() {
           }
         ]
       });
-      }
     } catch (error) {
       console.error('Failed to fetch dashboard data:', error);
       // Use fallback data
