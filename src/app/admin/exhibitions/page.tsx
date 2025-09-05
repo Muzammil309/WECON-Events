@@ -240,12 +240,12 @@ export default function ExhibitionsManagement() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'CONFIRMED': return 'bg-green-100 text-green-800';
-      case 'PENDING': return 'bg-yellow-100 text-yellow-800';
-      case 'CANCELLED': return 'bg-red-100 text-red-800';
-      case 'SETUP': return 'bg-blue-100 text-blue-800';
-      case 'ACTIVE': return 'bg-purple-100 text-purple-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'CONFIRMED': return 'bg-green-900/50 text-green-300';
+      case 'PENDING': return 'bg-yellow-900/50 text-yellow-300';
+      case 'CANCELLED': return 'bg-red-900/50 text-red-300';
+      case 'SETUP': return 'bg-blue-900/50 text-blue-300';
+      case 'ACTIVE': return 'bg-purple-900/50 text-purple-300';
+      default: return 'bg-gray-700 text-gray-300';
     }
   };
 
@@ -262,10 +262,10 @@ export default function ExhibitionsManagement() {
 
   const getPackageColor = (packageType: string) => {
     switch (packageType) {
-      case 'PLATINUM': return 'bg-purple-100 text-purple-800';
-      case 'PREMIUM': return 'bg-blue-100 text-blue-800';
-      case 'STANDARD': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'PLATINUM': return 'bg-purple-900/50 text-purple-300';
+      case 'PREMIUM': return 'bg-blue-900/50 text-blue-300';
+      case 'STANDARD': return 'bg-gray-700 text-gray-300';
+      default: return 'bg-gray-700 text-gray-300';
     }
   };
 
@@ -282,10 +282,10 @@ export default function ExhibitionsManagement() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Exhibition Management</h1>
-          <p className="text-gray-600 mt-1">Manage exhibitors, booth assignments, and exhibition logistics</p>
+          <h1 className="text-2xl font-bold text-white dark:text-white">Exhibition Management</h1>
+          <p className="text-gray-300 dark:text-gray-300 mt-1">Manage exhibitors, booth assignments, and exhibition logistics</p>
         </div>
-        <button 
+        <button
           onClick={() => {
             resetForm();
             setEditingExhibitor(null);
@@ -300,46 +300,46 @@ export default function ExhibitionsManagement() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-700 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Total Exhibitors</p>
-              <p className="text-2xl font-bold text-gray-900">{exhibitors.length}</p>
+              <p className="text-sm font-medium text-gray-300 dark:text-gray-300">Total Exhibitors</p>
+              <p className="text-2xl font-bold text-white dark:text-white">{exhibitors.length}</p>
             </div>
-            <Building className="h-8 w-8 text-blue-600" />
+            <Building className="h-8 w-8 text-blue-400" />
           </div>
         </div>
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-700 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Confirmed</p>
-              <p className="text-2xl font-bold text-gray-900">{exhibitors.filter(e => e.status === 'CONFIRMED').length}</p>
+              <p className="text-sm font-medium text-gray-300 dark:text-gray-300">Confirmed</p>
+              <p className="text-2xl font-bold text-white dark:text-white">{exhibitors.filter(e => e.status === 'CONFIRMED').length}</p>
             </div>
-            <CheckCircle className="h-8 w-8 text-green-600" />
+            <CheckCircle className="h-8 w-8 text-green-400" />
           </div>
         </div>
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-700 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Pending</p>
-              <p className="text-2xl font-bold text-gray-900">{exhibitors.filter(e => e.status === 'PENDING').length}</p>
+              <p className="text-sm font-medium text-gray-300 dark:text-gray-300">Pending</p>
+              <p className="text-2xl font-bold text-white dark:text-white">{exhibitors.filter(e => e.status === 'PENDING').length}</p>
             </div>
-            <Clock className="h-8 w-8 text-yellow-600" />
+            <Clock className="h-8 w-8 text-yellow-400" />
           </div>
         </div>
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-700 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Premium+</p>
-              <p className="text-2xl font-bold text-gray-900">{exhibitors.filter(e => e.packageType === 'PREMIUM' || e.packageType === 'PLATINUM').length}</p>
+              <p className="text-sm font-medium text-gray-300 dark:text-gray-300">Premium+</p>
+              <p className="text-2xl font-bold text-white dark:text-white">{exhibitors.filter(e => e.packageType === 'PREMIUM' || e.packageType === 'PLATINUM').length}</p>
             </div>
-            <DollarSign className="h-8 w-8 text-purple-600" />
+            <DollarSign className="h-8 w-8 text-purple-400" />
           </div>
         </div>
       </div>
 
       {/* Filters and Search */}
-      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+      <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-700 dark:border-gray-700">
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -348,7 +348,7 @@ export default function ExhibitionsManagement() {
               placeholder="Search exhibitors..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
             />
           </div>
           <div className="flex items-center gap-2">
@@ -356,7 +356,7 @@ export default function ExhibitionsManagement() {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="border border-gray-600 bg-gray-700 text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="all">All Status</option>
               <option value="CONFIRMED">Confirmed</option>
@@ -368,7 +368,7 @@ export default function ExhibitionsManagement() {
             <select
               value={filterPackage}
               onChange={(e) => setFilterPackage(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="border border-gray-600 bg-gray-700 text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="all">All Packages</option>
               <option value="STANDARD">Standard</option>
@@ -380,14 +380,14 @@ export default function ExhibitionsManagement() {
       </div>
 
       {/* Exhibitor List */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">Exhibitors ({filteredExhibitors.length})</h3>
+      <div className="bg-gray-800 dark:bg-gray-800 rounded-lg shadow-sm border border-gray-700 dark:border-gray-700 overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-700 dark:border-gray-700">
+          <h3 className="text-lg font-semibold text-white dark:text-white">Exhibitors ({filteredExhibitors.length})</h3>
         </div>
         {filteredExhibitors.length === 0 ? (
           <div className="p-8 text-center">
             <Building className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No exhibitors found</h3>
+            <h3 className="text-lg font-medium text-white dark:text-white mb-2">No exhibitors found</h3>
             <p className="text-gray-600 mb-4">
               {exhibitors.length === 0
                 ? "Get started by adding your first exhibitor."
@@ -501,9 +501,9 @@ export default function ExhibitionsManagement() {
       {/* Add/Edit Exhibitor Modal */}
       {showAddForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
+          <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto border border-gray-700">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-white dark:text-white">
                 {editingExhibitor ? 'Edit Exhibitor' : 'Add New Exhibitor'}
               </h3>
               <button
@@ -512,7 +512,7 @@ export default function ExhibitionsManagement() {
                   setEditingExhibitor(null);
                   resetForm();
                 }}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-300"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -520,20 +520,20 @@ export default function ExhibitionsManagement() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
                   Company Name *
                 </label>
                 <input
                   type="text"
                   value={formData.companyName}
                   onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    formErrors.companyName ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-3 py-2 border rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 ${
+                    formErrors.companyName ? 'border-red-500' : 'border-gray-600'
                   }`}
                   placeholder="Enter company name"
                 />
                 {formErrors.companyName && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                  <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" />
                     {formErrors.companyName}
                   </p>
@@ -541,20 +541,20 @@ export default function ExhibitionsManagement() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
                   Contact Person *
                 </label>
                 <input
                   type="text"
                   value={formData.contactPerson}
                   onChange={(e) => setFormData({ ...formData, contactPerson: e.target.value })}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    formErrors.contactPerson ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-3 py-2 border rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 ${
+                    formErrors.contactPerson ? 'border-red-500' : 'border-gray-600'
                   }`}
                   placeholder="Enter contact person name"
                 />
                 {formErrors.contactPerson && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                  <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" />
                     {formErrors.contactPerson}
                   </p>
@@ -562,20 +562,20 @@ export default function ExhibitionsManagement() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
                   Email Address *
                 </label>
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    formErrors.email ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-3 py-2 border rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 ${
+                    formErrors.email ? 'border-red-500' : 'border-gray-600'
                   }`}
                   placeholder="Enter email address"
                 />
                 {formErrors.email && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                  <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" />
                     {formErrors.email}
                   </p>
@@ -584,20 +584,20 @@ export default function ExhibitionsManagement() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
                     Phone Number
                   </label>
                   <input
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
                     placeholder="Enter phone number"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
                     Website
                   </label>
                   <input

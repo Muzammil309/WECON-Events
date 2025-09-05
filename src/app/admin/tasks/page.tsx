@@ -226,21 +226,21 @@ export default function TaskManagement() {
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'URGENT': return 'bg-red-100 text-red-800';
-      case 'HIGH': return 'bg-orange-100 text-orange-800';
-      case 'MEDIUM': return 'bg-yellow-100 text-yellow-800';
-      case 'LOW': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'URGENT': return 'bg-red-900/50 text-red-300';
+      case 'HIGH': return 'bg-orange-900/50 text-orange-300';
+      case 'MEDIUM': return 'bg-yellow-900/50 text-yellow-300';
+      case 'LOW': return 'bg-green-900/50 text-green-300';
+      default: return 'bg-gray-700 text-gray-300';
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'COMPLETED': return 'bg-green-100 text-green-800';
-      case 'IN_PROGRESS': return 'bg-blue-100 text-blue-800';
-      case 'PENDING': return 'bg-yellow-100 text-yellow-800';
-      case 'CANCELLED': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'COMPLETED': return 'bg-green-900/50 text-green-300';
+      case 'IN_PROGRESS': return 'bg-blue-900/50 text-blue-300';
+      case 'PENDING': return 'bg-yellow-900/50 text-yellow-300';
+      case 'CANCELLED': return 'bg-red-900/50 text-red-300';
+      default: return 'bg-gray-700 text-gray-300';
     }
   };
 
@@ -267,10 +267,10 @@ export default function TaskManagement() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Task Management</h1>
-          <p className="text-gray-600 mt-1">Assign and track tasks for your team</p>
+          <h1 className="text-2xl font-bold text-white dark:text-white">Task Management</h1>
+          <p className="text-gray-300 dark:text-gray-300 mt-1">Assign and track tasks for your team</p>
         </div>
-        <button 
+        <button
           onClick={() => {
             resetForm();
             setEditingTask(null);
@@ -285,48 +285,48 @@ export default function TaskManagement() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-700 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Total Tasks</p>
-              <p className="text-2xl font-bold text-gray-900">{tasks.length}</p>
+              <p className="text-sm font-medium text-gray-300 dark:text-gray-300">Total Tasks</p>
+              <p className="text-2xl font-bold text-white dark:text-white">{tasks.length}</p>
             </div>
-            <CheckSquare className="h-8 w-8 text-blue-600" />
+            <CheckSquare className="h-8 w-8 text-blue-400" />
           </div>
         </div>
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-700 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">In Progress</p>
-              <p className="text-2xl font-bold text-gray-900">{tasks.filter(t => t.status === 'IN_PROGRESS').length}</p>
+              <p className="text-sm font-medium text-gray-300 dark:text-gray-300">In Progress</p>
+              <p className="text-2xl font-bold text-white dark:text-white">{tasks.filter(t => t.status === 'IN_PROGRESS').length}</p>
             </div>
-            <Clock className="h-8 w-8 text-orange-600" />
+            <Clock className="h-8 w-8 text-orange-400" />
           </div>
         </div>
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-700 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Completed</p>
-              <p className="text-2xl font-bold text-gray-900">{tasks.filter(t => t.status === 'COMPLETED').length}</p>
+              <p className="text-sm font-medium text-gray-300 dark:text-gray-300">Completed</p>
+              <p className="text-2xl font-bold text-white dark:text-white">{tasks.filter(t => t.status === 'COMPLETED').length}</p>
             </div>
-            <CheckCircle className="h-8 w-8 text-green-600" />
+            <CheckCircle className="h-8 w-8 text-green-400" />
           </div>
         </div>
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-700 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Overdue</p>
-              <p className="text-2xl font-bold text-gray-900">
+              <p className="text-sm font-medium text-gray-300 dark:text-gray-300">Overdue</p>
+              <p className="text-2xl font-bold text-white dark:text-white">
                 {tasks.filter(t => new Date(t.dueDate) < new Date() && t.status !== 'COMPLETED').length}
               </p>
             </div>
-            <AlertTriangle className="h-8 w-8 text-red-600" />
+            <AlertTriangle className="h-8 w-8 text-red-400" />
           </div>
         </div>
       </div>
 
       {/* Filters and Search */}
-      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+      <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-700 dark:border-gray-700">
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -335,7 +335,7 @@ export default function TaskManagement() {
               placeholder="Search tasks..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
             />
           </div>
           <div className="flex items-center gap-2">
@@ -343,7 +343,7 @@ export default function TaskManagement() {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="border border-gray-600 bg-gray-700 text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="all">All Status</option>
               <option value="PENDING">Pending</option>
@@ -354,7 +354,7 @@ export default function TaskManagement() {
             <select
               value={filterPriority}
               onChange={(e) => setFilterPriority(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="border border-gray-600 bg-gray-700 text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="all">All Priority</option>
               <option value="URGENT">Urgent</option>
@@ -367,15 +367,15 @@ export default function TaskManagement() {
       </div>
 
       {/* Task List */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">Tasks ({filteredTasks.length})</h3>
+      <div className="bg-gray-800 dark:bg-gray-800 rounded-lg shadow-sm border border-gray-700 dark:border-gray-700 overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-700 dark:border-gray-700">
+          <h3 className="text-lg font-semibold text-white dark:text-white">Tasks ({filteredTasks.length})</h3>
         </div>
         {filteredTasks.length === 0 ? (
           <div className="p-8 text-center">
             <CheckSquare className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No tasks found</h3>
-            <p className="text-gray-600 mb-4">
+            <h3 className="text-lg font-medium text-white dark:text-white mb-2">No tasks found</h3>
+            <p className="text-gray-300 dark:text-gray-300 mb-4">
               {tasks.length === 0
                 ? "Get started by creating your first task."
                 : "Try adjusting your search or filter criteria."
@@ -396,13 +396,13 @@ export default function TaskManagement() {
             )}
           </div>
         ) : (
-          <div className="divide-y divide-gray-200">
+          <div className="divide-y divide-gray-700 dark:divide-gray-700">
             {filteredTasks.map((task) => (
-              <div key={task.id} className="p-6 hover:bg-gray-50 transition-colors">
+              <div key={task.id} className="p-6 hover:bg-gray-700 dark:hover:bg-gray-700 transition-colors">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h4 className="text-lg font-semibold text-gray-900">{task.title}</h4>
+                      <h4 className="text-lg font-semibold text-white dark:text-white">{task.title}</h4>
                       <span className={`px-2 py-1 text-xs rounded-full font-medium ${getPriorityColor(task.priority)}`}>
                         {task.priority}
                       </span>
@@ -411,8 +411,8 @@ export default function TaskManagement() {
                         {task.status.replace('_', ' ')}
                       </span>
                     </div>
-                    <p className="text-gray-600 mb-3">{task.description}</p>
-                    <div className="flex items-center gap-4 text-sm text-gray-500">
+                    <p className="text-gray-300 dark:text-gray-300 mb-3">{task.description}</p>
+                    <div className="flex items-center gap-4 text-sm text-gray-400 dark:text-gray-400">
                       <span className="flex items-center gap-1">
                         <User className="h-3 w-3" />
                         {task.assignedTo?.name || 'Unassigned'}
@@ -461,9 +461,9 @@ export default function TaskManagement() {
       {/* Add/Edit Task Modal */}
       {showAddForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
+          <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto border border-gray-700">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-white dark:text-white">
                 {editingTask ? 'Edit Task' : 'Create New Task'}
               </h3>
               <button
@@ -472,7 +472,7 @@ export default function TaskManagement() {
                   setEditingTask(null);
                   resetForm();
                 }}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-300"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -480,20 +480,20 @@ export default function TaskManagement() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
                   Task Title *
                 </label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    formErrors.title ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-3 py-2 border rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 ${
+                    formErrors.title ? 'border-red-500' : 'border-gray-600'
                   }`}
                   placeholder="Enter task title"
                 />
                 {formErrors.title && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                  <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" />
                     {formErrors.title}
                   </p>
@@ -501,20 +501,20 @@ export default function TaskManagement() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
                   Description *
                 </label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                   rows={3}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    formErrors.description ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-3 py-2 border rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 ${
+                    formErrors.description ? 'border-red-500' : 'border-gray-600'
                   }`}
                   placeholder="Enter task description"
                 />
                 {formErrors.description && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                  <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" />
                     {formErrors.description}
                   </p>
@@ -523,13 +523,13 @@ export default function TaskManagement() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
                     Priority *
                   </label>
                   <select
                     value={formData.priority}
                     onChange={(e) => setFormData({ ...formData, priority: e.target.value as any })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   >
                     <option value="LOW">Low</option>
                     <option value="MEDIUM">Medium</option>
@@ -539,19 +539,19 @@ export default function TaskManagement() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
                     Due Date *
                   </label>
                   <input
                     type="date"
                     value={formData.dueDate}
                     onChange={(e) => setFormData({ ...formData, dueDate: e.target.value })}
-                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                      formErrors.dueDate ? 'border-red-500' : 'border-gray-300'
+                    className={`w-full px-3 py-2 border rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                      formErrors.dueDate ? 'border-red-500' : 'border-gray-600'
                     }`}
                   />
                   {formErrors.dueDate && (
-                    <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                    <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
                       <AlertCircle className="h-3 w-3" />
                       {formErrors.dueDate}
                     </p>
@@ -560,14 +560,14 @@ export default function TaskManagement() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
                   Assign To *
                 </label>
                 <select
                   value={formData.assignedToId}
                   onChange={(e) => setFormData({ ...formData, assignedToId: e.target.value })}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    formErrors.assignedToId ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-3 py-2 border rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    formErrors.assignedToId ? 'border-red-500' : 'border-gray-600'
                   }`}
                 >
                   <option value="">Select staff member</option>
@@ -578,7 +578,7 @@ export default function TaskManagement() {
                   ))}
                 </select>
                 {formErrors.assignedToId && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                  <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" />
                     {formErrors.assignedToId}
                   </p>
@@ -586,14 +586,14 @@ export default function TaskManagement() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
                   Category
                 </label>
                 <input
                   type="text"
                   value={formData.category}
                   onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
                   placeholder="e.g., Setup, Registration, Technical"
                 />
               </div>
@@ -606,7 +606,7 @@ export default function TaskManagement() {
                     setEditingTask(null);
                     resetForm();
                   }}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="flex-1 px-4 py-2 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-700 transition-colors"
                 >
                   Cancel
                 </button>

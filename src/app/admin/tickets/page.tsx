@@ -231,11 +231,11 @@ export default function TicketsManagement() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'ACTIVE': return 'bg-green-100 text-green-800';
-      case 'PAUSED': return 'bg-yellow-100 text-yellow-800';
-      case 'SOLD_OUT': return 'bg-red-100 text-red-800';
-      case 'EXPIRED': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'ACTIVE': return 'bg-green-900/50 text-green-300';
+      case 'PAUSED': return 'bg-yellow-900/50 text-yellow-300';
+      case 'SOLD_OUT': return 'bg-red-900/50 text-red-300';
+      case 'EXPIRED': return 'bg-gray-700 text-gray-300';
+      default: return 'bg-gray-700 text-gray-300';
     }
   };
 
@@ -266,10 +266,10 @@ export default function TicketsManagement() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Ticket Management</h1>
-          <p className="text-gray-600 mt-1">Create and manage ticket types for your events</p>
+          <h1 className="text-2xl font-bold text-white dark:text-white">Ticket Management</h1>
+          <p className="text-gray-300 dark:text-gray-300 mt-1">Create and manage ticket types for your events</p>
         </div>
-        <button 
+        <button
           onClick={() => {
             resetForm();
             setEditingTicket(null);
@@ -284,46 +284,46 @@ export default function TicketsManagement() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-700 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Total Revenue</p>
-              <p className="text-2xl font-bold text-gray-900">${totalRevenue.toLocaleString()}</p>
+              <p className="text-sm font-medium text-gray-300 dark:text-gray-300">Total Revenue</p>
+              <p className="text-2xl font-bold text-white dark:text-white">${totalRevenue.toLocaleString()}</p>
             </div>
-            <DollarSign className="h-8 w-8 text-green-600" />
+            <DollarSign className="h-8 w-8 text-green-400" />
           </div>
         </div>
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-700 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Tickets Sold</p>
-              <p className="text-2xl font-bold text-gray-900">{totalSold.toLocaleString()}</p>
+              <p className="text-sm font-medium text-gray-300 dark:text-gray-300">Tickets Sold</p>
+              <p className="text-2xl font-bold text-white dark:text-white">{totalSold.toLocaleString()}</p>
             </div>
-            <Ticket className="h-8 w-8 text-blue-600" />
+            <Ticket className="h-8 w-8 text-blue-400" />
           </div>
         </div>
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-700 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Available</p>
-              <p className="text-2xl font-bold text-gray-900">{totalAvailable.toLocaleString()}</p>
+              <p className="text-sm font-medium text-gray-300 dark:text-gray-300">Available</p>
+              <p className="text-2xl font-bold text-white dark:text-white">{totalAvailable.toLocaleString()}</p>
             </div>
-            <Users className="h-8 w-8 text-purple-600" />
+            <Users className="h-8 w-8 text-purple-400" />
           </div>
         </div>
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-700 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Ticket Types</p>
-              <p className="text-2xl font-bold text-gray-900">{tickets.length}</p>
+              <p className="text-sm font-medium text-gray-300 dark:text-gray-300">Ticket Types</p>
+              <p className="text-2xl font-bold text-white dark:text-white">{tickets.length}</p>
             </div>
-            <Calendar className="h-8 w-8 text-orange-600" />
+            <Calendar className="h-8 w-8 text-orange-400" />
           </div>
         </div>
       </div>
 
       {/* Filters and Search */}
-      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+      <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-700 dark:border-gray-700">
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -332,7 +332,7 @@ export default function TicketsManagement() {
               placeholder="Search tickets..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
             />
           </div>
           <div className="flex items-center gap-2">
@@ -340,7 +340,7 @@ export default function TicketsManagement() {
             <select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="border border-gray-600 bg-gray-700 text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="all">All Status</option>
               <option value="ACTIVE">Active</option>
@@ -351,7 +351,7 @@ export default function TicketsManagement() {
             <select
               value={filterEvent}
               onChange={(e) => setFilterEvent(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="border border-gray-600 bg-gray-700 text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="all">All Events</option>
               {events.map((event) => (
@@ -365,15 +365,15 @@ export default function TicketsManagement() {
       </div>
 
       {/* Ticket List */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">Ticket Types ({filteredTickets.length})</h3>
+      <div className="bg-gray-800 dark:bg-gray-800 rounded-lg shadow-sm border border-gray-700 dark:border-gray-700 overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-700 dark:border-gray-700">
+          <h3 className="text-lg font-semibold text-white dark:text-white">Ticket Types ({filteredTickets.length})</h3>
         </div>
         {filteredTickets.length === 0 ? (
           <div className="p-8 text-center">
             <Ticket className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No ticket types found</h3>
-            <p className="text-gray-600 mb-4">
+            <h3 className="text-lg font-medium text-white dark:text-white mb-2">No ticket types found</h3>
+            <p className="text-gray-300 dark:text-gray-300 mb-4">
               {tickets.length === 0
                 ? "Get started by creating your first ticket type."
                 : "Try adjusting your search or filter criteria."
@@ -394,23 +394,23 @@ export default function TicketsManagement() {
             )}
           </div>
         ) : (
-          <div className="divide-y divide-gray-200">
+          <div className="divide-y divide-gray-700 dark:divide-gray-700">
             {filteredTickets.map((ticket) => (
-              <div key={ticket.id} className="p-6 hover:bg-gray-50 transition-colors">
+              <div key={ticket.id} className="p-6 hover:bg-gray-700 dark:hover:bg-gray-700 transition-colors">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h4 className="text-lg font-semibold text-gray-900">{ticket.name}</h4>
+                      <h4 className="text-lg font-semibold text-white dark:text-white">{ticket.name}</h4>
                       <span className={`px-2 py-1 text-xs rounded-full font-medium flex items-center gap-1 ${getStatusColor(ticket.status)}`}>
                         {getStatusIcon(ticket.status)}
                         {ticket.status.replace('_', ' ')}
                       </span>
                     </div>
-                    <p className="text-gray-600 mb-3">{ticket.description}</p>
+                    <p className="text-gray-300 dark:text-gray-300 mb-3">{ticket.description}</p>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                       <div>
-                        <span className="text-gray-500">Price:</span>
-                        <p className="font-semibold text-gray-900">${ticket.price} {ticket.currency}</p>
+                        <span className="text-gray-400 dark:text-gray-400">Price:</span>
+                        <p className="font-semibold text-white dark:text-white">${ticket.price} {ticket.currency}</p>
                       </div>
                       <div>
                         <span className="text-gray-500">Sold:</span>
@@ -472,9 +472,9 @@ export default function TicketsManagement() {
       {/* Add/Edit Ticket Modal */}
       {showAddForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
+          <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto border border-gray-700">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-white dark:text-white">
                 {editingTicket ? 'Edit Ticket Type' : 'Create New Ticket Type'}
               </h3>
               <button
@@ -483,7 +483,7 @@ export default function TicketsManagement() {
                   setEditingTicket(null);
                   resetForm();
                 }}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-300"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -491,20 +491,20 @@ export default function TicketsManagement() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
                   Ticket Name *
                 </label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    formErrors.name ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-3 py-2 border rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 ${
+                    formErrors.name ? 'border-red-500' : 'border-gray-600'
                   }`}
                   placeholder="e.g., Early Bird, VIP, General Admission"
                 />
                 {formErrors.name && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                  <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" />
                     {formErrors.name}
                   </p>
@@ -512,7 +512,7 @@ export default function TicketsManagement() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
                   Description *
                 </label>
                 <textarea

@@ -212,10 +212,10 @@ export default function StaffManagement() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Staff Management</h1>
-          <p className="text-gray-600 mt-1">Manage your team hierarchy, scheduling, and performance</p>
+          <h1 className="text-2xl font-bold text-white dark:text-white">Staff Management</h1>
+          <p className="text-gray-300 dark:text-gray-300 mt-1">Manage your team hierarchy, scheduling, and performance</p>
         </div>
-        <button 
+        <button
           onClick={() => {
             resetForm();
             setEditingStaff(null);
@@ -230,50 +230,50 @@ export default function StaffManagement() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-700 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Total Staff</p>
-              <p className="text-2xl font-bold text-gray-900">{staff.length}</p>
+              <p className="text-sm font-medium text-gray-300 dark:text-gray-300">Total Staff</p>
+              <p className="text-2xl font-bold text-white dark:text-white">{staff.length}</p>
             </div>
-            <Users className="h-8 w-8 text-blue-600" />
+            <Users className="h-8 w-8 text-blue-400" />
           </div>
         </div>
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-700 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Active Now</p>
-              <p className="text-2xl font-bold text-gray-900">{staff.filter(s => s.status === 'ACTIVE').length}</p>
+              <p className="text-sm font-medium text-gray-300 dark:text-gray-300">Active Now</p>
+              <p className="text-2xl font-bold text-white dark:text-white">{staff.filter(s => s.status === 'ACTIVE').length}</p>
             </div>
-            <UserCheck className="h-8 w-8 text-green-600" />
+            <UserCheck className="h-8 w-8 text-green-400" />
           </div>
         </div>
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-700 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">On Break</p>
-              <p className="text-2xl font-bold text-gray-900">{staff.filter(s => s.status === 'ON_BREAK').length}</p>
+              <p className="text-sm font-medium text-gray-300 dark:text-gray-300">On Break</p>
+              <p className="text-2xl font-bold text-white dark:text-white">{staff.filter(s => s.status === 'ON_BREAK').length}</p>
             </div>
-            <Clock className="h-8 w-8 text-yellow-600" />
+            <Clock className="h-8 w-8 text-yellow-400" />
           </div>
         </div>
-        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-700 dark:border-gray-700">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-gray-600">Avg. Completion</p>
-              <p className="text-2xl font-bold text-gray-900">
+              <p className="text-sm font-medium text-gray-300 dark:text-gray-300">Avg. Completion</p>
+              <p className="text-2xl font-bold text-white dark:text-white">
                 {staff.length > 0 ? Math.round(staff.reduce((acc, s) => acc + (s.totalTasks > 0 ? (s.tasksCompleted / s.totalTasks * 100) : 0), 0) / staff.length) : 0}%
               </p>
             </div>
-            <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
-              <span className="text-purple-600 font-bold text-sm">%</span>
+            <div className="w-8 h-8 bg-purple-900/50 rounded-lg flex items-center justify-center">
+              <span className="text-purple-400 font-bold text-sm">%</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Filters and Search */}
-      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+      <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-700 dark:border-gray-700">
         <div className="flex flex-col sm:flex-row gap-4">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -282,7 +282,7 @@ export default function StaffManagement() {
               placeholder="Search staff members..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
             />
           </div>
           <div className="flex items-center gap-2">
@@ -290,7 +290,7 @@ export default function StaffManagement() {
             <select
               value={filterRole}
               onChange={(e) => setFilterRole(e.target.value)}
-              className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="border border-gray-600 bg-gray-700 text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             >
               <option value="all">All Roles</option>
               <option value="SUPER_ADMIN">Super Admin</option>
@@ -303,22 +303,22 @@ export default function StaffManagement() {
       </div>
 
       {/* Staff List */}
-      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900">Staff Members ({filteredStaff.length})</h3>
+      <div className="bg-gray-800 dark:bg-gray-800 rounded-lg shadow-sm border border-gray-700 dark:border-gray-700 overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-700 dark:border-gray-700">
+          <h3 className="text-lg font-semibold text-white dark:text-white">Staff Members ({filteredStaff.length})</h3>
         </div>
         {filteredStaff.length === 0 ? (
           <div className="p-8 text-center">
             <Users className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No staff members found</h3>
-            <p className="text-gray-600 mb-4">
-              {staff.length === 0 
-                ? "Get started by adding your first staff member." 
+            <h3 className="text-lg font-medium text-white dark:text-white mb-2">No staff members found</h3>
+            <p className="text-gray-300 dark:text-gray-300 mb-4">
+              {staff.length === 0
+                ? "Get started by adding your first staff member."
                 : "Try adjusting your search or filter criteria."
               }
             </p>
             {staff.length === 0 && (
-              <button 
+              <button
                 onClick={() => {
                   resetForm();
                   setEditingStaff(null);
@@ -332,20 +332,20 @@ export default function StaffManagement() {
             )}
           </div>
         ) : (
-          <div className="divide-y divide-gray-200">
+          <div className="divide-y divide-gray-700 dark:divide-gray-700">
             {filteredStaff.map((member) => (
-              <div key={member.id} className="p-6 hover:bg-gray-50 transition-colors">
+              <div key={member.id} className="p-6 hover:bg-gray-700 dark:hover:bg-gray-700 transition-colors">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                      <span className="text-blue-600 font-semibold text-lg">
+                    <div className="w-12 h-12 bg-blue-900/50 rounded-full flex items-center justify-center">
+                      <span className="text-blue-400 font-semibold text-lg">
                         {member.name.split(' ').map(n => n[0]).join('')}
                       </span>
                     </div>
                     <div>
-                      <h4 className="text-lg font-semibold text-gray-900">{member.name}</h4>
+                      <h4 className="text-lg font-semibold text-white dark:text-white">{member.name}</h4>
                       <div className="flex items-center gap-4 mt-1">
-                        <span className="flex items-center gap-1 text-sm text-gray-600">
+                        <span className="flex items-center gap-1 text-sm text-gray-300 dark:text-gray-300">
                           <Mail className="h-3 w-3" />
                           {member.email}
                         </span>
@@ -409,9 +409,9 @@ export default function StaffManagement() {
       {/* Add/Edit Staff Modal */}
       {showAddForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+          <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 w-full max-w-md mx-4 border border-gray-700">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-white dark:text-white">
                 {editingStaff ? 'Edit Staff Member' : 'Add New Staff Member'}
               </h3>
               <button
@@ -420,7 +420,7 @@ export default function StaffManagement() {
                   setEditingStaff(null);
                   resetForm();
                 }}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-300"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -428,20 +428,20 @@ export default function StaffManagement() {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
                   Full Name *
                 </label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    formErrors.name ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-3 py-2 border rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 ${
+                    formErrors.name ? 'border-red-500' : 'border-gray-600'
                   }`}
                   placeholder="Enter full name"
                 />
                 {formErrors.name && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                  <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" />
                     {formErrors.name}
                   </p>
@@ -449,20 +449,20 @@ export default function StaffManagement() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
                   Email Address *
                 </label>
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    formErrors.email ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-3 py-2 border rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 ${
+                    formErrors.email ? 'border-red-500' : 'border-gray-600'
                   }`}
                   placeholder="Enter email address"
                 />
                 {formErrors.email && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                  <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" />
                     {formErrors.email}
                   </p>
@@ -470,26 +470,26 @@ export default function StaffManagement() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
                   Phone Number
                 </label>
                 <input
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
                   placeholder="Enter phone number"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
                   Role *
                 </label>
                 <select
                   value={formData.role}
                   onChange={(e) => setFormData({ ...formData, role: e.target.value as any })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   <option value="VOLUNTEER">Volunteer</option>
                   <option value="STAFF">Staff</option>
@@ -499,33 +499,33 @@ export default function StaffManagement() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
                   Department
                 </label>
                 <input
                   type="text"
                   value={formData.department}
                   onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
                   placeholder="e.g., Operations, Registration, Technical"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
                   {editingStaff ? 'New Password (leave blank to keep current)' : 'Password *'}
                 </label>
                 <input
                   type="password"
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    formErrors.password ? 'border-red-500' : 'border-gray-300'
+                  className={`w-full px-3 py-2 border rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 ${
+                    formErrors.password ? 'border-red-500' : 'border-gray-600'
                   }`}
                   placeholder={editingStaff ? "Leave blank to keep current password" : "Enter password"}
                 />
                 {formErrors.password && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                  <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" />
                     {formErrors.password}
                   </p>
@@ -540,7 +540,7 @@ export default function StaffManagement() {
                     setEditingStaff(null);
                     resetForm();
                   }}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                  className="flex-1 px-4 py-2 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-700 transition-colors"
                 >
                   Cancel
                 </button>
