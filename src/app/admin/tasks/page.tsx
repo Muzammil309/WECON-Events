@@ -1,16 +1,16 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { 
-  CheckSquare, 
-  Plus, 
-  Search, 
-  Filter, 
-  Calendar, 
-  Clock, 
-  User, 
-  AlertTriangle, 
-  CheckCircle, 
-  XCircle, 
+import {
+  CheckSquare,
+  Plus,
+  Search,
+  Filter,
+  Calendar,
+  Clock,
+  User,
+  AlertTriangle,
+  CheckCircle,
+  XCircle,
   Edit,
   Trash2,
   X,
@@ -30,6 +30,8 @@ interface Task {
   };
   dueDate: string;
   createdAt: string;
+  eventId?: string;
+  eventTitle?: string;
   completedAt?: string;
   category?: string;
 }
@@ -42,6 +44,7 @@ interface NewTaskForm {
   dueDate: string;
   category: string;
   estimatedHours?: number;
+  eventId?: string;
 }
 
 interface StaffMember {
@@ -49,6 +52,8 @@ interface StaffMember {
   name: string;
   role: string;
 }
+  const [events, setEvents] = useState<{ id: string; name: string }[]>([]);
+
 
 export default function TaskManagement() {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -65,14 +70,28 @@ export default function TaskManagement() {
     priority: 'MEDIUM',
     assignedToId: '',
     dueDate: '',
-    category: ''
+    category: '',
+    eventId: ''
   });
+  const fetchEvents = async () => {
+    try {
+      const res = await fetch('/api/events?limit=50');
+      if (res.ok) {
+        const data = await res.json();
+        setEvents((data.events || []).map((e: any) => ({ id: e.id, name: e.name })));
+      }
+    } catch (e) {
+      console.error('Error fetching events', e);
+    }
+  };
+
   const [formErrors, setFormErrors] = useState<Partial<NewTaskForm>>({});
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     fetchTasksData();
     fetchStaffData();
+    fetchEvents();
   }, []);
 
   const fetchTasksData = async () => {
@@ -108,12 +127,12 @@ export default function TaskManagement() {
 
   const validateForm = (): boolean => {
     const errors: Partial<NewTaskForm> = {};
-    
+
     if (!formData.title.trim()) errors.title = 'Title is required';
     if (!formData.description.trim()) errors.description = 'Description is required';
     if (!formData.dueDate) errors.dueDate = 'Due date is required';
-    if (!formData.assignedToId) errors.assignedToId = 'Please assign to a staff member';
-    
+    if (!formData.eventId) errors.category = 'Please select an event';
+
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -126,7 +145,7 @@ export default function TaskManagement() {
     try {
       const url = editingTask ? `/api/admin/tasks` : '/api/admin/tasks';
       const method = editingTask ? 'PUT' : 'POST';
-      const payload = editingTask 
+      const payload = editingTask
         ? { ...formData, id: editingTask.id }
         : formData;
 
@@ -560,6 +579,33 @@ export default function TaskManagement() {
                   )}
                 </div>
               </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
+                  Event *
+                </label>
+                <select
+                  value={formData.eventId}
+                  onChange={(e) => setFormData({ ...formData, eventId: e.target.value })}
+                  className={`w-full px-3 py-2 border rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    formErrors.category ? 'border-red-500' : 'border-gray-600'
+                  }`}
+                >
+                  <option value="">Select event</option>
+                  {events.map((ev) => (
+                    <option key={ev.id} value={ev.id}>
+                      {ev.name}
+                    </option>
+                  ))}
+                </select>
+                {formErrors.category && (
+                  <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {formErrors.category}
+                  </p>
+                )}
+              </div>
+
 
               <div>
                 <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">

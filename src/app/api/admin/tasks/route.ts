@@ -146,15 +146,14 @@ export async function POST(request: NextRequest) {
       priority,
       assignedToId,
       dueDate,
-      category,
       estimatedHours,
       eventId
     } = body;
 
     // Validate required fields
-    if (!title || !description) {
+    if (!title || !eventId) {
       return NextResponse.json(
-        { error: 'Title and description are required' },
+        { error: 'Title and eventId are required' },
         { status: 400 }
       );
     }
@@ -166,10 +165,10 @@ export async function POST(request: NextRequest) {
         description,
         priority: priority?.toUpperCase() || 'MEDIUM',
         status: 'TODO',
-        assigneeId: assignedToId,
+        assigneeId: assignedToId || null,
         dueDate: dueDate ? new Date(dueDate) : null,
         estimatedHours: estimatedHours || 0,
-        eventId: eventId || null
+        eventId
       },
       include: {
         assignee: {
