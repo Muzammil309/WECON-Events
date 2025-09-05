@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
@@ -160,12 +161,20 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, phone, role, department } = body;
+    const { name, email, phone, role, department, password } = body;
 
     // Validate required fields
-    if (!name || !email || !role) {
+    if (!name || !email || !role || !password) {
       return NextResponse.json(
-        { error: 'Name, email, and role are required' },
+        { error: 'Name, email, role, and password are required' },
+        { status: 400 }
+      );
+    }
+
+    // Validate password length
+    if (password.length < 6) {
+      return NextResponse.json(
+        { error: 'Password must be at least 6 characters long' },
         { status: 400 }
       );
     }
@@ -182,6 +191,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 12);
+
     // Create new staff member
     const newStaffMember = await prisma.user.create({
       data: {
@@ -190,8 +202,19 @@ export async function POST(request: NextRequest) {
         phone,
         role,
         department,
+        password: hashedPassword,
         status: 'ACTIVE',
         lastActiveAt: new Date()
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        role: true,
+        department: true,
+        status: true,
+        createdAt: true
       }
     });
 
@@ -214,7 +237,7 @@ export async function POST(request: NextRequest) {
 export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
-    const { id, name, email, phone, role, department, status } = body;
+    const { id, name, email, phone, role, department, status, password } = body;
 
     if (!id) {
       return NextResponse.json(
@@ -223,17 +246,41 @@ export async function PUT(request: NextRequest) {
       );
     }
 
+    // Prepare update data
+    const updateData: any = {
+      ...(name && { name }),
+      ...(email && { email }),
+      ...(phone && { phone }),
+      ...(role && { role }),
+      ...(department && { department }),
+      ...(status && { status }),
+      lastActiveAt: new Date()
+    };
+
+    // Hash password if provided
+    if (password && password.trim()) {
+      if (password.length < 6) {
+        return NextResponse.json(
+          { error: 'Password must be at least 6 characters long' },
+          { status: 400 }
+        );
+      }
+      updateData.password = await bcrypt.hash(password, 12);
+    }
+
     // Update staff member
     const updatedStaffMember = await prisma.user.update({
       where: { id },
-      data: {
-        ...(name && { name }),
-        ...(email && { email }),
-        ...(phone && { phone }),
-        ...(role && { role }),
-        ...(department && { department }),
-        ...(status && { status }),
-        lastActiveAt: new Date()
+      data: updateData,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        role: true,
+        department: true,
+        status: true,
+        createdAt: true
       }
     });
 

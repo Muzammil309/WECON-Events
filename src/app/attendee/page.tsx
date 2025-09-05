@@ -144,7 +144,12 @@ export default function AttendeeOverview() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Upcoming Sessions */}
         <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Upcoming Sessions</h3>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-gray-900">Upcoming Sessions</h3>
+            <button className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full hover:bg-blue-200 transition-colors">
+              Smart Recommendations
+            </button>
+          </div>
           <div className="space-y-4">
             {attendeeData?.upcomingSessions?.map((session: any) => (
               <div key={session.id} className="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
@@ -195,26 +200,44 @@ export default function AttendeeOverview() {
           </button>
         </div>
 
-        {/* Quick Actions */}
+        {/* Staff Assistance Hub */}
         <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-gray-900">Staff Assistance</h3>
+            <span className="flex items-center gap-1 text-xs text-green-600">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              12 staff online
+            </span>
+          </div>
           <div className="space-y-3">
-            <a href="/attendee/qr-code" className="flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
-              <QrCode className="h-5 w-5 text-purple-600" />
-              <span className="text-sm font-medium text-gray-900">Show My QR Code</span>
-            </a>
-            <a href="/attendee/map" className="flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
-              <Map className="h-5 w-5 text-green-600" />
-              <span className="text-sm font-medium text-gray-900">Event Map</span>
-            </a>
-            <a href="/attendee/networking" className="flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
-              <Users className="h-5 w-5 text-blue-600" />
-              <span className="text-sm font-medium text-gray-900">Find Attendees</span>
-            </a>
-            <a href="/attendee/feedback" className="flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors">
-              <Star className="h-5 w-5 text-orange-600" />
-              <span className="text-sm font-medium text-gray-900">Give Feedback</span>
-            </a>
+            <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+              <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                <Users className="h-4 w-4 text-green-600" />
+              </div>
+              <div className="flex-1">
+                <h4 className="text-sm font-medium text-gray-900">Registration Help</h4>
+                <p className="text-xs text-gray-600">Sarah Johnson - Main Lobby</p>
+              </div>
+              <button className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded hover:bg-green-200">
+                Contact
+              </button>
+            </div>
+            <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
+              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                <Users className="h-4 w-4 text-blue-600" />
+              </div>
+              <div className="flex-1">
+                <h4 className="text-sm font-medium text-gray-900">Technical Support</h4>
+                <p className="text-xs text-gray-600">Mike Chen - IT Desk</p>
+              </div>
+              <button className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded hover:bg-blue-200">
+                Contact
+              </button>
+            </div>
+            <button className="w-full mt-3 bg-red-50 hover:bg-red-100 text-red-700 px-3 py-2 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2">
+              <Bell className="h-4 w-4" />
+              Report Issue
+            </button>
           </div>
         </div>
       </div>

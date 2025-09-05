@@ -1,255 +1,227 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { 
   Users, 
   Plus, 
   Search, 
   Filter, 
   Mail, 
-  Phone, 
-  MapPin,
-  Calendar,
-  Clock,
-  Shield,
-  UserCheck,
-  UserX,
+  Phone,
   Edit,
   Trash2,
-  Eye,
-  Download,
-  Upload,
-  Badge as BadgeIcon,
-  CheckCircle,
-  XCircle,
-  AlertCircle,
-  Crown,
-  Star,
-  Settings
+  UserCheck,
+  Clock,
+  X,
+  Save,
+  AlertCircle
 } from 'lucide-react';
 
 interface StaffMember {
   id: string;
   name: string;
   email: string;
-  phone: string;
-  role: 'super_admin' | 'staff_manager' | 'sponsor_manager' | 'staff' | 'volunteer';
-  department: string;
-  position: string;
-  avatar?: string;
-  status: 'active' | 'inactive' | 'on_break' | 'checked_out';
-  permissions: string[];
-  assignedTasks: number;
-  completedTasks: number;
-  currentLocation?: string;
-  shiftStart?: string;
-  shiftEnd?: string;
-  lastSeen: Date;
-  joinedAt: Date;
-  emergencyContact: {
-    name: string;
-    phone: string;
-    relationship: string;
-  };
-  notes: string;
+  phone?: string;
+  role: 'SUPER_ADMIN' | 'STAFF_MANAGER' | 'STAFF' | 'VOLUNTEER';
+  department?: string;
+  status?: 'ACTIVE' | 'INACTIVE' | 'ON_BREAK';
+  lastActive?: string;
+  tasksCompleted: number;
+  totalTasks: number;
+  createdAt: string;
 }
 
-interface Department {
-  id: string;
+interface NewStaffForm {
   name: string;
-  manager: string;
-  staffCount: number;
-  color: string;
+  email: string;
+  phone: string;
+  role: 'SUPER_ADMIN' | 'STAFF_MANAGER' | 'STAFF' | 'VOLUNTEER';
+  department: string;
+  password: string;
 }
 
-export default function StaffPage() {
+export default function StaffManagement() {
   const [staff, setStaff] = useState<StaffMember[]>([]);
-  const [departments, setDepartments] = useState<Department[]>([]);
-  const [activeTab, setActiveTab] = useState<'staff' | 'hierarchy' | 'shifts' | 'tasks'>('staff');
+  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterRole, setFilterRole] = useState<string>('all');
-  const [filterStatus, setFilterStatus] = useState<string>('all');
-  const [filterDepartment, setFilterDepartment] = useState<string>('all');
-  const [isLoading, setIsLoading] = useState(true);
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [filterRole, setFilterRole] = useState('all');
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [editingStaff, setEditingStaff] = useState<StaffMember | null>(null);
+  const [formData, setFormData] = useState<NewStaffForm>({
+    name: '',
+    email: '',
+    phone: '',
+    role: 'STAFF',
+    department: '',
+    password: ''
+  });
+  const [formErrors, setFormErrors] = useState<Partial<NewStaffForm>>({});
+  const [submitting, setSubmitting] = useState(false);
 
-  // Mock data - replace with actual API calls
   useEffect(() => {
-    const mockStaff: StaffMember[] = [
-      {
-        id: '1',
-        name: 'Sarah Johnson',
-        email: 'sarah@wecon-masawat.com',
-        phone: '+92 300 1234567',
-        role: 'staff_manager',
-        department: 'Operations',
-        position: 'Operations Manager',
-        status: 'active',
-        permissions: ['manage_staff', 'view_analytics', 'manage_tasks'],
-        assignedTasks: 12,
-        completedTasks: 8,
-        currentLocation: 'Main Hall',
-        shiftStart: '08:00',
-        shiftEnd: '18:00',
-        lastSeen: new Date(),
-        joinedAt: new Date('2024-01-15'),
-        emergencyContact: {
-          name: 'John Johnson',
-          phone: '+92 300 9876543',
-          relationship: 'Spouse'
-        },
-        notes: 'Excellent team leader, very reliable'
-      },
-      {
-        id: '2',
-        name: 'Ahmed Khan',
-        email: 'ahmed@wecon-masawat.com',
-        phone: '+92 321 9876543',
-        role: 'sponsor_manager',
-        department: 'Partnerships',
-        position: 'Sponsor Relations Manager',
-        status: 'active',
-        permissions: ['manage_sponsors', 'view_analytics'],
-        assignedTasks: 8,
-        completedTasks: 6,
-        currentLocation: 'VIP Lounge',
-        shiftStart: '09:00',
-        shiftEnd: '17:00',
-        lastSeen: new Date(Date.now() - 30 * 60 * 1000), // 30 minutes ago
-        joinedAt: new Date('2024-02-01'),
-        emergencyContact: {
-          name: 'Fatima Khan',
-          phone: '+92 321 1111111',
-          relationship: 'Sister'
-        },
-        notes: 'Great with sponsor relationships'
-      },
-      {
-        id: '3',
-        name: 'Maria Rodriguez',
-        email: 'maria@wecon-masawat.com',
-        phone: '+92 333 5555555',
-        role: 'staff',
-        department: 'Registration',
-        position: 'Registration Assistant',
-        status: 'active',
-        permissions: ['manage_attendees', 'check_in'],
-        assignedTasks: 15,
-        completedTasks: 12,
-        currentLocation: 'Registration Desk',
-        shiftStart: '07:00',
-        shiftEnd: '15:00',
-        lastSeen: new Date(),
-        joinedAt: new Date('2024-02-10'),
-        emergencyContact: {
-          name: 'Carlos Rodriguez',
-          phone: '+92 333 7777777',
-          relationship: 'Father'
-        },
-        notes: 'Very efficient with attendee check-ins'
-      },
-      {
-        id: '4',
-        name: 'David Chen',
-        email: 'david@wecon-masawat.com',
-        phone: '+92 345 1111111',
-        role: 'volunteer',
-        department: 'Support',
-        position: 'Event Volunteer',
-        status: 'on_break',
-        permissions: ['basic_access'],
-        assignedTasks: 6,
-        completedTasks: 4,
-        currentLocation: 'Break Room',
-        shiftStart: '10:00',
-        shiftEnd: '16:00',
-        lastSeen: new Date(Date.now() - 15 * 60 * 1000), // 15 minutes ago
-        joinedAt: new Date('2024-02-20'),
-        emergencyContact: {
-          name: 'Lisa Chen',
-          phone: '+92 345 2222222',
-          relationship: 'Mother'
-        },
-        notes: 'Enthusiastic volunteer, always helpful'
-      }
-    ];
-
-    const mockDepartments: Department[] = [
-      { id: '1', name: 'Operations', manager: 'Sarah Johnson', staffCount: 8, color: 'bg-blue-500' },
-      { id: '2', name: 'Partnerships', manager: 'Ahmed Khan', staffCount: 4, color: 'bg-green-500' },
-      { id: '3', name: 'Registration', manager: 'Maria Rodriguez', staffCount: 6, color: 'bg-purple-500' },
-      { id: '4', name: 'Support', manager: 'David Chen', staffCount: 12, color: 'bg-orange-500' },
-      { id: '5', name: 'Technical', manager: 'Alex Thompson', staffCount: 5, color: 'bg-red-500' }
-    ];
-
-    setStaff(mockStaff);
-    setDepartments(mockDepartments);
-    setIsLoading(false);
+    fetchStaffData();
   }, []);
 
-  const getRoleIcon = (role: string) => {
-    switch (role) {
-      case 'super_admin': return <Crown className="h-4 w-4" />;
-      case 'staff_manager': return <Shield className="h-4 w-4" />;
-      case 'sponsor_manager': return <Star className="h-4 w-4" />;
-      case 'staff': return <Users className="h-4 w-4" />;
-      case 'volunteer': return <BadgeIcon className="h-4 w-4" />;
-      default: return <Users className="h-4 w-4" />;
+  const fetchStaffData = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/admin/staff');
+      if (response.ok) {
+        const data = await response.json();
+        setStaff(data.staff || []);
+      } else {
+        console.error('Failed to fetch staff data');
+        setStaff([]);
+      }
+    } catch (error) {
+      console.error('Error fetching staff:', error);
+      setStaff([]);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const getRoleColor = (role: string) => {
-    switch (role) {
-      case 'super_admin': return 'bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400';
-      case 'staff_manager': return 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400';
-      case 'sponsor_manager': return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400';
-      case 'staff': return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400';
-      case 'volunteer': return 'bg-orange-100 text-orange-800 dark:bg-orange-900/20 dark:text-orange-400';
-      default: return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400';
+  const validateForm = (): boolean => {
+    const errors: Partial<NewStaffForm> = {};
+    
+    if (!formData.name.trim()) errors.name = 'Name is required';
+    if (!formData.email.trim()) errors.email = 'Email is required';
+    if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = 'Email is invalid';
+    if (!formData.password && !editingStaff) errors.password = 'Password is required';
+    if (formData.password && formData.password.length < 6) errors.password = 'Password must be at least 6 characters';
+    
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    setSubmitting(true);
+    try {
+      const url = editingStaff ? `/api/admin/staff` : '/api/admin/staff';
+      const method = editingStaff ? 'PUT' : 'POST';
+      const payload = editingStaff 
+        ? { ...formData, id: editingStaff.id }
+        : formData;
+
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        await fetchStaffData(); // Refresh the list
+        resetForm();
+        setShowAddForm(false);
+        setEditingStaff(null);
+      } else {
+        const error = await response.json();
+        alert(error.error || 'Failed to save staff member');
+      }
+    } catch (error) {
+      console.error('Error saving staff:', error);
+      alert('Failed to save staff member');
+    } finally {
+      setSubmitting(false);
     }
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'active': return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400';
-      case 'inactive': return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400';
-      case 'on_break': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400';
-      case 'checked_out': return 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400';
-      default: return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400';
+  const handleEdit = (staffMember: StaffMember) => {
+    setEditingStaff(staffMember);
+    setFormData({
+      name: staffMember.name,
+      email: staffMember.email,
+      phone: staffMember.phone || '',
+      role: staffMember.role,
+      department: staffMember.department || '',
+      password: '' // Don't pre-fill password for security
+    });
+    setShowAddForm(true);
+  };
+
+  const handleDelete = async (staffId: string) => {
+    if (!confirm('Are you sure you want to delete this staff member?')) return;
+
+    try {
+      const response = await fetch(`/api/admin/staff?id=${staffId}`, {
+        method: 'DELETE'
+      });
+
+      if (response.ok) {
+        await fetchStaffData(); // Refresh the list
+      } else {
+        alert('Failed to delete staff member');
+      }
+    } catch (error) {
+      console.error('Error deleting staff:', error);
+      alert('Failed to delete staff member');
     }
   };
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'active': return <CheckCircle className="h-4 w-4" />;
-      case 'inactive': return <XCircle className="h-4 w-4" />;
-      case 'on_break': return <AlertCircle className="h-4 w-4" />;
-      case 'checked_out': return <XCircle className="h-4 w-4" />;
-      default: return <AlertCircle className="h-4 w-4" />;
-    }
+  const resetForm = () => {
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      role: 'STAFF',
+      department: '',
+      password: ''
+    });
+    setFormErrors({});
   };
 
   const filteredStaff = staff.filter(member => {
     const matchesSearch = member.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          member.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         member.department.toLowerCase().includes(searchTerm.toLowerCase());
+                         (member.department || '').toLowerCase().includes(searchTerm.toLowerCase());
     const matchesRole = filterRole === 'all' || member.role === filterRole;
-    const matchesStatus = filterStatus === 'all' || member.status === filterStatus;
-    const matchesDepartment = filterDepartment === 'all' || member.department === filterDepartment;
-    return matchesSearch && matchesRole && matchesStatus && matchesDepartment;
+    return matchesSearch && matchesRole;
   });
 
-  const StaffTab = () => (
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'ACTIVE': return 'bg-green-100 text-green-800';
+      case 'INACTIVE': return 'bg-gray-100 text-gray-800';
+      case 'ON_BREAK': return 'bg-yellow-100 text-yellow-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const getRoleColor = (role: string) => {
+    switch (role) {
+      case 'SUPER_ADMIN': return 'bg-purple-100 text-purple-800';
+      case 'STAFF_MANAGER': return 'bg-blue-100 text-blue-800';
+      case 'STAFF': return 'bg-green-100 text-green-800';
+      case 'VOLUNTEER': return 'bg-orange-100 text-orange-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
+  return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Staff Management</h2>
-          <p className="text-gray-600 dark:text-gray-300">Manage staff members, roles, and permissions</p>
+          <h1 className="text-2xl font-bold text-gray-900">Staff Management</h1>
+          <p className="text-gray-600 mt-1">Manage your team hierarchy, scheduling, and performance</p>
         </div>
-        <button
-          onClick={() => setShowAddModal(true)}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+        <button 
+          onClick={() => {
+            resetForm();
+            setEditingStaff(null);
+            setShowAddForm(true);
+          }}
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition-colors"
         >
           <Plus className="h-4 w-4" />
           Add Staff Member
@@ -258,270 +230,339 @@ export default function StaffPage() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
-              <Users className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-            </div>
+        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+          <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-300">Total Staff</p>
-              <p className="text-xl font-bold text-gray-900 dark:text-white">{staff.length}</p>
+              <p className="text-sm font-medium text-gray-600">Total Staff</p>
+              <p className="text-2xl font-bold text-gray-900">{staff.length}</p>
             </div>
+            <Users className="h-8 w-8 text-blue-600" />
           </div>
         </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-green-100 dark:bg-green-900/20 rounded-lg">
-              <UserCheck className="h-5 w-5 text-green-600 dark:text-green-400" />
-            </div>
+        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+          <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-300">Active Now</p>
-              <p className="text-xl font-bold text-gray-900 dark:text-white">
-                {staff.filter(s => s.status === 'active').length}
-              </p>
+              <p className="text-sm font-medium text-gray-600">Active Now</p>
+              <p className="text-2xl font-bold text-gray-900">{staff.filter(s => s.status === 'ACTIVE').length}</p>
             </div>
+            <UserCheck className="h-8 w-8 text-green-600" />
           </div>
         </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg">
-              <Clock className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
-            </div>
+        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+          <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-300">On Break</p>
-              <p className="text-xl font-bold text-gray-900 dark:text-white">
-                {staff.filter(s => s.status === 'on_break').length}
-              </p>
+              <p className="text-sm font-medium text-gray-600">On Break</p>
+              <p className="text-2xl font-bold text-gray-900">{staff.filter(s => s.status === 'ON_BREAK').length}</p>
             </div>
+            <Clock className="h-8 w-8 text-yellow-600" />
           </div>
         </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-purple-100 dark:bg-purple-900/20 rounded-lg">
-              <Shield className="h-5 w-5 text-purple-600 dark:text-purple-400" />
-            </div>
+        <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+          <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-300">Managers</p>
-              <p className="text-xl font-bold text-gray-900 dark:text-white">
-                {staff.filter(s => s.role.includes('manager')).length}
+              <p className="text-sm font-medium text-gray-600">Avg. Completion</p>
+              <p className="text-2xl font-bold text-gray-900">
+                {staff.length > 0 ? Math.round(staff.reduce((acc, s) => acc + (s.totalTasks > 0 ? (s.tasksCompleted / s.totalTasks * 100) : 0), 0) / staff.length) : 0}%
               </p>
+            </div>
+            <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+              <span className="text-purple-600 font-bold text-sm">%</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-4">
-        <div className="flex-1 min-w-64">
-          <div className="relative">
+      {/* Filters and Search */}
+      <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
             <input
               type="text"
-              placeholder="Search staff..."
+              placeholder="Search staff members..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
+          <div className="flex items-center gap-2">
+            <Filter className="h-4 w-4 text-gray-400" />
+            <select
+              value={filterRole}
+              onChange={(e) => setFilterRole(e.target.value)}
+              className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="all">All Roles</option>
+              <option value="SUPER_ADMIN">Super Admin</option>
+              <option value="STAFF_MANAGER">Staff Manager</option>
+              <option value="STAFF">Staff</option>
+              <option value="VOLUNTEER">Volunteer</option>
+            </select>
+          </div>
         </div>
-        
-        <select
-          value={filterRole}
-          onChange={(e) => setFilterRole(e.target.value)}
-          className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-        >
-          <option value="all">All Roles</option>
-          <option value="super_admin">Super Admin</option>
-          <option value="staff_manager">Staff Manager</option>
-          <option value="sponsor_manager">Sponsor Manager</option>
-          <option value="staff">Staff</option>
-          <option value="volunteer">Volunteer</option>
-        </select>
-
-        <select
-          value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}
-          className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-        >
-          <option value="all">All Status</option>
-          <option value="active">Active</option>
-          <option value="inactive">Inactive</option>
-          <option value="on_break">On Break</option>
-          <option value="checked_out">Checked Out</option>
-        </select>
-
-        <select
-          value={filterDepartment}
-          onChange={(e) => setFilterDepartment(e.target.value)}
-          className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-        >
-          <option value="all">All Departments</option>
-          {departments.map(dept => (
-            <option key={dept.id} value={dept.name}>{dept.name}</option>
-          ))}
-        </select>
       </div>
 
-      {/* Staff Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-        {filteredStaff.map((member) => (
-          <motion.div
-            key={member.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6"
-          >
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center">
-                  <Users className="h-6 w-6 text-gray-600 dark:text-gray-300" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-gray-900 dark:text-white">{member.name}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-300">{member.position}</p>
+      {/* Staff List */}
+      <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-200">
+          <h3 className="text-lg font-semibold text-gray-900">Staff Members ({filteredStaff.length})</h3>
+        </div>
+        {filteredStaff.length === 0 ? (
+          <div className="p-8 text-center">
+            <Users className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">No staff members found</h3>
+            <p className="text-gray-600 mb-4">
+              {staff.length === 0 
+                ? "Get started by adding your first staff member." 
+                : "Try adjusting your search or filter criteria."
+              }
+            </p>
+            {staff.length === 0 && (
+              <button 
+                onClick={() => {
+                  resetForm();
+                  setEditingStaff(null);
+                  setShowAddForm(true);
+                }}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2 mx-auto transition-colors"
+              >
+                <Plus className="h-4 w-4" />
+                Add First Staff Member
+              </button>
+            )}
+          </div>
+        ) : (
+          <div className="divide-y divide-gray-200">
+            {filteredStaff.map((member) => (
+              <div key={member.id} className="p-6 hover:bg-gray-50 transition-colors">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                      <span className="text-blue-600 font-semibold text-lg">
+                        {member.name.split(' ').map(n => n[0]).join('')}
+                      </span>
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-semibold text-gray-900">{member.name}</h4>
+                      <div className="flex items-center gap-4 mt-1">
+                        <span className="flex items-center gap-1 text-sm text-gray-600">
+                          <Mail className="h-3 w-3" />
+                          {member.email}
+                        </span>
+                        {member.phone && (
+                          <span className="flex items-center gap-1 text-sm text-gray-600">
+                            <Phone className="h-3 w-3" />
+                            {member.phone}
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2 mt-2">
+                        <span className={`px-2 py-1 text-xs rounded-full font-medium ${getRoleColor(member.role)}`}>
+                          {member.role.replace('_', ' ')}
+                        </span>
+                        <span className={`px-2 py-1 text-xs rounded-full font-medium ${getStatusColor(member.status || 'ACTIVE')}`}>
+                          {(member.status || 'ACTIVE').replace('_', ' ')}
+                        </span>
+                        {member.department && (
+                          <span className="text-xs text-gray-500">{member.department}</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="text-right">
+                      <p className="text-sm font-medium text-gray-900">
+                        {member.tasksCompleted}/{member.totalTasks} tasks
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Last active: {member.lastActive || 'Never'}
+                      </p>
+                      <div className="w-24 bg-gray-200 rounded-full h-2 mt-1">
+                        <div 
+                          className="bg-blue-600 h-2 rounded-full" 
+                          style={{ width: `${member.totalTasks > 0 ? (member.tasksCompleted / member.totalTasks) * 100 : 0}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button 
+                        onClick={() => handleEdit(member)}
+                        className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </button>
+                      <button 
+                        onClick={() => handleDelete(member.id)}
+                        className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="flex items-center gap-1">
-                <button className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-                  <Eye className="h-4 w-4" />
-                </button>
-                <button className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-                  <Edit className="h-4 w-4" />
-                </button>
-                <button className="p-1 text-gray-400 hover:text-red-600">
-                  <Trash2 className="h-4 w-4" />
-                </button>
-              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Add/Edit Staff Modal */}
+      {showAddForm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-gray-900">
+                {editingStaff ? 'Edit Staff Member' : 'Add New Staff Member'}
+              </h3>
+              <button
+                onClick={() => {
+                  setShowAddForm(false);
+                  setEditingStaff(null);
+                  resetForm();
+                }}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <X className="h-5 w-5" />
+              </button>
             </div>
 
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getRoleColor(member.role)}`}>
-                  {getRoleIcon(member.role)}
-                  {member.role.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                </span>
-                <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(member.status)}`}>
-                  {getStatusIcon(member.status)}
-                  {member.status.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                </span>
-              </div>
-
-              <div className="text-sm space-y-1">
-                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
-                  <Mail className="h-3 w-3" />
-                  <span className="truncate">{member.email}</span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
-                  <Phone className="h-3 w-3" />
-                  <span>{member.phone}</span>
-                </div>
-                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
-                  <MapPin className="h-3 w-3" />
-                  <span>{member.department}</span>
-                </div>
-                {member.currentLocation && (
-                  <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
-                    <MapPin className="h-3 w-3" />
-                    <span>Currently: {member.currentLocation}</span>
-                  </div>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Full Name *
+                </label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    formErrors.name ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                  placeholder="Enter full name"
+                />
+                {formErrors.name && (
+                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {formErrors.name}
+                  </p>
                 )}
               </div>
 
-              <div className="pt-3 border-t border-gray-200 dark:border-gray-700">
-                <div className="flex items-center justify-between text-xs text-gray-500">
-                  <span>Tasks: {member.completedTasks}/{member.assignedTasks}</span>
-                  <span>
-                    {member.shiftStart && member.shiftEnd 
-                      ? `${member.shiftStart} - ${member.shiftEnd}`
-                      : 'No shift assigned'
-                    }
-                  </span>
-                </div>
-                <div className="mt-1">
-                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5">
-                    <div 
-                      className="bg-indigo-600 h-1.5 rounded-full" 
-                      style={{ width: `${(member.completedTasks / member.assignedTasks) * 100}%` }}
-                    ></div>
-                  </div>
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Email Address *
+                </label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    formErrors.email ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                  placeholder="Enter email address"
+                />
+                {formErrors.email && (
+                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {formErrors.email}
+                  </p>
+                )}
               </div>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  );
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-indigo-600"></div>
-      </div>
-    );
-  }
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Enter phone number"
+                />
+              </div>
 
-  return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Page Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Staff Management</h1>
-          <p className="text-gray-600 dark:text-gray-300">Manage staff hierarchy, roles, and assignments</p>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Role *
+                </label>
+                <select
+                  value={formData.role}
+                  onChange={(e) => setFormData({ ...formData, role: e.target.value as any })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="VOLUNTEER">Volunteer</option>
+                  <option value="STAFF">Staff</option>
+                  <option value="STAFF_MANAGER">Staff Manager</option>
+                  <option value="SUPER_ADMIN">Super Admin</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Department
+                </label>
+                <input
+                  type="text"
+                  value={formData.department}
+                  onChange={(e) => setFormData({ ...formData, department: e.target.value })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="e.g., Operations, Registration, Technical"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {editingStaff ? 'New Password (leave blank to keep current)' : 'Password *'}
+                </label>
+                <input
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    formErrors.password ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                  placeholder={editingStaff ? "Leave blank to keep current password" : "Enter password"}
+                />
+                {formErrors.password && (
+                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    {formErrors.password}
+                  </p>
+                )}
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowAddForm(false);
+                    setEditingStaff(null);
+                    resetForm();
+                  }}
+                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
+                >
+                  {submitting ? (
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                  ) : (
+                    <>
+                      <Save className="h-4 w-4" />
+                      {editingStaff ? 'Update' : 'Create'} Staff Member
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-
-        {/* Tabs */}
-        <div className="mb-8">
-          <nav className="flex space-x-8">
-            {[
-              { id: 'staff', label: 'Staff Members', icon: Users },
-              { id: 'hierarchy', label: 'Hierarchy', icon: Shield },
-              { id: 'shifts', label: 'Shifts', icon: Clock },
-              { id: 'tasks', label: 'Tasks', icon: CheckCircle }
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-2 px-3 py-2 border-b-2 font-medium text-sm transition-colors ${
-                  activeTab === tab.id
-                    ? 'border-indigo-500 text-indigo-600 dark:text-indigo-400'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300'
-                }`}
-              >
-                <tab.icon className="h-4 w-4" />
-                {tab.label}
-              </button>
-            ))}
-          </nav>
-        </div>
-
-        {/* Tab Content */}
-        {activeTab === 'staff' && <StaffTab />}
-        {activeTab === 'hierarchy' && (
-          <div className="text-center py-12">
-            <Shield className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Staff Hierarchy</h3>
-            <p className="text-gray-600 dark:text-gray-300">Organizational chart coming soon</p>
-          </div>
-        )}
-        {activeTab === 'shifts' && (
-          <div className="text-center py-12">
-            <Clock className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Shift Management</h3>
-            <p className="text-gray-600 dark:text-gray-300">Shift scheduling coming soon</p>
-          </div>
-        )}
-        {activeTab === 'tasks' && (
-          <div className="text-center py-12">
-            <CheckCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Task Management</h3>
-            <p className="text-gray-600 dark:text-gray-300">Task assignment coming soon</p>
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 }

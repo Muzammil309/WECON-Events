@@ -19,7 +19,9 @@ import {
   Sparkles,
   ChevronLeft,
   ChevronRight,
-  CheckSquare
+  CheckSquare,
+  User,
+  ChevronDown
 } from 'lucide-react';
 
 interface AdminLayoutProps {
@@ -31,6 +33,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [userProfileOpen, setUserProfileOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<{
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    avatar?: string;
+  } | null>(null);
   const router = useRouter();
 
   const navigationItems = [
@@ -51,6 +61,20 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     checkAuthentication();
   }, []);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userProfileOpen) {
+        setUserProfileOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [userProfileOpen]);
+
   const checkAuthentication = async () => {
     try {
       // Check if user has admin token
@@ -63,8 +87,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         const userRole = data.user?.role?.toLowerCase();
 
         // Check if user has admin or organizer role
-        if (userRole === 'admin' || userRole === 'organizer') {
+        if (userRole === 'admin' || userRole === 'organizer' || userRole === 'super_admin') {
           setIsAuthenticated(true);
+          setCurrentUser({
+            id: data.user.id,
+            name: data.user.name || 'Admin User',
+            email: data.user.email,
+            role: data.user.role,
+            avatar: data.user.avatar
+          });
         } else {
           // Redirect non-admin users to attendee dashboard
           router.push('/attendee');
@@ -233,10 +264,87 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             </button>
 
             <div className="flex items-center gap-4 ml-auto">
-              <div className="text-sm text-gray-500 dark:text-gray-400">
-                Last updated: {new Date().toLocaleTimeString()}
+              {/* Notifications */}
+              <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors relative">
+                <Bell className="h-5 w-5" />
+                <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full text-xs"></span>
+              </button>
+
+              {/* System Status */}
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span className="text-sm text-gray-500 dark:text-gray-400">Online</span>
               </div>
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+
+              {/* User Profile Dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => setUserProfileOpen(!userProfileOpen)}
+                  className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                >
+                  <div className="w-8 h-8 bg-indigo-100 rounded-full flex items-center justify-center">
+                    {currentUser?.avatar ? (
+                      <img src={currentUser.avatar} alt={currentUser.name} className="w-8 h-8 rounded-full" />
+                    ) : (
+                      <User className="h-4 w-4 text-indigo-600" />
+                    )}
+                  </div>
+                  <div className="hidden md:block text-left">
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">
+                      {currentUser?.name || 'Admin User'}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      {currentUser?.role || 'ADMIN'}
+                    </p>
+                  </div>
+                  <ChevronDown className="h-4 w-4 text-gray-400" />
+                </button>
+
+                {/* Dropdown Menu */}
+                {userProfileOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50">
+                    <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                        {currentUser?.name || 'Admin User'}
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        {currentUser?.email || 'admin@wecon.com'}
+                      </p>
+                    </div>
+
+                    <Link
+                      href="/admin/profile"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      onClick={() => setUserProfileOpen(false)}
+                    >
+                      <User className="h-4 w-4" />
+                      My Profile
+                    </Link>
+
+                    <Link
+                      href="/admin/settings"
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      onClick={() => setUserProfileOpen(false)}
+                    >
+                      <Settings className="h-4 w-4" />
+                      Settings
+                    </Link>
+
+                    <div className="border-t border-gray-200 dark:border-gray-700 mt-1">
+                      <button
+                        onClick={() => {
+                          setUserProfileOpen(false);
+                          handleLogout();
+                        }}
+                        className="flex items-center gap-2 w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        Logout
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
