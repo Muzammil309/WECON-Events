@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
     const tasks = await prisma.task.findMany({
       where: whereClause,
       include: {
-        assignedTo: {
+        assignee: {
           select: {
             id: true,
             name: true,
@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
         event: {
           select: {
             id: true,
-            title: true
+            name: true
           }
         }
       },
@@ -60,18 +60,16 @@ export async function GET(request: NextRequest) {
       priority: task.priority?.toLowerCase() || 'medium',
       status: task.status?.toLowerCase() || 'pending',
       assignedTo: {
-        id: task.assignedTo?.id || '',
-        name: task.assignedTo?.name || 'Unassigned',
+        id: task.assignee?.id || '',
+        name: task.assignee?.name || 'Unassigned',
         avatar: '' // Add avatar logic if needed
       },
       dueDate: task.dueDate?.toISOString() || new Date().toISOString(),
       createdAt: task.createdAt.toISOString(),
-      completedAt: task.completedAt?.toISOString(),
-      category: task.category || 'General',
+      category: 'General', // Simplified for now
       estimatedHours: task.estimatedHours || 0,
-      actualHours: task.actualHours || 0,
       eventId: task.event?.id,
-      eventTitle: task.event?.title
+      eventTitle: task.event?.name
     }));
 
     // Calculate task statistics
@@ -79,7 +77,7 @@ export async function GET(request: NextRequest) {
       total: tasks.length,
       completed: tasks.filter(t => t.status === 'COMPLETED').length,
       inProgress: tasks.filter(t => t.status === 'IN_PROGRESS').length,
-      pending: tasks.filter(t => t.status === 'PENDING').length,
+      todo: tasks.filter(t => t.status === 'TODO').length,
       cancelled: tasks.filter(t => t.status === 'CANCELLED').length,
       overdue: tasks.filter(t => 
         t.dueDate && 
@@ -167,15 +165,14 @@ export async function POST(request: NextRequest) {
         title,
         description,
         priority: priority?.toUpperCase() || 'MEDIUM',
-        status: 'PENDING',
-        assignedToId,
+        status: 'TODO',
+        assigneeId: assignedToId,
         dueDate: dueDate ? new Date(dueDate) : null,
-        category,
         estimatedHours: estimatedHours || 0,
-        eventId
+        eventId: eventId || null
       },
       include: {
-        assignedTo: {
+        assignee: {
           select: {
             id: true,
             name: true,
@@ -229,24 +226,17 @@ export async function PUT(request: NextRequest) {
     if (title) updateData.title = title;
     if (description) updateData.description = description;
     if (priority) updateData.priority = priority.toUpperCase();
-    if (status) {
-      updateData.status = status.toUpperCase();
-      if (status.toUpperCase() === 'COMPLETED') {
-        updateData.completedAt = new Date();
-      }
-    }
-    if (assignedToId) updateData.assignedToId = assignedToId;
+    if (status) updateData.status = status.toUpperCase();
+    if (assignedToId) updateData.assigneeId = assignedToId;
     if (dueDate) updateData.dueDate = new Date(dueDate);
-    if (category) updateData.category = category;
     if (estimatedHours !== undefined) updateData.estimatedHours = estimatedHours;
-    if (actualHours !== undefined) updateData.actualHours = actualHours;
 
     // Update task
     const updatedTask = await prisma.task.update({
       where: { id },
       data: updateData,
       include: {
-        assignedTo: {
+        assignee: {
           select: {
             id: true,
             name: true,

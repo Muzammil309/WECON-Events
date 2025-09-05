@@ -52,7 +52,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { name: 'Analytics & Logistics', href: '/admin/analytics', icon: BarChart3 },
     { name: 'Events', href: '/admin/events', icon: Calendar },
     { name: 'Tickets', href: '/admin/tickets', icon: Ticket },
-    { name: 'Digital Signage', href: '/admin/signage', icon: Monitor },
+    { name: 'Digital Signage', href: '/admin/digital-signage', icon: Monitor },
     { name: 'Notifications', href: '/admin/notifications', icon: Bell },
     { name: 'Settings', href: '/admin/settings', icon: Settings },
   ];

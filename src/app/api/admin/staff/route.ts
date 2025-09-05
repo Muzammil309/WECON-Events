@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
       whereClause.status = status;
     }
 
-    // Fetch staff members with their task statistics
+    // Fetch staff members with basic information
     const staff = await prisma.user.findMany({
       where: whereClause,
       select: {
@@ -42,24 +42,8 @@ export async function GET(request: NextRequest) {
         email: true,
         phone: true,
         role: true,
-        status: true,
-        department: true,
-        lastActiveAt: true,
         createdAt: true,
-        _count: {
-          select: {
-            assignedTasks: true,
-            completedTasks: true
-          }
-        },
-        assignedTasks: {
-          where: {
-            status: 'COMPLETED'
-          },
-          select: {
-            id: true
-          }
-        }
+        updatedAt: true
       },
       orderBy: {
         name: 'asc'
@@ -73,22 +57,22 @@ export async function GET(request: NextRequest) {
       email: member.email,
       phone: member.phone || 'Not provided',
       role: member.role,
-      department: member.department || 'General',
-      status: member.status || 'active',
-      lastActive: getTimeAgo(member.lastActiveAt || member.createdAt),
-      tasksCompleted: member.assignedTasks.length,
-      totalTasks: member._count.assignedTasks
+      department: 'General', // Simplified for now
+      status: 'ACTIVE', // Simplified for now
+      lastActive: getTimeAgo(member.createdAt),
+      tasksCompleted: 0, // Will be calculated separately
+      totalTasks: 0 // Will be calculated separately
     }));
 
     // Get staff statistics
     const totalStaff = staff.length;
-    const activeStaff = staff.filter(s => s.status === 'ACTIVE').length;
-    const onBreakStaff = staff.filter(s => s.status === 'ON_BREAK').length;
-    const inactiveStaff = staff.filter(s => s.status === 'INACTIVE').length;
+    const activeStaff = staff.length; // Simplified
+    const onBreakStaff = 0; // Simplified
+    const inactiveStaff = 0; // Simplified
 
-    // Calculate average completion rate
-    const totalTasks = staff.reduce((sum, s) => sum + s._count.assignedTasks, 0);
-    const completedTasks = staff.reduce((sum, s) => sum + s.assignedTasks.length, 0);
+    // Calculate average completion rate (simplified)
+    const totalTasks = 0;
+    const completedTasks = 0;
     const avgCompletionRate = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
 
     return NextResponse.json({
@@ -201,10 +185,8 @@ export async function POST(request: NextRequest) {
         email,
         phone,
         role,
-        department,
         password: hashedPassword,
-        status: 'ACTIVE',
-        lastActiveAt: new Date()
+        emailVerified: true
       },
       select: {
         id: true,
@@ -212,8 +194,6 @@ export async function POST(request: NextRequest) {
         email: true,
         phone: true,
         role: true,
-        department: true,
-        status: true,
         createdAt: true
       }
     });
@@ -278,8 +258,6 @@ export async function PUT(request: NextRequest) {
         email: true,
         phone: true,
         role: true,
-        department: true,
-        status: true,
         createdAt: true
       }
     });
@@ -312,12 +290,11 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    // Delete staff member (or mark as inactive)
+    // Delete staff member (soft delete by updating role)
     await prisma.user.update({
       where: { id },
       data: {
-        status: 'INACTIVE',
-        lastActiveAt: new Date()
+        role: 'INACTIVE'
       }
     });
 

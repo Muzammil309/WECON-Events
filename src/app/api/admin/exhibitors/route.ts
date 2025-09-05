@@ -11,58 +11,49 @@ export async function GET(request: NextRequest) {
     const packageType = searchParams.get('packageType') || 'all';
 
     // Build where clause for filtering
-    const whereClause: any = {};
+    const whereClause: any = {
+      role: 'EXHIBITOR'
+    };
 
     if (search) {
       whereClause.OR = [
-        { companyName: { contains: search, mode: 'insensitive' } },
-        { contactPerson: { contains: search, mode: 'insensitive' } },
-        { email: { contains: search, mode: 'insensitive' } },
-        { category: { contains: search, mode: 'insensitive' } }
+        { name: { contains: search, mode: 'insensitive' } },
+        { email: { contains: search, mode: 'insensitive' } }
       ];
     }
 
-    if (status !== 'all') {
-      whereClause.status = status.toUpperCase();
-    }
-
-    if (packageType !== 'all') {
-      whereClause.packageType = packageType.toUpperCase();
-    }
-
-    // Fetch exhibitors with event information
-    const exhibitors = await prisma.exhibitor.findMany({
+    // Fetch exhibitors (users with EXHIBITOR role)
+    const exhibitors = await prisma.user.findMany({
       where: whereClause,
-      include: {
-        event: {
-          select: {
-            id: true,
-            name: true,
-            startAt: true
-          }
-        }
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        createdAt: true,
+        updatedAt: true
       },
       orderBy: { createdAt: 'desc' }
     });
 
-    // Format exhibitors data
+    // Format exhibitors data (simplified for current schema)
     const formattedExhibitors = exhibitors.map(exhibitor => ({
       id: exhibitor.id,
-      companyName: exhibitor.companyName,
-      contactPerson: exhibitor.contactPerson,
+      companyName: exhibitor.name, // Using name as company name
+      contactPerson: exhibitor.name,
       email: exhibitor.email,
-      phone: exhibitor.phone,
-      website: exhibitor.website,
-      boothNumber: exhibitor.boothNumber,
-      boothSize: exhibitor.boothSize,
-      category: exhibitor.category,
-      status: exhibitor.status || 'PENDING',
-      packageType: exhibitor.packageType || 'STANDARD',
-      paymentStatus: exhibitor.paymentStatus || 'PENDING',
-      setupDate: exhibitor.setupDate?.toISOString(),
-      specialRequirements: exhibitor.specialRequirements,
-      eventId: exhibitor.eventId,
-      eventName: exhibitor.event?.name,
+      phone: exhibitor.phone || 'Not provided',
+      website: '',
+      boothNumber: 'TBD',
+      boothSize: 'Standard',
+      category: 'General',
+      status: 'CONFIRMED',
+      packageType: 'STANDARD',
+      paymentStatus: 'PENDING',
+      setupDate: null,
+      specialRequirements: 'None',
+      eventId: null,
+      eventName: '',
       createdAt: exhibitor.createdAt.toISOString()
     }));
 
@@ -154,53 +145,42 @@ export async function POST(request: NextRequest) {
     } = body;
 
     // Validate required fields
-    if (!companyName || !contactPerson || !email || !eventId) {
+    if (!companyName || !contactPerson || !email) {
       return NextResponse.json(
-        { error: 'Company name, contact person, email, and event are required' },
+        { error: 'Company name, contact person, and email are required' },
         { status: 400 }
       );
     }
 
-    // Check if exhibitor already exists for this event
-    const existingExhibitor = await prisma.exhibitor.findFirst({
-      where: {
-        email,
-        eventId
-      }
+    // Check if user already exists
+    const existingUser = await prisma.user.findUnique({
+      where: { email }
     });
 
-    if (existingExhibitor) {
+    if (existingUser) {
       return NextResponse.json(
-        { error: 'Exhibitor with this email already registered for this event' },
+        { error: 'User with this email already exists' },
         { status: 409 }
       );
     }
 
-    // Create new exhibitor
-    const newExhibitor = await prisma.exhibitor.create({
+    // Create new exhibitor (as user with EXHIBITOR role)
+    const newExhibitor = await prisma.user.create({
       data: {
-        companyName,
-        contactPerson,
+        name: companyName,
         email,
         phone: phone || null,
-        website: website || null,
-        boothNumber: boothNumber || null,
-        boothSize: boothSize || null,
-        category: category || null,
-        packageType: packageType || 'STANDARD',
-        status: 'PENDING',
-        paymentStatus: 'PENDING',
-        eventId,
-        setupDate: setupDate ? new Date(setupDate) : null,
-        specialRequirements: specialRequirements || null
+        role: 'EXHIBITOR',
+        password: 'temp123', // Temporary password - should be changed
+        emailVerified: true
       },
-      include: {
-        event: {
-          select: {
-            id: true,
-            name: true
-          }
-        }
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        role: true,
+        createdAt: true
       }
     });
 

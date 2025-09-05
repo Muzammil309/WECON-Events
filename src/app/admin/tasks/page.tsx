@@ -23,7 +23,7 @@ interface Task {
   title: string;
   description: string;
   priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
-  status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
+  status: 'TODO' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED';
   assignedTo?: {
     id: string;
     name: string;
@@ -41,6 +41,7 @@ interface NewTaskForm {
   assignedToId: string;
   dueDate: string;
   category: string;
+  estimatedHours?: number;
 }
 
 interface StaffMember {
@@ -210,7 +211,8 @@ export default function TaskManagement() {
       priority: 'MEDIUM',
       assignedToId: '',
       dueDate: '',
-      category: ''
+      category: '',
+      estimatedHours: 0
     });
     setFormErrors({});
   };
@@ -585,17 +587,34 @@ export default function TaskManagement() {
                 )}
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
-                  Category
-                </label>
-                <input
-                  type="text"
-                  value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
-                  placeholder="e.g., Setup, Registration, Technical"
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
+                    Category
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.category}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    className="w-full px-3 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
+                    placeholder="e.g., Setup, Registration, Technical"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
+                    Estimated Hours
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.5"
+                    value={formData.estimatedHours || ''}
+                    onChange={(e) => setFormData({ ...formData, estimatedHours: Number(e.target.value) })}
+                    className="w-full px-3 py-2 border border-gray-600 bg-gray-700 text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400"
+                    placeholder="0"
+                  />
+                </div>
               </div>
 
               <div className="flex gap-3 pt-4">
