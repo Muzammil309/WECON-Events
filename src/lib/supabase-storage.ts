@@ -1,10 +1,19 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 // Create a Supabase client with service role for server-side operations
-const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+// Only initialize if environment variables are available
+let supabaseAdmin: any = null;
+
+if (supabaseUrl && supabaseServiceKey) {
+  try {
+    supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+  } catch (error) {
+    console.warn('Failed to initialize Supabase client:', error);
+  }
+}
 
 export interface UploadResult {
   url: string;
@@ -16,17 +25,22 @@ export class SupabaseStorage {
   private static bucketName = 'signage-media';
 
   static async ensureBucket(): Promise<void> {
+    if (!supabaseAdmin) {
+      console.warn('Supabase client not initialized - skipping bucket creation');
+      return;
+    }
+
     try {
       const { data: buckets } = await supabaseAdmin.storage.listBuckets();
       const bucketExists = buckets?.some(bucket => bucket.name === this.bucketName);
-      
+
       if (!bucketExists) {
         const { error } = await supabaseAdmin.storage.createBucket(this.bucketName, {
           public: true,
           allowedMimeTypes: ['image/*', 'video/*'],
           fileSizeLimit: 50 * 1024 * 1024 // 50MB
         });
-        
+
         if (error) {
           console.error('Failed to create storage bucket:', error);
         }
@@ -37,9 +51,13 @@ export class SupabaseStorage {
   }
 
   static async uploadFile(file: File, folder: string = 'content'): Promise<UploadResult> {
+    if (!supabaseAdmin) {
+      return { url: '', path: '', error: 'Supabase client not initialized' };
+    }
+
     try {
       await this.ensureBucket();
-      
+
       // Generate unique filename
       const timestamp = Date.now();
       const randomString = Math.random().toString(36).substring(2, 15);
@@ -74,6 +92,10 @@ export class SupabaseStorage {
   }
 
   static async deleteFile(path: string): Promise<{ success: boolean; error?: string }> {
+    if (!supabaseAdmin) {
+      return { success: false, error: 'Supabase client not initialized' };
+    }
+
     try {
       const { error } = await supabaseAdmin.storage
         .from(this.bucketName)
@@ -90,6 +112,10 @@ export class SupabaseStorage {
   }
 
   static async getSignedUrl(path: string, expiresIn: number = 3600): Promise<{ url?: string; error?: string }> {
+    if (!supabaseAdmin) {
+      return { error: 'Supabase client not initialized' };
+    }
+
     try {
       const { data, error } = await supabaseAdmin.storage
         .from(this.bucketName)
@@ -106,10 +132,14 @@ export class SupabaseStorage {
   }
 
   static getPublicUrl(path: string): string {
+    if (!supabaseAdmin) {
+      return '';
+    }
+
     const { data } = supabaseAdmin.storage
       .from(this.bucketName)
       .getPublicUrl(path);
-    
+
     return data.publicUrl;
   }
 }
@@ -136,4 +166,4 @@ export class LocalStorage {
 }
 
 // Export the appropriate storage based on environment
-export const MediaStorage = process.env.NEXT_PUBLIC_SUPABASE_URL ? SupabaseStorage : LocalStorage;
+export const MediaStorage = (supabaseUrl && supabaseServiceKey) ? SupabaseStorage : LocalStorage;

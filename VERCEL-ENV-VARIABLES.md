@@ -34,6 +34,9 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=[YOUR-ANON-KEY]
 
 # Site Configuration
 NEXT_PUBLIC_SITE_NAME=WECON Masawat
+
+# Build Configuration (Required to prevent build failures)
+FIGMA_API_TOKEN=figd_dummy_token_for_build_bypass_12345678901234567890123456789012345678901234567890
 ```
 
 ## 🔧 **How to Set Variables in Vercel:**
