@@ -516,3 +516,93 @@ model CheckIn {
   checkOutAt DateTime?
   metadata  Json?    // Additional check-in data
 }
+
+
+// ==============================
+// Digital Signage Models
+// ==============================
+
+enum DisplayOrientation {
+  LANDSCAPE
+  PORTRAIT
+}
+
+enum DisplayStatus {
+  ONLINE
+  OFFLINE
+  ERROR
+}
+
+enum SignageContentType {
+  IMAGE
+  VIDEO
+  TEXT
+}
+
+enum SignageContentStatus {
+  DRAFT
+  ACTIVE
+  SCHEDULED
+}
+
+model DigitalDisplay {
+  id             String           @id @default(cuid())
+  name           String
+  location       String?
+  resolution     String?          // e.g. 1920x1080
+  orientation    DisplayOrientation @default(LANDSCAPE)
+  status         DisplayStatus     @default(OFFLINE)
+  lastHeartbeatAt DateTime?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  assignments    DisplayAssignment[]
+}
+
+model SignageContent {
+  id         String                @id @default(cuid())
+  name       String
+  type       SignageContentType
+  url        String?               // For IMAGE/VIDEO
+  contentText String?              // For TEXT content
+  duration   Int                   // seconds
+  status     SignageContentStatus  @default(DRAFT)
+  createdAt  DateTime              @default(now())
+  updatedAt  DateTime              @updatedAt
+  uploadedBy User?                 @relation(fields: [uploadedById], references: [id])
+  uploadedById String?
+  playlistItems PlaylistItem[]
+}
+
+model DigitalPlaylist {
+  id         String   @id @default(cuid())
+  name       String
+  loop       Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  items      PlaylistItem[]
+}
+
+model PlaylistItem {
+  id          String          @id @default(cuid())
+  playlist    DigitalPlaylist @relation(fields: [playlistId], references: [id])
+  playlistId  String
+  content     SignageContent  @relation(fields: [contentId], references: [id])
+  contentId   String
+  orderIndex  Int             @default(0)
+  durationOverride Int?
+}
+
+model DisplayAssignment {
+  id         String         @id @default(cuid())
+  display    DigitalDisplay @relation(fields: [displayId], references: [id])
+  displayId  String
+  // Either assign single content or a playlist
+  content    SignageContent? @relation(fields: [contentId], references: [id])
+  contentId  String?
+  playlist   DigitalPlaylist? @relation(fields: [playlistId], references: [id])
+  playlistId String?
+  activeFrom DateTime?
+  activeTo   DateTime?
+  schedule   String?         // JSON schedule details
+  createdAt  DateTime        @default(now())
+}

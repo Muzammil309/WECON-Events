@@ -3,6 +3,16 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+function getTicketStatus(ticketType: any): 'ACTIVE' | 'PAUSED' | 'SOLD_OUT' | 'EXPIRED' {
+  const now = new Date();
+
+  if (now < ticketType.salesStart) return 'PAUSED';
+  if (now > ticketType.salesEnd) return 'EXPIRED';
+  if (ticketType.quantitySold >= ticketType.quantityTotal) return 'SOLD_OUT';
+
+  return 'ACTIVE';
+}
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -52,29 +62,31 @@ export async function GET(request: NextRequest) {
     const formattedTicketTypes = ticketTypes.map(ticketType => ({
       id: ticketType.id,
       name: ticketType.name,
-      description: ticketType.description,
-      price: ticketType.price,
-      currency: ticketType.currency || 'USD',
-      totalQuantity: ticketType.quantity,
-      soldQuantity: ticketType._count.tickets,
-      availableQuantity: ticketType.quantity - ticketType._count.tickets,
+      description: ticketType.description || '',
+      price: ticketType.priceCents / 100, // Convert cents to dollars
+      currency: ticketType.currency,
+      totalQuantity: ticketType.quantityTotal,
+      soldQuantity: ticketType.quantitySold,
+      availableQuantity: ticketType.quantityTotal - ticketType.quantitySold,
       eventId: ticketType.eventId,
       eventName: ticketType.event?.name,
-      status: ticketType.isActive ? 'ACTIVE' : 'PAUSED',
-      saleStartDate: ticketType.saleStartAt?.toISOString() || new Date().toISOString(),
-      saleEndDate: ticketType.saleEndAt?.toISOString() || new Date().toISOString(),
-      createdAt: ticketType.createdAt.toISOString(),
-      features: ticketType.features ? JSON.parse(ticketType.features) : []
+      status: getTicketStatus(ticketType),
+      saleStartDate: ticketType.salesStart.toISOString(),
+      saleEndDate: ticketType.salesEnd.toISOString(),
+      createdAt: ticketType.createdAt?.toISOString() || new Date().toISOString(),
+      features: ticketType.description ? ticketType.description.split(',').map(f => f.trim()) : []
     }));
 
     return NextResponse.json({
       tickets: formattedTicketTypes,
       stats: {
         total: ticketTypes.length,
-        active: ticketTypes.filter(t => t.isActive).length,
-        paused: ticketTypes.filter(t => !t.isActive).length,
-        totalRevenue: ticketTypes.reduce((sum, t) => sum + (t._count.tickets * t.price), 0),
-        totalSold: ticketTypes.reduce((sum, t) => sum + t._count.tickets, 0)
+        active: formattedTicketTypes.filter(t => t.status === 'ACTIVE').length,
+        paused: formattedTicketTypes.filter(t => t.status === 'PAUSED').length,
+        soldOut: formattedTicketTypes.filter(t => t.status === 'SOLD_OUT').length,
+        expired: formattedTicketTypes.filter(t => t.status === 'EXPIRED').length,
+        totalRevenue: ticketTypes.reduce((sum, t) => sum + (t.quantitySold * (t.priceCents / 100)), 0),
+        totalSold: ticketTypes.reduce((sum, t) => sum + t.quantitySold, 0)
       }
     });
 
@@ -163,14 +175,13 @@ export async function POST(request: NextRequest) {
       data: {
         name,
         description,
-        price: parseFloat(price),
+        priceCents: Math.round(parseFloat(price) * 100), // Convert to cents
         currency: currency || 'USD',
-        quantity: parseInt(totalQuantity),
+        quantityTotal: parseInt(totalQuantity),
+        quantitySold: 0,
         eventId,
-        isActive: true,
-        saleStartAt: saleStartDate ? new Date(saleStartDate) : new Date(),
-        saleEndAt: saleEndDate ? new Date(saleEndDate) : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
-        features: featuresArray.length > 0 ? JSON.stringify(featuresArray) : null
+        salesStart: saleStartDate ? new Date(saleStartDate) : new Date(),
+        salesEnd: saleEndDate ? new Date(saleEndDate) : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
       },
       include: {
         event: {
@@ -228,13 +239,12 @@ export async function PUT(request: NextRequest) {
     const updateData: any = {};
     if (name) updateData.name = name;
     if (description) updateData.description = description;
-    if (price !== undefined) updateData.price = parseFloat(price);
+    if (price !== undefined) updateData.priceCents = Math.round(parseFloat(price) * 100);
     if (currency) updateData.currency = currency;
-    if (totalQuantity) updateData.quantity = parseInt(totalQuantity);
+    if (totalQuantity) updateData.quantityTotal = parseInt(totalQuantity);
     if (eventId) updateData.eventId = eventId;
-    if (saleStartDate) updateData.saleStartAt = new Date(saleStartDate);
-    if (saleEndDate) updateData.saleEndAt = new Date(saleEndDate);
-    if (featuresArray.length > 0) updateData.features = JSON.stringify(featuresArray);
+    if (saleStartDate) updateData.salesStart = new Date(saleStartDate);
+    if (saleEndDate) updateData.salesEnd = new Date(saleEndDate);
 
     // Update ticket type
     const updatedTicketType = await prisma.ticketType.update({
@@ -278,12 +288,20 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    // Soft delete by deactivating the ticket type
-    await prisma.ticketType.update({
-      where: { id },
-      data: {
-        isActive: false
-      }
+    // Hard delete the ticket type (check if it has any tickets first)
+    const ticketCount = await prisma.ticket.count({
+      where: { ticketTypeId: id }
+    });
+
+    if (ticketCount > 0) {
+      return NextResponse.json(
+        { error: 'Cannot delete ticket type with existing tickets' },
+        { status: 400 }
+      );
+    }
+
+    await prisma.ticketType.delete({
+      where: { id }
     });
 
     return NextResponse.json({

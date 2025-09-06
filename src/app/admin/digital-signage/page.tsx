@@ -1,15 +1,15 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { 
-  Monitor, 
-  Plus, 
-  Search, 
-  Filter, 
-  Play, 
-  Pause, 
-  Upload, 
-  Calendar, 
-  AlertTriangle, 
+import {
+  Monitor,
+  Plus,
+  Search,
+  Filter,
+  Play,
+  Pause,
+  Upload,
+  Calendar,
+  AlertTriangle,
   Eye,
   Edit,
   Trash2,
@@ -24,6 +24,10 @@ import {
   Clock,
   Settings
 } from 'lucide-react';
+
+import DisplayFormModal from '@/components/admin/signage/DisplayFormModal';
+import ContentFormModal from '@/components/admin/signage/ContentFormModal';
+import PlaylistFormModal from '@/components/admin/signage/PlaylistFormModal';
 
 interface Display {
   id: string;
@@ -256,6 +260,24 @@ export default function DigitalSignageManagement() {
             <Plus className="h-4 w-4" />
             Add New
           </button>
+
+          {/* Modals */}
+          <DisplayFormModal
+            open={showAddForm && formType === 'display'}
+            onClose={() => setShowAddForm(false)}
+            onSaved={fetchSignageData}
+          />
+          <ContentFormModal
+            open={showAddForm && formType === 'content'}
+            onClose={() => setShowAddForm(false)}
+            onSaved={fetchSignageData}
+          />
+          <PlaylistFormModal
+            open={showAddForm && formType === 'playlist'}
+            onClose={() => setShowAddForm(false)}
+            onSaved={fetchSignageData}
+            content={(data?.content || []).map(c => ({ id: c.id, name: c.name }))}
+          />
         </div>
       </div>
 
@@ -383,7 +405,7 @@ export default function DigitalSignageManagement() {
                       </button>
                     </div>
                   </div>
-                  
+
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-gray-400">Location:</span>
@@ -404,10 +426,23 @@ export default function DigitalSignageManagement() {
                   </div>
 
                   <div className="mt-4 flex gap-2">
-                    <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm transition-colors">
-                      Assign Content
+                    <button
+                      onClick={async () => {
+                        if (!confirm('Delete this display?')) return;
+                        await fetch(`/api/admin/digital-signage?type=display&id=${display.id}`, { method: 'DELETE' });
+                        fetchSignageData();
+                      }}
+                      className="flex-1 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm transition-colors"
+                    >
+                      Delete
                     </button>
-                    <button className="flex-1 bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded text-sm transition-colors">
+                    <button
+                      onClick={() => {
+                        setShowAddForm(true);
+                        setFormType('display');
+                      }}
+                      className="flex-1 bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded text-sm transition-colors"
+                    >
                       Configure
                     </button>
                   </div>
@@ -432,7 +467,7 @@ export default function DigitalSignageManagement() {
                 Upload Content
               </button>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {data.content.map((content) => (
                 <div key={content.id} className="bg-gray-700 rounded-lg p-4 border border-gray-600">
@@ -449,7 +484,7 @@ export default function DigitalSignageManagement() {
                       {content.status}
                     </span>
                   </div>
-                  
+
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-gray-400">Type:</span>
@@ -469,8 +504,24 @@ export default function DigitalSignageManagement() {
                     <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm transition-colors">
                       Preview
                     </button>
-                    <button className="flex-1 bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded text-sm transition-colors">
+                    <button
+                      onClick={() => {
+                        setShowAddForm(true);
+                        setFormType('content');
+                      }}
+                      className="flex-1 bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded text-sm transition-colors"
+                    >
                       Edit
+                    </button>
+                    <button
+                      onClick={async () => {
+                        if (!confirm('Delete this content item?')) return;
+                        await fetch(`/api/admin/digital-signage?type=content&id=${content.id}`, { method: 'DELETE' });
+                        fetchSignageData();
+                      }}
+                      className="flex-1 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm transition-colors"
+                    >
+                      Delete
                     </button>
                   </div>
                 </div>
@@ -494,7 +545,7 @@ export default function DigitalSignageManagement() {
                 Create Playlist
               </button>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {data.playlists.map((playlist) => (
                 <div key={playlist.id} className="bg-gray-700 rounded-lg p-4 border border-gray-600">
@@ -506,7 +557,7 @@ export default function DigitalSignageManagement() {
                       {playlist.status}
                     </span>
                   </div>
-                  
+
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-gray-400">Content Items:</span>
@@ -523,11 +574,30 @@ export default function DigitalSignageManagement() {
                   </div>
 
                   <div className="mt-4 flex gap-2">
-                    <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm transition-colors">
+                    <button
+                      onClick={() => {
+                        setShowAddForm(true);
+                        setFormType('playlist');
+                      }}
+                      className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm transition-colors"
+                    >
                       Edit
                     </button>
-                    <button className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm transition-colors">
+                    <button
+                      onClick={async () => alert('Deploy not yet wired to assignments. Use Assign in future iteration.')}
+                      className="flex-1 bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm transition-colors"
+                    >
                       Deploy
+                    </button>
+                    <button
+                      onClick={async () => {
+                        if (!confirm('Delete this playlist?')) return;
+                        await fetch(`/api/admin/digital-signage?type=playlist&id=${playlist.id}`, { method: 'DELETE' });
+                        fetchSignageData();
+                      }}
+                      className="flex-1 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm transition-colors"
+                    >
+                      Delete
                     </button>
                   </div>
                 </div>
@@ -563,7 +633,7 @@ export default function DigitalSignageManagement() {
                 <X className="h-6 w-6" />
               </button>
             </div>
-            
+
             <div className="bg-gray-900 rounded-lg p-8 text-center">
               <div className="border-2 border-dashed border-gray-600 rounded-lg p-12">
                 <Monitor className="h-16 w-16 text-gray-400 mx-auto mb-4" />

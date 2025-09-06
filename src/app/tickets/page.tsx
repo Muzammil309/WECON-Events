@@ -1,5 +1,5 @@
 ﻿'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { PageSection } from '@/components/ui/PageSection';
 import { Check, Star, Users, Calendar, MapPin, Clock, Ticket, CreditCard, User, Mail, Phone } from 'lucide-react';
@@ -28,6 +28,8 @@ interface OrderForm {
 export default function TicketsPage() {
   const [selectedTier, setSelectedTier] = useState<string | null>(null);
   const [showOrderForm, setShowOrderForm] = useState(false);
+  const [ticketTiers, setTicketTiers] = useState<TicketTier[]>([]);
+  const [loading, setLoading] = useState(true);
   const [orderForm, setOrderForm] = useState<OrderForm>({
     buyerName: '',
     buyerEmail: '',
@@ -35,7 +37,42 @@ export default function TicketsPage() {
     tickets: {}
   });
 
-  const ticketTiers: TicketTier[] = [
+  useEffect(() => {
+    fetchTickets();
+  }, []);
+
+  const fetchTickets = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/tickets');
+      if (response.ok) {
+        const data = await response.json();
+        const formattedTiers: TicketTier[] = data.tickets.map((ticket: any, index: number) => ({
+          id: ticket.id,
+          name: ticket.name,
+          price: ticket.price,
+          currency: ticket.currency,
+          description: ticket.description,
+          features: ticket.features,
+          available: ticket.available,
+          total: ticket.total,
+          popular: index === 0, // Mark first as popular
+          color: index === 0 ? 'from-blue-600 to-purple-600' :
+                 index === 1 ? 'from-green-600 to-teal-600' :
+                 'from-orange-600 to-red-600'
+        }));
+        setTicketTiers(formattedTiers);
+      }
+    } catch (error) {
+      console.error('Failed to fetch tickets:', error);
+      // Keep fallback data if API fails
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fallback data in case API fails
+  const fallbackTiers: TicketTier[] = [
     {
       id: 'early-bird',
       name: 'Early Bird',
@@ -73,46 +110,11 @@ export default function TicketsPage() {
       total: 300,
       popular: true,
       color: 'from-indigo-500 to-purple-600',
-    },
-    {
-      id: 'vip',
-      name: 'VIP Experience',
-      price: 199,
-      currency: 'USD',
-      description: 'Premium experience with exclusive perks',
-      features: [
-        'Everything in General',
-        'VIP seating area',
-        'Exclusive speaker meet & greet',
-        'Premium welcome kit',
-        'Priority Q&A access',
-        'VIP networking dinner',
-        'Dedicated support'
-      ],
-      available: 45,
-      total: 50,
-      color: 'from-amber-500 to-orange-600',
-    },
-    {
-      id: 'sponsor',
-      name: 'Sponsor Pass',
-      price: 299,
-      currency: 'USD',
-      description: 'For sponsors and exhibitors',
-      features: [
-        'Everything in VIP',
-        'Exhibition booth space',
-        'Logo on materials',
-        'Speaking opportunity',
-        'Lead generation tools',
-        'Sponsor networking event',
-        'Marketing package'
-      ],
-      available: 12,
-      total: 20,
-      color: 'from-rose-500 to-pink-600',
     }
   ];
+
+  // Use dynamic data if available, otherwise fallback
+  const displayTiers = ticketTiers.length > 0 ? ticketTiers : fallbackTiers;
 
   const eventDetails = {
     name: 'WECON Masawat 2025',
@@ -194,8 +196,14 @@ export default function TicketsPage() {
 
         {/* Ticket Tiers */}
         <PageSection>
-          <div className="grid lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
-            {ticketTiers.map((tier, index) => (
+          {loading ? (
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+              <p className="text-gray-600 dark:text-gray-300">Loading tickets...</p>
+            </div>
+          ) : (
+            <div className="grid lg:grid-cols-2 xl:grid-cols-4 gap-6 mb-12">
+              {displayTiers.map((tier, index) => (
               <motion.div
                 key={tier.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -264,8 +272,9 @@ export default function TicketsPage() {
                   {tier.available === 0 ? 'Sold Out' : 'Select Ticket'}
                 </button>
               </motion.div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </PageSection>
 
         {/* Order Summary */}

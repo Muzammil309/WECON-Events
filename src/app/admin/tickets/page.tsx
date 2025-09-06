@@ -14,9 +14,9 @@ import {
   Clock,
   CheckCircle,
   X,
-  Save,
   AlertCircle
 } from 'lucide-react';
+import TicketFormModal from '@/components/admin/tickets/TicketFormModal';
 
 interface TicketType {
   id: string;
@@ -36,18 +36,6 @@ interface TicketType {
   features?: string[];
 }
 
-interface NewTicketForm {
-  name: string;
-  description: string;
-  price: number;
-  currency: string;
-  totalQuantity: number;
-  eventId: string;
-  saleStartDate: string;
-  saleEndDate: string;
-  features: string;
-}
-
 interface Event {
   id: string;
   name: string;
@@ -63,19 +51,7 @@ export default function TicketsManagement() {
   const [filterEvent, setFilterEvent] = useState('all');
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingTicket, setEditingTicket] = useState<TicketType | null>(null);
-  const [formData, setFormData] = useState<NewTicketForm>({
-    name: '',
-    description: '',
-    price: 0,
-    currency: 'USD',
-    totalQuantity: 100,
-    eventId: '',
-    saleStartDate: '',
-    saleEndDate: '',
-    features: ''
-  });
-  const [formErrors, setFormErrors] = useState<Partial<NewTicketForm>>({});
-  const [submitting, setSubmitting] = useState(false);
+
 
   useEffect(() => {
     fetchTicketsData();
@@ -155,7 +131,6 @@ export default function TicketsManagement() {
 
       if (response.ok) {
         await fetchTicketsData(); // Refresh the list
-        resetForm();
         setShowAddForm(false);
         setEditingTicket(null);
       } else {
@@ -172,17 +147,6 @@ export default function TicketsManagement() {
 
   const handleEdit = (ticket: TicketType) => {
     setEditingTicket(ticket);
-    setFormData({
-      name: ticket.name,
-      description: ticket.description,
-      price: ticket.price,
-      currency: ticket.currency,
-      totalQuantity: ticket.totalQuantity,
-      eventId: ticket.eventId,
-      saleStartDate: ticket.saleStartDate.split('T')[0],
-      saleEndDate: ticket.saleEndDate.split('T')[0],
-      features: ticket.features?.join(', ') || ''
-    });
     setShowAddForm(true);
   };
 
@@ -205,20 +169,7 @@ export default function TicketsManagement() {
     }
   };
 
-  const resetForm = () => {
-    setFormData({
-      name: '',
-      description: '',
-      price: 0,
-      currency: 'USD',
-      totalQuantity: 100,
-      eventId: '',
-      saleStartDate: '',
-      saleEndDate: '',
-      features: ''
-    });
-    setFormErrors({});
-  };
+
 
   const filteredTickets = tickets.filter(ticket => {
     const matchesSearch = ticket.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -271,7 +222,6 @@ export default function TicketsManagement() {
         </div>
         <button
           onClick={() => {
-            resetForm();
             setEditingTicket(null);
             setShowAddForm(true);
           }}
@@ -382,7 +332,6 @@ export default function TicketsManagement() {
             {tickets.length === 0 && (
               <button
                 onClick={() => {
-                  resetForm();
                   setEditingTicket(null);
                   setShowAddForm(true);
                 }}
@@ -469,244 +418,27 @@ export default function TicketsManagement() {
         )}
       </div>
 
-      {/* Add/Edit Ticket Modal */}
-      {showAddForm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-gray-800 dark:bg-gray-800 rounded-lg p-6 w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto border border-gray-700">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-white dark:text-white">
-                {editingTicket ? 'Edit Ticket Type' : 'Create New Ticket Type'}
-              </h3>
-              <button
-                onClick={() => {
-                  setShowAddForm(false);
-                  setEditingTicket(null);
-                  resetForm();
-                }}
-                className="text-gray-400 hover:text-gray-300"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
-                  Ticket Name *
-                </label>
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className={`w-full px-3 py-2 border rounded-lg bg-gray-700 text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 ${
-                    formErrors.name ? 'border-red-500' : 'border-gray-600'
-                  }`}
-                  placeholder="e.g., Early Bird, VIP, General Admission"
-                />
-                {formErrors.name && (
-                  <p className="text-red-400 text-xs mt-1 flex items-center gap-1">
-                    <AlertCircle className="h-3 w-3" />
-                    {formErrors.name}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-300 dark:text-gray-300 mb-1">
-                  Description *
-                </label>
-                <textarea
-                  value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  rows={3}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    formErrors.description ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  placeholder="Describe what's included with this ticket"
-                />
-                {formErrors.description && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                    <AlertCircle className="h-3 w-3" />
-                    {formErrors.description}
-                  </p>
-                )}
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Price *
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value={formData.price}
-                    onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })}
-                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                      formErrors.price ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                    placeholder="0.00"
-                  />
-                  {formErrors.price && (
-                    <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                      <AlertCircle className="h-3 w-3" />
-                      {formErrors.price}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Currency
-                  </label>
-                  <select
-                    value={formData.currency}
-                    onChange={(e) => setFormData({ ...formData, currency: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  >
-                    <option value="USD">USD</option>
-                    <option value="EUR">EUR</option>
-                    <option value="GBP">GBP</option>
-                    <option value="PKR">PKR</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Total Quantity *
-                </label>
-                <input
-                  type="number"
-                  min="1"
-                  value={formData.totalQuantity}
-                  onChange={(e) => setFormData({ ...formData, totalQuantity: parseInt(e.target.value) || 0 })}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    formErrors.totalQuantity ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  placeholder="100"
-                />
-                {formErrors.totalQuantity && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                    <AlertCircle className="h-3 w-3" />
-                    {formErrors.totalQuantity}
-                  </p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Event *
-                </label>
-                <select
-                  value={formData.eventId}
-                  onChange={(e) => setFormData({ ...formData, eventId: e.target.value })}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    formErrors.eventId ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                >
-                  <option value="">Select an event</option>
-                  {events.map((event) => (
-                    <option key={event.id} value={event.id}>
-                      {event.name}
-                    </option>
-                  ))}
-                </select>
-                {formErrors.eventId && (
-                  <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                    <AlertCircle className="h-3 w-3" />
-                    {formErrors.eventId}
-                  </p>
-                )}
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Sale Start Date *
-                  </label>
-                  <input
-                    type="date"
-                    value={formData.saleStartDate}
-                    onChange={(e) => setFormData({ ...formData, saleStartDate: e.target.value })}
-                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                      formErrors.saleStartDate ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                  />
-                  {formErrors.saleStartDate && (
-                    <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                      <AlertCircle className="h-3 w-3" />
-                      {formErrors.saleStartDate}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Sale End Date *
-                  </label>
-                  <input
-                    type="date"
-                    value={formData.saleEndDate}
-                    onChange={(e) => setFormData({ ...formData, saleEndDate: e.target.value })}
-                    className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                      formErrors.saleEndDate ? 'border-red-500' : 'border-gray-300'
-                    }`}
-                  />
-                  {formErrors.saleEndDate && (
-                    <p className="text-red-500 text-xs mt-1 flex items-center gap-1">
-                      <AlertCircle className="h-3 w-3" />
-                      {formErrors.saleEndDate}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Features (comma-separated)
-                </label>
-                <input
-                  type="text"
-                  value={formData.features}
-                  onChange={(e) => setFormData({ ...formData, features: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="e.g., Access to all sessions, Lunch included, Networking event"
-                />
-              </div>
-
-              <div className="flex gap-3 pt-4">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowAddForm(false);
-                    setEditingTicket(null);
-                    resetForm();
-                  }}
-                  className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
-                >
-                  {submitting ? (
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                  ) : (
-                    <>
-                      <Save className="h-4 w-4" />
-                      {editingTicket ? 'Update' : 'Create'} Ticket Type
-                    </>
-                  )}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      {/* Ticket Form Modal */}
+      <TicketFormModal
+        open={showAddForm}
+        onClose={() => {
+          setShowAddForm(false);
+          setEditingTicket(null);
+        }}
+        onSaved={fetchTicketsData}
+        initial={editingTicket ? {
+          id: editingTicket.id,
+          name: editingTicket.name,
+          description: editingTicket.description,
+          price: editingTicket.price,
+          currency: editingTicket.currency,
+          totalQuantity: editingTicket.totalQuantity,
+          eventId: editingTicket.eventId,
+          saleStartDate: editingTicket.saleStartDate,
+          saleEndDate: editingTicket.saleEndDate,
+          features: editingTicket.features?.join(', ') || ''
+        } : undefined}
+      />
     </div>
   );
 }
