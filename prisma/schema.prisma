@@ -45,6 +45,7 @@ model User {
   connectionRequests Connection[] @relation("ConnectionRequester")
   connectionReceived Connection[] @relation("ConnectionRecipient")
   checkIns          CheckIn[]
+  uploadedSignageContent SignageContent[]
 }
 
 enum UserRole {
@@ -571,6 +572,7 @@ model SignageContent {
   uploadedBy User?                 @relation(fields: [uploadedById], references: [id])
   uploadedById String?
   playlistItems PlaylistItem[]
+  displayAssignments DisplayAssignment[]
 }
 
 model DigitalPlaylist {
@@ -580,6 +582,7 @@ model DigitalPlaylist {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   items      PlaylistItem[]
+  displayAssignments DisplayAssignment[]
 }
 
 model PlaylistItem {
