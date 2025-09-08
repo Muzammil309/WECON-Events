@@ -216,7 +216,7 @@ export default function AIventSchedule() {
   const [activeDay, setActiveDay] = useState(0);
 
   return (
-    <section id="schedule" className="section bg-surface-primary relative overflow-hidden">
+    <section id="schedule" className="section bg-surface-primary relative overflow-hidden" style={{ fontFamily: 'Manrope, sans-serif' }}>
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent-blue/5 rounded-full blur-3xl" />
@@ -236,7 +236,15 @@ export default function AIventSchedule() {
             Event Schedule
           </div>
           
-          <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-6">
+          <h2
+            className="text-4xl md:text-5xl font-bold text-text-primary mb-6"
+            style={{
+              fontFamily: 'Manrope, sans-serif',
+              fontWeight: 700,
+              lineHeight: 1.2,
+              letterSpacing: '-0.015em'
+            }}
+          >
             5 Days of AI Excellence
           </h2>
         </motion.div>

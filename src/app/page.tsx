@@ -1,9 +1,9 @@
 ﻿'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import AIventNavigation from '@/components/layout/AIventNavigation';
-// import AIventHero from '@/components/sections/AIventHero';
+import AIventHeroExact from '@/components/sections/AIventHeroExact';
 import AIventAbout from '@/components/sections/AIventAbout';
 import AIventScrollingBanner from '@/components/sections/AIventScrollingBanner';
 import AIventFeatures from '@/components/sections/AIventFeatures';
@@ -20,164 +20,8 @@ export default function Home() {
       {/* Navigation */}
       <AIventNavigation />
 
-      {/* Hero Section */}
-      <section
-        className="relative min-h-screen flex items-center justify-center overflow-hidden"
-        style={{
-          background: 'linear-gradient(45deg, rgba(118, 77, 240, 0.9) 0%, rgba(68, 36, 144, 0.9) 100%)',
-          backgroundImage: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="2"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
-          fontFamily: 'Manrope, sans-serif'
-        }}
-      >
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center min-h-screen py-20">
-            {/* Left Column - Main Content */}
-            <div className="text-center lg:text-left">
-              <div className="mb-6">
-                <span
-                  className="text-lg font-medium text-white/90 tracking-wide"
-                  style={{ fontFamily: 'Manrope, sans-serif' }}
-                >
-                  The Future of Intelligence
-                </span>
-              </div>
-
-              <h1
-                className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8"
-                style={{
-                  fontFamily: 'Manrope, sans-serif',
-                  fontWeight: 700,
-                  lineHeight: 1.1,
-                  letterSpacing: '-0.02em'
-                }}
-              >
-                AI Summit 2025
-              </h1>
-
-              <div className="flex flex-col sm:flex-row gap-6 mb-8">
-                <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
-                  <span className="text-white font-medium" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                    October 1–5, 2025
-                  </span>
-                </div>
-                <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm rounded-full px-4 py-2">
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
-                  <span className="text-white font-medium" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                    San Francisco, CA
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button
-                  className="px-8 py-4 bg-white text-gray-900 font-bold rounded-lg hover:bg-gray-100 transition-colors duration-200"
-                  style={{
-                    fontSize: '12px',
-                    letterSpacing: '2px',
-                    textTransform: 'uppercase',
-                    fontFamily: 'Manrope, sans-serif',
-                    fontWeight: 800
-                  }}
-                >
-                  Get Tickets
-                </button>
-                <button
-                  className="px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:text-gray-900 transition-colors duration-200"
-                  style={{
-                    fontSize: '12px',
-                    letterSpacing: '2px',
-                    textTransform: 'uppercase',
-                    fontFamily: 'Manrope, sans-serif',
-                    fontWeight: 800
-                  }}
-                >
-                  View Schedule
-                </button>
-              </div>
-            </div>
-
-            {/* Right Column - Countdown & Info */}
-            <div className="space-y-6">
-              {/* Countdown Timer */}
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6">
-                <div className="text-center mb-6">
-                  <h3 className="text-white font-bold text-lg mb-2" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                    Hurry Up!
-                  </h3>
-                  <p className="text-white/80 text-sm" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                    Book Your Seat Now
-                  </p>
-                </div>
-                <div className="grid grid-cols-4 gap-3">
-                  <div className="text-center">
-                    <div
-                      className="rounded-lg p-4 text-center"
-                      style={{
-                        background: 'rgba(255, 255, 255, 1)',
-                        border: '1px solid rgba(255, 255, 255, 1)'
-                      }}
-                    >
-                      <div className="text-2xl font-bold text-gray-900 mb-1">25</div>
-                      <div className="text-xs text-gray-600 uppercase tracking-wider font-medium">Days</div>
-                    </div>
-                  </div>
-                  <div className="text-center">
-                    <div
-                      className="rounded-lg p-4 text-center"
-                      style={{
-                        background: 'rgba(255, 255, 255, 1)',
-                        border: '1px solid rgba(255, 255, 255, 1)'
-                      }}
-                    >
-                      <div className="text-2xl font-bold text-gray-900 mb-1">14</div>
-                      <div className="text-xs text-gray-600 uppercase tracking-wider font-medium">Hours</div>
-                    </div>
-                  </div>
-                  <div className="text-center">
-                    <div
-                      className="rounded-lg p-4 text-center"
-                      style={{
-                        background: 'rgba(255, 255, 255, 1)',
-                        border: '1px solid rgba(255, 255, 255, 1)'
-                      }}
-                    >
-                      <div className="text-2xl font-bold text-gray-900 mb-1">32</div>
-                      <div className="text-xs text-gray-600 uppercase tracking-wider font-medium">Minutes</div>
-                    </div>
-                  </div>
-                  <div className="text-center">
-                    <div
-                      className="rounded-lg p-4 text-center"
-                      style={{
-                        background: 'rgba(255, 255, 255, 1)',
-                        border: '1px solid rgba(255, 255, 255, 1)'
-                      }}
-                    >
-                      <div className="text-2xl font-bold text-gray-900 mb-1">18</div>
-                      <div className="text-xs text-gray-600 uppercase tracking-wider font-medium">Seconds</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Location Info Card */}
-              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6">
-                <div className="text-center">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                  <p className="text-white text-sm" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                    121 AI Blvd, San Francisco BCA 94107
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Hero Section - Exact AIvent Replication */}
+      <AIventHeroExact />
 
       {/* About Section */}
       <AIventAbout />

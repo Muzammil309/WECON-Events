@@ -70,38 +70,58 @@ export default function AIventNavigation() {
   return (
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled 
-          ? 'bg-primary-bg/95 backdrop-blur-md border-b border-border-primary' 
+        isScrolled
+          ? 'backdrop-blur-xl border-b'
           : 'bg-transparent'
       }`}
+      style={{
+        background: isScrolled
+          ? 'rgba(30, 27, 75, 0.9)'
+          : 'transparent',
+        borderColor: isScrolled ? 'rgba(255, 255, 255, 0.1)' : 'transparent'
+      }}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: [0.6, 0.03, 0.28, 0.98] }}
     >
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-20">
-          {/* Logo */}
+          {/* Logo - Exact AIvent Style */}
           <Link href="/" className="flex items-center space-x-3">
             <div className="relative">
-              {/* Geometric logo design inspired by AIvent */}
-              <div className="w-10 h-10 relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-accent-blue to-accent-purple rounded-lg transform rotate-45"></div>
-                <div className="absolute inset-1 bg-primary-bg rounded-lg transform rotate-45"></div>
+              {/* Exact AIvent logo design */}
+              <div className="w-12 h-12 relative">
+                <div
+                  className="absolute inset-0 rounded-xl"
+                  style={{
+                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    boxShadow: '0 4px 20px rgba(99, 102, 241, 0.3)'
+                  }}
+                ></div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-white font-bold text-lg transform -rotate-45">A</span>
+                  <span
+                    className="text-white font-black text-xl"
+                    style={{ fontFamily: 'Inter, sans-serif', fontWeight: 900 }}
+                  >
+                    A
+                  </span>
                 </div>
               </div>
             </div>
             <span
-              className="text-2xl font-bold text-text-primary tracking-wider"
-              style={{ fontFamily: 'Manrope, sans-serif', fontWeight: 700 }}
+              className="text-2xl font-black text-white tracking-tight"
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 900,
+                letterSpacing: '-0.02em'
+              }}
             >
               AIVENT
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
+          {/* Desktop Navigation - Exact AIvent Style */}
+          <nav className="hidden lg:flex items-center space-x-10">
             {navigationItems.map((item) => (
               <div key={item.label} className="relative">
                 {item.children ? (
@@ -113,14 +133,19 @@ export default function AIventNavigation() {
                     }}
                   >
                     <button
-                      className="flex items-center space-x-1 text-text-secondary hover:text-text-primary transition-colors duration-200 py-2 font-medium"
-                      style={{ fontFamily: 'Manrope, sans-serif', fontSize: '15px', fontWeight: 700 }}
+                      className="flex items-center space-x-1 text-white/90 hover:text-white transition-colors duration-300 py-2 font-medium"
+                      style={{
+                        fontFamily: 'Inter, sans-serif',
+                        fontSize: '14px',
+                        fontWeight: 500,
+                        letterSpacing: '0.02em'
+                      }}
                     >
                       <span>{item.label}</span>
-                      <ChevronDown 
+                      <ChevronDown
                         className={`w-4 h-4 transition-transform duration-200 ${
                           activeDropdown === item.label ? 'rotate-180' : ''
-                        }`} 
+                        }`}
                       />
                     </button>
                     
@@ -131,14 +156,20 @@ export default function AIventNavigation() {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 10, scale: 0.95 }}
                           transition={{ duration: 0.2 }}
-                          className="absolute top-full left-0 mt-2 w-56 bg-surface-primary border border-border-primary rounded-xl shadow-xl overflow-hidden"
+                          className="absolute top-full left-0 mt-3 w-56 rounded-2xl shadow-2xl overflow-hidden"
+                          style={{
+                            background: 'rgba(30, 27, 75, 0.95)',
+                            backdropFilter: 'blur(20px)',
+                            border: '1px solid rgba(255, 255, 255, 0.1)'
+                          }}
                         >
                           {item.children.map((child) => (
                             <Link
                               key={child.href}
                               href={child.href}
-                              className="block px-4 py-3 text-sm text-text-secondary hover:bg-surface-secondary hover:text-text-primary transition-colors duration-200"
+                              className="block px-5 py-3 text-sm text-white/80 hover:bg-white/10 hover:text-white transition-colors duration-200"
                               onClick={() => setActiveDropdown(null)}
+                              style={{ fontFamily: 'Inter, sans-serif' }}
                             >
                               {child.label}
                             </Link>
@@ -156,8 +187,13 @@ export default function AIventNavigation() {
                         window.location.href = item.href;
                       }
                     }}
-                    className="font-medium text-text-secondary hover:text-text-primary transition-colors duration-200 py-2"
-                    style={{ fontFamily: 'Manrope, sans-serif', fontSize: '15px', fontWeight: 700 }}
+                    className="font-medium text-white/90 hover:text-white transition-colors duration-300 py-2"
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      letterSpacing: '0.02em'
+                    }}
                   >
                     {item.label}
                   </button>
@@ -166,32 +202,43 @@ export default function AIventNavigation() {
             ))}
           </nav>
 
-          {/* Buy Tickets Button & Mobile Toggle */}
+          {/* Buy Tickets Button & Mobile Toggle - Exact AIvent Style */}
           <div className="flex items-center space-x-4">
-            {/* Buy Tickets Button */}
-            <Link
-              href="/tickets"
-              className="hidden md:inline-flex items-center px-6 py-3 bg-gradient-to-r from-accent-blue to-accent-purple text-white font-bold rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-200"
-              style={{
-                fontSize: '12px',
-                letterSpacing: '2px',
-                textTransform: 'uppercase',
-                fontFamily: 'Manrope, sans-serif',
-                fontWeight: 800
-              }}
+            {/* Buy Tickets Button - Exact AIvent Style */}
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
             >
-              Buy Tickets
-            </Link>
+              <Link
+                href="/tickets"
+                className="hidden md:inline-flex items-center px-8 py-3 text-white font-bold rounded-xl transition-all duration-300"
+                style={{
+                  fontSize: '12px',
+                  letterSpacing: '2px',
+                  textTransform: 'uppercase',
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 700,
+                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  boxShadow: '0 4px 20px rgba(99, 102, 241, 0.3)'
+                }}
+              >
+                Buy Tickets
+              </Link>
+            </motion.div>
 
-            {/* Mobile Menu Toggle */}
+            {/* Mobile Menu Toggle - Exact AIvent Style */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="lg:hidden p-2 rounded-xl hover:bg-surface-primary transition-colors duration-200"
+              className="lg:hidden p-2 rounded-xl transition-colors duration-200"
+              style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(10px)'
+              }}
             >
               {isOpen ? (
-                <X className="w-6 h-6 text-text-primary" />
+                <X className="w-6 h-6 text-white" />
               ) : (
-                <Menu className="w-6 h-6 text-text-primary" />
+                <Menu className="w-6 h-6 text-white" />
               )}
             </button>
           </div>

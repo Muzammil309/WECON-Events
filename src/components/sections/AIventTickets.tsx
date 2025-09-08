@@ -128,7 +128,7 @@ export default function AIventTickets() {
   };
 
   return (
-    <section id="tickets" className="section bg-primary-bg relative overflow-hidden">
+    <section id="tickets" className="section bg-primary-bg relative overflow-hidden" style={{ fontFamily: 'Manrope, sans-serif' }}>
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-accent-blue/5 rounded-full blur-3xl" />
@@ -148,11 +148,22 @@ export default function AIventTickets() {
             Ticket Options
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-6">
+          <h2
+            className="text-4xl md:text-5xl font-bold text-text-primary mb-6"
+            style={{
+              fontFamily: 'Manrope, sans-serif',
+              fontWeight: 700,
+              lineHeight: 1.2,
+              letterSpacing: '-0.015em'
+            }}
+          >
             Choose Your Pass
           </h2>
 
-          <p className="text-lg text-text-secondary leading-relaxed">
+          <p
+            className="text-lg text-text-secondary leading-relaxed"
+            style={{ fontFamily: 'Manrope, sans-serif' }}
+          >
             Select the perfect ticket for your needs and gain access to exclusive sessions, workshops, and more.
           </p>
         </motion.div>
