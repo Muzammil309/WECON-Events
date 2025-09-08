@@ -2,127 +2,47 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import ModernNavigation from '@/components/layout/ModernNavigation';
-import ModernHero from '@/components/sections/ModernHero';
-import AboutSection from '@/components/sections/AboutSection';
-import ScrollingBanner from '@/components/sections/ScrollingBanner';
-import SpeakersSection from '@/components/sections/SpeakersSection';
-import ScheduleSection from '@/components/sections/ScheduleSection';
-import TicketsSection from '@/components/sections/TicketsSection';
-import ModernFeatures, { FeatureHighlight, StatsSection } from '@/components/sections/ModernFeatures';
-import {
-  Calendar,
-  Users,
-  BarChart3,
-  MessageSquare,
-  Zap,
-  Shield,
-  ArrowRight,
-  Play,
-  Star,
-  Quote
-} from 'lucide-react';
+import AIventNavigation from '@/components/layout/AIventNavigation';
+import AIventHero from '@/components/sections/AIventHero';
+import AIventAbout from '@/components/sections/AIventAbout';
+import AIventScrollingBanner from '@/components/sections/AIventScrollingBanner';
+import AIventFeatures from '@/components/sections/AIventFeatures';
+import AIventQuote from '@/components/sections/AIventQuote';
+import AIventSpeakers from '@/components/sections/AIventSpeakers';
+import AIventSchedule from '@/components/sections/AIventSchedule';
+import AIventTickets from '@/components/sections/AIventTickets';
+import { Quote } from 'lucide-react';
 
 export default function Home() {
-  const mockUser = {
-    name: 'John Doe',
-    email: 'john@wecon.com',
-    role: 'Admin'
-  };
-
-  const handlePrimaryCTA = () => {
-    console.log('Primary CTA clicked');
-  };
-
-  const handleSecondaryCTA = () => {
-    console.log('Secondary CTA clicked');
-  };
-
-  const handleLogout = () => {
-    console.log('Logout clicked');
-  };
 
   return (
     <div className="min-h-screen bg-primary-bg">
       {/* Navigation */}
-      <ModernNavigation user={mockUser} onLogout={handleLogout} />
+      <AIventNavigation />
 
       {/* Hero Section */}
-      <ModernHero
-        title="AI Summit 2025"
-        subtitle="The Future of Intelligence"
-        description="Join thought leaders, developers, researchers, and founders as we explore how artificial intelligence is reshaping industries, creativity, and the future of work."
-        eventDate={new Date('2025-10-01T09:00:00')}
-        location="San Francisco, CA"
-        attendeeCount={1000}
-        primaryCTA={{
-          label: "Get Tickets",
-          href: "/tickets",
-          onClick: handlePrimaryCTA
-        }}
-        secondaryCTA={{
-          label: "View Schedule",
-          href: "/agenda",
-          onClick: handleSecondaryCTA
-        }}
-        showCountdown={true}
-      />
+      <AIventHero />
 
       {/* About Section */}
-      <AboutSection />
+      <AIventAbout />
 
       {/* Scrolling Banner */}
-      <ScrollingBanner />
+      <AIventScrollingBanner />
 
       {/* Features Section - Why Attend */}
-      <ModernFeatures
-        title="What You'll Gain"
-        subtitle="[ Why Attend ]"
-        description="Hear from global AI pioneers, industry disruptors, and bold thinkers shaping the future across every domain."
-      />
+      <AIventFeatures />
 
       {/* Quote Section */}
-      <section className="section bg-surface-primary relative overflow-hidden">
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-accent-blue/5 rounded-full blur-3xl" />
-        </div>
-
-        <div className="container mx-auto px-4 relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="text-center max-w-4xl mx-auto"
-          >
-            <div className="bg-surface-secondary border border-border-primary rounded-3xl p-12 relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-32 h-32 bg-accent-blue/10 rounded-full blur-2xl" />
-              <div className="absolute bottom-0 right-0 w-32 h-32 bg-accent-purple/10 rounded-full blur-2xl" />
-
-              <div className="relative z-10">
-                <Quote className="w-16 h-16 text-accent-blue mx-auto mb-8" />
-
-                <blockquote className="text-2xl md:text-3xl font-medium text-text-primary mb-8 leading-relaxed">
-                  "Artificial intelligence is advancing rapidly, and while it offers immense opportunity, it also poses significant risks. If not properly regulated and aligned with human values, AI could become a fundamental threat to civilization."
-                </blockquote>
-
-                <div className="text-xl font-semibold text-accent-blue">
-                  Elon Musk
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      <AIventQuote />
 
       {/* Speakers Section */}
-      <SpeakersSection />
+      <AIventSpeakers />
 
       {/* Schedule Section */}
-      <ScheduleSection />
+      <AIventSchedule />
 
       {/* Tickets Section */}
-      <TicketsSection />
+      <AIventTickets />
 
       {/* Venue Section */}
       <section id="section-venue" className="section bg-primary-bg relative overflow-hidden">
