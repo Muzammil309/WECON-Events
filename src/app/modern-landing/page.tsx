@@ -5,6 +5,11 @@ import { motion } from 'framer-motion';
 import ModernNavigation from '@/components/layout/ModernNavigation';
 import ModernHero from '@/components/sections/ModernHero';
 import ModernFeatures, { FeatureHighlight, StatsSection } from '@/components/sections/ModernFeatures';
+import AboutSection from '@/components/sections/AboutSection';
+import ScrollingBanner from '@/components/sections/ScrollingBanner';
+import SpeakersSection from '@/components/sections/SpeakersSection';
+import ScheduleSection from '@/components/sections/ScheduleSection';
+import TicketsSection from '@/components/sections/TicketsSection';
 import { 
   Calendar, 
   Users, 
@@ -44,30 +49,49 @@ export default function ModernLandingPage() {
 
       {/* Hero Section */}
       <ModernHero
-        title="The Future of Event Management is Here"
-        subtitle="AI-Powered Platform"
-        description="Transform your events with WECON's enterprise-grade platform featuring advanced networking, real-time analytics, and seamless integrations. Built for the modern event organizer."
-        eventDate={new Date('2024-12-15T09:00:00')}
-        location="San Francisco, CA & Virtual"
-        attendeeCount={2500}
+        title="AI Summit 2025"
+        subtitle="The Future of Intelligence"
+        description="Join thought leaders, developers, researchers, and founders as we explore how artificial intelligence is reshaping industries, creativity, and the future of work."
+        eventDate={new Date('2025-10-01T09:00:00')}
+        location="San Francisco, CA"
+        attendeeCount={1000}
         primaryCTA={{
-          label: "Start Free Trial",
-          href: "/signup",
+          label: "Register Now",
+          href: "/register",
           onClick: handlePrimaryCTA
         }}
         secondaryCTA={{
-          label: "Watch Demo",
-          href: "/demo",
+          label: "Watch Trailer",
+          href: "/trailer",
           onClick: handleSecondaryCTA
         }}
         showCountdown={true}
       />
 
+      {/* About Section */}
+      <AboutSection />
+
+      {/* Scrolling Banner */}
+      <ScrollingBanner />
+
+      {/* Speakers Section */}
+      <SpeakersSection />
+
+      {/* Schedule Section */}
+      <ScheduleSection />
+
+      {/* Tickets Section */}
+      <TicketsSection />
+
       {/* Stats Section */}
       <StatsSection />
 
       {/* Features Section */}
-      <ModernFeatures />
+      <ModernFeatures
+        title="Why Attend AI Summit 2025"
+        subtitle="[ Event Highlights ]"
+        description="Discover cutting-edge AI technologies, network with industry leaders, and gain insights that will shape the future of your business."
+      />
 
       {/* Feature Highlights */}
       <FeatureHighlight

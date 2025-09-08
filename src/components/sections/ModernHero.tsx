@@ -126,7 +126,7 @@ export default function ModernHero({
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative flex items-center justify-center overflow-hidden" style={{ minHeight: '800px' }}>
       {/* Background */}
       <div className="absolute inset-0 z-0">
         {backgroundImage ? (
@@ -148,8 +148,8 @@ export default function ModernHero({
               key={i}
               className="absolute w-2 h-2 bg-accent-blue/20 rounded-full"
               initial={{
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
+                x: Math.random() * 1200,
+                y: Math.random() * 800,
               }}
               animate={{
                 y: [null, -100],
