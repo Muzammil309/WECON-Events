@@ -69,7 +69,7 @@ export default function AIventFeatures() {
   ];
 
   return (
-    <section id="why-attend" className="section bg-primary-bg relative overflow-hidden">
+    <section id="why-attend" className="section bg-primary-bg relative overflow-hidden" style={{ fontFamily: 'Manrope, sans-serif' }}>
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent-blue/5 rounded-full blur-3xl" />
@@ -89,11 +89,22 @@ export default function AIventFeatures() {
             Why Attend
           </div>
 
-          <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-6">
+          <h2
+            className="text-4xl md:text-5xl font-bold text-text-primary mb-6"
+            style={{
+              fontFamily: 'Manrope, sans-serif',
+              fontWeight: 700,
+              lineHeight: 1.2,
+              letterSpacing: '-0.015em'
+            }}
+          >
             What You'll Gain
           </h2>
 
-          <p className="text-lg text-text-secondary leading-relaxed">
+          <p
+            className="text-lg text-text-secondary leading-relaxed"
+            style={{ fontFamily: 'Manrope, sans-serif' }}
+          >
             Hear from global AI pioneers, industry disruptors, and bold thinkers shaping the future across every domain.
           </p>
         </motion.div>
@@ -118,11 +129,17 @@ export default function AIventFeatures() {
               </div>
 
               {/* Content */}
-              <h3 className="text-xl font-semibold text-text-primary mb-4 group-hover:text-accent-blue transition-colors duration-300">
+              <h3
+                className="text-xl font-semibold text-text-primary mb-4 group-hover:text-accent-blue transition-colors duration-300"
+                style={{ fontFamily: 'Manrope, sans-serif', fontWeight: 600 }}
+              >
                 {feature.title}
               </h3>
 
-              <p className="text-text-secondary leading-relaxed">
+              <p
+                className="text-text-secondary leading-relaxed"
+                style={{ fontFamily: 'Manrope, sans-serif' }}
+              >
                 {feature.description}
               </p>
 

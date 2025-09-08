@@ -35,7 +35,7 @@ export default function AIventAbout() {
   ];
 
   return (
-    <section id="about" className="section bg-primary-bg relative overflow-hidden">
+    <section id="about" className="section bg-primary-bg relative overflow-hidden" style={{ fontFamily: 'Manrope, sans-serif' }}>
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-accent-blue/5 rounded-full blur-3xl" />
@@ -64,6 +64,12 @@ export default function AIventAbout() {
             <motion.h2
               variants={itemVariants}
               className="text-4xl md:text-5xl font-bold text-text-primary leading-tight"
+              style={{
+                fontFamily: 'Manrope, sans-serif',
+                fontWeight: 700,
+                lineHeight: 1.2,
+                letterSpacing: '-0.015em'
+              }}
             >
               A Global Gathering of AI Innovators
             </motion.h2>
@@ -72,6 +78,7 @@ export default function AIventAbout() {
             <motion.p
               variants={itemVariants}
               className="text-lg text-text-secondary leading-relaxed"
+              style={{ fontFamily: 'Manrope, sans-serif' }}
             >
               Join thought leaders, developers, researchers, and founders as we explore how artificial intelligence is reshaping industries, creativity, and the future of work.
             </motion.p>

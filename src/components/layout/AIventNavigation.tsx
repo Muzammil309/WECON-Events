@@ -92,7 +92,10 @@ export default function AIventNavigation() {
                 </div>
               </div>
             </div>
-            <span className="text-2xl font-bold text-text-primary tracking-wider">
+            <span
+              className="text-2xl font-bold text-text-primary tracking-wider"
+              style={{ fontFamily: 'Manrope, sans-serif', fontWeight: 700 }}
+            >
               AIVENT
             </span>
           </Link>
@@ -109,7 +112,10 @@ export default function AIventNavigation() {
                       setActiveDropdown(activeDropdown === item.label ? null : item.label);
                     }}
                   >
-                    <button className="flex items-center space-x-1 text-text-secondary hover:text-text-primary transition-colors duration-200 py-2 font-medium">
+                    <button
+                      className="flex items-center space-x-1 text-text-secondary hover:text-text-primary transition-colors duration-200 py-2 font-medium"
+                      style={{ fontFamily: 'Manrope, sans-serif', fontSize: '15px', fontWeight: 700 }}
+                    >
                       <span>{item.label}</span>
                       <ChevronDown 
                         className={`w-4 h-4 transition-transform duration-200 ${
@@ -151,6 +157,7 @@ export default function AIventNavigation() {
                       }
                     }}
                     className="font-medium text-text-secondary hover:text-text-primary transition-colors duration-200 py-2"
+                    style={{ fontFamily: 'Manrope, sans-serif', fontSize: '15px', fontWeight: 700 }}
                   >
                     {item.label}
                   </button>
@@ -164,7 +171,14 @@ export default function AIventNavigation() {
             {/* Buy Tickets Button */}
             <Link
               href="/tickets"
-              className="hidden md:inline-flex items-center px-6 py-3 bg-gradient-to-r from-accent-blue to-accent-purple text-white font-medium rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-200"
+              className="hidden md:inline-flex items-center px-6 py-3 bg-gradient-to-r from-accent-blue to-accent-purple text-white font-bold rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-200"
+              style={{
+                fontSize: '12px',
+                letterSpacing: '2px',
+                textTransform: 'uppercase',
+                fontFamily: 'Manrope, sans-serif',
+                fontWeight: 800
+              }}
             >
               Buy Tickets
             </Link>

@@ -257,6 +257,19 @@ body {
   padding: 160px 0;
 }
 
+/* Responsive section padding to match AIvent */
+@media (max-width: 992px) {
+  .section {
+    padding: 60px 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .section {
+    padding: 40px 0;
+  }
+}
+
 /* ===== COMPONENT BASE STYLES ===== */
 
 .btn {

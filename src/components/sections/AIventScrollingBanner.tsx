@@ -16,7 +16,7 @@ export default function AIventScrollingBanner() {
   const scrollingText = texts.join(" / ");
 
   return (
-    <section className="py-6 bg-surface-primary border-y border-border-primary overflow-hidden">
+    <section className="py-6 bg-surface-primary border-y border-border-primary overflow-hidden" style={{ fontFamily: 'Manrope, sans-serif' }}>
       <div className="relative">
         {/* Gradient overlays for fade effect */}
         <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-surface-primary to-transparent z-10" />
@@ -46,8 +46,9 @@ export default function AIventScrollingBanner() {
         }
         
         .scrolling-banner-text {
+          font-family: 'Manrope', sans-serif;
           font-size: 1.75rem;
-          font-weight: 600;
+          font-weight: 700;
           color: var(--text-primary);
           padding-right: 2rem;
           letter-spacing: 0.025em;
