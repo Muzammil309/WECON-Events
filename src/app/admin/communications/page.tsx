@@ -1,12 +1,12 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Send, 
-  Mail, 
-  MessageSquare, 
-  Bell, 
-  Users, 
+import {
+  Send,
+  Mail,
+  MessageSquare,
+  Bell,
+  Users,
   Calendar,
   Filter,
   Search,
@@ -18,6 +18,7 @@ import {
   RefreshCw,
   Download
 } from 'lucide-react';
+import ComposeModal from '@/components/admin/communications/ComposeModal';
 
 interface Notification {
   id: string;
@@ -132,6 +133,30 @@ export default function CommunicationsPage() {
     notification.user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     notification.user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleSendMessage = async (messageData: any) => {
+    try {
+      const response = await fetch('/api/admin/notifications', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(messageData),
+      });
+
+      if (response.ok) {
+        // Refresh notifications list
+        await fetchNotifications();
+        return Promise.resolve();
+      } else {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to send message');
+      }
+    } catch (error) {
+      console.error('Failed to send message:', error);
+      throw error;
+    }
+  };
 
   if (loading) {
     return (
@@ -362,6 +387,13 @@ export default function CommunicationsPage() {
           </div>
         )}
       </div>
+
+      {/* Compose Modal */}
+      <ComposeModal
+        isOpen={showComposeModal}
+        onClose={() => setShowComposeModal(false)}
+        onSend={handleSendMessage}
+      />
     </div>
   );
 }

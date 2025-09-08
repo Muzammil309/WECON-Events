@@ -153,26 +153,44 @@ model TicketType {
   salesStart    DateTime
   salesEnd      DateTime
   tickets       Ticket[]
+  orders        Order[]
 }
 
 model Order {
-  id         String   @id @default(cuid())
-  event      Event    @relation(fields: [eventId], references: [id])
-  eventId    String
-  user       User?    @relation(fields: [userId], references: [id])
-  userId     String?
-  buyerName  String
-  buyerEmail String
-  totalCents Int
-  status     OrderStatus @default(PENDING)
-  createdAt  DateTime @default(now())
-  tickets    Ticket[]
+  id                String      @id @default(cuid())
+  event             Event       @relation(fields: [eventId], references: [id])
+  eventId           String
+  user              User?       @relation(fields: [userId], references: [id])
+  userId            String?
+  ticketType        TicketType? @relation(fields: [ticketTypeId], references: [id])
+  ticketTypeId      String?
+  quantity          Int         @default(1)
+  totalCents        Int
+  currency          String      @default("USD")
+  status            OrderStatus @default(PENDING)
+  paymentMethod     String?     // STRIPE, PAYPAL, BANK_TRANSFER
+  paymentIntentId   String?     // Stripe payment intent ID
+  transactionId     String?     // Other payment transaction ID
+  customerName      String
+  customerEmail     String
+  customerPhone     String?
+  metadata          Json?       // Additional order data
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  tickets           Ticket[]
+
+  @@index([userId])
+  @@index([eventId])
+  @@index([customerEmail])
 }
 
 enum OrderStatus {
   PENDING
+  PROCESSING
+  COMPLETED
   PAID
   CANCELLED
+  REFUNDED
 }
 
 model Ticket {
@@ -503,19 +521,27 @@ model Connection {
 }
 
 model CheckIn {
-  id        String   @id @default(cuid())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  session   Session? @relation(fields: [sessionId], references: [id])
-  sessionId String?
-  venue     Venue?   @relation(fields: [venueId], references: [id])
-  venueId   String?
-  room      Room?    @relation(fields: [roomId], references: [id])
-  roomId    String?
-  type      String   // session, venue, room, event
-  checkInAt DateTime @default(now())
-  checkOutAt DateTime?
-  metadata  Json?    // Additional check-in data
+  id           String   @id @default(cuid())
+  user         User     @relation(fields: [userId], references: [id])
+  userId       String
+  session      Session? @relation(fields: [sessionId], references: [id])
+  sessionId    String?
+  venue        Venue?   @relation(fields: [venueId], references: [id])
+  venueId      String?
+  room         Room?    @relation(fields: [roomId], references: [id])
+  roomId       String?
+  type         String   @default("session") // session, venue, room, event
+  checkedInAt  DateTime @default(now())
+  checkOutAt   DateTime?
+  method       String   @default("MANUAL") // QR_CODE, MANUAL, NFC
+  location     String?  // Physical location where check-in occurred
+  staffId      String?  // Staff member who processed the check-in
+  notes        String?  // Additional notes
+  metadata     Json?    // Additional check-in data
+
+  @@index([userId])
+  @@index([sessionId])
+  @@index([checkedInAt])
 }
 
 

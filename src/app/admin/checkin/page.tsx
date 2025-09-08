@@ -67,10 +67,59 @@ export default function CheckInPage() {
 
   useEffect(() => {
     fetchCheckIns();
-    // Auto-refresh every 30 seconds
-    const interval = setInterval(fetchCheckIns, 30000);
+    // Auto-refresh every 10 seconds for real-time updates
+    const interval = setInterval(fetchCheckIns, 10000);
     return () => clearInterval(interval);
   }, [timeRange, searchTerm]);
+
+  // Real-time updates using polling (can be upgraded to WebSocket)
+  useEffect(() => {
+    let isActive = true;
+
+    const pollForUpdates = async () => {
+      if (!isActive) return;
+
+      try {
+        // Check for new check-ins more frequently
+        const response = await fetch(`/api/admin/checkin?timeRange=1h&limit=5`);
+        if (response.ok && isActive) {
+          const data = await response.json();
+          // Only update if we have new check-ins
+          if (data.checkIns.length > 0) {
+            setCheckIns(prevCheckIns => {
+              const newCheckInIds = data.checkIns.map((c: any) => c.id);
+              const existingIds = prevCheckIns.map(c => c.id);
+              const hasNewCheckIns = newCheckInIds.some(id => !existingIds.includes(id));
+
+              if (hasNewCheckIns) {
+                // Merge new check-ins with existing ones, avoiding duplicates
+                const mergedCheckIns = [...data.checkIns];
+                prevCheckIns.forEach(existing => {
+                  if (!newCheckInIds.includes(existing.id)) {
+                    mergedCheckIns.push(existing);
+                  }
+                });
+                return mergedCheckIns.sort((a, b) =>
+                  new Date(b.checkedInAt).getTime() - new Date(a.checkedInAt).getTime()
+                );
+              }
+              return prevCheckIns;
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Failed to poll for updates:', error);
+      }
+    };
+
+    // Poll every 5 seconds for real-time feel
+    const pollInterval = setInterval(pollForUpdates, 5000);
+
+    return () => {
+      isActive = false;
+      clearInterval(pollInterval);
+    };
+  }, []);
 
   const fetchCheckIns = async () => {
     setLoading(true);

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { broadcastCheckIn } from '@/lib/realtime-updates';
 
 const prisma = new PrismaClient();
 
@@ -229,7 +230,9 @@ export async function POST(request: NextRequest) {
             id: true,
             name: true,
             email: true,
-            company: true
+            company: true,
+            jobTitle: true,
+            avatarUrl: true
           }
         },
         session: {
@@ -237,9 +240,11 @@ export async function POST(request: NextRequest) {
             id: true,
             title: true,
             startAt: true,
+            endAt: true,
             venue: true,
             event: {
               select: {
+                id: true,
                 name: true
               }
             }
@@ -247,6 +252,23 @@ export async function POST(request: NextRequest) {
         }
       }
     });
+
+    // Broadcast real-time update
+    try {
+      broadcastCheckIn({
+        id: checkIn.id,
+        userId: checkIn.userId,
+        sessionId: checkIn.sessionId,
+        checkedInAt: checkIn.checkedInAt,
+        method: checkIn.method,
+        location: checkIn.location,
+        user: checkIn.user,
+        session: checkIn.session
+      });
+    } catch (error) {
+      console.error('Failed to broadcast check-in update:', error);
+      // Don't fail the check-in if broadcast fails
+    }
 
     return NextResponse.json({
       message: 'Check-in successful',
@@ -308,5 +330,33 @@ export async function PUT(request: NextRequest) {
     );
   } finally {
     await prisma.$disconnect();
+  }
+}
+
+// Helper function to broadcast check-in updates
+async function broadcastCheckInUpdate(checkIn: any) {
+  // In a production environment, you would use WebSocket or Server-Sent Events
+  // For now, we'll implement a simple notification system
+
+  try {
+    // Store the latest check-in in a cache or temporary storage
+    // This could be Redis in production
+    const updateData = {
+      type: 'CHECK_IN_UPDATE',
+      data: checkIn,
+      timestamp: new Date().toISOString()
+    };
+
+    // Log for debugging
+    console.log('Broadcasting check-in update:', updateData);
+
+    // In production, you would:
+    // 1. Send to WebSocket clients
+    // 2. Update Redis cache
+    // 3. Send push notifications
+    // 4. Update real-time dashboard
+
+  } catch (error) {
+    console.error('Broadcast error:', error);
   }
 }

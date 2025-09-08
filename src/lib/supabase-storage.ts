@@ -37,8 +37,8 @@ export class SupabaseStorage {
       if (!bucketExists) {
         const { error } = await supabaseAdmin.storage.createBucket(this.bucketName, {
           public: true,
-          allowedMimeTypes: ['image/*', 'video/*'],
-          fileSizeLimit: 50 * 1024 * 1024 // 50MB
+          allowedMimeTypes: ['image/*', 'video/*', 'text/*'],
+          fileSizeLimit: 500 * 1024 * 1024 // 500MB - much larger limit
         });
 
         if (error) {
