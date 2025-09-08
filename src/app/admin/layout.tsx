@@ -45,7 +45,9 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   const navigationItems = [
     { name: 'Overview', href: '/admin', icon: LayoutDashboard },
-    { name: 'Staff Management', href: '/admin/staff', icon: Users },
+    { name: 'Staff Management', href: '/admin/staff-management', icon: Users },
+    { name: 'Check-in System', href: '/admin/checkin', icon: CheckSquare },
+    { name: 'Communication Hub', href: '/admin/communications', icon: Bell },
     { name: 'Task Management', href: '/admin/tasks', icon: CheckSquare },
     { name: 'Sessions & Locations', href: '/admin/sessions', icon: Calendar },
     { name: 'Exhibitions', href: '/admin/exhibitions', icon: Monitor },
@@ -53,7 +55,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { name: 'Events', href: '/admin/events', icon: Calendar },
     { name: 'Tickets', href: '/admin/tickets', icon: Ticket },
     { name: 'Digital Signage', href: '/admin/digital-signage', icon: Monitor },
-    { name: 'Notifications', href: '/admin/notifications', icon: Bell },
     { name: 'Settings', href: '/admin/settings', icon: Settings },
   ];
 

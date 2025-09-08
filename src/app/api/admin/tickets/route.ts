@@ -159,11 +159,37 @@ export async function POST(request: NextRequest) {
       features
     } = body;
 
-    // Validate required fields
-    if (!name || !description || price < 0 || !totalQuantity || !eventId) {
+    // Enhanced validation
+    const errors: string[] = [];
+
+    if (!name?.trim()) errors.push('Name is required');
+    if (!description?.trim()) errors.push('Description is required');
+    if (price === undefined || price < 0) errors.push('Price must be 0 or greater');
+    if (!totalQuantity || totalQuantity < 1) errors.push('Quantity must be at least 1');
+    if (!eventId?.trim()) errors.push('Event is required');
+    if (!saleStartDate) errors.push('Sale start date is required');
+    if (!saleEndDate) errors.push('Sale end date is required');
+
+    if (saleStartDate && saleEndDate && new Date(saleStartDate) >= new Date(saleEndDate)) {
+      errors.push('Sale end date must be after start date');
+    }
+
+    if (errors.length > 0) {
       return NextResponse.json(
-        { error: 'Name, description, price, quantity, and event are required' },
+        { error: 'Validation failed', details: errors },
         { status: 400 }
+      );
+    }
+
+    // Check if event exists
+    const eventExists = await prisma.event.findUnique({
+      where: { id: eventId }
+    });
+
+    if (!eventExists) {
+      return NextResponse.json(
+        { error: 'Event not found' },
+        { status: 404 }
       );
     }
 
@@ -200,8 +226,28 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Create Ticket API Error:', error);
+
+    // Handle specific Prisma errors
+    if (error instanceof Error) {
+      if (error.message.includes('Unique constraint')) {
+        return NextResponse.json(
+          { error: 'A ticket with this name already exists for this event' },
+          { status: 409 }
+        );
+      }
+      if (error.message.includes('Foreign key constraint')) {
+        return NextResponse.json(
+          { error: 'Invalid event ID provided' },
+          { status: 400 }
+        );
+      }
+    }
+
     return NextResponse.json(
-      { error: 'Failed to create ticket type' },
+      {
+        error: 'Failed to create ticket type',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   } finally {

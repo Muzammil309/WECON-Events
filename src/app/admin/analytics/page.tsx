@@ -76,75 +76,89 @@ export default function AnalyticsPage() {
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    // Simulate API call - replace with actual API call
-    const fetchAnalytics = async () => {
-      try {
-        // Mock data for now
-        const mockData: AnalyticsData = {
-          totalUsers: 1247,
-          totalEvents: 12,
-          totalTickets: 3456,
-          revenue: 125000,
-          userGrowth: 12.5,
-          eventGrowth: 8.3,
-          ticketSales: 23.7,
-          recentActivity: [
-            {
-              id: '1',
-              type: 'user_registration',
-              description: 'New user registered: john@example.com',
-              timestamp: '2024-01-15T10:30:00Z'
-            },
-            {
-              id: '2',
-              type: 'ticket_purchase',
-              description: 'Ticket purchased for WECON Masawat 2024',
-              timestamp: '2024-01-15T09:15:00Z'
-            },
-            {
-              id: '3',
-              type: 'event_created',
-              description: 'New event created: Tech Workshop',
-              timestamp: '2024-01-14T16:45:00Z'
-            }
-          ],
-          // Phase 3 Advanced Analytics
+  const fetchAnalytics = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/admin/analytics?timeRange=30d');
+      if (response.ok) {
+        const data = await response.json();
+
+        // Transform API data to match component interface
+        const transformedData: AnalyticsData = {
+          totalUsers: data.totalUsers,
+          totalEvents: data.totalEvents,
+          totalTickets: data.totalTickets,
+          revenue: data.revenue,
+          userGrowth: data.userGrowth,
+          eventGrowth: data.orderGrowth, // Using order growth as event growth
+          ticketSales: data.recentOrders,
+          recentActivity: data.recentActivity.map((activity: any) => ({
+            id: activity.id,
+            type: activity.type,
+            description: activity.description,
+            timestamp: activity.timestamp
+          })),
+          // Real-time metrics from API
           realTimeMetrics: {
-            activeUsers: 342,
-            liveStreams: 3,
-            digitalSignageViews: 1250,
-            mobileAppSessions: 89
+            activeUsers: data.realTimeMetrics.activeUsers,
+            liveStreams: data.realTimeMetrics.liveStreams,
+            digitalSignageViews: data.realTimeMetrics.onlineDisplays * 100, // Estimate
+            mobileAppSessions: Math.floor(data.realTimeMetrics.activeUsers * 0.6) // Estimate
           },
+          // Calculate sponsorship metrics from revenue data
           sponsorshipMetrics: {
-            totalValue: 90000,
-            activeSponsors: 8,
-            conversionRate: 65.5,
-            avgDealSize: 11250
+            totalValue: Math.floor(data.revenue * 0.15), // Estimate 15% from sponsors
+            activeSponsors: Math.min(data.totalEvents * 2, 20), // Estimate
+            conversionRate: 15.8, // Static for now
+            avgDealSize: data.revenue > 0 ? Math.floor(data.revenue * 0.15 / Math.max(data.totalEvents, 1)) : 0
           },
+          // Staff metrics from API
           staffMetrics: {
-            totalStaff: 35,
-            activeNow: 28,
-            taskCompletion: 87.5,
-            avgResponseTime: 4.2
+            totalStaff: data.totalStaff,
+            activeNow: data.realTimeMetrics.activeStaff,
+            taskCompletion: 87.5, // Static for now - will be real when task system is implemented
+            avgResponseTime: 2.3 // Static for now
           },
+          // Content metrics (estimated from sessions and events)
           contentMetrics: {
-            totalContent: 156,
-            publishedToday: 12,
-            totalViews: 8950,
-            engagementRate: 73.8
+            totalContent: data.totalSessions + data.totalEvents,
+            publishedToday: data.recentSessions,
+            totalViews: data.totalUsers * 5, // Estimate
+            engagementRate: data.totalSessions > 0 ? Math.min((data.recentOrders / data.totalSessions) * 100, 100) : 0
           }
         };
-        
-        setAnalytics(mockData);
-      } catch (error) {
-        console.error('Failed to fetch analytics:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
 
+        setAnalytics(transformedData);
+      } else {
+        throw new Error('Failed to fetch analytics');
+      }
+    } catch (error) {
+      console.error('Error fetching analytics:', error);
+      // Set fallback data
+      setAnalytics({
+        totalUsers: 0,
+        totalEvents: 0,
+        totalTickets: 0,
+        revenue: 0,
+        userGrowth: 0,
+        eventGrowth: 0,
+        ticketSales: 0,
+        recentActivity: [],
+        realTimeMetrics: { activeUsers: 0, liveStreams: 0, digitalSignageViews: 0, mobileAppSessions: 0 },
+        sponsorshipMetrics: { totalValue: 0, activeSponsors: 0, conversionRate: 0, avgDealSize: 0 },
+        staffMetrics: { totalStaff: 0, activeNow: 0, taskCompletion: 0, avgResponseTime: 0 },
+        contentMetrics: { totalContent: 0, publishedToday: 0, totalViews: 0, engagementRate: 0 }
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchAnalytics();
+    // Set up auto-refresh every 30 seconds
+    const interval = setInterval(fetchAnalytics, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   if (loading) {
