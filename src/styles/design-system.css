@@ -4,46 +4,52 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
 
 :root {
-  /* ===== COLOR SYSTEM ===== */
-  
-  /* Primary Colors */
-  --primary-bg: #101435;
-  --primary-bg-light: #1a1f4a;
+  /* ===== COLOR SYSTEM (AIvent scheme) ===== */
+
+  /* Background (dark scheme) */
+  --primary-bg: #101435;       /* matches AIvent --bg-dark-1 */
+  --primary-bg-light: #1A1E42; /* matches AIvent --bg-dark-2 */
   --primary-bg-dark: #0a0d28;
-  
+
   /* Text Colors */
   --text-primary: rgba(255, 255, 255, 0.95);
   --text-secondary: rgba(255, 255, 255, 0.75);
   --text-muted: rgba(255, 255, 255, 0.5);
   --text-disabled: rgba(255, 255, 255, 0.3);
-  
-  /* Accent Colors */
-  --accent-blue: #3b82f6;
-  --accent-blue-light: #60a5fa;
-  --accent-blue-dark: #1d4ed8;
-  --accent-purple: #8b5cf6;
-  --accent-purple-light: #a78bfa;
-  
+
+  /* AIvent Primary/Secondary */
+  --primary-color: #764DF0;
+  --primary-color-rgb: 118, 77, 240;
+  --secondary-color: #442490;
+  --secondary-color-rgb: 68, 36, 144;
+
+  /* Accent Colors (kept for utilities) */
+  --accent-blue: #764DF0;           /* align with primary */
+  --accent-blue-light: #9a7cff;
+  --accent-blue-dark: #5532c5;
+  --accent-purple: #442490;         /* align with secondary */
+  --accent-purple-light: #6d4ac7;
+
   /* Status Colors */
   --success: #10b981;
   --warning: #f59e0b;
   --error: #ef4444;
   --info: #06b6d4;
-  
+
   /* Surface Colors */
   --surface-primary: rgba(255, 255, 255, 0.05);
   --surface-secondary: rgba(255, 255, 255, 0.08);
   --surface-tertiary: rgba(255, 255, 255, 0.12);
-  
+
   /* Border Colors */
   --border-primary: rgba(255, 255, 255, 0.1);
   --border-secondary: rgba(255, 255, 255, 0.15);
-  --border-focus: var(--accent-blue);
-  
-  /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --gradient-secondary: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-  --gradient-accent: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+  --border-focus: var(--primary-color);
+
+  /* Gradients (match AIvent coloring.css behavior) */
+  --gradient-primary: linear-gradient(45deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  --gradient-secondary: linear-gradient(45deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+  --gradient-accent: linear-gradient(180deg, rgba(var(--primary-color-rgb), 0.125) 0%, rgba(var(--primary-color-rgb), 0) 100%);
   
   /* ===== TYPOGRAPHY SYSTEM ===== */
   
@@ -221,9 +227,17 @@ body {
 
 .container {
   width: 100%;
-  max-width: 1280px;
+  max-width: 1240px; /* AIvent base */
   margin: 0 auto;
   padding: 0 var(--space-4);
+}
+
+@media (min-width: 1200px) {
+  .container { max-width: 1200px; }
+}
+
+@media (min-width: 1400px) {
+  .container { max-width: 1304px; }
 }
 
 .container-fluid {
@@ -232,15 +246,15 @@ body {
 }
 
 .section {
-  padding: var(--space-20) 0;
+  padding: 100px 0; /* AIvent default */
 }
 
 .section-sm {
-  padding: var(--space-12) 0;
+  padding: 60px 0;
 }
 
 .section-lg {
-  padding: var(--space-32) 0;
+  padding: 160px 0;
 }
 
 /* ===== COMPONENT BASE STYLES ===== */
