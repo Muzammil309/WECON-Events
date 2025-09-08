@@ -42,8 +42,16 @@ model User {
   speakerProfile    SpeakerProfile?
   attendeeProfile   AttendeeProfile?
   sessionBookmarks  SessionBookmark[]
+  sessionWaitlists SessionWaitlist[]
   connectionRequests Connection[] @relation("ConnectionRequester")
   connectionReceived Connection[] @relation("ConnectionRecipient")
+  networkingProfile NetworkingProfile?
+  sentNetworkingConnections NetworkingConnection[] @relation("NetworkingRequester")
+  receivedNetworkingConnections NetworkingConnection[] @relation("NetworkingRecipient")
+  requestedMeetings NetworkingMeeting[] @relation("MeetingRequester")
+  attendingMeetings NetworkingMeeting[] @relation("MeetingAttendee")
+  sentBusinessCards BusinessCardExchange[] @relation("BusinessCardSender")
+  receivedBusinessCards BusinessCardExchange[] @relation("BusinessCardRecipient")
   checkIns          CheckIn[]
   uploadedSignageContent SignageContent[]
 }
@@ -138,6 +146,9 @@ model Event {
   sponsors    Sponsor[]
   exhibitors  ExhibitorProfile[]
   analytics   EventAnalytics[]
+  networkingConnections NetworkingConnection[]
+  networkingMeetings NetworkingMeeting[]
+  businessCardExchanges BusinessCardExchange[]
 }
 
 model TicketType {
@@ -249,10 +260,14 @@ model Session {
   endAt       DateTime
   room        Room?    @relation(fields: [roomId], references: [id])
   roomId      String?
+  maxAttendees Int?
+  allowWaitlist Boolean @default(true)
+  status      SessionStatus @default(SCHEDULED)
   speakers    SessionSpeaker[]
   resources   Resource[]
   feedback    Feedback[]
   bookmarks   SessionBookmark[]
+  waitlist    SessionWaitlist[]
   checkIns    CheckIn[]
 }
 
@@ -501,9 +516,25 @@ model SessionBookmark {
   userId    String
   session   Session @relation(fields: [sessionId], references: [id])
   sessionId String
+  status    BookmarkStatus @default(CONFIRMED)
   createdAt DateTime @default(now())
 
   @@id([userId, sessionId])
+}
+
+model SessionWaitlist {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  session   Session  @relation(fields: [sessionId], references: [id])
+  sessionId String
+  position  Int
+  status    WaitlistStatus @default(WAITING)
+  joinedAt  DateTime @default(now())
+  notifiedAt DateTime?
+
+  @@unique([userId, sessionId])
+  @@index([sessionId, position])
 }
 
 model Connection {
@@ -634,4 +665,119 @@ model DisplayAssignment {
   activeTo   DateTime?
   schedule   String?         // JSON schedule details
   createdAt  DateTime        @default(now())
+}
+
+// ENTERPRISE NETWORKING MODELS
+
+model NetworkingProfile {
+  id                    String   @id @default(cuid())
+  user                  User     @relation(fields: [userId], references: [id])
+  userId                String   @unique
+  bio                   String?
+  interests             String   @default("[]") // JSON array
+  lookingFor            String?  // What they're looking to achieve
+  industries            String   @default("[]") // JSON array
+  skills                String   @default("[]") // JSON array
+  socialLinks           String   @default("{}") // JSON object
+  availableForMeetings  Boolean  @default(true)
+  preferredMeetingTypes String   @default("[]") // JSON array
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+model NetworkingConnection {
+  id          String                    @id @default(cuid())
+  requester   User                      @relation("NetworkingRequester", fields: [requesterId], references: [id])
+  requesterId String
+  recipient   User                      @relation("NetworkingRecipient", fields: [recipientId], references: [id])
+  recipientId String
+  event       Event?                    @relation(fields: [eventId], references: [id])
+  eventId     String?
+  status      NetworkingConnectionStatus @default(PENDING)
+  message     String?
+  notes       String?
+  respondedAt DateTime?
+  createdAt   DateTime                  @default(now())
+
+  @@unique([requesterId, recipientId])
+}
+
+model NetworkingMeeting {
+  id          String              @id @default(cuid())
+  requester   User                @relation("MeetingRequester", fields: [requesterId], references: [id])
+  requesterId String
+  attendee    User                @relation("MeetingAttendee", fields: [attendeeId], references: [id])
+  attendeeId  String
+  event       Event?              @relation(fields: [eventId], references: [id])
+  eventId     String?
+  scheduledAt DateTime
+  duration    Int                 @default(30) // minutes
+  location    String?
+  agenda      String?
+  type        NetworkingMeetingType @default(ONE_ON_ONE)
+  status      MeetingStatus       @default(SCHEDULED)
+  notes       String?
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+}
+
+model BusinessCardExchange {
+  id          String   @id @default(cuid())
+  sender      User     @relation("BusinessCardSender", fields: [senderId], references: [id])
+  senderId    String
+  recipient   User     @relation("BusinessCardRecipient", fields: [recipientId], references: [id])
+  recipientId String
+  event       Event?   @relation(fields: [eventId], references: [id])
+  eventId     String?
+  exchangedAt DateTime @default(now())
+  notes       String?
+
+  @@unique([senderId, recipientId, eventId])
+}
+
+// ENUMS FOR NETWORKING
+
+enum NetworkingConnectionStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+  BLOCKED
+}
+
+enum NetworkingMeetingType {
+  ONE_ON_ONE
+  GROUP
+  COFFEE_CHAT
+  BUSINESS_MEETING
+  CASUAL
+}
+
+enum MeetingStatus {
+  SCHEDULED
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+  NO_SHOW
+}
+
+enum BookmarkStatus {
+  CONFIRMED
+  CANCELLED
+  WAITLISTED
+}
+
+enum WaitlistStatus {
+  WAITING
+  NOTIFIED
+  PROMOTED
+  EXPIRED
+  CANCELLED
+}
+
+enum SessionStatus {
+  SCHEDULED
+  ONGOING
+  COMPLETED
+  CANCELLED
+  POSTPONED
 }

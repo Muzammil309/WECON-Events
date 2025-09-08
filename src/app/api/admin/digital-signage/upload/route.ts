@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { MediaStorage } from '@/lib/supabase-storage';
+import { SupabaseStorage } from '@/lib/supabase-storage';
 
 export async function POST(request: NextRequest) {
   try {
@@ -68,7 +68,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Upload file
-    const result = await MediaStorage.uploadFile(file, folder);
+    const result = await SupabaseStorage.uploadFile(file, folder);
 
     if (result.error) {
       console.error('Storage upload error:', result.error);
@@ -149,7 +149,7 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    const result = await MediaStorage.deleteFile(path);
+    const result = await SupabaseStorage.deleteFile(path);
 
     if (!result.success) {
       return NextResponse.json(

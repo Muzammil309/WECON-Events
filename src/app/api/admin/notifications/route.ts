@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { sendNotificationEmail, emailService } from '@/lib/email-service';
 
 const prisma = new PrismaClient();
 
@@ -335,18 +336,99 @@ async function processNotifications(notifications: any[], type: string) {
   }
 }
 
-// Mock email sending function (replace with actual email service)
+// Real email sending function
 async function sendEmail(notification: any): Promise<boolean> {
-  // TODO: Integrate with email service (SendGrid, AWS SES, etc.)
-  console.log(`Sending email: ${notification.title} to ${notification.userId}`);
-  return true; // Mock success
+  try {
+    // Get user details for the notification
+    const user = await prisma.user.findUnique({
+      where: { id: notification.userId },
+      select: { email: true, name: true }
+    });
+
+    if (!user || !user.email) {
+      console.error(`No email found for user ${notification.userId}`);
+      return false;
+    }
+
+    // Get event details if eventId is provided
+    let event = null;
+    if (notification.eventId) {
+      event = await prisma.event.findUnique({
+        where: { id: notification.eventId },
+        select: { name: true }
+      });
+    }
+
+    // Send email using the email service
+    const result = await sendNotificationEmail(
+      { email: user.email, name: user.name },
+      { title: notification.title, message: notification.message },
+      event ? { name: event.name } : undefined
+    );
+
+    if (result.success) {
+      console.log(`Email sent successfully to ${user.email} via ${result.provider}`);
+      return true;
+    } else {
+      console.error(`Failed to send email to ${user.email}:`, result.error);
+      return false;
+    }
+  } catch (error) {
+    console.error('Email sending error:', error);
+    return false;
+  }
 }
 
-// Mock SMS sending function (replace with actual SMS service)
+// Real SMS sending function
 async function sendSMS(notification: any): Promise<boolean> {
-  // TODO: Integrate with SMS service (Twilio, AWS SNS, etc.)
-  console.log(`Sending SMS: ${notification.title} to ${notification.userId}`);
-  return true; // Mock success
+  try {
+    // Get user details for the notification
+    const user = await prisma.user.findUnique({
+      where: { id: notification.userId },
+      select: { phone: true, name: true }
+    });
+
+    if (!user || !user.phone) {
+      console.error(`No phone number found for user ${notification.userId}`);
+      return false;
+    }
+
+    // Check if SMS service is configured
+    if (!process.env.TWILIO_ACCOUNT_SID || !process.env.TWILIO_AUTH_TOKEN) {
+      console.warn('SMS service not configured (missing Twilio credentials)');
+      return false;
+    }
+
+    // Prepare SMS message (keep it short for SMS)
+    const message = `${notification.title}\n\n${notification.message.substring(0, 140)}${notification.message.length > 140 ? '...' : ''}`;
+
+    // Send SMS using Twilio API
+    const response = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${process.env.TWILIO_ACCOUNT_SID}/Messages.json`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Basic ${Buffer.from(`${process.env.TWILIO_ACCOUNT_SID}:${process.env.TWILIO_AUTH_TOKEN}`).toString('base64')}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        From: process.env.TWILIO_PHONE_NUMBER || '+1234567890',
+        To: user.phone,
+        Body: message
+      })
+    });
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log(`SMS sent successfully to ${user.phone}:`, result.sid);
+      return true;
+    } else {
+      const error = await response.text();
+      console.error(`Failed to send SMS to ${user.phone}:`, error);
+      return false;
+    }
+  } catch (error) {
+    console.error('SMS sending error:', error);
+    return false;
+  }
 }
 
 // Mock push notification function (replace with actual push service)

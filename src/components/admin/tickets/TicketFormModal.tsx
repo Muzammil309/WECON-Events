@@ -106,26 +106,70 @@ export default function TicketFormModal({ open, onClose, onSaved, initial }: Pro
     e.preventDefault();
     if (!validate()) return;
     setSubmitting(true);
+
     try {
       const method = initial?.id ? 'PUT' : 'POST';
+
+      // Prepare payload with proper data types
       const payload: any = {
-        ...form,
-        saleStartDate: new Date(form.saleStartDate).toISOString(),
-        saleEndDate: new Date(form.saleEndDate).toISOString()
+        name: form.name.trim(),
+        description: form.description.trim(),
+        price: form.price.toString(), // API expects string
+        currency: form.currency,
+        totalQuantity: form.totalQuantity.toString(), // API expects string
+        eventId: form.eventId,
+        features: form.features.trim()
       };
-      if (initial?.id) payload.id = initial.id;
+
+      // Handle dates properly
+      if (form.saleStartDate) {
+        payload.saleStartDate = new Date(form.saleStartDate).toISOString();
+      }
+      if (form.saleEndDate) {
+        payload.saleEndDate = new Date(form.saleEndDate).toISOString();
+      }
+
+      // Add ID for updates
+      if (initial?.id) {
+        payload.id = initial.id;
+      }
+
+      console.log('Submitting ticket data:', payload);
 
       const res = await fetch('/api/admin/tickets', {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error('Failed to save ticket');
+
+      const responseData = await res.json();
+
+      if (!res.ok) {
+        console.error('API Error Response:', responseData);
+        throw new Error(responseData.error || `HTTP ${res.status}: Failed to save ticket`);
+      }
+
+      console.log('Ticket saved successfully:', responseData);
       await onSaved();
       onClose();
-    } catch (err) {
-      console.error(err);
-      alert('Failed to save ticket');
+
+      // Reset form
+      setForm({
+        name: '',
+        description: '',
+        price: 0,
+        currency: 'USD',
+        totalQuantity: 100,
+        eventId: '',
+        saleStartDate: '',
+        saleEndDate: '',
+        features: ''
+      });
+      setErrors({});
+
+    } catch (err: any) {
+      console.error('Ticket submission error:', err);
+      setErrors({ submit: err.message || 'Failed to save ticket. Please try again.' });
     } finally {
       setSubmitting(false);
     }

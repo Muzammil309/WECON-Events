@@ -52,42 +52,83 @@ export class SupabaseStorage {
 
   static async uploadFile(file: File, folder: string = 'content'): Promise<UploadResult> {
     if (!supabaseAdmin) {
-      return { url: '', path: '', error: 'Supabase client not initialized' };
+      return { url: '', path: '', error: 'Supabase client not initialized. Please check SUPABASE_SERVICE_ROLE_KEY environment variable.' };
     }
 
     try {
+      // Ensure bucket exists
       await this.ensureBucket();
 
-      // Generate unique filename
+      // Validate file
+      if (!file || file.size === 0) {
+        return { url: '', path: '', error: 'Invalid file provided' };
+      }
+
+      // Generate unique filename with better collision avoidance
       const timestamp = Date.now();
       const randomString = Math.random().toString(36).substring(2, 15);
-      const fileExtension = file.name.split('.').pop();
-      const fileName = `${timestamp}-${randomString}.${fileExtension}`;
+      const fileExtension = file.name.split('.').pop()?.toLowerCase() || 'bin';
+      const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
+      const fileName = `${timestamp}-${randomString}-${sanitizedName}`;
       const filePath = `${folder}/${fileName}`;
 
-      // Upload file
+      // Convert File to ArrayBuffer for better compatibility
+      const arrayBuffer = await file.arrayBuffer();
+      const fileBuffer = new Uint8Array(arrayBuffer);
+
+      // Upload file with enhanced options
       const { data, error } = await supabaseAdmin.storage
         .from(this.bucketName)
-        .upload(filePath, file, {
+        .upload(filePath, fileBuffer, {
           cacheControl: '3600',
-          upsert: false
+          upsert: false,
+          contentType: file.type || 'application/octet-stream'
         });
 
       if (error) {
-        return { url: '', path: '', error: error.message };
+        console.error('Supabase upload error:', error);
+        return {
+          url: '',
+          path: '',
+          error: `Upload failed: ${error.message}. Please check storage permissions and bucket configuration.`
+        };
       }
 
-      // Get public URL
+      // Verify upload was successful
+      if (!data || !data.path) {
+        return { url: '', path: '', error: 'Upload completed but no path returned from storage service' };
+      }
+
+      // Get public URL with error handling
       const { data: urlData } = supabaseAdmin.storage
         .from(this.bucketName)
-        .getPublicUrl(filePath);
+        .getPublicUrl(data.path);
+
+      if (!urlData || !urlData.publicUrl) {
+        return { url: '', path: data.path, error: 'File uploaded but failed to generate public URL' };
+      }
+
+      // Verify the URL is accessible
+      try {
+        const response = await fetch(urlData.publicUrl, { method: 'HEAD' });
+        if (!response.ok) {
+          console.warn('Uploaded file may not be publicly accessible:', response.status);
+        }
+      } catch (urlError) {
+        console.warn('Could not verify file accessibility:', urlError);
+      }
 
       return {
         url: urlData.publicUrl,
-        path: filePath,
+        path: data.path,
       };
     } catch (error: any) {
-      return { url: '', path: '', error: error.message };
+      console.error('Storage upload error:', error);
+      return {
+        url: '',
+        path: '',
+        error: `Storage operation failed: ${error.message}. Please check your Supabase configuration and permissions.`
+      };
     }
   }
 

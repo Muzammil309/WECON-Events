@@ -144,31 +144,62 @@ export const UPDATE_TYPES = {
   USER_REGISTERED: 'USER_REGISTERED',
   USER_UPDATED: 'USER_UPDATED',
   USER_CHECKED_IN: 'USER_CHECKED_IN',
-  
+
   // Order events
   ORDER_CREATED: 'ORDER_CREATED',
   ORDER_COMPLETED: 'ORDER_COMPLETED',
   ORDER_CANCELLED: 'ORDER_CANCELLED',
-  
+
   // Ticket events
   TICKET_PURCHASED: 'TICKET_PURCHASED',
   TICKET_SCANNED: 'TICKET_SCANNED',
-  
+
   // Check-in events
   CHECK_IN_CREATED: 'CHECK_IN_CREATED',
   CHECK_IN_UPDATED: 'CHECK_IN_UPDATED',
-  
+
   // Communication events
   MESSAGE_SENT: 'MESSAGE_SENT',
   NOTIFICATION_DELIVERED: 'NOTIFICATION_DELIVERED',
-  
+
   // Digital signage events
   CONTENT_UPLOADED: 'CONTENT_UPLOADED',
   DISPLAY_UPDATED: 'DISPLAY_UPDATED',
-  
+
+  // Networking events
+  CONNECTION_REQUEST_SENT: 'CONNECTION_REQUEST_SENT',
+  CONNECTION_ACCEPTED: 'CONNECTION_ACCEPTED',
+  MEETING_SCHEDULED: 'MEETING_SCHEDULED',
+  BUSINESS_CARD_EXCHANGED: 'BUSINESS_CARD_EXCHANGED',
+
+  // Session events
+  SESSION_REGISTRATION: 'SESSION_REGISTRATION',
+  SESSION_CANCELLED: 'SESSION_CANCELLED',
+  WAITLIST_JOINED: 'WAITLIST_JOINED',
+  WAITLIST_PROMOTED: 'WAITLIST_PROMOTED',
+
+  // Analytics events
+  ANALYTICS_UPDATED: 'ANALYTICS_UPDATED',
+  REPORT_GENERATED: 'REPORT_GENERATED',
+
+  // Integration events
+  INTEGRATION_SYNC_STARTED: 'INTEGRATION_SYNC_STARTED',
+  INTEGRATION_SYNC_COMPLETED: 'INTEGRATION_SYNC_COMPLETED',
+  INTEGRATION_ERROR: 'INTEGRATION_ERROR',
+
+  // Security events
+  SECURITY_INCIDENT: 'SECURITY_INCIDENT',
+  COMPLIANCE_ALERT: 'COMPLIANCE_ALERT',
+  AUDIT_LOG_CREATED: 'AUDIT_LOG_CREATED',
+
+  // White-label events
+  BRANDING_UPDATED: 'BRANDING_UPDATED',
+  THEME_CHANGED: 'THEME_CHANGED',
+
   // System events
   SYNC_COMPLETED: 'SYNC_COMPLETED',
-  ERROR_OCCURRED: 'ERROR_OCCURRED'
+  ERROR_OCCURRED: 'ERROR_OCCURRED',
+  SYSTEM_MAINTENANCE: 'SYSTEM_MAINTENANCE'
 } as const;
 
 // Module names
@@ -179,7 +210,12 @@ export const MODULES = {
   CHECKIN: 'checkin',
   COMMUNICATIONS: 'communications',
   DIGITAL_SIGNAGE: 'digital_signage',
+  NETWORKING: 'networking',
+  SESSIONS: 'sessions',
   ANALYTICS: 'analytics',
+  INTEGRATIONS: 'integrations',
+  SECURITY: 'security',
+  WHITE_LABEL: 'white_label',
   SYSTEM: 'system'
 } as const;
 
@@ -224,6 +260,153 @@ export const broadcastContentUpload = (contentData: any) => {
     type: UPDATE_TYPES.CONTENT_UPLOADED,
     module: MODULES.DIGITAL_SIGNAGE,
     data: contentData
+  });
+};
+
+// Networking broadcast functions
+export const broadcastConnectionRequest = (connectionData: any) => {
+  realTimeUpdates.broadcast({
+    type: UPDATE_TYPES.CONNECTION_REQUEST_SENT,
+    module: MODULES.NETWORKING,
+    data: connectionData,
+    userId: connectionData.recipientId
+  });
+};
+
+export const broadcastConnectionAccepted = (connectionData: any) => {
+  realTimeUpdates.broadcast({
+    type: UPDATE_TYPES.CONNECTION_ACCEPTED,
+    module: MODULES.NETWORKING,
+    data: connectionData,
+    userId: connectionData.requesterId
+  });
+};
+
+export const broadcastMeetingScheduled = (meetingData: any) => {
+  realTimeUpdates.broadcast({
+    type: UPDATE_TYPES.MEETING_SCHEDULED,
+    module: MODULES.NETWORKING,
+    data: meetingData,
+    userId: meetingData.attendeeId
+  });
+};
+
+export const broadcastBusinessCardExchange = (exchangeData: any) => {
+  realTimeUpdates.broadcast({
+    type: UPDATE_TYPES.BUSINESS_CARD_EXCHANGED,
+    module: MODULES.NETWORKING,
+    data: exchangeData,
+    userId: exchangeData.recipientId
+  });
+};
+
+// Session broadcast functions
+export const broadcastSessionRegistration = (sessionData: any) => {
+  realTimeUpdates.broadcast({
+    type: UPDATE_TYPES.SESSION_REGISTRATION,
+    module: MODULES.SESSIONS,
+    data: sessionData
+  });
+};
+
+export const broadcastWaitlistJoined = (waitlistData: any) => {
+  realTimeUpdates.broadcast({
+    type: UPDATE_TYPES.WAITLIST_JOINED,
+    module: MODULES.SESSIONS,
+    data: waitlistData
+  });
+};
+
+export const broadcastWaitlistPromoted = (promotionData: any) => {
+  realTimeUpdates.broadcast({
+    type: UPDATE_TYPES.WAITLIST_PROMOTED,
+    module: MODULES.SESSIONS,
+    data: promotionData,
+    userId: promotionData.userId
+  });
+};
+
+// Analytics broadcast functions
+export const broadcastAnalyticsUpdate = (analyticsData: any) => {
+  realTimeUpdates.broadcast({
+    type: UPDATE_TYPES.ANALYTICS_UPDATED,
+    module: MODULES.ANALYTICS,
+    data: analyticsData
+  });
+};
+
+export const broadcastReportGenerated = (reportData: any) => {
+  realTimeUpdates.broadcast({
+    type: UPDATE_TYPES.REPORT_GENERATED,
+    module: MODULES.ANALYTICS,
+    data: reportData
+  });
+};
+
+// Integration broadcast functions
+export const broadcastIntegrationSync = (syncData: any) => {
+  realTimeUpdates.broadcast({
+    type: UPDATE_TYPES.INTEGRATION_SYNC_STARTED,
+    module: MODULES.INTEGRATIONS,
+    data: syncData
+  });
+};
+
+export const broadcastIntegrationComplete = (syncData: any) => {
+  realTimeUpdates.broadcast({
+    type: UPDATE_TYPES.INTEGRATION_SYNC_COMPLETED,
+    module: MODULES.INTEGRATIONS,
+    data: syncData
+  });
+};
+
+export const broadcastIntegrationError = (errorData: any) => {
+  realTimeUpdates.broadcast({
+    type: UPDATE_TYPES.INTEGRATION_ERROR,
+    module: MODULES.INTEGRATIONS,
+    data: errorData
+  });
+};
+
+// Security broadcast functions
+export const broadcastSecurityIncident = (incidentData: any) => {
+  realTimeUpdates.broadcast({
+    type: UPDATE_TYPES.SECURITY_INCIDENT,
+    module: MODULES.SECURITY,
+    data: incidentData
+  });
+};
+
+export const broadcastComplianceAlert = (alertData: any) => {
+  realTimeUpdates.broadcast({
+    type: UPDATE_TYPES.COMPLIANCE_ALERT,
+    module: MODULES.SECURITY,
+    data: alertData
+  });
+};
+
+export const broadcastAuditLog = (auditData: any) => {
+  realTimeUpdates.broadcast({
+    type: UPDATE_TYPES.AUDIT_LOG_CREATED,
+    module: MODULES.SECURITY,
+    data: auditData
+  });
+};
+
+// White-label broadcast functions
+export const broadcastBrandingUpdate = (brandingData: any) => {
+  realTimeUpdates.broadcast({
+    type: UPDATE_TYPES.BRANDING_UPDATED,
+    module: MODULES.WHITE_LABEL,
+    data: brandingData
+  });
+};
+
+export const broadcastThemeChange = (themeData: any) => {
+  realTimeUpdates.broadcast({
+    type: UPDATE_TYPES.THEME_CHANGED,
+    module: MODULES.WHITE_LABEL,
+    data: themeData
   });
 };
 

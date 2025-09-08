@@ -271,26 +271,65 @@ export async function PUT(request: NextRequest) {
       features
     } = body;
 
+    console.log('PUT request received for ticket:', { id, name, price, totalQuantity });
+
+    // Enhanced validation
     if (!id) {
       return NextResponse.json(
-        { error: 'Ticket type ID is required' },
+        { error: 'Ticket type ID is required for updates' },
         { status: 400 }
+      );
+    }
+
+    if (!name || name.trim().length === 0) {
+      return NextResponse.json(
+        { error: 'Ticket name is required' },
+        { status: 400 }
+      );
+    }
+
+    if (price !== undefined && (isNaN(parseFloat(price)) || parseFloat(price) < 0)) {
+      return NextResponse.json(
+        { error: 'Valid price is required' },
+        { status: 400 }
+      );
+    }
+
+    if (totalQuantity !== undefined && (isNaN(parseInt(totalQuantity)) || parseInt(totalQuantity) < 1)) {
+      return NextResponse.json(
+        { error: 'Valid total quantity is required (minimum 1)' },
+        { status: 400 }
+      );
+    }
+
+    // Check if ticket exists
+    const existingTicket = await prisma.ticketType.findUnique({
+      where: { id },
+      include: { event: true }
+    });
+
+    if (!existingTicket) {
+      return NextResponse.json(
+        { error: 'Ticket type not found' },
+        { status: 404 }
       );
     }
 
     // Parse features if provided
     const featuresArray = features ? features.split(',').map((f: string) => f.trim()).filter((f: string) => f) : [];
 
-    // Prepare update data
+    // Prepare update data with proper validation
     const updateData: any = {};
-    if (name) updateData.name = name;
-    if (description) updateData.description = description;
+    if (name !== undefined) updateData.name = name.trim();
+    if (description !== undefined) updateData.description = description.trim();
     if (price !== undefined) updateData.priceCents = Math.round(parseFloat(price) * 100);
-    if (currency) updateData.currency = currency;
-    if (totalQuantity) updateData.quantityTotal = parseInt(totalQuantity);
-    if (eventId) updateData.eventId = eventId;
-    if (saleStartDate) updateData.salesStart = new Date(saleStartDate);
-    if (saleEndDate) updateData.salesEnd = new Date(saleEndDate);
+    if (currency !== undefined) updateData.currency = currency;
+    if (totalQuantity !== undefined) updateData.quantityTotal = parseInt(totalQuantity);
+    if (eventId !== undefined) updateData.eventId = eventId;
+    if (saleStartDate !== undefined) updateData.salesStart = new Date(saleStartDate);
+    if (saleEndDate !== undefined) updateData.salesEnd = new Date(saleEndDate);
+
+    console.log('Update data prepared:', updateData);
 
     // Update ticket type
     const updatedTicketType = await prisma.ticketType.update({
@@ -306,6 +345,8 @@ export async function PUT(request: NextRequest) {
       }
     });
 
+    console.log('Ticket updated successfully:', updatedTicketType.id);
+
     return NextResponse.json({
       message: 'Ticket type updated successfully',
       ticket: updatedTicketType
@@ -313,8 +354,34 @@ export async function PUT(request: NextRequest) {
 
   } catch (error) {
     console.error('Update Ticket API Error:', error);
+
+    // Handle specific Prisma errors
+    if (error instanceof Error) {
+      if (error.message.includes('Record to update not found')) {
+        return NextResponse.json(
+          { error: 'Ticket type not found' },
+          { status: 404 }
+        );
+      }
+      if (error.message.includes('Unique constraint')) {
+        return NextResponse.json(
+          { error: 'A ticket with this name already exists for this event' },
+          { status: 409 }
+        );
+      }
+      if (error.message.includes('Foreign key constraint')) {
+        return NextResponse.json(
+          { error: 'Invalid event ID provided' },
+          { status: 400 }
+        );
+      }
+    }
+
     return NextResponse.json(
-      { error: 'Failed to update ticket type' },
+      {
+        error: 'Failed to update ticket type',
+        details: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     );
   } finally {
