@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import AIventNavigation from '@/components/layout/AIventNavigation';
 import AIventHeroExact from '@/components/sections/AIventHeroExact';
@@ -11,10 +11,8 @@ import AIventQuote from '@/components/sections/AIventQuote';
 import AIventSpeakers from '@/components/sections/AIventSpeakers';
 import AIventSchedule from '@/components/sections/AIventSchedule';
 import AIventTickets from '@/components/sections/AIventTickets';
-import { Quote } from 'lucide-react';
 
 export default function Home() {
-
   return (
     <div
       className="min-h-screen"
@@ -23,240 +21,124 @@ export default function Home() {
         fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
       }}
     >
-      {/* Navigation */}
       <AIventNavigation />
-
-      {/* Hero Section - Exact AIvent Replication */}
       <AIventHeroExact />
-
-      {/* About Section */}
       <AIventAbout />
-
-      {/* Scrolling Banner */}
       <AIventScrollingBanner />
-
-      {/* Features Section - Why Attend */}
       <AIventFeatures />
-
-      {/* Quote Section */}
       <AIventQuote />
-
-      {/* Speakers Section */}
       <AIventSpeakers />
-
-      {/* Schedule Section */}
       <AIventSchedule />
-
-      {/* Tickets Section */}
       <AIventTickets />
 
-      {/* Venue Section - Exact AIvent Style */}
-      <section
-        id="section-venue"
-        className="relative py-24 overflow-hidden"
+      {/* Venue Section */}
+      <section 
+        className="py-20 px-4 relative overflow-hidden"
         style={{
-          background: 'linear-gradient(180deg, #101435 0%, #0F0B1F 50%, #1A1C26 100%)',
-          fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
+          background: 'linear-gradient(135deg, #101435 0%, #1A1C26 50%, #0F0B1F 100%)',
         }}
       >
-        <div className="absolute inset-0 overflow-hidden">
-          <div
-            className="absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `
-                linear-gradient(90deg, rgba(99, 102, 241, 0.2) 1px, transparent 1px),
-                linear-gradient(180deg, rgba(99, 102, 241, 0.2) 1px, transparent 1px)
-              `,
-              backgroundSize: '120px 120px'
-            }}
-          />
-          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-full blur-3xl" />
-        </div>
-
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center max-w-4xl mx-auto mb-20"
+            className="text-center mb-16"
           >
-            <div
-              className="inline-flex items-center px-5 py-2 rounded-full text-sm font-medium mb-8"
+            <h2 
+              className="text-5xl font-black mb-6"
               style={{
-                background: 'rgba(99, 102, 241, 0.1)',
-                border: '1px solid rgba(99, 102, 241, 0.2)',
-                color: '#A5B4FC'
-              }}
-            >
-              Event Location
-            </div>
-
-            <h2
-              className="text-white font-black mb-6"
-              style={{
-                fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
                 fontWeight: 900,
-                lineHeight: 1.1,
                 letterSpacing: '-0.02em',
-                fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
+                background: 'linear-gradient(135deg, #764DF0 0%, #442490 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
               }}
             >
-              Location &{' '}
-              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                Venue
-              </span>
+              Event Venue
             </h2>
-
-            <p
-              className="text-white/80 leading-relaxed"
-              style={{
-                fontSize: '18px',
-                lineHeight: 1.7,
-                fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
-              }}
+            <p 
+              className="text-white/80 text-lg max-w-2xl mx-auto"
+              style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif' }}
             >
-              Join us in the heart of innovation at San Francisco Tech Pavilion—surrounded by top hotels, transit, and culture.
+              Join us at the prestigious venue in the heart of the city
             </p>
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="p-8 h-96 flex items-center justify-center rounded-2xl"
-              style={{
-                background: 'rgba(255, 255, 255, 0.05)',
-                backdropFilter: 'blur(20px)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
-              }}
             >
-              <div className="text-center">
-                <div
-                  className="w-16 h-16 rounded-2xl flex items-center justify-center text-white mx-auto mb-4"
-                  style={{
-                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
-                    boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)'
-                  }}
+              <div 
+                className="p-8 rounded-2xl"
+                style={{
+                  background: 'rgba(118, 77, 240, 0.1)',
+                  border: '1px solid rgba(118, 77, 240, 0.2)',
+                  backdropFilter: 'blur(10px)'
+                }}
+              >
+                <h3 
+                  className="text-2xl font-bold text-white mb-4"
+                  style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif' }}
                 >
-                  <span className="text-2xl">??</span>
-                </div>
-                <p
-                  className="text-white/70"
-                  style={{
-                    fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
-                    fontSize: '16px'
-                  }}
+                  Convention Center
+                </h3>
+                <p 
+                  className="text-white/70 mb-6"
+                  style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif' }}
                 >
-                  Interactive Map Coming Soon
+                  State-of-the-art facilities with cutting-edge technology and modern amenities.
                 </p>
+                <div className="space-y-3">
+                  <div className="flex items-center text-white/80">
+                    <div className="w-2 h-2 bg-purple-400 rounded-full mr-3"></div>
+                    <span style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif' }}>
+                      5000+ Capacity
+                    </span>
+                  </div>
+                  <div className="flex items-center text-white/80">
+                    <div className="w-2 h-2 bg-purple-400 rounded-full mr-3"></div>
+                    <span style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif' }}>
+                      Premium Audio/Visual
+                    </span>
+                  </div>
+                  <div className="flex items-center text-white/80">
+                    <div className="w-2 h-2 bg-purple-400 rounded-full mr-3"></div>
+                    <span style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif' }}>
+                      Networking Spaces
+                    </span>
+                  </div>
+                </div>
               </div>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="space-y-8"
+              transition={{ duration: 0.8 }}
+              className="relative"
             >
-              <div className="flex items-start gap-4">
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-white flex-shrink-0"
-                  style={{
-                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
-                    boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)'
-                  }}
-                >
-                  <span>??</span>
-                </div>
-                <div>
-                  <h3
-                    className="font-bold text-white mb-2"
-                    style={{
-                      fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
-                      fontSize: '18px'
-                    }}
-                  >
-                    Address
-                  </h3>
-                  <p
-                    className="text-white/70"
-                    style={{
-                      fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
-                      fontSize: '15px'
-                    }}
-                  >
-                    121 AI Blvd, San Francisco, CA 94107
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-white flex-shrink-0"
-                  style={{
-                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
-                    boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)'
-                  }}
-                >
-                  <span>??</span>
-                </div>
-                <div>
-                  <h3
-                    className="font-bold text-white mb-2"
-                    style={{
-                      fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
-                      fontSize: '18px'
-                    }}
-                  >
-                    Phone
-                  </h3>
-                  <p
-                    className="text-white/70"
-                    style={{
-                      fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
-                      fontSize: '15px'
-                    }}
-                  >
-                    Call: +1 123 456 789
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div
-                  className="w-12 h-12 rounded-xl flex items-center justify-center text-white flex-shrink-0"
-                  style={{
-                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
-                    boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)'
-                  }}
-                >
-                  <span>??</span>
-                </div>
-                <div>
-                  <h3
-                    className="font-bold text-white mb-2"
-                    style={{
-                      fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
-                      fontSize: '18px'
-                    }}
-                  >
-                    Email
-                  </h3>
-                  <p
-                    className="text-white/70"
-                    style={{
-                      fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
-                      fontSize: '15px'
-                    }}
-                  >
-                    contact@wecon.com
-                  </p>
+              <div 
+                className="aspect-video rounded-2xl overflow-hidden"
+                style={{
+                  background: 'linear-gradient(135deg, #764DF0 0%, #442490 100%)',
+                }}
+              >
+                <div className="w-full h-full flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                      <div className="w-8 h-8 bg-white rounded-full"></div>
+                    </div>
+                    <p 
+                      className="text-white font-medium"
+                      style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif' }}
+                    >
+                      Venue Preview
+                    </p>
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -264,141 +146,75 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FAQ Section - Exact AIvent Style */}
-      <section
-        id="section-faq"
-        className="relative py-24 overflow-hidden"
+      {/* FAQ Section */}
+      <section 
+        className="py-20 px-4 relative overflow-hidden"
         style={{
-          background: 'linear-gradient(180deg, #0F0B1F 0%, #101435 50%, #0F0B1F 100%)',
-          fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
+          background: 'linear-gradient(135deg, #0F0B1F 0%, #101435 50%, #1A1C26 100%)',
         }}
       >
-        <div className="absolute inset-0 overflow-hidden">
-          <div
-            className="absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `
-                linear-gradient(90deg, rgba(99, 102, 241, 0.2) 1px, transparent 1px),
-                linear-gradient(180deg, rgba(99, 102, 241, 0.2) 1px, transparent 1px)
-              `,
-              backgroundSize: '100px 100px'
-            }}
-          />
-          <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-gradient-to-r from-purple-500/10 to-blue-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl" />
-        </div>
-
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center max-w-4xl mx-auto mb-20"
+            className="text-center mb-16"
           >
-            <div
-              className="inline-flex items-center px-5 py-2 rounded-full text-sm font-medium mb-8"
+            <h2 
+              className="text-5xl font-black mb-6"
               style={{
-                background: 'rgba(118, 77, 240, 0.1)',
-                border: '1px solid rgba(118, 77, 240, 0.2)',
-                color: '#764DF0'
-              }}
-            >
-              FAQ
-            </div>
-
-            <h2
-              className="text-white font-black mb-6"
-              style={{
-                fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
                 fontWeight: 900,
-                lineHeight: 1.1,
                 letterSpacing: '-0.02em',
-                fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
-              }}
-            >
-              Everything You{' '}
-              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-                Need to Know
-              </span>
-            </h2>
-
-            <p
-              className="text-white/80 leading-relaxed"
-              style={{
-                fontSize: '18px',
-                lineHeight: 1.7,
-                fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
+                background: 'linear-gradient(135deg, #764DF0 0%, #442490 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
               }}
             >
               Frequently Asked Questions
-            </p>
+            </h2>
           </motion.div>
 
-          <div className="max-w-4xl mx-auto space-y-6">
+          <div className="space-y-6">
             {[
               {
-                question: "What is the AI Summit 2025?",
-                answer: "The AI Summit 2025 is a premier event gathering leading AI experts, thought leaders, and innovators. It features keynotes, workshops, panels, and networking opportunities focusing on the latest advancements in artificial intelligence."
+                question: "What is included in the ticket price?",
+                answer: "All sessions, networking events, meals, and conference materials are included."
               },
               {
-                question: "When and where will the event be held?",
-                answer: "The AI Summit 2025 will take place from October 1-5, 2025 at 121 AI Blvd, San Francisco, CA 94107. More details about the venue and directions will be provided closer to the event."
+                question: "Is there a dress code for the event?",
+                answer: "Business casual attire is recommended for all sessions and networking events."
               },
               {
-                question: "How can I register for the event?",
-                answer: "You can register for the AI Summit 2025 through our official website. Simply choose your ticket type and fill out the registration form."
+                question: "Will sessions be recorded?",
+                answer: "Yes, all main sessions will be recorded and available to attendees after the event."
               },
               {
-                question: "What ticket options are available?",
-                answer: "We offer a range of ticket options, including Standard, VIP, Full Access Pass, Student, and Virtual tickets. You can find more details about each ticket type in our Tickets section."
-              },
-              {
-                question: "Can I transfer my ticket to someone else?",
-                answer: "Tickets are non-transferable. If you are unable to attend, please contact our support team for assistance."
-              },
-              {
-                question: "Will there be virtual participation?",
-                answer: "Yes! For those who can't attend in person, we offer a Virtual Ticket. This provides access to live-streamed sessions, workshops, and networking opportunities online."
+                question: "What COVID-19 safety measures are in place?",
+                answer: "We follow all local health guidelines and provide sanitization stations throughout the venue."
               }
             ].map((faq, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="p-6 rounded-2xl transition-all duration-500 hover:scale-[1.02] cursor-pointer"
+                className="p-6 rounded-2xl"
                 style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
-                }}
-                whileHover={{
-                  background: 'rgba(255, 255, 255, 0.08)',
-                  borderColor: 'rgba(99, 102, 241, 0.3)',
-                  boxShadow: '0 12px 40px rgba(99, 102, 241, 0.2)'
+                  background: 'rgba(118, 77, 240, 0.1)',
+                  border: '1px solid rgba(118, 77, 240, 0.2)',
+                  backdropFilter: 'blur(10px)'
                 }}
               >
-                <h3
-                  className="text-white font-bold mb-3"
-                  style={{
-                    fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
-                    fontWeight: 700,
-                    fontSize: '18px',
-                    lineHeight: 1.3
-                  }}
+                <h3 
+                  className="text-xl font-bold text-white mb-3"
+                  style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif' }}
                 >
                   {faq.question}
                 </h3>
-                <p
-                  className="text-white/80 leading-relaxed"
-                  style={{
-                    fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
-                    fontSize: '15px',
-                    lineHeight: 1.6
-                  }}
+                <p 
+                  className="text-white/70"
+                  style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif' }}
                 >
                   {faq.answer}
                 </p>
@@ -408,44 +224,25 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Newsletter Section - Exact AIvent Style */}
-      <section
-        className="relative py-24 overflow-hidden"
+      {/* Newsletter Section */}
+      <section 
+        className="py-20 px-4 relative overflow-hidden"
         style={{
-          background: 'linear-gradient(180deg, #101435 0%, #0F0B1F 50%, #1A1C26 100%)',
-          fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
+          background: 'linear-gradient(135deg, #101435 0%, #0F0B1F 50%, #1A1C26 100%)',
         }}
       >
-        <div className="absolute inset-0 overflow-hidden">
-          <div
-            className="absolute inset-0 opacity-5"
-            style={{
-              backgroundImage: `
-                linear-gradient(90deg, rgba(99, 102, 241, 0.2) 1px, transparent 1px),
-                linear-gradient(180deg, rgba(99, 102, 241, 0.2) 1px, transparent 1px)
-              `,
-              backgroundSize: '80px 80px'
-            }}
-          />
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl" />
-        </div>
-
-        <div className="container mx-auto px-6 relative z-10">
+        <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center max-w-4xl mx-auto"
           >
-            <h2
-              className="text-white font-black mb-6"
+            <h2 
+              className="text-5xl font-black mb-6"
               style={{
-                fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
                 fontWeight: 900,
-                lineHeight: 1.1,
-                letterSpacing: '-0.02em',
-                fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
+                letterSpacing: '-0.02em'
               }}
             >
               Stay in the{' '}
@@ -458,245 +255,70 @@ export default function Home() {
               className="text-white font-bold mb-6"
               style={{
                 fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
+                fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
                 fontWeight: 700,
-                fontSize: '24px',
-                lineHeight: 1.3
+                lineHeight: 1.2
               }}
             >
-              Join the Future of Innovation
+              Subscribe to our newsletter for updates
             </h3>
 
-            <p
-              className="text-white/80 mb-8 leading-relaxed"
-              style={{
-                fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
-                fontSize: '16px',
-                lineHeight: 1.6
-              }}
+            <p 
+              className="text-white/70 text-lg mb-8 max-w-2xl mx-auto"
+              style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif' }}
             >
-              Making better things takes time. Drop us your email to stay in the know as we work to reduce our environmental impact. We'll share other exciting news and exclusive offers, too.
+              Get the latest news, speaker announcements, and exclusive content delivered to your inbox.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto mb-6">
+            <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-3 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="flex-1 px-6 py-4 rounded-full text-white placeholder-white/50 border border-white/20 focus:outline-none focus:border-purple-400"
                 style={{
                   background: 'rgba(255, 255, 255, 0.1)',
-                  backdropFilter: 'blur(20px)',
-                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  backdropFilter: 'blur(10px)',
                   fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
                 }}
               />
-              <motion.button
-                className="px-8 py-3 text-white font-bold rounded-xl transition-all duration-300"
+              <button
+                className="px-8 py-4 rounded-full font-bold text-white transition-all duration-300 hover:scale-105"
                 style={{
-                  fontSize: '14px',
-                  letterSpacing: '1px',
-                  textTransform: 'uppercase',
-                  fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
-                  fontWeight: 700,
                   background: 'linear-gradient(135deg, #764DF0 0%, #442490 100%)',
-                  boxShadow: '0 8px 24px rgba(118, 77, 240, 0.3)'
+                  fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
                 }}
-                whileHover={{
-                  scale: 1.05,
-                  boxShadow: '0 12px 32px rgba(118, 77, 240, 0.4)'
-                }}
-                whileTap={{ scale: 0.98 }}
               >
-                SIGN UP
-              </motion.button>
-            </div>
-
-            <div
-              className="text-sm text-white/60"
-              style={{
-                fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
-                fontSize: '14px'
-              }}
-            >
-              <label className="flex items-center justify-center gap-2 mb-2">
-                <input
-                  type="checkbox"
-                  className="rounded"
-                  style={{
-                    accentColor: '#6366F1'
-                  }}
-                />
-                <span>Keep me updated on other news and exclusive offers</span>
-              </label>
-              <p>Note: You can opt-out at any time. See our Privacy Policy and Terms.</p>
+                Subscribe
+              </button>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Footer - Exact AIvent Style */}
-      <footer
-        className="relative"
+      {/* Footer */}
+      <footer 
+        className="py-12 px-4 border-t"
         style={{
-          background: 'linear-gradient(180deg, #0F0B1F 0%, #101435 100%)',
-          borderTop: '1px solid rgba(255, 255, 255, 0.1)'
+          background: 'linear-gradient(135deg, #0F0B1F 0%, #101435 100%)',
+          borderColor: 'rgba(118, 77, 240, 0.2)'
         }}
       >
-        <div className="container mx-auto px-6 py-12">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div>
-              <div className="flex items-center space-x-3 mb-6">
-                <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center"
-                  style={{
-                    background: 'linear-gradient(135deg, #764DF0 0%, #442490 100%)',
-                    boxShadow: '0 4px 16px rgba(118, 77, 240, 0.3)'
-                  }}
-                >
-                  <span className="text-white font-bold text-xl">W</span>
-                </div>
-                <span
-                  className="text-2xl font-bold text-white"
-                  style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif' }}
-                >
-                  WECON
-                </span>
-              </div>
-              <div className="space-y-2 text-white/70">
-                <h3
-                  className="font-bold text-white"
-                  style={{
-                    fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
-                    fontSize: '16px'
-                  }}
-                >
-                  Address
-                </h3>
-                <p style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif', fontSize: '14px' }}>
-                  121 AI Blvd, San Francisco
-                </p>
-                <p style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif', fontSize: '14px' }}>
-                  BCA 94107
-                </p>
-              </div>
-              <div className="flex items-center gap-4 mt-6">
-                <motion.div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center cursor-pointer transition-all duration-200"
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    backdropFilter: 'blur(10px)'
-                  }}
-                  whileHover={{
-                    scale: 1.1,
-                    background: 'rgba(118, 77, 240, 0.2)'
-                  }}
-                >
-                  <span className="text-white/70">f</span>
-                </motion.div>
-                <motion.div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center cursor-pointer transition-all duration-200"
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    backdropFilter: 'blur(10px)'
-                  }}
-                  whileHover={{
-                    scale: 1.1,
-                    background: 'rgba(118, 77, 240, 0.2)'
-                  }}
-                >
-                  <span className="text-white/70">t</span>
-                </motion.div>
-                <motion.div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center cursor-pointer transition-all duration-200"
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.1)',
-                    backdropFilter: 'blur(10px)'
-                  }}
-                  whileHover={{
-                    scale: 1.1,
-                    background: 'rgba(118, 77, 240, 0.2)'
-                  }}
-                >
-                  <span className="text-white/70">in</span>
-                </motion.div>
-              </div>
-            </div>
-
-            <div>
-              <h3
-                className="font-bold text-white mb-4"
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-center">
+            <div className="mb-6 md:mb-0">
+              <h3 
+                className="text-2xl font-black"
                 style={{
                   fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
-                  fontSize: '16px'
+                  background: 'linear-gradient(135deg, #764DF0 0%, #442490 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent'
                 }}
               >
-                Contact Us
+                WECON
               </h3>
-              <div className="space-y-2 text-white/70">
-                <p style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif', fontSize: '14px' }}>
-                  T. +1 123 456 789
-                </p>
-                <p style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif', fontSize: '14px' }}>
-                  M. contact@wecon.com
-                </p>
-              </div>
             </div>
-
-            <div>
-              <h3
-                className="font-bold text-white mb-4"
-                style={{
-                  fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
-                  fontSize: '16px'
-                }}
-              >
-                Quick Links
-              </h3>
-              <ul className="space-y-2 text-white/70">
-                <li>
-                  <a
-                    href="/tickets"
-                    className="hover:text-white transition-colors duration-200"
-                    style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif', fontSize: '14px' }}
-                  >
-                    Tickets
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/agenda"
-                    className="hover:text-white transition-colors duration-200"
-                    style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif', fontSize: '14px' }}
-                  >
-                    Schedule
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/about"
-                    className="hover:text-white transition-colors duration-200"
-                    style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif', fontSize: '14px' }}
-                  >
-                    About
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/contact"
-                    className="hover:text-white transition-colors duration-200"
-                    style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif', fontSize: '14px' }}
-                  >
-                    Contact
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div
-            className="mt-12 pt-8 text-center"
-            style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}
-          >
-            <p
+            <p 
               className="text-white/60 text-sm"
               style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif' }}
             >
