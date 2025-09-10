@@ -44,30 +44,73 @@ export default function Home() {
       {/* Tickets Section */}
       <AIventTickets />
 
-      {/* Venue Section */}
-      <section id="section-venue" className="section bg-primary-bg relative overflow-hidden">
+      {/* Venue Section - Exact AIvent Style */}
+      <section
+        id="section-venue"
+        className="relative py-24 overflow-hidden"
+        style={{
+          background: 'linear-gradient(180deg, #1A1B3A 0%, #0F0B1F 50%, #1A1B3A 100%)',
+          fontFamily: 'Inter, sans-serif'
+        }}
+      >
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-accent-blue/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-accent-purple/5 rounded-full blur-3xl" />
+          <div
+            className="absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `
+                linear-gradient(90deg, rgba(99, 102, 241, 0.2) 1px, transparent 1px),
+                linear-gradient(180deg, rgba(99, 102, 241, 0.2) 1px, transparent 1px)
+              `,
+              backgroundSize: '120px 120px'
+            }}
+          />
+          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-full blur-3xl" />
         </div>
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center max-w-3xl mx-auto mb-16"
+            className="text-center max-w-4xl mx-auto mb-20"
           >
-            <div className="inline-flex items-center px-4 py-2 bg-surface-primary border border-border-primary rounded-full text-sm font-medium text-text-secondary mb-6">
-              [ Event Location ]
+            <div
+              className="inline-flex items-center px-5 py-2 rounded-full text-sm font-medium mb-8"
+              style={{
+                background: 'rgba(99, 102, 241, 0.1)',
+                border: '1px solid rgba(99, 102, 241, 0.2)',
+                color: '#A5B4FC'
+              }}
+            >
+              Event Location
             </div>
 
-            <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-6">
-              Location & Venue
+            <h2
+              className="text-white font-black mb-6"
+              style={{
+                fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                fontWeight: 900,
+                lineHeight: 1.1,
+                letterSpacing: '-0.02em',
+                fontFamily: 'Inter, sans-serif'
+              }}
+            >
+              Location &{' '}
+              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Venue
+              </span>
             </h2>
 
-            <p className="text-lg text-text-secondary leading-relaxed">
+            <p
+              className="text-white/80 leading-relaxed"
+              style={{
+                fontSize: '18px',
+                lineHeight: 1.7,
+                fontFamily: 'Inter, sans-serif'
+              }}
+            >
               Join us in the heart of innovation at San Francisco Tech Pavilion—surrounded by top hotels, transit, and culture.
             </p>
           </motion.div>
@@ -78,13 +121,33 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
-              className="bg-surface-primary border border-border-primary rounded-2xl p-8 h-96 flex items-center justify-center"
+              className="p-8 h-96 flex items-center justify-center rounded-2xl"
+              style={{
+                background: 'rgba(255, 255, 255, 0.05)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+              }}
             >
               <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-primary rounded-2xl flex items-center justify-center text-white mx-auto mb-4">
+                <div
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center text-white mx-auto mb-4"
+                  style={{
+                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)'
+                  }}
+                >
                   <span className="text-2xl">📍</span>
                 </div>
-                <p className="text-text-secondary">Interactive Map Coming Soon</p>
+                <p
+                  className="text-white/70"
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '16px'
+                  }}
+                >
+                  Interactive Map Coming Soon
+                </p>
               </div>
             </motion.div>
 
@@ -96,32 +159,98 @@ export default function Home() {
               className="space-y-8"
             >
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center text-white flex-shrink-0">
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center text-white flex-shrink-0"
+                  style={{
+                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)'
+                  }}
+                >
                   <span>📍</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-text-primary mb-2">Address</h3>
-                  <p className="text-text-secondary">121 AI Blvd, San Francisco, CA 94107</p>
+                  <h3
+                    className="font-bold text-white mb-2"
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '18px'
+                    }}
+                  >
+                    Address
+                  </h3>
+                  <p
+                    className="text-white/70"
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '15px'
+                    }}
+                  >
+                    121 AI Blvd, San Francisco, CA 94107
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center text-white flex-shrink-0">
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center text-white flex-shrink-0"
+                  style={{
+                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)'
+                  }}
+                >
                   <span>📞</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-text-primary mb-2">Phone</h3>
-                  <p className="text-text-secondary">Call: +1 123 456 789</p>
+                  <h3
+                    className="font-bold text-white mb-2"
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '18px'
+                    }}
+                  >
+                    Phone
+                  </h3>
+                  <p
+                    className="text-white/70"
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '15px'
+                    }}
+                  >
+                    Call: +1 123 456 789
+                  </p>
                 </div>
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-gradient-primary rounded-xl flex items-center justify-center text-white flex-shrink-0">
+                <div
+                  className="w-12 h-12 rounded-xl flex items-center justify-center text-white flex-shrink-0"
+                  style={{
+                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)'
+                  }}
+                >
                   <span>✉️</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-text-primary mb-2">Email</h3>
-                  <p className="text-text-secondary">contact@wecon.com</p>
+                  <h3
+                    className="font-bold text-white mb-2"
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '18px'
+                    }}
+                  >
+                    Email
+                  </h3>
+                  <p
+                    className="text-white/70"
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '15px'
+                    }}
+                  >
+                    contact@wecon.com
+                  </p>
                 </div>
               </div>
             </motion.div>
@@ -129,30 +258,73 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section id="section-faq" className="section bg-surface-primary relative overflow-hidden">
+      {/* FAQ Section - Exact AIvent Style */}
+      <section
+        id="section-faq"
+        className="relative py-24 overflow-hidden"
+        style={{
+          background: 'linear-gradient(180deg, #0F0B1F 0%, #1A1B3A 50%, #0F0B1F 100%)',
+          fontFamily: 'Inter, sans-serif'
+        }}
+      >
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-accent-purple/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-accent-blue/5 rounded-full blur-3xl" />
+          <div
+            className="absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `
+                linear-gradient(90deg, rgba(99, 102, 241, 0.2) 1px, transparent 1px),
+                linear-gradient(180deg, rgba(99, 102, 241, 0.2) 1px, transparent 1px)
+              `,
+              backgroundSize: '100px 100px'
+            }}
+          />
+          <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-gradient-to-r from-purple-500/10 to-blue-500/10 rounded-full blur-3xl" />
+          <div className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl" />
         </div>
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center max-w-3xl mx-auto mb-16"
+            className="text-center max-w-4xl mx-auto mb-20"
           >
-            <div className="inline-flex items-center px-4 py-2 bg-surface-secondary border border-border-primary rounded-full text-sm font-medium text-text-secondary mb-6">
-              [ FAQ ]
+            <div
+              className="inline-flex items-center px-5 py-2 rounded-full text-sm font-medium mb-8"
+              style={{
+                background: 'rgba(99, 102, 241, 0.1)',
+                border: '1px solid rgba(99, 102, 241, 0.2)',
+                color: '#A5B4FC'
+              }}
+            >
+              FAQ
             </div>
 
-            <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-6">
-              Everything You Need to Know
+            <h2
+              className="text-white font-black mb-6"
+              style={{
+                fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                fontWeight: 900,
+                lineHeight: 1.1,
+                letterSpacing: '-0.02em',
+                fontFamily: 'Inter, sans-serif'
+              }}
+            >
+              Everything You{' '}
+              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Need to Know
+              </span>
             </h2>
 
-            <p className="text-lg text-text-secondary leading-relaxed">
+            <p
+              className="text-white/80 leading-relaxed"
+              style={{
+                fontSize: '18px',
+                lineHeight: 1.7,
+                fontFamily: 'Inter, sans-serif'
+              }}
+            >
               Frequently Asked Questions
             </p>
           </motion.div>
@@ -190,12 +362,38 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-surface-secondary border border-border-primary rounded-xl p-6 hover:bg-surface-tertiary transition-colors duration-300"
+                className="p-6 rounded-2xl transition-all duration-500 hover:scale-[1.02] cursor-pointer"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+                }}
+                whileHover={{
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  borderColor: 'rgba(99, 102, 241, 0.3)',
+                  boxShadow: '0 12px 40px rgba(99, 102, 241, 0.2)'
+                }}
               >
-                <h3 className="text-lg font-semibold text-text-primary mb-3">
+                <h3
+                  className="text-white font-bold mb-3"
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 700,
+                    fontSize: '18px',
+                    lineHeight: 1.3
+                  }}
+                >
                   {faq.question}
                 </h3>
-                <p className="text-text-secondary leading-relaxed">
+                <p
+                  className="text-white/80 leading-relaxed"
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '15px',
+                    lineHeight: 1.6
+                  }}
+                >
                   {faq.answer}
                 </p>
               </motion.div>
@@ -204,29 +402,72 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Newsletter Section */}
-      <section className="section bg-primary-bg relative overflow-hidden">
+      {/* Newsletter Section - Exact AIvent Style */}
+      <section
+        className="relative py-24 overflow-hidden"
+        style={{
+          background: 'linear-gradient(180deg, #1A1B3A 0%, #0F0B1F 50%, #1A1B3A 100%)',
+          fontFamily: 'Inter, sans-serif'
+        }}
+      >
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-accent-blue/5 rounded-full blur-3xl" />
+          <div
+            className="absolute inset-0 opacity-5"
+            style={{
+              backgroundImage: `
+                linear-gradient(90deg, rgba(99, 102, 241, 0.2) 1px, transparent 1px),
+                linear-gradient(180deg, rgba(99, 102, 241, 0.2) 1px, transparent 1px)
+              `,
+              backgroundSize: '80px 80px'
+            }}
+          />
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl" />
         </div>
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="text-center max-w-3xl mx-auto"
+            className="text-center max-w-4xl mx-auto"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-text-primary mb-6">
-              Stay in the Loop
+            <h2
+              className="text-white font-black mb-6"
+              style={{
+                fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+                fontWeight: 900,
+                lineHeight: 1.1,
+                letterSpacing: '-0.02em',
+                fontFamily: 'Inter, sans-serif'
+              }}
+            >
+              Stay in the{' '}
+              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Loop
+              </span>
             </h2>
 
-            <h3 className="text-2xl font-semibold text-text-primary mb-6">
+            <h3
+              className="text-white font-bold mb-6"
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 700,
+                fontSize: '24px',
+                lineHeight: 1.3
+              }}
+            >
               Join the Future of Innovation
             </h3>
 
-            <p className="text-lg text-text-secondary mb-8 leading-relaxed">
+            <p
+              className="text-white/80 mb-8 leading-relaxed"
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '16px',
+                lineHeight: 1.6
+              }}
+            >
               Making better things takes time. Drop us your email to stay in the know as we work to reduce our environmental impact. We'll share other exciting news and exclusive offers, too.
             </p>
 
@@ -234,16 +475,50 @@ export default function Home() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-3 bg-surface-primary border border-border-primary rounded-lg text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-accent-blue"
+                className="flex-1 px-4 py-3 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  fontFamily: 'Inter, sans-serif'
+                }}
               />
-              <button className="btn btn-primary px-8 py-3">
+              <motion.button
+                className="px-8 py-3 text-white font-bold rounded-xl transition-all duration-300"
+                style={{
+                  fontSize: '14px',
+                  letterSpacing: '1px',
+                  textTransform: 'uppercase',
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 700,
+                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  boxShadow: '0 8px 24px rgba(99, 102, 241, 0.3)'
+                }}
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: '0 12px 32px rgba(99, 102, 241, 0.4)'
+                }}
+                whileTap={{ scale: 0.98 }}
+              >
                 SIGN UP
-              </button>
+              </motion.button>
             </div>
 
-            <div className="text-sm text-text-muted">
+            <div
+              className="text-sm text-white/60"
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '14px'
+              }}
+            >
               <label className="flex items-center justify-center gap-2 mb-2">
-                <input type="checkbox" className="rounded" />
+                <input
+                  type="checkbox"
+                  className="rounded"
+                  style={{
+                    accentColor: '#6366F1'
+                  }}
+                />
                 <span>Keep me updated on other news and exclusive offers</span>
               </label>
               <p>Note: You can opt-out at any time. See our Privacy Policy and Terms.</p>
@@ -252,56 +527,173 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-surface-primary border-t border-border-primary">
-        <div className="container mx-auto px-4 py-12">
+      {/* Footer - Exact AIvent Style */}
+      <footer
+        className="relative"
+        style={{
+          background: 'linear-gradient(180deg, #0F0B1F 0%, #1A1B3A 100%)',
+          borderTop: '1px solid rgba(255, 255, 255, 0.1)'
+        }}
+      >
+        <div className="container mx-auto px-6 py-12">
           <div className="grid md:grid-cols-3 gap-8">
             <div>
               <div className="flex items-center space-x-3 mb-6">
-                <div className="w-10 h-10 bg-gradient-primary rounded-xl flex items-center justify-center">
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center"
+                  style={{
+                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)'
+                  }}
+                >
                   <span className="text-white font-bold text-xl">W</span>
                 </div>
-                <span className="text-2xl font-bold text-text-primary">WECON</span>
+                <span
+                  className="text-2xl font-bold text-white"
+                  style={{ fontFamily: 'Inter, sans-serif' }}
+                >
+                  WECON
+                </span>
               </div>
-              <div className="space-y-2 text-text-secondary">
-                <h3 className="font-semibold text-text-primary">Address</h3>
-                <p>121 AI Blvd, San Francisco</p>
-                <p>BCA 94107</p>
+              <div className="space-y-2 text-white/70">
+                <h3
+                  className="font-bold text-white"
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '16px'
+                  }}
+                >
+                  Address
+                </h3>
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
+                  121 AI Blvd, San Francisco
+                </p>
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
+                  BCA 94107
+                </p>
               </div>
               <div className="flex items-center gap-4 mt-6">
-                <div className="w-8 h-8 bg-surface-secondary rounded-lg flex items-center justify-center hover:bg-surface-tertiary transition-colors duration-200 cursor-pointer">
-                  <span className="text-text-secondary">f</span>
-                </div>
-                <div className="w-8 h-8 bg-surface-secondary rounded-lg flex items-center justify-center hover:bg-surface-tertiary transition-colors duration-200 cursor-pointer">
-                  <span className="text-text-secondary">t</span>
-                </div>
-                <div className="w-8 h-8 bg-surface-secondary rounded-lg flex items-center justify-center hover:bg-surface-tertiary transition-colors duration-200 cursor-pointer">
-                  <span className="text-text-secondary">in</span>
-                </div>
+                <motion.div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center cursor-pointer transition-all duration-200"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(10px)'
+                  }}
+                  whileHover={{
+                    scale: 1.1,
+                    background: 'rgba(99, 102, 241, 0.2)'
+                  }}
+                >
+                  <span className="text-white/70">f</span>
+                </motion.div>
+                <motion.div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center cursor-pointer transition-all duration-200"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(10px)'
+                  }}
+                  whileHover={{
+                    scale: 1.1,
+                    background: 'rgba(99, 102, 241, 0.2)'
+                  }}
+                >
+                  <span className="text-white/70">t</span>
+                </motion.div>
+                <motion.div
+                  className="w-8 h-8 rounded-lg flex items-center justify-center cursor-pointer transition-all duration-200"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    backdropFilter: 'blur(10px)'
+                  }}
+                  whileHover={{
+                    scale: 1.1,
+                    background: 'rgba(99, 102, 241, 0.2)'
+                  }}
+                >
+                  <span className="text-white/70">in</span>
+                </motion.div>
               </div>
             </div>
 
             <div>
-              <h3 className="font-semibold text-text-primary mb-4">Contact Us</h3>
-              <div className="space-y-2 text-text-secondary">
-                <p>T. +1 123 456 789</p>
-                <p>M. contact@wecon.com</p>
+              <h3
+                className="font-bold text-white mb-4"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '16px'
+                }}
+              >
+                Contact Us
+              </h3>
+              <div className="space-y-2 text-white/70">
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
+                  T. +1 123 456 789
+                </p>
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
+                  M. contact@wecon.com
+                </p>
               </div>
             </div>
 
             <div>
-              <h3 className="font-semibold text-text-primary mb-4">Quick Links</h3>
-              <ul className="space-y-2 text-text-secondary">
-                <li><a href="/tickets" className="hover:text-text-primary transition-colors duration-200">Tickets</a></li>
-                <li><a href="/agenda" className="hover:text-text-primary transition-colors duration-200">Schedule</a></li>
-                <li><a href="/about" className="hover:text-text-primary transition-colors duration-200">About</a></li>
-                <li><a href="/contact" className="hover:text-text-primary transition-colors duration-200">Contact</a></li>
+              <h3
+                className="font-bold text-white mb-4"
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: '16px'
+                }}
+              >
+                Quick Links
+              </h3>
+              <ul className="space-y-2 text-white/70">
+                <li>
+                  <a
+                    href="/tickets"
+                    className="hover:text-white transition-colors duration-200"
+                    style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px' }}
+                  >
+                    Tickets
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/agenda"
+                    className="hover:text-white transition-colors duration-200"
+                    style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px' }}
+                  >
+                    Schedule
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/about"
+                    className="hover:text-white transition-colors duration-200"
+                    style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px' }}
+                  >
+                    About
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/contact"
+                    className="hover:text-white transition-colors duration-200"
+                    style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px' }}
+                  >
+                    Contact
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
 
-          <div className="border-t border-border-primary mt-12 pt-8 text-center">
-            <p className="text-text-muted text-sm">
+          <div
+            className="mt-12 pt-8 text-center"
+            style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}
+          >
+            <p
+              className="text-white/60 text-sm"
+              style={{ fontFamily: 'Inter, sans-serif' }}
+            >
               Copyright 2025 - WECON by Designesia
             </p>
           </div>

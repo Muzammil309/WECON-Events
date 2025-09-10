@@ -110,7 +110,7 @@ export default function AIventTickets() {
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.3
+        delayChildren: 0.2
       }
     }
   };
@@ -121,54 +121,107 @@ export default function AIventTickets() {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.6,
+        duration: 0.8,
         ease: [0.6, 0.03, 0.28, 0.98]
       }
     }
   };
 
   return (
-    <section id="tickets" className="section bg-primary-bg relative overflow-hidden" style={{ fontFamily: 'Manrope, sans-serif' }}>
-      {/* Background Elements */}
+    <section
+      id="tickets"
+      className="relative py-24 overflow-hidden"
+      style={{
+        background: 'linear-gradient(180deg, #0F0B1F 0%, #1A1B3A 50%, #0F0B1F 100%)',
+        fontFamily: 'Inter, sans-serif'
+      }}
+    >
+      {/* Complex Background Pattern - Exact AIvent Style */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-accent-blue/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-accent-purple/5 rounded-full blur-3xl" />
+        {/* Geometric grid pattern */}
+        <div
+          className="absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `
+              linear-gradient(90deg, rgba(99, 102, 241, 0.2) 1px, transparent 1px),
+              linear-gradient(180deg, rgba(99, 102, 241, 0.2) 1px, transparent 1px)
+            `,
+            backgroundSize: '100px 100px'
+          }}
+        />
+
+        {/* Floating geometric shapes */}
+        <motion.div
+          className="absolute top-32 left-32 w-20 h-20 border border-white/10 rotate-12"
+          animate={{
+            rotate: [12, 102, 12],
+            y: [-10, 10, -10],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+          style={{
+            background: 'linear-gradient(45deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05))',
+            backdropFilter: 'blur(10px)'
+          }}
+        />
+
+        {/* Gradient orbs */}
+        <div className="absolute top-1/4 right-1/5 w-96 h-96 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 left-1/5 w-96 h-96 bg-gradient-to-r from-purple-500/10 to-pink-500/10 rounded-full blur-3xl" />
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Header */}
+      <div className="container mx-auto px-6 relative z-10">
+        {/* Header - Exact AIvent Style */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="text-center max-w-4xl mx-auto mb-20"
         >
-          <div className="inline-flex items-center px-4 py-2 bg-surface-primary border border-border-primary rounded-full text-sm font-medium text-text-secondary mb-6">
+          <div
+            className="inline-flex items-center px-5 py-2 rounded-full text-sm font-medium mb-8"
+            style={{
+              background: 'rgba(99, 102, 241, 0.1)',
+              border: '1px solid rgba(99, 102, 241, 0.2)',
+              color: '#A5B4FC'
+            }}
+          >
             Ticket Options
           </div>
 
           <h2
-            className="text-4xl md:text-5xl font-bold text-text-primary mb-6"
+            className="text-white font-black mb-6"
             style={{
-              fontFamily: 'Manrope, sans-serif',
-              fontWeight: 700,
-              lineHeight: 1.2,
-              letterSpacing: '-0.015em'
+              fontSize: 'clamp(2.5rem, 5vw, 4rem)',
+              fontWeight: 900,
+              lineHeight: 1.1,
+              letterSpacing: '-0.02em',
+              fontFamily: 'Inter, sans-serif'
             }}
           >
-            Choose Your Pass
+            Choose Your{' '}
+            <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              Pass
+            </span>
           </h2>
 
           <p
-            className="text-lg text-text-secondary leading-relaxed"
-            style={{ fontFamily: 'Manrope, sans-serif' }}
+            className="text-white/80 leading-relaxed"
+            style={{
+              fontSize: '18px',
+              lineHeight: 1.7,
+              fontFamily: 'Inter, sans-serif'
+            }}
           >
             Select the perfect ticket for your needs and gain access to exclusive sessions, workshops, and more.
           </p>
         </motion.div>
 
-        {/* Tickets Grid */}
+        {/* Tickets Grid - Exact AIvent Style */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -182,89 +235,232 @@ export default function AIventTickets() {
               variants={itemVariants}
               className="relative group"
             >
-              {/* Popular Badge */}
+              {/* Popular Badge - Exact AIvent Style */}
               {ticket.popular && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
-                  <div className="bg-gradient-to-r from-accent-blue to-accent-purple text-white px-4 py-2 rounded-full text-sm font-medium">
+                  <div
+                    className="text-white px-4 py-2 rounded-full text-sm font-bold"
+                    style={{
+                      background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                      boxShadow: '0 4px 16px rgba(99, 102, 241, 0.4)',
+                      fontFamily: 'Inter, sans-serif'
+                    }}
+                  >
                     Most Popular
                   </div>
                 </div>
               )}
 
-              <div className={`bg-surface-primary border border-border-primary rounded-2xl p-8 h-full transition-all duration-300 hover:bg-surface-secondary hover:border-border-secondary hover:transform hover:scale-105 ${
-                ticket.popular ? 'border-accent-blue shadow-xl' : ''
-              }`}>
-                {/* Icon */}
-                <div className={`w-16 h-16 bg-gradient-to-r ${ticket.gradient} rounded-2xl flex items-center justify-center text-white mb-6`}>
+              <motion.div
+                className={`p-8 h-full rounded-2xl transition-all duration-500 hover:scale-105 cursor-pointer ${
+                  ticket.popular ? 'ring-2 ring-blue-400/50' : ''
+                }`}
+                style={{
+                  background: ticket.popular
+                    ? 'rgba(255, 255, 255, 0.08)'
+                    : 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(20px)',
+                  border: ticket.popular
+                    ? '1px solid rgba(99, 102, 241, 0.3)'
+                    : '1px solid rgba(255, 255, 255, 0.1)',
+                  boxShadow: ticket.popular
+                    ? '0 12px 40px rgba(99, 102, 241, 0.2)'
+                    : '0 8px 32px rgba(0, 0, 0, 0.1)'
+                }}
+                whileHover={{
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  borderColor: 'rgba(99, 102, 241, 0.4)',
+                  boxShadow: '0 16px 48px rgba(99, 102, 241, 0.3)'
+                }}
+              >
+                {/* Icon - Exact AIvent Style */}
+                <div
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center text-white mb-6"
+                  style={{
+                    background: `linear-gradient(135deg, ${ticket.gradient.includes('gray') ? '#6B7280, #4B5563' : ticket.gradient.includes('cyan') ? '#06B6D4, #3B82F6' : '#6366F1, #8B5CF6'})`,
+                    boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)'
+                  }}
+                >
                   {ticket.icon}
                 </div>
 
-                {/* Ticket Name */}
-                <h3 className="text-2xl font-bold text-text-primary mb-2">
+                {/* Ticket Name - Exact AIvent Style */}
+                <h3
+                  className="text-white font-bold mb-2"
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 700,
+                    fontSize: '24px',
+                    lineHeight: 1.3
+                  }}
+                >
                   {ticket.name}
                 </h3>
 
-                {/* Price */}
+                {/* Price - Exact AIvent Style */}
                 <div className="mb-4">
-                  <span className="text-4xl font-bold text-text-primary">
+                  <span
+                    className="text-white font-black"
+                    style={{
+                      fontSize: '40px',
+                      fontFamily: 'Inter, sans-serif',
+                      fontWeight: 900
+                    }}
+                  >
                     ${ticket.price}
                   </span>
                 </div>
 
-                {/* Description */}
-                <p className="text-text-muted text-sm mb-6">
+                {/* Description - Exact AIvent Style */}
+                <p
+                  className="text-white/70 mb-6"
+                  style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: '14px',
+                    lineHeight: 1.5
+                  }}
+                >
                   {ticket.description}
                 </p>
 
-                {/* Features */}
+                {/* Features - Exact AIvent Style */}
                 <ul className="space-y-3 mb-8">
                   {ticket.features.map((feature, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <div className="w-5 h-5 bg-gradient-to-r from-accent-blue to-accent-purple rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <div
+                        className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                        style={{
+                          background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)'
+                        }}
+                      >
                         <Check className="w-3 h-3 text-white" />
                       </div>
-                      <span className="text-text-secondary text-sm leading-relaxed">
+                      <span
+                        className="text-white/80 leading-relaxed"
+                        style={{
+                          fontFamily: 'Inter, sans-serif',
+                          fontSize: '14px',
+                          lineHeight: 1.6
+                        }}
+                      >
                         {feature}
                       </span>
                     </li>
                   ))}
                 </ul>
 
-                {/* CTA Button */}
-                <button className={`w-full px-6 py-3 rounded-lg font-medium transition-all duration-200 ${
-                  ticket.popular
-                    ? 'bg-gradient-to-r from-accent-blue to-accent-purple text-white hover:shadow-lg hover:scale-105'
-                    : 'bg-surface-secondary border border-border-primary text-text-primary hover:bg-surface-tertiary hover:border-border-secondary'
-                }`}>
+                {/* CTA Button - Exact AIvent Style */}
+                <motion.button
+                  className="w-full px-6 py-4 rounded-xl font-bold transition-all duration-300"
+                  style={{
+                    fontSize: '14px',
+                    letterSpacing: '1px',
+                    textTransform: 'uppercase',
+                    fontFamily: 'Inter, sans-serif',
+                    fontWeight: 700,
+                    background: ticket.popular
+                      ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)'
+                      : 'rgba(255, 255, 255, 0.1)',
+                    color: 'white',
+                    border: ticket.popular
+                      ? 'none'
+                      : '1px solid rgba(255, 255, 255, 0.2)',
+                    boxShadow: ticket.popular
+                      ? '0 8px 24px rgba(99, 102, 241, 0.3)'
+                      : 'none'
+                  }}
+                  whileHover={{
+                    scale: 1.02,
+                    boxShadow: ticket.popular
+                      ? '0 12px 32px rgba(99, 102, 241, 0.4)'
+                      : '0 4px 16px rgba(255, 255, 255, 0.1)'
+                  }}
+                  whileTap={{ scale: 0.98 }}
+                >
                   Buy Ticket
-                </button>
-              </div>
+                </motion.button>
+              </motion.div>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Additional Info */}
+        {/* Additional Info - Exact AIvent Style */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-center mt-16"
+          className="text-center mt-20"
         >
-          <div className="bg-surface-primary border border-border-primary rounded-2xl p-8 max-w-2xl mx-auto">
-            <h3 className="text-xl font-semibold text-text-primary mb-4">
+          <div
+            className="p-8 rounded-2xl max-w-2xl mx-auto"
+            style={{
+              background: 'rgba(255, 255, 255, 0.05)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)'
+            }}
+          >
+            <h3
+              className="text-white font-bold mb-4"
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 700,
+                fontSize: '22px',
+                lineHeight: 1.3
+              }}
+            >
               Group Discounts Available
             </h3>
-            <p className="text-text-secondary mb-6">
+            <p
+              className="text-white/80 mb-6"
+              style={{
+                fontFamily: 'Inter, sans-serif',
+                fontSize: '16px',
+                lineHeight: 1.6
+              }}
+            >
               Bring your team and save! Contact us for special pricing on groups of 5 or more attendees.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-6 py-3 bg-surface-secondary border border-border-primary text-text-primary rounded-lg hover:bg-surface-tertiary transition-colors duration-200">
+              <motion.button
+                className="px-6 py-3 text-white font-bold rounded-xl transition-all duration-300"
+                style={{
+                  fontSize: '14px',
+                  letterSpacing: '1px',
+                  textTransform: 'uppercase',
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 700,
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)'
+                }}
+                whileHover={{
+                  scale: 1.05,
+                  background: 'rgba(255, 255, 255, 0.15)'
+                }}
+                whileTap={{ scale: 0.98 }}
+              >
                 Contact Sales
-              </button>
-              <button className="px-6 py-3 bg-gradient-to-r from-accent-blue to-accent-purple text-white rounded-lg hover:shadow-lg transition-all duration-200">
+              </motion.button>
+              <motion.button
+                className="px-6 py-3 text-white font-bold rounded-xl transition-all duration-300"
+                style={{
+                  fontSize: '14px',
+                  letterSpacing: '1px',
+                  textTransform: 'uppercase',
+                  fontFamily: 'Inter, sans-serif',
+                  fontWeight: 700,
+                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  boxShadow: '0 8px 24px rgba(99, 102, 241, 0.3)'
+                }}
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: '0 12px 32px rgba(99, 102, 241, 0.4)'
+                }}
+                whileTap={{ scale: 0.98 }}
+              >
                 View Group Pricing
-              </button>
+              </motion.button>
             </div>
           </div>
         </motion.div>
