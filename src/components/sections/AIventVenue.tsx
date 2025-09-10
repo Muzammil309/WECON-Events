@@ -6,11 +6,18 @@ import { MapPin, Phone, Mail } from 'lucide-react';
 
 export default function AIventVenue() {
   return (
-    <section id="venue" className="section bg-surface-primary relative overflow-hidden">
+    <section
+      id="section-venue"
+      className="py-20 relative overflow-hidden"
+      style={{
+        background: 'linear-gradient(180deg, #101435 0%, #0F0B1F 50%, #1A1C26 100%)',
+        fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
+      }}
+    >
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-accent-blue/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-accent-purple/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 left-1/4 w-96 h-96 bg-purple-600/5 rounded-full blur-3xl" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">

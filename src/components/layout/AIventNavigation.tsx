@@ -13,22 +13,19 @@ interface NavigationItem {
 }
 
 const navigationItems: NavigationItem[] = [
-  { label: 'Home', href: '/' },
-  { label: 'About', href: '#about' },
-  { label: 'Why Attend', href: '#why-attend' },
-  { label: 'Speakers', href: '#speakers' },
-  { label: 'Schedule', href: '#schedule' },
-  { label: 'Tickets', href: '#tickets' },
-  { label: 'Venue', href: '#venue' },
-  { label: 'FAQ', href: '#faq' },
-  { 
-    label: 'Pages', 
+  { label: 'Home', href: '#section-hero' },
+  { label: 'About', href: '#section-about' },
+  { label: 'Why Attend', href: '#section-why-attend' },
+  { label: 'Speakers', href: '#section-speakers' },
+  { label: 'Schedule', href: '#section-schedule' },
+  { label: 'Tickets', href: '#section-tickets' },
+  { label: 'Venue', href: '#section-venue' },
+  { label: 'FAQ', href: '#section-faq' },
+  {
+    label: 'Pages',
     href: '#',
     children: [
-      { label: 'Tickets Style 1', href: '/tickets' },
-      { label: 'Tickets Style 2', href: '/tickets-alt' },
       { label: 'News', href: '/blog' },
-      { label: 'News Single', href: '/blog/post' },
       { label: 'Contact', href: '/contact' },
     ]
   }

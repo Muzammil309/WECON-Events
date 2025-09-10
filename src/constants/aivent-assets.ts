@@ -13,24 +13,30 @@ export const AIVENT_ASSETS = {
     '1': '/assets/aivent-extracted/images/speakers/1.webp',
     '2': '/assets/aivent-extracted/images/speakers/2.webp',
     '3': '/assets/aivent-extracted/images/speakers/3.webp',
-    '8': '/assets/aivent-extracted/images/speakers/8.webp',
-    '20': '/assets/aivent-extracted/images/speakers/20.webp',
+    '4': '/assets/aivent-extracted/images/speakers/4.webp',
+    '5': '/assets/aivent-extracted/images/speakers/5.webp',
+    '6': '/assets/aivent-extracted/images/speakers/6.webp',
+    '12': '/assets/aivent-extracted/images/speakers/12.webp',
   },
   
   // Icon Images
   icons: {
-    '1': '/assets/aivent-extracted/images/icons/1.webp',
-    '2': '/assets/aivent-extracted/images/icons/2.webp',
     '3': '/assets/aivent-extracted/images/icons/3.webp',
-    '4': '/assets/aivent-extracted/images/icons/4.webp',
+    '5': '/assets/aivent-extracted/images/icons/5.webp',
+    '6': '/assets/aivent-extracted/images/icons/6.webp',
     '8': '/assets/aivent-extracted/images/icons/8.webp',
     '10': '/assets/aivent-extracted/images/icons/10.webp',
     'logo': '/assets/aivent-extracted/images/icons/logo.webp',
   },
-  
-  // Logo Images
-  logos: {
-    // Will be populated when logos are available
+
+  // UI Elements
+  ui: {
+    arrowTopRightWhite: '/assets/aivent-extracted/images/arrow-top-right-white.svg',
+    arrowRightWhite: '/assets/aivent-extracted/images/arrow-right-white.svg',
+    arrowDownLight: '/assets/aivent-extracted/images/arrow-down-light.png',
+    arrowUpLight: '/assets/aivent-extracted/images/arrow-up-light.png',
+    arrowDown: '/assets/aivent-extracted/images/arrow-down.png',
+    arrowUp: '/assets/aivent-extracted/images/arrow-up.png'
   },
   
   // Other Images

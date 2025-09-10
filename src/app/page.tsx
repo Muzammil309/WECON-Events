@@ -6,11 +6,15 @@ import AIventNavigation from '@/components/layout/AIventNavigation';
 import AIventHeroExact from '@/components/sections/AIventHeroExact';
 import AIventAbout from '@/components/sections/AIventAbout';
 import AIventScrollingBanner from '@/components/sections/AIventScrollingBanner';
+import AIventWhyAttend from '@/components/sections/AIventWhyAttend';
 import AIventFeatures from '@/components/sections/AIventFeatures';
 import AIventQuote from '@/components/sections/AIventQuote';
 import AIventSpeakers from '@/components/sections/AIventSpeakers';
 import AIventSchedule from '@/components/sections/AIventSchedule';
 import AIventTickets from '@/components/sections/AIventTickets';
+import AIventVenue from '@/components/sections/AIventVenue';
+import AIventFAQ from '@/components/sections/AIventFAQ';
+import AIventFooter from '@/components/layout/AIventFooter';
 
 export default function Home() {
   return (
@@ -25,11 +29,15 @@ export default function Home() {
       <AIventHeroExact />
       <AIventAbout />
       <AIventScrollingBanner />
+      <AIventWhyAttend />
       <AIventFeatures />
       <AIventQuote />
       <AIventSpeakers />
       <AIventSchedule />
       <AIventTickets />
+      <AIventVenue />
+      <AIventFAQ />
+      <AIventFooter />
 
       {/* Venue Section */}
       <section 

@@ -29,3 +29,123 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+
+
+/* AIvent Exact Styling Integration */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+
+:root {
+  /* AIvent Color Variables */
+  --aivent-primary: #764DF0;
+  --aivent-secondary: #442490;
+  --aivent-dark-primary: #101435;
+  --aivent-dark-secondary: #0F0B1F;
+  --aivent-dark-tertiary: #1A1C26;
+  
+  /* AIvent Typography */
+  --aivent-font-family: Manrope, Helvetica, Arial, sans-serif;
+  --aivent-font-weight-light: 300;
+  --aivent-font-weight-regular: 400;
+  --aivent-font-weight-medium: 500;
+  --aivent-font-weight-semibold: 600;
+  --aivent-font-weight-bold: 700;
+  --aivent-font-weight-extrabold: 800;
+  --aivent-font-weight-black: 900;
+  
+  /* AIvent Gradients */
+  --aivent-gradient-primary: linear-gradient(135deg, #764DF0 0%, #442490 100%);
+  --aivent-gradient-background: linear-gradient(180deg, #101435 0%, #0F0B1F 50%, #1A1C26 100%);
+  --aivent-gradient-hero: linear-gradient(135deg, #764DF0 0%, #442490 25%, #101435 50%, #1A1C26 75%, #0F0B1F 100%);
+}
+
+/* AIvent Global Styles */
+.aivent-primary-gradient {
+  background: var(--aivent-gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.aivent-hero-gradient {
+  background: var(--aivent-gradient-hero);
+}
+
+.aivent-background-gradient {
+  background: var(--aivent-gradient-background);
+}
+
+.aivent-glass-morphism {
+  background: rgba(118, 77, 240, 0.1);
+  border: 1px solid rgba(118, 77, 240, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.aivent-font {
+  font-family: var(--aivent-font-family);
+}
+
+.aivent-heading {
+  font-family: var(--aivent-font-family);
+  font-weight: var(--aivent-font-weight-black);
+  letter-spacing: -0.02em;
+}
+
+/* AIvent Button Styles */
+.aivent-button-primary {
+  background: var(--aivent-gradient-primary);
+  color: white;
+  font-family: var(--aivent-font-family);
+  font-weight: var(--aivent-font-weight-bold);
+  border-radius: 50px;
+  padding: 16px 32px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.aivent-button-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(118, 77, 240, 0.3);
+}
+
+/* AIvent Card Styles */
+.aivent-card {
+  background: rgba(118, 77, 240, 0.1);
+  border: 1px solid rgba(118, 77, 240, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+/* AIvent Animation Classes */
+.aivent-fade-in {
+  animation: aiventFadeIn 0.8s ease-out;
+}
+
+.aivent-slide-up {
+  animation: aiventSlideUp 0.8s ease-out;
+}
+
+@keyframes aiventFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes aiventSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

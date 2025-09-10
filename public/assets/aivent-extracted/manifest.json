@@ -103,6 +103,20 @@
       "size": 4422
     },
     {
+      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/demo/homepage-3.webp",
+      "filename": "homepage-3.webp",
+      "localPath": "public\\assets\\aivent-extracted\\images\\homepage-3.webp",
+      "category": "images",
+      "size": 60588
+    },
+    {
+      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/demo/homepage-4.webp",
+      "filename": "homepage-4.webp",
+      "localPath": "public\\assets\\aivent-extracted\\images\\homepage-4.webp",
+      "category": "images",
+      "size": 66750
+    },
+    {
       "originalUrl": "https://madebydesignesia.com/themes/aivent/images/demo/homepage-1.webp",
       "filename": "homepage-1.webp",
       "localPath": "public\\assets\\aivent-extracted\\images\\homepage-1.webp",
@@ -124,25 +138,11 @@
       "size": 58322
     },
     {
-      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/demo/homepage-3.webp",
-      "filename": "homepage-3.webp",
-      "localPath": "public\\assets\\aivent-extracted\\images\\homepage-3.webp",
+      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/misc/s3.webp",
+      "filename": "s3.webp",
+      "localPath": "public\\assets\\aivent-extracted\\images\\s3.webp",
       "category": "images",
-      "size": 60588
-    },
-    {
-      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/misc/s4.webp",
-      "filename": "s4.webp",
-      "localPath": "public\\assets\\aivent-extracted\\images\\s4.webp",
-      "category": "images",
-      "size": 237706
-    },
-    {
-      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/misc/s6.webp",
-      "filename": "s6.webp",
-      "localPath": "public\\assets\\aivent-extracted\\images\\s6.webp",
-      "category": "images",
-      "size": 218678
+      "size": 244324
     },
     {
       "originalUrl": "https://madebydesignesia.com/themes/aivent/images/background/2.webp",
@@ -152,32 +152,11 @@
       "size": 535762
     },
     {
-      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/misc/s8.webp",
-      "filename": "s8.webp",
-      "localPath": "public\\assets\\aivent-extracted\\images\\s8.webp",
+      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/misc/s5.webp",
+      "filename": "s5.webp",
+      "localPath": "public\\assets\\aivent-extracted\\images\\s5.webp",
       "category": "images",
-      "size": 460216
-    },
-    {
-      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/logo-light/10.webp",
-      "filename": "10.webp",
-      "localPath": "public\\assets\\aivent-extracted\\images\\icons\\10.webp",
-      "category": "images/icons",
-      "size": 1712
-    },
-    {
-      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/logo-light/3.webp",
-      "filename": "3.webp",
-      "localPath": "public\\assets\\aivent-extracted\\images\\icons\\3.webp",
-      "category": "images/icons",
-      "size": 1850
-    },
-    {
-      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/logo-light/4.webp",
-      "filename": "4.webp",
-      "localPath": "public\\assets\\aivent-extracted\\images\\icons\\4.webp",
-      "category": "images/icons",
-      "size": 2228
+      "size": 484672
     },
     {
       "originalUrl": "https://madebydesignesia.com/themes/aivent/images/logo-light/8.webp",
@@ -187,18 +166,39 @@
       "size": 3232
     },
     {
-      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/logo-light/1.webp",
-      "filename": "1.webp",
-      "localPath": "public\\assets\\aivent-extracted\\images\\icons\\1.webp",
+      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/logo-light/6.webp",
+      "filename": "6.webp",
+      "localPath": "public\\assets\\aivent-extracted\\images\\icons\\6.webp",
       "category": "images/icons",
-      "size": 2968
+      "size": 2276
     },
     {
-      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/logo-light/2.webp",
-      "filename": "2.webp",
-      "localPath": "public\\assets\\aivent-extracted\\images\\icons\\2.webp",
+      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/logo-light/3.webp",
+      "filename": "3.webp",
+      "localPath": "public\\assets\\aivent-extracted\\images\\icons\\3.webp",
       "category": "images/icons",
-      "size": 1586
+      "size": 1850
+    },
+    {
+      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/logo-light/10.webp",
+      "filename": "10.webp",
+      "localPath": "public\\assets\\aivent-extracted\\images\\icons\\10.webp",
+      "category": "images/icons",
+      "size": 1712
+    },
+    {
+      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/logo-light/5.webp",
+      "filename": "5.webp",
+      "localPath": "public\\assets\\aivent-extracted\\images\\icons\\5.webp",
+      "category": "images/icons",
+      "size": 1208
+    },
+    {
+      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/team/6.webp",
+      "filename": "6.webp",
+      "localPath": "public\\assets\\aivent-extracted\\images\\speakers\\6.webp",
+      "category": "images/speakers",
+      "size": 62506
     },
     {
       "originalUrl": "https://madebydesignesia.com/themes/aivent/images/team/3.webp",
@@ -215,11 +215,11 @@
       "size": 63598
     },
     {
-      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/demo/homepage-4.webp",
-      "filename": "homepage-4.webp",
-      "localPath": "public\\assets\\aivent-extracted\\images\\homepage-4.webp",
-      "category": "images",
-      "size": 66750
+      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/team/12.webp",
+      "filename": "12.webp",
+      "localPath": "public\\assets\\aivent-extracted\\images\\speakers\\12.webp",
+      "category": "images/speakers",
+      "size": 57210
     },
     {
       "originalUrl": "https://madebydesignesia.com/themes/aivent/images/team/2.webp",
@@ -229,25 +229,25 @@
       "size": 66504
     },
     {
-      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/team/3.webp",
-      "filename": "3.webp",
-      "localPath": "public\\assets\\aivent-extracted\\images\\speakers\\3.webp",
+      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/team/4.webp",
+      "filename": "4.webp",
+      "localPath": "public\\assets\\aivent-extracted\\images\\speakers\\4.webp",
       "category": "images/speakers",
-      "size": 59022
+      "size": 59702
     },
     {
-      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/team/20.webp",
-      "filename": "20.webp",
-      "localPath": "public\\assets\\aivent-extracted\\images\\speakers\\20.webp",
+      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/team/5.webp",
+      "filename": "5.webp",
+      "localPath": "public\\assets\\aivent-extracted\\images\\speakers\\5.webp",
       "category": "images/speakers",
-      "size": 61852
+      "size": 59098
     },
     {
-      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/team/8.webp",
-      "filename": "8.webp",
-      "localPath": "public\\assets\\aivent-extracted\\images\\speakers\\8.webp",
+      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/team/2.webp",
+      "filename": "2.webp",
+      "localPath": "public\\assets\\aivent-extracted\\images\\speakers\\2.webp",
       "category": "images/speakers",
-      "size": 48688
+      "size": 66504
     },
     {
       "originalUrl": "https://madebydesignesia.com/themes/aivent/images/misc/s9.webp",
@@ -257,11 +257,18 @@
       "size": 146850
     },
     {
-      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/misc/c1.webp",
-      "filename": "c1.webp",
-      "localPath": "public\\assets\\aivent-extracted\\images\\c1.webp",
+      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/misc/s6.webp",
+      "filename": "s6.webp",
+      "localPath": "public\\assets\\aivent-extracted\\images\\s6.webp",
       "category": "images",
-      "size": 356356
+      "size": 218678
+    },
+    {
+      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/misc/s4.webp",
+      "filename": "s4.webp",
+      "localPath": "public\\assets\\aivent-extracted\\images\\s4.webp",
+      "category": "images",
+      "size": 237706
     },
     {
       "originalUrl": "https://madebydesignesia.com/themes/aivent/images/misc/s7.webp",
@@ -271,25 +278,18 @@
       "size": 348884
     },
     {
-      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/misc/s3.webp",
-      "filename": "s3.webp",
-      "localPath": "public\\assets\\aivent-extracted\\images\\s3.webp",
+      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/misc/c1.webp",
+      "filename": "c1.webp",
+      "localPath": "public\\assets\\aivent-extracted\\images\\c1.webp",
       "category": "images",
-      "size": 244324
+      "size": 356356
     },
     {
-      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/misc/s5.webp",
-      "filename": "s5.webp",
-      "localPath": "public\\assets\\aivent-extracted\\images\\s5.webp",
+      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/misc/s8.webp",
+      "filename": "s8.webp",
+      "localPath": "public\\assets\\aivent-extracted\\images\\s8.webp",
       "category": "images",
-      "size": 484672
-    },
-    {
-      "originalUrl": "https://madebydesignesia.com/themes/aivent/images/background/1.webp",
-      "filename": "1.webp",
-      "localPath": "public\\assets\\aivent-extracted\\images\\backgrounds\\1.webp",
-      "category": "images/backgrounds",
-      "size": 527644
+      "size": 460216
     },
     {
       "originalUrl": "https://madebydesignesia.com/themes/aivent/../images/ui/arrow-top-right-white.svg",
