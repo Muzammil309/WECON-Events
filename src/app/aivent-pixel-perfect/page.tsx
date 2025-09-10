@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import AIventNavigationPixelPerfect from '@/components/aivent/AIventNavigationPixelPerfect';
 import AIventHeroPixelPerfect from '@/components/aivent/AIventHeroPixelPerfect';
@@ -14,6 +14,12 @@ import AIventFAQ from '@/components/sections/AIventFAQ';
 import AIventFooter from '@/components/layout/AIventFooter';
 
 export default function AIventPixelPerfectPage() {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
   return (
     <div
       className="min-h-screen"
@@ -176,19 +182,21 @@ export default function AIventPixelPerfectPage() {
       `}</style>
 
       {/* Particle Background */}
-      <div className="particles">
-        {Array.from({ length: 50 }).map((_, i) => (
-          <div
-            key={i}
-            className="particle"
-            style={{
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 20}s`,
-              animationDuration: `${15 + Math.random() * 10}s`
-            }}
-          />
-        ))}
-      </div>
+      {isClient && (
+        <div className="particles">
+          {Array.from({ length: 50 }).map((_, i) => (
+            <div
+              key={i}
+              className="particle"
+              style={{
+                left: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 20}s`,
+                animationDuration: `${15 + Math.random() * 10}s`
+              }}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Navigation */}
       <AIventNavigationPixelPerfect />
@@ -280,28 +288,34 @@ export default function AIventPixelPerfectPage() {
       </motion.div>
 
       {/* Floating Action Button */}
-      <motion.div
-        className="fixed bottom-8 right-8 z-40"
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, delay: 2 }}
-      >
-        <motion.button
-          className="w-14 h-14 rounded-full text-white font-bold shadow-lg"
-          style={{
-            background: 'linear-gradient(135deg, #764DF0 0%, #442490 100%)',
-            boxShadow: '0 8px 25px rgba(118, 77, 240, 0.4)'
-          }}
-          whileHover={{ 
-            scale: 1.1,
-            boxShadow: '0 12px 35px rgba(118, 77, 240, 0.6)'
-          }}
-          whileTap={{ scale: 0.9 }}
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      {isClient && (
+        <motion.div
+          className="fixed bottom-8 right-8 z-40"
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 2 }}
         >
-          ↑
-        </motion.button>
-      </motion.div>
+          <motion.button
+            className="w-14 h-14 rounded-full text-white font-bold shadow-lg"
+            style={{
+              background: 'linear-gradient(135deg, #764DF0 0%, #442490 100%)',
+              boxShadow: '0 8px 25px rgba(118, 77, 240, 0.4)'
+            }}
+            whileHover={{
+              scale: 1.1,
+              boxShadow: '0 12px 35px rgba(118, 77, 240, 0.6)'
+            }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => {
+              if (typeof window !== 'undefined') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
+          >
+            ↑
+          </motion.button>
+        </motion.div>
+      )}
     </div>
   );
 }

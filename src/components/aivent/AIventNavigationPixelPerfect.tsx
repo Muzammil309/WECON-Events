@@ -1,21 +1,16 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { useScrollPosition, useScrollProgress } from '@/hooks/useScrollProgress';
 
 export default function AIventNavigationPixelPerfect() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const scrollY = useScrollPosition();
+  const scrollProgress = useScrollProgress();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const isScrolled = scrollY > 50;
 
   const navItems = [
     { name: 'Home', href: '#section-hero' },
@@ -203,13 +198,11 @@ export default function AIventNavigationPixelPerfect() {
       <motion.div
         className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400"
         style={{
-          width: `${Math.min((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100, 100)}%`
+          width: `${scrollProgress}%`
         }}
         initial={{ width: 0 }}
-        animate={{ 
-          width: typeof window !== 'undefined' 
-            ? `${Math.min((window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100, 100)}%`
-            : '0%'
+        animate={{
+          width: `${scrollProgress}%`
         }}
         transition={{ duration: 0.1 }}
       />
