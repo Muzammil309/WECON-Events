@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { AIVENT_ASSETS, getAiventSpeaker } from '@/constants/aivent-assets';
 import { ExternalLink, Twitter, Linkedin } from 'lucide-react';
 
 export default function AIventSpeakers() {
@@ -32,7 +33,7 @@ export default function AIventSpeakers() {
     {
       name: "Joshua Henry",
       title: "Chief AI Scientist, OpenAI",
-      image: "https://madebydesignesia.com/themes/aivent/images/team/1.webp",
+      image: getAiventSpeaker('1'),
       bio: "Leading research in large language models and AI safety",
       social: {
         twitter: "#",
@@ -42,7 +43,7 @@ export default function AIventSpeakers() {
     {
       name: "Leila Zhang",
       title: "VP of Machine Learning, Google",
-      image: "https://madebydesignesia.com/themes/aivent/images/team/2.webp",
+      image: getAiventSpeaker('2'),
       bio: "Pioneering work in computer vision and neural networks",
       social: {
         twitter: "#",
@@ -52,7 +53,7 @@ export default function AIventSpeakers() {
     {
       name: "Carlos Rivera",
       title: "Founder & CEO, NeuralCore",
-      image: "https://madebydesignesia.com/themes/aivent/images/team/3.webp",
+      image: getAiventSpeaker('3'),
       bio: "Building the next generation of AI infrastructure",
       social: {
         twitter: "#",
@@ -62,7 +63,7 @@ export default function AIventSpeakers() {
     {
       name: "Maria Gonzalez",
       title: "Founder & CEO, SynthCore AI",
-      image: "https://madebydesignesia.com/themes/aivent/images/team/4.webp",
+      image: getAiventSpeaker('8'),
       bio: "Building next-generation AI infrastructure and scalable machine learning systems",
       social: {
         twitter: "#",
@@ -72,7 +73,7 @@ export default function AIventSpeakers() {
     {
       name: "Lisa Zhang",
       title: "AI Ethics Researcher, FairAI Group",
-      image: "https://madebydesignesia.com/themes/aivent/images/team/5.webp",
+      image: getAiventSpeaker('20'),
       bio: "Advancing the frontiers of artificial general intelligence and cognitive computing",
       social: {
         twitter: "#",
@@ -82,7 +83,7 @@ export default function AIventSpeakers() {
     {
       name: "Markus Blom",
       title: "CTO, SynthMind AI",
-      image: "https://madebydesignesia.com/themes/aivent/images/team/6.webp",
+      image: getAiventSpeaker('1'), // Fallback to speaker 1 since we don't have speaker 6
       bio: "Transforming enterprise software with AI-powered solutions and intelligent automation",
       social: {
         twitter: "#",
@@ -96,8 +97,8 @@ export default function AIventSpeakers() {
       id="speakers"
       className="relative py-24 overflow-hidden"
       style={{
-        background: 'linear-gradient(180deg, #0F0B1F 0%, #1A1B3A 50%, #0F0B1F 100%)',
-        fontFamily: 'Inter, sans-serif'
+        background: 'linear-gradient(180deg, #0F0B1F 0%, #101435 50%, #0F0B1F 100%)',
+        fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
       }}
     >
       {/* Complex Background Pattern - Exact AIvent Style */}
@@ -127,7 +128,7 @@ export default function AIventSpeakers() {
             ease: "easeInOut"
           }}
           style={{
-            background: 'linear-gradient(45deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05))',
+            background: 'linear-gradient(45deg, rgba(118, 77, 240, 0.1), rgba(68, 36, 144, 0.05))',
             backdropFilter: 'blur(10px)'
           }}
         />
@@ -149,9 +150,9 @@ export default function AIventSpeakers() {
           <div
             className="inline-flex items-center px-5 py-2 rounded-full text-sm font-medium mb-8"
             style={{
-              background: 'rgba(99, 102, 241, 0.1)',
-              border: '1px solid rgba(99, 102, 241, 0.2)',
-              color: '#A5B4FC'
+              background: 'rgba(118, 77, 240, 0.1)',
+              border: '1px solid rgba(118, 77, 240, 0.2)',
+              color: '#764DF0'
             }}
           >
             Speakers

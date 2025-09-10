@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
@@ -16,7 +16,13 @@ import { Quote } from 'lucide-react';
 export default function Home() {
 
   return (
-    <div className="min-h-screen bg-primary-bg">
+    <div
+      className="min-h-screen"
+      style={{
+        background: 'linear-gradient(180deg, #101435 0%, #0F0B1F 50%, #1A1C26 100%)',
+        fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
+      }}
+    >
       {/* Navigation */}
       <AIventNavigation />
 
@@ -49,8 +55,8 @@ export default function Home() {
         id="section-venue"
         className="relative py-24 overflow-hidden"
         style={{
-          background: 'linear-gradient(180deg, #1A1B3A 0%, #0F0B1F 50%, #1A1B3A 100%)',
-          fontFamily: 'Inter, sans-serif'
+          background: 'linear-gradient(180deg, #101435 0%, #0F0B1F 50%, #1A1C26 100%)',
+          fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
         }}
       >
         <div className="absolute inset-0 overflow-hidden">
@@ -94,7 +100,7 @@ export default function Home() {
                 fontWeight: 900,
                 lineHeight: 1.1,
                 letterSpacing: '-0.02em',
-                fontFamily: 'Inter, sans-serif'
+                fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
               }}
             >
               Location &{' '}
@@ -108,10 +114,10 @@ export default function Home() {
               style={{
                 fontSize: '18px',
                 lineHeight: 1.7,
-                fontFamily: 'Inter, sans-serif'
+                fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
               }}
             >
-              Join us in the heart of innovation at San Francisco Tech Pavilion—surrounded by top hotels, transit, and culture.
+              Join us in the heart of innovation at San Francisco Tech Pavilion�surrounded by top hotels, transit, and culture.
             </p>
           </motion.div>
 
@@ -137,12 +143,12 @@ export default function Home() {
                     boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)'
                   }}
                 >
-                  <span className="text-2xl">📍</span>
+                  <span className="text-2xl">??</span>
                 </div>
                 <p
                   className="text-white/70"
                   style={{
-                    fontFamily: 'Inter, sans-serif',
+                    fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
                     fontSize: '16px'
                   }}
                 >
@@ -166,13 +172,13 @@ export default function Home() {
                     boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)'
                   }}
                 >
-                  <span>📍</span>
+                  <span>??</span>
                 </div>
                 <div>
                   <h3
                     className="font-bold text-white mb-2"
                     style={{
-                      fontFamily: 'Inter, sans-serif',
+                      fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
                       fontSize: '18px'
                     }}
                   >
@@ -181,7 +187,7 @@ export default function Home() {
                   <p
                     className="text-white/70"
                     style={{
-                      fontFamily: 'Inter, sans-serif',
+                      fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
                       fontSize: '15px'
                     }}
                   >
@@ -198,13 +204,13 @@ export default function Home() {
                     boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)'
                   }}
                 >
-                  <span>📞</span>
+                  <span>??</span>
                 </div>
                 <div>
                   <h3
                     className="font-bold text-white mb-2"
                     style={{
-                      fontFamily: 'Inter, sans-serif',
+                      fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
                       fontSize: '18px'
                     }}
                   >
@@ -213,7 +219,7 @@ export default function Home() {
                   <p
                     className="text-white/70"
                     style={{
-                      fontFamily: 'Inter, sans-serif',
+                      fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
                       fontSize: '15px'
                     }}
                   >
@@ -230,13 +236,13 @@ export default function Home() {
                     boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)'
                   }}
                 >
-                  <span>✉️</span>
+                  <span>??</span>
                 </div>
                 <div>
                   <h3
                     className="font-bold text-white mb-2"
                     style={{
-                      fontFamily: 'Inter, sans-serif',
+                      fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
                       fontSize: '18px'
                     }}
                   >
@@ -245,7 +251,7 @@ export default function Home() {
                   <p
                     className="text-white/70"
                     style={{
-                      fontFamily: 'Inter, sans-serif',
+                      fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
                       fontSize: '15px'
                     }}
                   >
@@ -263,8 +269,8 @@ export default function Home() {
         id="section-faq"
         className="relative py-24 overflow-hidden"
         style={{
-          background: 'linear-gradient(180deg, #0F0B1F 0%, #1A1B3A 50%, #0F0B1F 100%)',
-          fontFamily: 'Inter, sans-serif'
+          background: 'linear-gradient(180deg, #0F0B1F 0%, #101435 50%, #0F0B1F 100%)',
+          fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
         }}
       >
         <div className="absolute inset-0 overflow-hidden">
@@ -293,9 +299,9 @@ export default function Home() {
             <div
               className="inline-flex items-center px-5 py-2 rounded-full text-sm font-medium mb-8"
               style={{
-                background: 'rgba(99, 102, 241, 0.1)',
-                border: '1px solid rgba(99, 102, 241, 0.2)',
-                color: '#A5B4FC'
+                background: 'rgba(118, 77, 240, 0.1)',
+                border: '1px solid rgba(118, 77, 240, 0.2)',
+                color: '#764DF0'
               }}
             >
               FAQ
@@ -308,7 +314,7 @@ export default function Home() {
                 fontWeight: 900,
                 lineHeight: 1.1,
                 letterSpacing: '-0.02em',
-                fontFamily: 'Inter, sans-serif'
+                fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
               }}
             >
               Everything You{' '}
@@ -322,7 +328,7 @@ export default function Home() {
               style={{
                 fontSize: '18px',
                 lineHeight: 1.7,
-                fontFamily: 'Inter, sans-serif'
+                fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
               }}
             >
               Frequently Asked Questions
@@ -378,7 +384,7 @@ export default function Home() {
                 <h3
                   className="text-white font-bold mb-3"
                   style={{
-                    fontFamily: 'Inter, sans-serif',
+                    fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
                     fontWeight: 700,
                     fontSize: '18px',
                     lineHeight: 1.3
@@ -389,7 +395,7 @@ export default function Home() {
                 <p
                   className="text-white/80 leading-relaxed"
                   style={{
-                    fontFamily: 'Inter, sans-serif',
+                    fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
                     fontSize: '15px',
                     lineHeight: 1.6
                   }}
@@ -406,8 +412,8 @@ export default function Home() {
       <section
         className="relative py-24 overflow-hidden"
         style={{
-          background: 'linear-gradient(180deg, #1A1B3A 0%, #0F0B1F 50%, #1A1B3A 100%)',
-          fontFamily: 'Inter, sans-serif'
+          background: 'linear-gradient(180deg, #101435 0%, #0F0B1F 50%, #1A1C26 100%)',
+          fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
         }}
       >
         <div className="absolute inset-0 overflow-hidden">
@@ -439,11 +445,11 @@ export default function Home() {
                 fontWeight: 900,
                 lineHeight: 1.1,
                 letterSpacing: '-0.02em',
-                fontFamily: 'Inter, sans-serif'
+                fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
               }}
             >
               Stay in the{' '}
-              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <span style={{ background: 'linear-gradient(135deg, #764DF0 0%, #442490 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                 Loop
               </span>
             </h2>
@@ -451,7 +457,7 @@ export default function Home() {
             <h3
               className="text-white font-bold mb-6"
               style={{
-                fontFamily: 'Inter, sans-serif',
+                fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
                 fontWeight: 700,
                 fontSize: '24px',
                 lineHeight: 1.3
@@ -463,7 +469,7 @@ export default function Home() {
             <p
               className="text-white/80 mb-8 leading-relaxed"
               style={{
-                fontFamily: 'Inter, sans-serif',
+                fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
                 fontSize: '16px',
                 lineHeight: 1.6
               }}
@@ -480,7 +486,7 @@ export default function Home() {
                   background: 'rgba(255, 255, 255, 0.1)',
                   backdropFilter: 'blur(20px)',
                   border: '1px solid rgba(255, 255, 255, 0.2)',
-                  fontFamily: 'Inter, sans-serif'
+                  fontFamily: 'Manrope, Helvetica, Arial, sans-serif'
                 }}
               />
               <motion.button
@@ -489,14 +495,14 @@ export default function Home() {
                   fontSize: '14px',
                   letterSpacing: '1px',
                   textTransform: 'uppercase',
-                  fontFamily: 'Inter, sans-serif',
+                  fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
                   fontWeight: 700,
-                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
-                  boxShadow: '0 8px 24px rgba(99, 102, 241, 0.3)'
+                  background: 'linear-gradient(135deg, #764DF0 0%, #442490 100%)',
+                  boxShadow: '0 8px 24px rgba(118, 77, 240, 0.3)'
                 }}
                 whileHover={{
                   scale: 1.05,
-                  boxShadow: '0 12px 32px rgba(99, 102, 241, 0.4)'
+                  boxShadow: '0 12px 32px rgba(118, 77, 240, 0.4)'
                 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -507,7 +513,7 @@ export default function Home() {
             <div
               className="text-sm text-white/60"
               style={{
-                fontFamily: 'Inter, sans-serif',
+                fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
                 fontSize: '14px'
               }}
             >
@@ -531,7 +537,7 @@ export default function Home() {
       <footer
         className="relative"
         style={{
-          background: 'linear-gradient(180deg, #0F0B1F 0%, #1A1B3A 100%)',
+          background: 'linear-gradient(180deg, #0F0B1F 0%, #101435 100%)',
           borderTop: '1px solid rgba(255, 255, 255, 0.1)'
         }}
       >
@@ -542,15 +548,15 @@ export default function Home() {
                 <div
                   className="w-10 h-10 rounded-xl flex items-center justify-center"
                   style={{
-                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
-                    boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)'
+                    background: 'linear-gradient(135deg, #764DF0 0%, #442490 100%)',
+                    boxShadow: '0 4px 16px rgba(118, 77, 240, 0.3)'
                   }}
                 >
                   <span className="text-white font-bold text-xl">W</span>
                 </div>
                 <span
                   className="text-2xl font-bold text-white"
-                  style={{ fontFamily: 'Inter, sans-serif' }}
+                  style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif' }}
                 >
                   WECON
                 </span>
@@ -559,16 +565,16 @@ export default function Home() {
                 <h3
                   className="font-bold text-white"
                   style={{
-                    fontFamily: 'Inter, sans-serif',
+                    fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
                     fontSize: '16px'
                   }}
                 >
                   Address
                 </h3>
-                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
+                <p style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif', fontSize: '14px' }}>
                   121 AI Blvd, San Francisco
                 </p>
-                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
+                <p style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif', fontSize: '14px' }}>
                   BCA 94107
                 </p>
               </div>
@@ -581,7 +587,7 @@ export default function Home() {
                   }}
                   whileHover={{
                     scale: 1.1,
-                    background: 'rgba(99, 102, 241, 0.2)'
+                    background: 'rgba(118, 77, 240, 0.2)'
                   }}
                 >
                   <span className="text-white/70">f</span>
@@ -594,7 +600,7 @@ export default function Home() {
                   }}
                   whileHover={{
                     scale: 1.1,
-                    background: 'rgba(99, 102, 241, 0.2)'
+                    background: 'rgba(118, 77, 240, 0.2)'
                   }}
                 >
                   <span className="text-white/70">t</span>
@@ -607,7 +613,7 @@ export default function Home() {
                   }}
                   whileHover={{
                     scale: 1.1,
-                    background: 'rgba(99, 102, 241, 0.2)'
+                    background: 'rgba(118, 77, 240, 0.2)'
                   }}
                 >
                   <span className="text-white/70">in</span>
@@ -619,17 +625,17 @@ export default function Home() {
               <h3
                 className="font-bold text-white mb-4"
                 style={{
-                  fontFamily: 'Inter, sans-serif',
+                  fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
                   fontSize: '16px'
                 }}
               >
                 Contact Us
               </h3>
               <div className="space-y-2 text-white/70">
-                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
+                <p style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif', fontSize: '14px' }}>
                   T. +1 123 456 789
                 </p>
-                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px' }}>
+                <p style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif', fontSize: '14px' }}>
                   M. contact@wecon.com
                 </p>
               </div>
@@ -639,7 +645,7 @@ export default function Home() {
               <h3
                 className="font-bold text-white mb-4"
                 style={{
-                  fontFamily: 'Inter, sans-serif',
+                  fontFamily: 'Manrope, Helvetica, Arial, sans-serif',
                   fontSize: '16px'
                 }}
               >
@@ -650,7 +656,7 @@ export default function Home() {
                   <a
                     href="/tickets"
                     className="hover:text-white transition-colors duration-200"
-                    style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px' }}
+                    style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif', fontSize: '14px' }}
                   >
                     Tickets
                   </a>
@@ -659,7 +665,7 @@ export default function Home() {
                   <a
                     href="/agenda"
                     className="hover:text-white transition-colors duration-200"
-                    style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px' }}
+                    style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif', fontSize: '14px' }}
                   >
                     Schedule
                   </a>
@@ -668,7 +674,7 @@ export default function Home() {
                   <a
                     href="/about"
                     className="hover:text-white transition-colors duration-200"
-                    style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px' }}
+                    style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif', fontSize: '14px' }}
                   >
                     About
                   </a>
@@ -677,7 +683,7 @@ export default function Home() {
                   <a
                     href="/contact"
                     className="hover:text-white transition-colors duration-200"
-                    style={{ fontFamily: 'Inter, sans-serif', fontSize: '14px' }}
+                    style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif', fontSize: '14px' }}
                   >
                     Contact
                   </a>
@@ -692,7 +698,7 @@ export default function Home() {
           >
             <p
               className="text-white/60 text-sm"
-              style={{ fontFamily: 'Inter, sans-serif' }}
+              style={{ fontFamily: 'Manrope, Helvetica, Arial, sans-serif' }}
             >
               Copyright 2025 - WECON by Designesia
             </p>
