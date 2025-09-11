@@ -126,6 +126,9 @@ async function main() {
       const cssUrls = collectUrlsFromCss(cssText);
       for (const u of cssUrls) {
         try {
+          // Skip data URIs and external URLs
+          if (u.startsWith('data:') || u.startsWith('http')) continue;
+
           // Resolve relative to the CSS file location
           const cssDir = path.posix.dirname(cssRel);
           const resolvedRel = path.posix.normalize(path.posix.join(cssDir, u));
@@ -137,6 +140,31 @@ async function main() {
       }
     } catch (e) {
       console.warn('CSS parse failed', cssRel, e.message);
+    }
+  }
+
+  // Third: Download common font files that might be missing
+  const commonFontPaths = [
+    'fonts/icofont/fonts/icofont.woff2',
+    'fonts/icofont/fonts/icofont.woff',
+    'fonts/icofont/fonts/icofont.ttf',
+    'fonts/fontawesome4/fonts/fontawesome-webfont.woff2',
+    'fonts/fontawesome4/fonts/fontawesome-webfont.woff',
+    'fonts/fontawesome4/fonts/fontawesome-webfont.ttf',
+    'fonts/fontawesome6/webfonts/fa-brands-400.woff2',
+    'fonts/fontawesome6/webfonts/fa-brands-400.woff',
+    'fonts/fontawesome6/webfonts/fa-brands-400.ttf',
+    'fonts/fontawesome6/webfonts/fa-solid-900.woff2',
+    'fonts/fontawesome6/webfonts/fa-solid-900.woff',
+    'fonts/fontawesome6/webfonts/fa-solid-900.ttf'
+  ];
+
+  for (const fontPath of commonFontPaths) {
+    try {
+      console.log('Downloading font', fontPath);
+      await downloadAsset(fontPath);
+    } catch (e) {
+      console.warn('Failed to download font', fontPath, e.message);
     }
   }
 
