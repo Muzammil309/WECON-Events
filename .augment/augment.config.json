@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "website-downloader": {
+      "transport": "http",
+      "url": "http://host.docker.internal:3000"
+    }
+  }
+}

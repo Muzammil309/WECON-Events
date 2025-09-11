@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WECON MASAWAT 2025 - Web Conference & Technology Summit</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts - Manrope -->
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- AOS Animation Library -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    
+    <!-- Swiper CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" rel="stylesheet">
+    
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'manrope': ['Manrope', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#FAD04C',
+                        'secondary': '#101435',
+                        'dark-bg': '#101435',
+                        'dark-bg-2': '#1A1E42',
+                        'accent': '#FAD04C',
+                    },
+                    maxWidth: {
+                        'container': '1240px',
+                    },
+                    animation: {
+                        'marquee': 'marquee 25s linear infinite',
+                        'rotate': 'rotate 20s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-100%)' }
+                        },
+                        rotate: {
+                            '0%': { transform: 'rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg)' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-20px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Custom Styles -->
+    <style>
+        .gradient-overlay {
+            background: linear-gradient(0deg, rgba(16, 20, 53, 0.8) 0%, rgba(16, 20, 53, 0.8) 50%);
+        }
+        
+        .gradient-edge-top {
+            background: linear-gradient(180deg, rgba(16, 20, 53, 1) 0%, rgba(16, 20, 53, 0) 100%);
+        }
+        
+        .gradient-edge-bottom {
+            background: linear-gradient(0deg, rgba(16, 20, 53, 1) 0%, rgba(16, 20, 53, 0) 100%);
+        }
+        
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        
+        .btn-main {
+            background: linear-gradient(45deg, #FAD04C, #F4C430);
+            color: #101435;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 12px 24px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(250, 208, 76, 0.3);
+        }
+        
+        .btn-line {
+            border: 2px solid #FAD04C;
+            color: #FAD04C;
+            background: transparent;
+        }
+        
+        .btn-line:hover {
+            background: #FAD04C;
+            color: #101435;
+        }
+        
+        .navbar-scrolled {
+            background: rgba(16, 20, 53, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(45deg, #FAD04C, #F4C430);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .marquee-content {
+            display: inline-block;
+            animation: marquee 30s linear infinite;
+            will-change: transform;
+        }
+
+        .marquee-content:hover {
+            animation-play-state: paused;
+        }
+        
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .accordion-content.active {
+            max-height: 200px;
+        }
+
+        /* Ensure proper z-index layering */
+        .video-background {
+            z-index: -3;
+        }
+
+        .gradient-edge-top,
+        .gradient-edge-bottom,
+        .gradient-overlay {
+            z-index: -2;
+        }
+
+        /* Smooth transitions for all interactive elements */
+        * {
+            transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+        }
+
+        /* Improve button focus states */
+        .btn-main:focus,
+        .btn-line:focus {
+            outline: 2px solid #FAD04C;
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body class="font-manrope bg-secondary text-white overflow-x-hidden">
+    
+    <!-- Scroll to Top Button -->
+    <div id="scroll-top" class="fixed bottom-8 right-8 z-50 opacity-0 transition-opacity duration-300">
+        <button class="bg-primary text-secondary w-12 h-12 rounded-full flex items-center justify-center hover:bg-yellow-400 transition-colors">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <!-- Navigation Header -->
+    <header id="navbar" class="fixed top-0 left-0 w-full z-40 transition-all duration-300">
+        <div class="max-w-container mx-auto px-6">
+            <div class="flex items-center justify-between py-4">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <img src="https://madebydesignesia.com/themes/aivent/images/logo.webp" alt="AIvent Logo" class="h-8">
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden lg:flex items-center space-x-8">
+                    <div class="relative group">
+                        <a href="#hero" class="text-white hover:text-primary transition-colors">Home</a>
+                        <!-- Dropdown would go here -->
+                    </div>
+                    <a href="#about" class="text-white hover:text-primary transition-colors">About</a>
+                    <a href="#why-attend" class="text-white hover:text-primary transition-colors">Why Attend</a>
+                    <a href="#speakers" class="text-white hover:text-primary transition-colors">Speakers</a>
+                    <a href="#schedule" class="text-white hover:text-primary transition-colors">Schedule</a>
+                    <a href="#tickets" class="text-white hover:text-primary transition-colors">Tickets</a>
+                    <a href="#venue" class="text-white hover:text-primary transition-colors">Venue</a>
+                    <a href="#faq" class="text-white hover:text-primary transition-colors">FAQ</a>
+                </nav>
+                
+                <!-- CTA Button -->
+                <div class="hidden lg:block">
+                    <a href="#tickets" class="btn-main inline-block">
+                        Buy Tickets
+                    </a>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="lg:hidden text-white">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="lg:hidden bg-secondary border-t border-gray-700 hidden">
+            <div class="px-6 py-4 space-y-4">
+                <a href="#hero" class="block text-white hover:text-primary transition-colors">Home</a>
+                <a href="#about" class="block text-white hover:text-primary transition-colors">About</a>
+                <a href="#why-attend" class="block text-white hover:text-primary transition-colors">Why Attend</a>
+                <a href="#speakers" class="block text-white hover:text-primary transition-colors">Speakers</a>
+                <a href="#schedule" class="block text-white hover:text-primary transition-colors">Schedule</a>
+                <a href="#tickets" class="block text-white hover:text-primary transition-colors">Tickets</a>
+                <a href="#venue" class="block text-white hover:text-primary transition-colors">Venue</a>
+                <a href="#faq" class="block text-white hover:text-primary transition-colors">FAQ</a>
+                <a href="#tickets" class="btn-main inline-block mt-4">Buy Tickets</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- Video Background -->
+        <video class="video-background" autoplay muted loop playsinline>
+            <source src="https://madebydesignesia.com/themes/aivent/video/2.mp4" type="video/mp4">
+        </video>
+
+        <!-- Gradient Overlays -->
+        <div class="absolute top-0 left-0 w-full h-2/5 gradient-edge-top opacity-80"></div>
+        <div class="absolute bottom-0 left-0 w-full h-2/5 gradient-edge-bottom opacity-80"></div>
+        <div class="absolute inset-0 gradient-overlay"></div>
+
+        <!-- Hero Content -->
+        <div class="relative z-10 text-center max-w-6xl mx-auto px-6 pt-20" data-aos="fade-up" data-aos-duration="2000">
+            <div class="mb-8">
+                <span class="text-primary text-xl font-medium tracking-[0.2em] uppercase">[ Web Conference & Technology Summit ]</span>
+            </div>
+            <h1 class="text-7xl md:text-8xl lg:text-[10rem] xl:text-[12rem] font-black uppercase mb-12 leading-[0.8] tracking-tight">
+                WECON<br>MASAWAT<br>2025
+            </h1>
+
+            <!-- Event Details -->
+            <div class="flex flex-col md:flex-row items-center justify-center gap-12 mb-16">
+                <div class="flex items-center gap-4">
+                    <i class="fas fa-calendar text-primary text-2xl"></i>
+                    <h4 class="text-2xl font-bold">November 25–26, 2025</h4>
+                </div>
+                <div class="flex items-center gap-4">
+                    <i class="fas fa-map-marker-alt text-primary text-2xl"></i>
+                    <h4 class="text-2xl font-bold">Islamabad, Pakistan</h4>
+                </div>
+            </div>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <a href="#tickets" class="btn-main inline-block px-8 py-4 text-lg font-bold">
+                    Get Tickets
+                </a>
+                <a href="#schedule" class="btn-main btn-line inline-block px-8 py-4 text-lg font-bold">
+                    View Schedule
+                </a>
+            </div>
+        </div>
+
+        <!-- Countdown Section -->
+        <div class="absolute bottom-0 left-0 w-full z-10 p-6">
+            <div class="max-w-container mx-auto">
+                <div class="bg-black bg-opacity-20 backdrop-blur-lg border border-white border-opacity-20 rounded-lg p-6 hidden sm:block" data-aos="fade-up">
+                    <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+                        <div>
+                            <h2 class="text-2xl font-bold mb-1">Hurry Up!</h2>
+                            <h4 class="text-lg">Book Your Seat Now</h4>
+                        </div>
+                        <div id="countdown" class="flex gap-4 text-center">
+                            <div class="bg-primary text-secondary px-4 py-2 rounded">
+                                <div class="text-2xl font-bold" id="days">00</div>
+                                <div class="text-sm">Days</div>
+                            </div>
+                            <div class="bg-primary text-secondary px-4 py-2 rounded">
+                                <div class="text-2xl font-bold" id="hours">00</div>
+                                <div class="text-sm">Hours</div>
+                            </div>
+                            <div class="bg-primary text-secondary px-4 py-2 rounded">
+                                <div class="text-2xl font-bold" id="minutes">00</div>
+                                <div class="text-sm">Minutes</div>
+                            </div>
+                            <div class="bg-primary text-secondary px-4 py-2 rounded">
+                                <div class="text-2xl font-bold" id="seconds">00</div>
+                                <div class="text-sm">Seconds</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-map-marker-alt text-primary text-3xl"></i>
+                            <div>
+                                <h4 class="font-semibold">Convention Center,<br>Islamabad, Pakistan</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-secondary">
+        <div class="max-w-container mx-auto px-6">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="space-y-8" data-aos="fade-right" data-aos-delay="200">
+                    <div class="text-primary text-lg font-medium tracking-[0.15em] uppercase">About WECON MASAWAT</div>
+                    <h2 class="text-5xl lg:text-6xl font-black leading-tight text-white">
+                        Pakistan's Premier Web & Technology Conference
+                    </h2>
+                    <p class="text-gray-300 text-xl leading-relaxed">
+                        Join Pakistan's leading developers, designers, entrepreneurs, and tech innovators as we explore the latest trends in web development, digital transformation, and emerging technologies shaping our digital future.
+                    </p>
+
+                    <div class="space-y-6 pt-4">
+                        <div class="flex items-start gap-4" data-aos="fade-up" data-aos-delay="400">
+                            <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fas fa-check text-secondary text-sm"></i>
+                            </div>
+                            <span class="text-white text-lg">2 days of intensive workshops and keynotes</span>
+                        </div>
+                        <div class="flex items-start gap-4" data-aos="fade-up" data-aos-delay="500">
+                            <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fas fa-check text-secondary text-sm"></i>
+                            </div>
+                            <span class="text-white text-lg">30+ industry experts and thought leaders</span>
+                        </div>
+                        <div class="flex items-start gap-4" data-aos="fade-up" data-aos-delay="600">
+                            <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <i class="fas fa-check text-secondary text-sm"></i>
+                            </div>
+                            <span class="text-white text-lg">Startup pitch competition and tech exhibitions</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex justify-center lg:justify-end" data-aos="fade-left" data-aos-delay="300">
+                    <div class="relative">
+                        <img src="https://madebydesignesia.com/themes/aivent/images/misc/c1.webp"
+                             alt="AI Innovation"
+                             class="w-full max-w-lg animate-rotate opacity-90">
+                        <div class="absolute inset-0 bg-gradient-to-r from-primary/20 to-transparent rounded-full animate-pulse"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- First Marquee Text Section -->
+    <section class="py-12 bg-dark-bg-2 overflow-hidden border-y border-gray-700">
+        <div class="marquee-container">
+            <div class="marquee-content text-8xl lg:text-9xl font-black text-primary opacity-10 uppercase tracking-wider whitespace-nowrap">
+                Web Development / Digital Innovation / Tech Excellence / Future Web / Code Mastery / Digital Pakistan /
+                Web Development / Digital Innovation / Tech Excellence / Future Web / Code Mastery / Digital Pakistan /
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Attend Section -->
+    <section id="why-attend" class="py-24 bg-secondary relative">
+        <div class="max-w-container mx-auto px-6">
+            <div class="text-center mb-20" data-aos="fade-up">
+                <div class="text-primary text-lg font-medium tracking-[0.15em] uppercase mb-6">Why Attend WECON</div>
+                <h2 class="text-5xl lg:text-6xl font-black mb-8 text-white">What You'll Experience</h2>
+                <p class="text-gray-300 text-xl max-w-4xl mx-auto leading-relaxed">
+                    Connect with Pakistan's top web developers, tech entrepreneurs, and digital innovators shaping the future of technology in our region.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+                <!-- Feature Card 1 -->
+                <div class="card-hover bg-dark-bg-2 p-8 lg:p-10 rounded-xl border border-gray-600 hover:border-primary/50 transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+                    <div class="text-primary text-5xl mb-8">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-6 text-white">Latest Web Technologies</h3>
+                    <p class="text-gray-300 text-lg leading-relaxed">Learn cutting-edge frameworks, tools, and best practices from industry experts and thought leaders.</p>
+                </div>
+
+                <!-- Feature Card 2 -->
+                <div class="card-hover bg-dark-bg-2 p-8 lg:p-10 rounded-xl border border-gray-600 hover:border-primary/50 transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+                    <div class="text-primary text-5xl mb-8">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-6 text-white">Hands-On Workshops</h3>
+                    <p class="text-gray-300 text-lg leading-relaxed">Participate in interactive coding sessions and build real projects with guidance from experts.</p>
+                </div>
+
+                <!-- Feature Card 3 -->
+                <div class="card-hover bg-dark-bg-2 p-8 lg:p-10 rounded-xl border border-gray-600 hover:border-primary/50 transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
+                    <div class="text-primary text-5xl mb-8">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-6 text-white">Community Networking</h3>
+                    <p class="text-gray-300 text-lg leading-relaxed">Connect with Pakistan's vibrant tech community and build lasting professional relationships.</p>
+                </div>
+
+                <!-- Feature Card 4 -->
+                <div class="card-hover bg-dark-bg-2 p-8 lg:p-10 rounded-xl border border-gray-600 hover:border-primary/50 transition-all duration-300" data-aos="fade-up" data-aos-delay="400">
+                    <div class="text-primary text-5xl mb-8">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-6 text-white">Innovation Showcase</h3>
+                    <p class="text-gray-300 text-lg leading-relaxed">Discover groundbreaking projects and startups that are transforming Pakistan's digital landscape.</p>
+                </div>
+
+                <!-- Feature Card 5 -->
+                <div class="card-hover bg-dark-bg-2 p-8 lg:p-10 rounded-xl border border-gray-600 hover:border-primary/50 transition-all duration-300" data-aos="fade-up" data-aos-delay="500">
+                    <div class="text-primary text-5xl mb-8">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-6 text-white">Career Opportunities</h3>
+                    <p class="text-gray-300 text-lg leading-relaxed">Access exclusive job opportunities and connect with top tech companies hiring in Pakistan.</p>
+                </div>
+
+                <!-- Feature Card 6 -->
+                <div class="card-hover bg-dark-bg-2 p-8 lg:p-10 rounded-xl border border-gray-600 hover:border-primary/50 transition-all duration-300" data-aos="fade-up" data-aos-delay="600">
+                    <div class="text-primary text-5xl mb-8">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-6 text-white">Competitions & Awards</h3>
+                    <p class="text-gray-300 text-lg leading-relaxed">Participate in coding challenges, hackathons, and win exciting prizes and recognition.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Second Marquee Text Section -->
+    <section class="py-12 bg-dark-bg-2 overflow-hidden border-y border-gray-700">
+        <div class="marquee-container">
+            <div class="marquee-content text-8xl lg:text-9xl font-black text-primary opacity-10 uppercase tracking-wider whitespace-nowrap">
+                MASAWAT 2025 / Tech Summit / Innovation Hub / Digital Future / Code Excellence / Web Mastery /
+                MASAWAT 2025 / Tech Summit / Innovation Hub / Digital Future / Code Excellence / Web Mastery /
+            </div>
+        </div>
+    </section>
+
+    <!-- Quote/Testimonial Section -->
+    <section class="py-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://madebydesignesia.com/themes/aivent/images/background/2.webp')"></div>
+        <div class="absolute inset-0 bg-black bg-opacity-70"></div>
+
+        <div class="relative z-10 max-w-4xl mx-auto px-6 text-center" data-aos="fade-up">
+            <blockquote class="text-2xl lg:text-3xl font-light italic mb-8 leading-relaxed">
+                "The future of Pakistan's digital economy lies in empowering our developers and tech entrepreneurs with the latest knowledge, tools, and connections. WECON MASAWAT is where innovation meets opportunity."
+            </blockquote>
+            <cite class="text-primary text-xl font-semibold">Dr. Umar Saif, Chairman PITB</cite>
+        </div>
+    </section>
+
+    <!-- Speakers Section -->
+    <section id="speakers" class="py-20 bg-secondary">
+        <div class="max-w-container mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <div class="text-primary text-lg font-medium tracking-wider mb-4">Speakers</div>
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6">Meet the Tech Leaders</h2>
+                <p class="text-gray-300 text-lg max-w-3xl mx-auto">
+                    Learn from Pakistan's top developers, entrepreneurs, and technology innovators who are shaping the future of web development and digital transformation.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Speaker 1 -->
+                <div class="card-hover text-center" data-aos="fade-up" data-aos-delay="100">
+                    <div class="relative mb-6 group">
+                        <img src="https://madebydesignesia.com/themes/aivent/images/team/1.webp"
+                             alt="Joshua Henry"
+                             class="w-full rounded-lg">
+                        <div class="absolute inset-0 bg-primary bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 rounded-lg"></div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Ahmad Hassan</h3>
+                    <p class="text-primary mb-4">CTO, Careem Pakistan</p>
+                    <div class="flex justify-center space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Speaker 2 -->
+                <div class="card-hover text-center" data-aos="fade-up" data-aos-delay="200">
+                    <div class="relative mb-6 group">
+                        <img src="https://madebydesignesia.com/themes/aivent/images/team/2.webp"
+                             alt="Leila Zhang"
+                             class="w-full rounded-lg">
+                        <div class="absolute inset-0 bg-primary bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 rounded-lg"></div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Fatima Khan</h3>
+                    <p class="text-primary mb-4">Lead Developer, Daraz Pakistan</p>
+                    <div class="flex justify-center space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Speaker 3 -->
+                <div class="card-hover text-center" data-aos="fade-up" data-aos-delay="300">
+                    <div class="relative mb-6 group">
+                        <img src="https://madebydesignesia.com/themes/aivent/images/team/3.webp"
+                             alt="Carlos Rivera"
+                             class="w-full rounded-lg">
+                        <div class="absolute inset-0 bg-primary bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 rounded-lg"></div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Ali Raza</h3>
+                    <p class="text-primary mb-4">Founder & CEO, TechHub Pakistan</p>
+                    <div class="flex justify-center space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Logo Carousel Section -->
+    <section class="py-20 bg-dark-bg-2 border-y border-gray-700">
+        <div class="max-w-container mx-auto px-6">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h3 class="text-2xl font-bold text-white mb-4">Trusted by Industry Leaders</h3>
+                <p class="text-gray-400">Join the companies shaping the future of AI</p>
+            </div>
+
+            <div class="swiper logo-carousel overflow-hidden">
+                <div class="swiper-wrapper flex items-center">
+                    <div class="swiper-slide flex justify-center items-center">
+                        <img src="https://madebydesignesia.com/themes/aivent/images/logo-light/1.webp" alt="Partner Logo" class="h-16 opacity-50 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0">
+                    </div>
+                    <div class="swiper-slide flex justify-center items-center">
+                        <img src="https://madebydesignesia.com/themes/aivent/images/logo-light/2.webp" alt="Partner Logo" class="h-16 opacity-50 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0">
+                    </div>
+                    <div class="swiper-slide flex justify-center items-center">
+                        <img src="https://madebydesignesia.com/themes/aivent/images/logo-light/3.webp" alt="Partner Logo" class="h-16 opacity-50 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0">
+                    </div>
+                    <div class="swiper-slide flex justify-center items-center">
+                        <img src="https://madebydesignesia.com/themes/aivent/images/logo-light/4.webp" alt="Partner Logo" class="h-16 opacity-50 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0">
+                    </div>
+                    <div class="swiper-slide flex justify-center items-center">
+                        <img src="https://madebydesignesia.com/themes/aivent/images/logo-light/5.webp" alt="Partner Logo" class="h-16 opacity-50 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0">
+                    </div>
+                    <!-- Duplicate slides for seamless loop -->
+                    <div class="swiper-slide flex justify-center items-center">
+                        <img src="https://madebydesignesia.com/themes/aivent/images/logo-light/1.webp" alt="Partner Logo" class="h-16 opacity-50 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0">
+                    </div>
+                    <div class="swiper-slide flex justify-center items-center">
+                        <img src="https://madebydesignesia.com/themes/aivent/images/logo-light/2.webp" alt="Partner Logo" class="h-16 opacity-50 hover:opacity-100 transition-opacity duration-300 filter grayscale hover:grayscale-0">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section id="schedule" class="py-20 bg-secondary">
+        <div class="max-w-container mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <div class="text-primary text-lg font-medium tracking-wider mb-4">Event Schedule</div>
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6">2 Days of Tech Excellence</h2>
+            </div>
+
+            <!-- Schedule Tabs -->
+            <div class="mb-12">
+                <div class="flex flex-wrap justify-center gap-4 mb-8">
+                    <button class="schedule-tab active bg-primary text-secondary px-8 py-4 rounded-lg font-semibold transition-all" data-day="day1">
+                        Day 1<br><span class="text-sm">Nov 25, 2025</span>
+                    </button>
+                    <button class="schedule-tab bg-dark-bg-2 text-white px-8 py-4 rounded-lg font-semibold transition-all hover:bg-primary hover:text-secondary" data-day="day2">
+                        Day 2<br><span class="text-sm">Nov 26, 2025</span>
+                    </button>
+                </div>
+
+                <!-- Day 1 Content -->
+                <div id="day1" class="schedule-content space-y-6">
+                    <div class="bg-dark-bg-2 p-6 rounded-lg border border-gray-700" data-aos="fade-up">
+                        <div class="flex flex-col lg:flex-row gap-6">
+                            <div class="lg:w-1/4">
+                                <div class="text-primary font-semibold">09:00 – 10:30 AM</div>
+                            </div>
+                            <div class="lg:w-1/4">
+                                <div class="flex items-center gap-4 mb-4">
+                                    <img src="https://madebydesignesia.com/themes/aivent/images/team/1.webp" alt="Ahmad Hassan" class="w-12 h-12 rounded-full">
+                                    <div>
+                                        <div class="font-semibold">Ahmad Hassan</div>
+                                        <div class="text-sm text-gray-400">CTO, Careem Pakistan</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lg:w-1/2">
+                                <h3 class="text-xl font-bold mb-2">Opening Keynote: The Future of Web Development in Pakistan</h3>
+                                <p class="text-gray-300">Explore the latest trends in web development, emerging technologies, and how Pakistan's tech ecosystem is evolving to compete globally in the digital marketplace.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-dark-bg-2 p-6 rounded-lg border border-gray-700" data-aos="fade-up" data-aos-delay="100">
+                        <div class="flex flex-col lg:flex-row gap-6">
+                            <div class="lg:w-1/4">
+                                <div class="text-primary font-semibold">11:00 – 12:30 PM</div>
+                            </div>
+                            <div class="lg:w-1/4">
+                                <div class="flex items-center gap-4 mb-4">
+                                    <img src="https://madebydesignesia.com/themes/aivent/images/team/2.webp" alt="Fatima Khan" class="w-12 h-12 rounded-full">
+                                    <div>
+                                        <div class="font-semibold">Fatima Khan</div>
+                                        <div class="text-sm text-gray-400">Lead Developer, Daraz Pakistan</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lg:w-1/2">
+                                <h3 class="text-xl font-bold mb-2">Workshop: Modern React Development & Best Practices</h3>
+                                <p class="text-gray-300">Hands-on workshop covering React 18, Next.js, and modern development workflows. Bring your laptop for interactive coding exercises and real-world project examples.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Day 2 Content -->
+                <div id="day2" class="schedule-content hidden space-y-6">
+                    <div class="bg-dark-bg-2 p-6 rounded-lg border border-gray-700" data-aos="fade-up">
+                        <div class="flex flex-col lg:flex-row gap-6">
+                            <div class="lg:w-1/4">
+                                <div class="text-primary font-semibold">09:00 – 10:30 AM</div>
+                            </div>
+                            <div class="lg:w-1/4">
+                                <div class="flex items-center gap-4 mb-4">
+                                    <img src="https://madebydesignesia.com/themes/aivent/images/team/3.webp" alt="Ali Raza" class="w-12 h-12 rounded-full">
+                                    <div>
+                                        <div class="font-semibold">Ali Raza</div>
+                                        <div class="text-sm text-gray-400">Founder & CEO, TechHub Pakistan</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lg:w-1/2">
+                                <h3 class="text-xl font-bold mb-2">Startup Ecosystem & Digital Innovation</h3>
+                                <p class="text-gray-300">Learn about building successful tech startups in Pakistan, funding opportunities, and how to scale your digital products in emerging markets.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-dark-bg-2 p-6 rounded-lg border border-gray-700" data-aos="fade-up" data-aos-delay="100">
+                        <div class="flex flex-col lg:flex-row gap-6">
+                            <div class="lg:w-1/4">
+                                <div class="text-primary font-semibold">11:00 – 12:30 PM</div>
+                            </div>
+                            <div class="lg:w-1/4">
+                                <div class="text-center">
+                                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center mx-auto mb-2">
+                                        <i class="fas fa-code text-secondary"></i>
+                                    </div>
+                                    <div class="font-semibold">Panel Discussion</div>
+                                    <div class="text-sm text-gray-400">Industry Leaders</div>
+                                </div>
+                            </div>
+                            <div class="lg:w-1/2">
+                                <h3 class="text-xl font-bold mb-2">The Future of Work: Remote Development & Global Opportunities</h3>
+                                <p class="text-gray-300">Panel discussion with leading Pakistani developers working for international companies, discussing remote work trends and global career opportunities.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tickets Section -->
+    <section id="tickets" class="py-20 bg-dark-bg-2">
+        <div class="max-w-container mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <div class="text-primary text-lg font-medium tracking-wider mb-4">Tickets</div>
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6">Choose Your Pass</h2>
+                <p class="text-gray-300 text-lg max-w-3xl mx-auto">
+                    Select the ticket that best fits your needs and join us for an unforgettable tech conference experience at WECON MASAWAT 2025.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Student Ticket -->
+                <div class="card-hover bg-secondary p-8 rounded-lg border border-gray-700 relative" data-aos="fade-up" data-aos-delay="100">
+                    <div class="text-center">
+                        <h3 class="text-2xl font-bold mb-4">Student Pass</h3>
+                        <div class="text-4xl font-bold text-primary mb-6">PKR 2,500</div>
+                        <ul class="space-y-3 mb-8 text-left">
+                            <li class="flex items-center gap-3">
+                                <i class="fas fa-check text-primary"></i>
+                                <span>Access to all keynotes</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fas fa-check text-primary"></i>
+                                <span>Networking sessions</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fas fa-check text-primary"></i>
+                                <span>Event materials & swag</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fas fa-check text-primary"></i>
+                                <span>Refreshments included</span>
+                            </li>
+                        </ul>
+                        <button class="btn-main btn-line w-full">Select Plan</button>
+                    </div>
+                </div>
+
+                <!-- Professional Ticket -->
+                <div class="card-hover bg-secondary p-8 rounded-lg border-2 border-primary relative" data-aos="fade-up" data-aos-delay="200">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                        <span class="bg-primary text-secondary px-4 py-1 rounded-full text-sm font-semibold">Most Popular</span>
+                    </div>
+                    <div class="text-center">
+                        <h3 class="text-2xl font-bold mb-4">Professional Pass</h3>
+                        <div class="text-4xl font-bold text-primary mb-6">PKR 8,500</div>
+                        <ul class="space-y-3 mb-8 text-left">
+                            <li class="flex items-center gap-3">
+                                <i class="fas fa-check text-primary"></i>
+                                <span>Everything in Student</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fas fa-check text-primary"></i>
+                                <span>All workshop access</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fas fa-check text-primary"></i>
+                                <span>VIP networking dinner</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fas fa-check text-primary"></i>
+                                <span>Priority seating</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fas fa-check text-primary"></i>
+                                <span>Premium swag package</span>
+                            </li>
+                        </ul>
+                        <button class="btn-main w-full">Select Plan</button>
+                    </div>
+                </div>
+
+                <!-- Corporate Ticket -->
+                <div class="card-hover bg-secondary p-8 rounded-lg border border-gray-700 relative" data-aos="fade-up" data-aos-delay="300">
+                    <div class="text-center">
+                        <h3 class="text-2xl font-bold mb-4">Corporate Pass</h3>
+                        <div class="text-4xl font-bold text-primary mb-6">PKR 15,000</div>
+                        <ul class="space-y-3 mb-8 text-left">
+                            <li class="flex items-center gap-3">
+                                <i class="fas fa-check text-primary"></i>
+                                <span>Everything in Professional</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fas fa-check text-primary"></i>
+                                <span>1-on-1 speaker meetings</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fas fa-check text-primary"></i>
+                                <span>VIP lounge access</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fas fa-check text-primary"></i>
+                                <span>Company branding opportunities</span>
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i class="fas fa-check text-primary"></i>
+                                <span>Dedicated support</span>
+                            </li>
+                        </ul>
+                        <button class="btn-main btn-line w-full">Select Plan</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Venue Section -->
+    <section id="venue" class="py-20 bg-secondary">
+        <div class="max-w-container mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <div class="text-primary text-lg font-medium tracking-wider mb-4">Venue</div>
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6">Find Us Here</h2>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Map -->
+                <div class="bg-gray-800 rounded-lg overflow-hidden h-96" data-aos="fade-up">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0197!2d-122.4194!3d37.7749!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDQ2JzI5LjYiTiAxMjLCsDI1JzA5LjgiVw!5e0!3m2!1sen!2sus!4v1234567890"
+                        width="100%"
+                        height="100%"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy">
+                    </iframe>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="space-y-8" data-aos="fade-up" data-aos-delay="200">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4">Address</h3>
+                        <p class="text-gray-300 text-lg">
+                            Pakistan Convention Center<br>
+                            Constitution Avenue, Islamabad<br>
+                            Pakistan 44000
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4">Contact Us</h3>
+                        <p class="text-gray-300 text-lg mb-2">
+                            T. +92 51 123 4567
+                        </p>
+                        <p class="text-gray-300 text-lg">
+                            M. info@weconmasawat.com
+                        </p>
+                    </div>
+
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-12 h-12 bg-dark-bg-2 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-secondary transition-all">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-dark-bg-2 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-secondary transition-all">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-dark-bg-2 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-secondary transition-all">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-dark-bg-2 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-secondary transition-all">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 bg-dark-bg-2">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <div class="text-primary text-lg font-medium tracking-wider mb-4">FAQ</div>
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6">Frequently Asked Questions</h2>
+            </div>
+
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="bg-secondary rounded-lg border border-gray-700" data-aos="fade-up" data-aos-delay="100">
+                    <button class="faq-toggle w-full p-6 text-left flex justify-between items-center">
+                        <span class="text-lg font-semibold">What is included in the ticket price?</span>
+                        <i class="fas fa-plus text-primary transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6 pb-6">
+                        <p class="text-gray-300">All tickets include access to keynote sessions, networking opportunities, event materials, and refreshments. Professional and Corporate tickets include additional perks like workshops, VIP dinner, and priority seating.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="bg-secondary rounded-lg border border-gray-700" data-aos="fade-up" data-aos-delay="200">
+                    <button class="faq-toggle w-full p-6 text-left flex justify-between items-center">
+                        <span class="text-lg font-semibold">Do I need to bring my laptop for workshops?</span>
+                        <i class="fas fa-plus text-primary transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6 pb-6">
+                        <p class="text-gray-300">Yes, please bring your laptop for hands-on workshops. We recommend having Node.js, VS Code, and Git installed beforehand. Setup instructions will be sent to registered participants.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="bg-secondary rounded-lg border border-gray-700" data-aos="fade-up" data-aos-delay="300">
+                    <button class="faq-toggle w-full p-6 text-left flex justify-between items-center">
+                        <span class="text-lg font-semibold">Will sessions be recorded?</span>
+                        <i class="fas fa-plus text-primary transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6 pb-6">
+                        <p class="text-gray-300">Yes, all keynote sessions will be recorded and made available to ticket holders within 48 hours after the event. Workshop recordings may be limited due to interactive nature.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="py-20 bg-secondary">
+        <div class="max-w-4xl mx-auto px-6 text-center" data-aos="fade-up">
+            <h2 class="text-4xl lg:text-5xl font-bold mb-6">Stay Connected</h2>
+            <p class="text-gray-300 text-lg mb-8">
+                Get the latest updates about WECON MASAWAT 2025, speaker announcements, and exclusive tech content delivered to your inbox.
+            </p>
+
+            <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                <input
+                    type="email"
+                    placeholder="Enter your email"
+                    class="flex-1 px-4 py-3 bg-dark-bg-2 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-primary"
+                    required
+                >
+                <button type="submit" class="btn-main px-8 py-3">
+                    Subscribe
+                </button>
+            </form>
+
+            <div class="mt-4">
+                <label class="flex items-center justify-center gap-2 text-sm text-gray-400">
+                    <input type="checkbox" class="text-primary">
+                    <span>I agree to receive marketing emails</span>
+                </label>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark-bg-2 py-12">
+        <div class="max-w-container mx-auto px-6">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <!-- Address -->
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Address</h3>
+                    <p class="text-gray-300">
+                        Pakistan Convention Center<br>
+                        Constitution Avenue, Islamabad<br>
+                        Pakistan 44000
+                    </p>
+                </div>
+
+                <!-- Social Links -->
+                <div class="text-center">
+                    <div class="flex justify-center space-x-4">
+                        <a href="#" class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-secondary transition-all">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-secondary transition-all">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-secondary transition-all">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-secondary transition-all">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Contact -->
+                <div class="text-right">
+                    <h3 class="text-xl font-bold mb-4">Contact Us</h3>
+                    <p class="text-gray-300">
+                        T. +92 51 123 4567<br>
+                        M. info@weconmasawat.com
+                    </p>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 pt-8 text-center">
+                <p class="text-gray-400">Copyright 2025 - WECON MASAWAT by TechHub Pakistan</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- External Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('navbar-scrolled');
+            } else {
+                navbar.classList.remove('navbar-scrolled');
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', function() {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Countdown timer
+        function updateCountdown() {
+            const eventDate = new Date('2025-11-25T00:00:00').getTime();
+            const now = new Date().getTime();
+            const distance = eventDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').textContent = days.toString().padStart(2, '0');
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        // Update countdown every second
+        setInterval(updateCountdown, 1000);
+        updateCountdown(); // Initial call
+
+        // Schedule tabs functionality
+        const scheduleTabs = document.querySelectorAll('.schedule-tab');
+        const scheduleContents = document.querySelectorAll('.schedule-content');
+
+        scheduleTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                const targetDay = this.getAttribute('data-day');
+
+                // Remove active class from all tabs
+                scheduleTabs.forEach(t => {
+                    t.classList.remove('active', 'bg-primary', 'text-secondary');
+                    t.classList.add('bg-dark-bg-2', 'text-white');
+                });
+
+                // Add active class to clicked tab
+                this.classList.add('active', 'bg-primary', 'text-secondary');
+                this.classList.remove('bg-dark-bg-2', 'text-white');
+
+                // Hide all schedule contents
+                scheduleContents.forEach(content => {
+                    content.classList.add('hidden');
+                });
+
+                // Show target schedule content
+                document.getElementById(targetDay).classList.remove('hidden');
+            });
+        });
+
+        // FAQ accordion functionality
+        const faqToggles = document.querySelectorAll('.faq-toggle');
+
+        faqToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const content = this.nextElementSibling;
+                const icon = this.querySelector('i');
+
+                // Toggle content
+                content.classList.toggle('active');
+
+                // Toggle icon
+                if (content.classList.contains('active')) {
+                    icon.classList.remove('fa-plus');
+                    icon.classList.add('fa-minus');
+                    icon.style.transform = 'rotate(180deg)';
+                } else {
+                    icon.classList.remove('fa-minus');
+                    icon.classList.add('fa-plus');
+                    icon.style.transform = 'rotate(0deg)';
+                }
+            });
+        });
+
+        // Logo carousel with Swiper - Initialize after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof Swiper !== 'undefined') {
+                const logoCarousel = new Swiper('.logo-carousel', {
+                    slidesPerView: 2,
+                    spaceBetween: 40,
+                    loop: true,
+                    centeredSlides: false,
+                    autoplay: {
+                        delay: 2500,
+                        disableOnInteraction: false,
+                        pauseOnMouseEnter: true,
+                    },
+                    speed: 1000,
+                    breakpoints: {
+                        480: {
+                            slidesPerView: 3,
+                            spaceBetween: 30,
+                        },
+                        768: {
+                            slidesPerView: 4,
+                            spaceBetween: 40,
+                        },
+                        1024: {
+                            slidesPerView: 5,
+                            spaceBetween: 50,
+                        },
+                        1280: {
+                            slidesPerView: 6,
+                            spaceBetween: 60,
+                        },
+                    },
+                });
+            }
+        });
+
+        // Scroll to top functionality
+        const scrollTopBtn = document.getElementById('scroll-top');
+
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                scrollTopBtn.style.opacity = '1';
+            } else {
+                scrollTopBtn.style.opacity = '0';
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Newsletter form submission
+        const newsletterForm = document.querySelector('form');
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            const checkbox = this.querySelector('input[type="checkbox"]').checked;
+
+            if (!checkbox) {
+                alert('Please agree to receive marketing emails');
+                return;
+            }
+
+            // Simulate form submission
+            alert('Thank you for subscribing! You will receive updates about AI Summit 2025.');
+            this.reset();
+        });
+
+        // Add floating animation to hero elements
+        const floatingElements = document.querySelectorAll('.animate-float');
+        floatingElements.forEach((element, index) => {
+            element.style.animationDelay = `${index * 0.5}s`;
+        });
+
+        // Parallax effect for hero video (simple version)
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const video = document.querySelector('.video-background');
+            if (video) {
+                video.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+    </script>
+
+</body>
+</html>

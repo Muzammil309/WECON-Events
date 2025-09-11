@@ -1,0 +1,26 @@
+{
+  "name": "Filesystem MCP",
+  "id": "filesystem",
+  "description": "Read and write files to disk",
+  "server": {
+    "command": "socat",
+    "args": ["STDIO", "TCP:localhost:8811"]
+  },
+  "capabilities": {
+    "resources": true,
+    "tools": true
+  }
+}
+}
+{
+  "name": "Filesystem",
+  "id": "filesystem",
+  "description": "Read and write files in the project directory.",
+  "command": "docker",
+  "args": [
+    "run", "-i", "--rm",
+    "-v", "${PWD}:/project",
+    "ghcr.io/augmentcode/mcp-fs:latest"
+  ]
+}
+

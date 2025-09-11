@@ -12,7 +12,14 @@
     "db:setup": "node scripts/setup-production-db.js",
     "db:migrate": "prisma migrate deploy",
     "db:push": "prisma db push",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "assets:setup": "node scripts/setup-wecon-assets.js",
+    "assets:setup:supabase": "node scripts/setup-wecon-assets.js --supabase",
+    "assets:download": "node scripts/download-aivent-assets.js",
+    "assets:update-html": "node scripts/update-html-assets.js",
+    "assets:upload": "node scripts/upload-to-supabase.js",
+    "assets:test": "node scripts/setup-wecon-assets.js --test",
+    "serve:static": "npx http-server . -p 8080 -o wecon-masawat-2025.html"
   },
   "dependencies": {
     "@prisma/client": "^6.13.0",
@@ -56,6 +63,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.4.6",
+    "http-server": "^14.1.1",
     "prisma": "^6.13.0",
     "tailwindcss": "^4",
     "typescript": "^5"
