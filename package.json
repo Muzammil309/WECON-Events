@@ -16,10 +16,13 @@
     "assets:setup": "node scripts/setup-wecon-assets.js",
     "assets:setup:supabase": "node scripts/setup-wecon-assets.js --supabase",
     "assets:download": "node scripts/download-aivent-assets.js",
+    "assets:download:complete": "node scripts/download-aivent-assets-complete.js",
     "assets:update-html": "node scripts/update-html-assets.js",
     "assets:upload": "node scripts/upload-to-supabase.js",
     "assets:test": "node scripts/setup-wecon-assets.js --test",
-    "serve:static": "npx http-server . -p 8080 -o wecon-masawat-2025.html"
+    "clone:setup": "npm run assets:download:complete && echo 'Pixel-perfect AIvent clone ready!'",
+    "serve:static": "npx http-server . -p 8080 -o wecon-masawat-2025.html",
+    "serve:clone": "npx http-server . -p 8081 -o aivent-pixel-perfect-clone.html"
   },
   "dependencies": {
     "@prisma/client": "^6.13.0",
