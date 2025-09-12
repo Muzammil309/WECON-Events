@@ -162,6 +162,60 @@
             max-height: 200px;
         }
 
+        /* Enhanced Button Styles */
+        .btn-main {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-main::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-main:hover::before {
+            left: 100%;
+        }
+
+        /* Enhanced Card Hover Effects */
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(250, 208, 76, 0.1);
+        }
+
+        /* Enhanced Navbar Scroll Effect */
+        .navbar-scrolled {
+            background: rgba(16, 20, 53, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(250, 208, 76, 0.1);
+        }
+
+        /* Improved Video Background */
+        .video-background {
+            filter: brightness(0.3) contrast(1.2);
+        }
+
+        /* Enhanced Section Spacing */
+        .section-padding {
+            padding: 120px 0;
+        }
+
+        @media (max-width: 768px) {
+            .section-padding {
+                padding: 80px 0;
+            }
+        }
+
         /* Ensure proper z-index layering */
         .video-background {
             z-index: -3;
@@ -875,8 +929,108 @@
         </div>
     </section>
 
+    <!-- Stats Section -->
+    <section class="py-20 bg-secondary relative overflow-hidden">
+        <div class="absolute inset-0 bg-cover bg-center opacity-10" style="background-image: url('https://madebydesignesia.com/themes/aivent/images/background/3.webp')"></div>
+        <div class="relative z-10 max-w-container mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <div class="text-primary text-lg font-medium tracking-wider mb-4">5 Days of AI Excellence</div>
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6">Numbers That Matter</h2>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center" data-aos="fade-up" data-aos-delay="100">
+                    <div class="text-5xl lg:text-6xl font-black text-primary mb-4">50+</div>
+                    <div class="text-xl font-semibold mb-2">Expert Speakers</div>
+                    <div class="text-gray-400">Industry Leaders</div>
+                </div>
+                <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+                    <div class="text-5xl lg:text-6xl font-black text-primary mb-4">1000+</div>
+                    <div class="text-xl font-semibold mb-2">Attendees</div>
+                    <div class="text-gray-400">Tech Professionals</div>
+                </div>
+                <div class="text-center" data-aos="fade-up" data-aos-delay="300">
+                    <div class="text-5xl lg:text-6xl font-black text-primary mb-4">25+</div>
+                    <div class="text-xl font-semibold mb-2">Workshops</div>
+                    <div class="text-gray-400">Hands-on Sessions</div>
+                </div>
+                <div class="text-center" data-aos="fade-up" data-aos-delay="400">
+                    <div class="text-5xl lg:text-6xl font-black text-primary mb-4">15+</div>
+                    <div class="text-xl font-semibold mb-2">Countries</div>
+                    <div class="text-gray-400">Global Reach</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest News Section -->
+    <section class="py-20 bg-dark-bg-2">
+        <div class="max-w-container mx-auto px-6">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <div class="text-primary text-lg font-medium tracking-wider mb-4">Latest News</div>
+                <h2 class="text-4xl lg:text-5xl font-bold mb-6">Stay Updated</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- News Item 1 -->
+                <div class="card-hover bg-secondary rounded-lg overflow-hidden border border-gray-700" data-aos="fade-up" data-aos-delay="100">
+                    <div class="relative">
+                        <img src="https://madebydesignesia.com/themes/aivent/images/news/1.webp" alt="News" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-primary text-secondary px-3 py-1 rounded-full text-sm font-semibold">Tech News</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-gray-400 text-sm mb-3">November 15, 2024</div>
+                        <h3 class="text-xl font-bold mb-3 hover:text-primary transition-colors">
+                            <a href="#">AI Revolution: How Machine Learning is Transforming Pakistan's Tech Industry</a>
+                        </h3>
+                        <p class="text-gray-300 mb-4">Discover how Pakistani startups are leveraging AI to solve local challenges and compete globally...</p>
+                        <a href="#" class="text-primary font-semibold hover:underline">Read More →</a>
+                    </div>
+                </div>
+
+                <!-- News Item 2 -->
+                <div class="card-hover bg-secondary rounded-lg overflow-hidden border border-gray-700" data-aos="fade-up" data-aos-delay="200">
+                    <div class="relative">
+                        <img src="https://madebydesignesia.com/themes/aivent/images/news/2.webp" alt="News" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-primary text-secondary px-3 py-1 rounded-full text-sm font-semibold">Innovation</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-gray-400 text-sm mb-3">November 12, 2024</div>
+                        <h3 class="text-xl font-bold mb-3 hover:text-primary transition-colors">
+                            <a href="#">Web3 and Blockchain: The Future of Digital Pakistan</a>
+                        </h3>
+                        <p class="text-gray-300 mb-4">Exploring how blockchain technology is creating new opportunities for Pakistani developers...</p>
+                        <a href="#" class="text-primary font-semibold hover:underline">Read More →</a>
+                    </div>
+                </div>
+
+                <!-- News Item 3 -->
+                <div class="card-hover bg-secondary rounded-lg overflow-hidden border border-gray-700" data-aos="fade-up" data-aos-delay="300">
+                    <div class="relative">
+                        <img src="https://madebydesignesia.com/themes/aivent/images/news/3.webp" alt="News" class="w-full h-48 object-cover">
+                        <div class="absolute top-4 left-4">
+                            <span class="bg-primary text-secondary px-3 py-1 rounded-full text-sm font-semibold">Startup</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="text-gray-400 text-sm mb-3">November 10, 2024</div>
+                        <h3 class="text-xl font-bold mb-3 hover:text-primary transition-colors">
+                            <a href="#">From Karachi to Silicon Valley: Success Stories of Pakistani Tech Entrepreneurs</a>
+                        </h3>
+                        <p class="text-gray-300 mb-4">Meet the Pakistani founders who are making waves in the global tech scene...</p>
+                        <a href="#" class="text-primary font-semibold hover:underline">Read More →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- FAQ Section -->
-    <section id="faq" class="py-20 bg-dark-bg-2">
+    <section id="faq" class="py-20 bg-secondary">
         <div class="max-w-4xl mx-auto px-6">
             <div class="text-center mb-16" data-aos="fade-up">
                 <div class="text-primary text-lg font-medium tracking-wider mb-4">FAQ</div>
@@ -885,7 +1039,7 @@
 
             <div class="space-y-4">
                 <!-- FAQ Item 1 -->
-                <div class="bg-secondary rounded-lg border border-gray-700" data-aos="fade-up" data-aos-delay="100">
+                <div class="bg-dark-bg-2 rounded-lg border border-gray-700" data-aos="fade-up" data-aos-delay="100">
                     <button class="faq-toggle w-full p-6 text-left flex justify-between items-center">
                         <span class="text-lg font-semibold">What is included in the ticket price?</span>
                         <i class="fas fa-plus text-primary transition-transform"></i>
@@ -896,7 +1050,7 @@
                 </div>
 
                 <!-- FAQ Item 2 -->
-                <div class="bg-secondary rounded-lg border border-gray-700" data-aos="fade-up" data-aos-delay="200">
+                <div class="bg-dark-bg-2 rounded-lg border border-gray-700" data-aos="fade-up" data-aos-delay="200">
                     <button class="faq-toggle w-full p-6 text-left flex justify-between items-center">
                         <span class="text-lg font-semibold">Do I need to bring my laptop for workshops?</span>
                         <i class="fas fa-plus text-primary transition-transform"></i>
@@ -907,7 +1061,7 @@
                 </div>
 
                 <!-- FAQ Item 3 -->
-                <div class="bg-secondary rounded-lg border border-gray-700" data-aos="fade-up" data-aos-delay="300">
+                <div class="bg-dark-bg-2 rounded-lg border border-gray-700" data-aos="fade-up" data-aos-delay="300">
                     <button class="faq-toggle w-full p-6 text-left flex justify-between items-center">
                         <span class="text-lg font-semibold">Will sessions be recorded?</span>
                         <i class="fas fa-plus text-primary transition-transform"></i>
@@ -916,86 +1070,188 @@
                         <p class="text-gray-300">Yes, all keynote sessions will be recorded and made available to ticket holders within 48 hours after the event. Workshop recordings may be limited due to interactive nature.</p>
                     </div>
                 </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="bg-dark-bg-2 rounded-lg border border-gray-700" data-aos="fade-up" data-aos-delay="400">
+                    <button class="faq-toggle w-full p-6 text-left flex justify-between items-center">
+                        <span class="text-lg font-semibold">Is there parking available at the venue?</span>
+                        <i class="fas fa-plus text-primary transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6 pb-6">
+                        <p class="text-gray-300">Yes, free parking is available at the Pakistan Convention Center. We also recommend using ride-sharing services or public transportation for convenience.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 5 -->
+                <div class="bg-dark-bg-2 rounded-lg border border-gray-700" data-aos="fade-up" data-aos-delay="500">
+                    <button class="faq-toggle w-full p-6 text-left flex justify-between items-center">
+                        <span class="text-lg font-semibold">Can I get a refund if I can't attend?</span>
+                        <i class="fas fa-plus text-primary transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6 pb-6">
+                        <p class="text-gray-300">Refunds are available up to 30 days before the event. After that, tickets can be transferred to another person. Please contact our support team for assistance.</p>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 6 -->
+                <div class="bg-dark-bg-2 rounded-lg border border-gray-700" data-aos="fade-up" data-aos-delay="600">
+                    <button class="faq-toggle w-full p-6 text-left flex justify-between items-center">
+                        <span class="text-lg font-semibold">Will there be networking opportunities?</span>
+                        <i class="fas fa-plus text-primary transition-transform"></i>
+                    </button>
+                    <div class="accordion-content px-6 pb-6">
+                        <p class="text-gray-300">Absolutely! We have dedicated networking sessions, coffee breaks, lunch networking, and a VIP dinner for Professional and Corporate ticket holders.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Newsletter Section -->
-    <section class="py-20 bg-secondary">
-        <div class="max-w-4xl mx-auto px-6 text-center" data-aos="fade-up">
-            <h2 class="text-4xl lg:text-5xl font-bold mb-6">Stay Connected</h2>
-            <p class="text-gray-300 text-lg mb-8">
-                Get the latest updates about WECON MASAWAT 2025, speaker announcements, and exclusive tech content delivered to your inbox.
+    <!-- Stay Updated Section -->
+    <section class="py-20 bg-dark-bg-2 relative overflow-hidden">
+        <div class="absolute inset-0 bg-cover bg-center opacity-5" style="background-image: url('https://madebydesignesia.com/themes/aivent/images/background/4.webp')"></div>
+        <div class="relative z-10 max-w-4xl mx-auto px-6 text-center" data-aos="fade-up">
+            <div class="text-primary text-lg font-medium tracking-wider mb-4">Stay Updated</div>
+            <h2 class="text-4xl lg:text-5xl font-bold mb-6">Don't Miss Out</h2>
+            <p class="text-gray-300 text-xl mb-12 leading-relaxed">
+                Get the latest updates about WECON MASAWAT 2025, speaker announcements, early bird discounts, and exclusive tech content delivered to your inbox.
             </p>
 
-            <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-                <input
-                    type="email"
-                    placeholder="Enter your email"
-                    class="flex-1 px-4 py-3 bg-dark-bg-2 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-primary"
-                    required
-                >
-                <button type="submit" class="btn-main px-8 py-3">
-                    Subscribe
-                </button>
-            </form>
+            <div class="bg-secondary p-8 lg:p-12 rounded-2xl border border-gray-700 max-w-2xl mx-auto">
+                <form class="space-y-6">
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <input
+                            type="email"
+                            placeholder="Enter your email address"
+                            class="flex-1 px-6 py-4 bg-dark-bg-2 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+                            required
+                        >
+                        <button type="submit" class="btn-main px-8 py-4 text-lg font-bold whitespace-nowrap">
+                            Subscribe Now
+                        </button>
+                    </div>
 
-            <div class="mt-4">
-                <label class="flex items-center justify-center gap-2 text-sm text-gray-400">
-                    <input type="checkbox" class="text-primary">
-                    <span>I agree to receive marketing emails</span>
-                </label>
+                    <div class="flex items-start gap-3 text-left">
+                        <input type="checkbox" id="newsletter-consent" class="mt-1 text-primary focus:ring-primary" required>
+                        <label for="newsletter-consent" class="text-sm text-gray-400 leading-relaxed">
+                            I agree to receive marketing emails and updates about WECON MASAWAT 2025. You can unsubscribe at any time.
+                        </label>
+                    </div>
+                </form>
+
+                <div class="mt-8 pt-8 border-t border-gray-700">
+                    <div class="flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check text-primary"></i>
+                            <span>Speaker Announcements</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check text-primary"></i>
+                            <span>Early Bird Discounts</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-check text-primary"></i>
+                            <span>Exclusive Content</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-dark-bg-2 py-12">
+    <footer class="bg-secondary py-16 border-t border-gray-700">
         <div class="max-w-container mx-auto px-6">
-            <div class="grid md:grid-cols-3 gap-8 mb-8">
-                <!-- Address -->
-                <div>
-                    <h3 class="text-xl font-bold mb-4">Address</h3>
-                    <p class="text-gray-300">
-                        Pakistan Convention Center<br>
-                        Constitution Avenue, Islamabad<br>
-                        Pakistan 44000
+            <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-8 mb-12">
+                <!-- Logo & Description -->
+                <div class="lg:col-span-2">
+                    <div class="mb-6">
+                        <img src="https://madebydesignesia.com/themes/aivent/images/logo.webp" alt="WECON MASAWAT Logo" class="h-10 mb-4">
+                        <h3 class="text-2xl font-bold text-primary mb-4">WECON MASAWAT 2025</h3>
+                    </div>
+                    <p class="text-gray-300 text-lg leading-relaxed mb-6 max-w-md">
+                        Pakistan's premier web development and technology conference. Join us for 2 days of innovation, learning, and networking with the country's top tech professionals.
                     </p>
-                </div>
-
-                <!-- Social Links -->
-                <div class="text-center">
-                    <div class="flex justify-center space-x-4">
-                        <a href="#" class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-secondary transition-all">
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-12 h-12 bg-dark-bg-2 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-secondary transition-all duration-300">
                             <i class="fab fa-facebook-f"></i>
                         </a>
-                        <a href="#" class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-secondary transition-all">
+                        <a href="#" class="w-12 h-12 bg-dark-bg-2 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-secondary transition-all duration-300">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="#" class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-secondary transition-all">
+                        <a href="#" class="w-12 h-12 bg-dark-bg-2 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-secondary transition-all duration-300">
                             <i class="fab fa-instagram"></i>
                         </a>
-                        <a href="#" class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-secondary transition-all">
+                        <a href="#" class="w-12 h-12 bg-dark-bg-2 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-secondary transition-all duration-300">
                             <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="w-12 h-12 bg-dark-bg-2 rounded-full flex items-center justify-center text-primary hover:bg-primary hover:text-secondary transition-all duration-300">
+                            <i class="fab fa-youtube"></i>
                         </a>
                     </div>
                 </div>
 
-                <!-- Contact -->
-                <div class="text-right">
-                    <h3 class="text-xl font-bold mb-4">Contact Us</h3>
-                    <p class="text-gray-300">
-                        T. +92 51 123 4567<br>
-                        M. info@weconmasawat.com
-                    </p>
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-xl font-bold mb-6 text-white">Quick Links</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#about" class="text-gray-300 hover:text-primary transition-colors">About Event</a></li>
+                        <li><a href="#speakers" class="text-gray-300 hover:text-primary transition-colors">Speakers</a></li>
+                        <li><a href="#schedule" class="text-gray-300 hover:text-primary transition-colors">Schedule</a></li>
+                        <li><a href="#tickets" class="text-gray-300 hover:text-primary transition-colors">Tickets</a></li>
+                        <li><a href="#venue" class="text-gray-300 hover:text-primary transition-colors">Venue</a></li>
+                        <li><a href="#faq" class="text-gray-300 hover:text-primary transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h3 class="text-xl font-bold mb-6 text-white">Contact Info</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <i class="fas fa-map-marker-alt text-primary mt-1"></i>
+                            <div class="text-gray-300">
+                                Pakistan Convention Center<br>
+                                Constitution Avenue<br>
+                                Islamabad, Pakistan 44000
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-phone text-primary"></i>
+                            <span class="text-gray-300">+92 51 123 4567</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-envelope text-primary"></i>
+                            <span class="text-gray-300">info@weconmasawat.com</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fas fa-globe text-primary"></i>
+                            <span class="text-gray-300">www.weconmasawat.com</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="border-t border-gray-700 pt-8 text-center">
-                <p class="text-gray-400">Copyright 2025 - WECON MASAWAT by TechHub Pakistan</p>
+            <!-- Bottom Footer -->
+            <div class="border-t border-gray-700 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div class="text-gray-400 text-center md:text-left">
+                        <p>&copy; 2025 WECON MASAWAT. All rights reserved. Organized by TechHub Pakistan.</p>
+                    </div>
+                    <div class="flex flex-wrap gap-6 text-sm">
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">Privacy Policy</a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">Terms of Service</a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">Code of Conduct</a>
+                    </div>
+                </div>
             </div>
         </div>
     </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scroll-top" class="fixed bottom-8 right-8 w-12 h-12 bg-primary text-secondary rounded-full flex items-center justify-center opacity-0 transition-all duration-300 hover:bg-primary/90 hover:scale-110 z-50">
+        <i class="fas fa-arrow-up"></i>
+    </button>
 
     <!-- External Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.min.js"></script>
