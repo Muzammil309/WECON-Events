@@ -1,0 +1,49 @@
+name: Vercel Deployment Check
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Run build test
+      run: npm run build
+      
+    - name: Run type check
+      run: npm run type-check
+      
+    - name: Verify AIvent content
+      run: |
+        echo "Checking for AIvent implementation..."
+        if grep -r "AIvent\|AIVENT" app/ components/ --include="*.tsx" --include="*.ts"; then
+          echo "✅ AIvent content found in source files"
+        else
+          echo "❌ AIvent content not found"
+          exit 1
+        fi
+        
+    - name: Check deployment readiness
+      run: |
+        echo "🚀 Build successful - Ready for Vercel deployment"
+        echo "📋 Deployment checklist:"
+        echo "✅ Dependencies installed"
+        echo "✅ Build completed successfully"
+        echo "✅ Type checking passed"
+        echo "✅ AIvent content verified"
