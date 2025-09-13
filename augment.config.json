@@ -1,26 +1,76 @@
-{
-  "name": "Filesystem MCP",
-  "id": "filesystem",
-  "description": "Read and write files to disk",
-  "server": {
-    "command": "socat",
-    "args": ["STDIO", "TCP:localhost:8811"]
-  },
-  "capabilities": {
-    "resources": true,
-    "tools": true
-  }
-}
-}
-{
-  "name": "Filesystem",
-  "id": "filesystem",
-  "description": "Read and write files in the project directory.",
-  "command": "docker",
-  "args": [
-    "run", "-i", "--rm",
-    "-v", "${PWD}:/project",
-    "ghcr.io/augmentcode/mcp-fs:latest"
-  ]
+# ==============================
+# Paths and configuration
+# ==============================
+$projectPath = "C:\Users\DELL\Documents\augment-projects\Event management website"
+$configPath  = "$projectPath\augment-config.json"
+
+# Define MCP servers
+$mcpServers = @(
+    @{ name="Figma MCP"; id="figma-mcp"; port=8811 },
+    @{ name="ScreenPipe"; id="screenpipe"; port=8812 },
+    @{ name="Website Downloader"; id="website-downloader"; port=8813 }
+)
+
+# ==============================
+# Free ports if occupied
+# ==============================
+foreach ($server in $mcpServers) {
+    $port = $server.port
+    $proc = netstat -ano | Select-String ":$port\s" | ForEach-Object {
+        ($_ -split "\s+")[-1]
+    } | Select-Object -Unique
+
+    foreach ($pid in $proc) {
+        if ($pid -ne $null -and $pid -ne 0) {
+            Write-Host "Killing process $pid using port $port..."
+            taskkill /PID $pid /F
+        }
+    }
 }
 
+# ==============================
+# Stop and remove existing containers
+# ==============================
+foreach ($server in $mcpServers) {
+    Write-Host "Stopping and removing container: $($server.id)..."
+    docker rm -f $($server.id) -ErrorAction SilentlyContinue
+}
+
+# ==============================
+# Build and run containers
+# ==============================
+foreach ($server in $mcpServers) {
+    $imageName = "eventmanagementwebsite-$($server.id)"
+    $folderPath = "$projectPath\$($server.id)" # Dockerfile location
+
+    Write-Host "Building image for container: $($server.id)..."
+    docker build -t $imageName $folderPath
+
+    Write-Host "Running container: $($server.id) on port $($server.port)..."
+    docker run -d --name $($server.id) -p $($server.port):$($server.port) $imageName
+}
+
+# ==============================
+# Update augment-config.json
+# ==============================
+$mcpJson = $mcpServers | ForEach-Object {
+    @{
+        name = $_.name
+        id = $_.id
+        description = "Connects to $_.name MCP server"
+        server = @{
+            command = "socat"
+            args    = @("STDIO", "TCP:localhost:$($_.port)")
+        }
+        capabilities = @{
+            resources = $true
+            tools = $true
+        }
+    }
+}
+
+$jsonString = $mcpJson | ConvertTo-Json -Depth 5 -Compress
+Set-Content -Path $configPath -Value $jsonString -Encoding UTF8
+
+Write-Host "`nAll MCP containers are running!"
+Write-Host "augment-config.json updated. You can now connect AugmentCode."

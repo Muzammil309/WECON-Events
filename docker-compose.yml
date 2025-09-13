@@ -1,47 +1,29 @@
 services:
-  filesystem:
-    image: ghcr.io/augmentcode/mcp-fs:latest
-    container_name: mcp-filesystem
+  screenpipe:
+    build:
+      context: ./screenpipe
+      dockerfile: Dockerfile
     ports:
-      - "8816:8816"
+      - "6399:6399"
+    env_file:
+      - ./.env
     volumes:
-      - ./project:/project
-    stdin_open: true
-    tty: true
-    restart: unless-stopped
+      - ./screenpipe/data:/data
 
-  web-scraper:
-    image: ghcr.io/augmentcode/mcp-web-scraper:latest
-    container_name: mcp-web-scraper
+  figma-mcp:
+    build:
+      context: ./figma-mcp
+      dockerfile: Dockerfile
     ports:
-      - "8812:8812"
-    stdin_open: true
-    tty: true
-    restart: unless-stopped
+      - "8080:8080"
+    env_file:
+      - ./.env
 
-  code-generator:
-    image: ghcr.io/augmentcode/mcp-codegen:latest
-    container_name: mcp-code-generator
+  website-downloader:
+    build:
+      context: ./website-downloader
+      dockerfile: Dockerfile
     ports:
-      - "8813:8813"
-    stdin_open: true
-    tty: true
-    restart: unless-stopped
-
-  browser-automation:
-    image: ghcr.io/augmentcode/mcp-browser:latest
-    container_name: mcp-browser
-    ports:
-      - "8814:8814"
-    stdin_open: true
-    tty: true
-    restart: unless-stopped
-
-  shadcn:
-    build: ./shadcn   # 👈 create folder with Dockerfile for your custom shadcn MCP
-    container_name: mcp-shadcn
-    ports:
-      - "8820:8820"
-    stdin_open: true
-    tty: true
-    restart: unless-stopped
+      - "3004:3000"
+    env_file:
+      - ./.env
