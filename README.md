@@ -1,204 +1,266 @@
-# WECON Masawat - Event Management Platform
+# 🚀 AIvent Official - Pixel-Perfect AI Summit Website
 
-A comprehensive, modern event management web application that combines the best features from Attendize, Indico, Mobilizon, and OSEM into a unified platform.
-
-## 🎯 Project Overview
-
-WECON Masawat is an open-source event management platform designed to handle everything from small meetups to large conferences. It provides a complete solution for event organizers with features for registration, ticketing, agenda management, analytics, and attendee engagement.
+A stunning, pixel-perfect implementation of the official AIvent Demo 1 template built with Next.js 14, React 18, TypeScript, Tailwind CSS, and shadcn/ui components. This project demonstrates modern web development practices with exceptional attention to detail and performance.
 
 ## ✨ Features
 
-### 🎫 Registration & Ticketing System
-- **Multiple Ticket Tiers**: Early Bird, General, VIP, and Sponsor passes
-- **Dynamic Pricing**: Support for different pricing strategies
-- **QR Code Generation**: Automatic QR code generation for check-in
-- **Real-time Availability**: Live ticket availability tracking
-- **Attendee Dashboard**: Personal dashboard for ticket management
+### 🎨 Design & UI
+- **Pixel-Perfect Recreation** of the official AIvent Demo 1 template
+- **Official Color Scheme** (#764DF0 primary, #442490 secondary)
+- **Dark Theme** with purple/blue gradient aesthetics
+- **Fully Responsive** mobile-first design
+- **Smooth Animations** powered by Framer Motion
+- **Glass Morphism Effects** for modern visual appeal
+- **Interactive Elements** with hover states and micro-interactions
 
-### 📅 Agenda & Session Management
-- **Multi-track Scheduling**: Support for parallel sessions and tracks
-- **Speaker Management**: Comprehensive speaker profiles and bios
-- **Session Types**: Keynotes, talks, workshops, panels, and networking
-- **Multiple Views**: Grid, list, and timeline agenda views
-- **Advanced Filtering**: Filter by day, track, room, or search terms
+### 🧩 Components & Sections
+- **Hero Section** with video background and countdown timer
+- **About Section** with rotating image and animated statistics
+- **Marquee Section** with scrolling text animations
+- **Why Attend Section** with feature cards and hover effects
+- **Quote Section** with testimonial and profile image
+- **Speakers Section** (placeholder for speaker profiles)
+- **Schedule Section** (placeholder for event agenda)
+- **Tickets Section** (placeholder for pricing tiers)
+- **Contact Section** with form and event information
+- **Footer** with newsletter signup and links
+- **Responsive Navigation** with smooth scroll and mobile menu
 
-### 📊 Analytics & Reporting
-- **Real-time Dashboards**: Live metrics and KPIs
-- **Revenue Tracking**: Detailed financial analytics
-- **Attendance Metrics**: Check-in rates and session popularity
-- **Export Functionality**: CSV and PDF report generation
-- **Visual Charts**: Interactive charts using Chart.js
-
-### 🎨 Modern UI/UX
-- **Responsive Design**: Mobile-first approach with TailwindCSS
-- **Dark Mode Support**: Automatic theme switching
-- **Smooth Animations**: Framer Motion for enhanced user experience
-- **Accessibility**: WCAG compliant design patterns
-
-## 🛠 Technology Stack
-
-### Frontend
-- **Framework**: Next.js 14 with App Router
-- **Styling**: TailwindCSS with custom design system
-- **Components**: Custom component library with ShadCN/UI
-- **Animations**: Framer Motion + Lottie for hero animations
-- **Charts**: Chart.js for data visualization
-- **Icons**: Lucide React icon library
-
-### Backend
-- **Runtime**: Node.js with Next.js API routes
-- **Database**: PostgreSQL with Prisma ORM
-- **Authentication**: JWT-based auth with bcrypt
-- **File Storage**: Local storage with plans for S3 integration
-- **API**: RESTful endpoints with comprehensive error handling
-
-### Development Tools
-- **Language**: TypeScript for type safety
-- **Linting**: ESLint with Next.js configuration
-- **Package Manager**: npm with lockfile management
-- **Build Tool**: Next.js with Turbopack for fast development
+### 🛠 Technical Stack
+- **Next.js 14** with App Router and TypeScript
+- **React 18** with functional components and hooks
+- **Tailwind CSS** for utility-first styling
+- **shadcn/ui** for consistent, accessible components
+- **Framer Motion** for smooth animations and transitions
+- **Lucide React** for beautiful, consistent icons
+- **React Intersection Observer** for scroll-triggered animations
+- **Official AIvent Assets** integrated from template
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+
-- PostgreSQL database
-- npm or yarn package manager
+- Node.js 18+ 
+- npm, yarn, or pnpm
 
 ### Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd wecon-masawat
-   ```
+1. **Navigate to the project directory**
+```bash
+cd aivent-official
+```
 
 2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
 
-3. **Set up environment variables**
-   ```bash
-   cp .env.example .env.local
-   ```
+3. **Start development server**
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+```
 
-   Configure the following variables:
-   ```env
-   DATABASE_URL="postgresql://username:password@localhost:5432/wecon_masawat"
-   NEXTAUTH_SECRET="your-secret-key"
-   NEXTAUTH_URL="http://localhost:3000"
-   JWT_SECRET="your-jwt-secret"
-   ```
+4. **Open your browser**
+```
+http://localhost:3000
+```
 
-4. **Set up the database**
-   ```bash
-   npx prisma generate
-   npx prisma db push
-   npx prisma db seed
-   ```
-
-5. **Start the development server**
-   ```bash
-   npm run dev
-   ```
-
-6. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+### Build for Production
+```bash
+npm run build
+npm run start
+```
 
 ## 📁 Project Structure
 
 ```
-wecon-masawat/
-├── src/
-│   ├── app/                    # Next.js App Router pages
-│   │   ├── (pages)/           # Main application pages
-│   │   ├── api/               # API routes
-│   │   └── globals.css        # Global styles
-│   ├── components/            # Reusable UI components
-│   │   ├── ui/               # Base UI components
-│   │   └── features/         # Feature-specific components
-│   ├── data/                 # Mock data and constants
-│   ├── lib/                  # Utility functions and configurations
-│   └── types/                # TypeScript type definitions
-├── prisma/                   # Database schema and migrations
-├── public/                   # Static assets
-└── docs/                     # Documentation
+aivent-official/
+├── app/
+│   ├── globals.css              # Global styles with official AIvent design system
+│   ├── layout.tsx               # Root layout with metadata and fonts
+│   └── page.tsx                 # Main page component
+├── components/
+│   ├── ui/                      # shadcn/ui components
+│   │   ├── button.tsx
+│   │   ├── card.tsx
+│   │   ├── dialog.tsx
+│   │   ├── input.tsx
+│   │   └── tabs.tsx
+│   ├── About.tsx                # About section with rotating image
+│   ├── Contact.tsx              # Contact form and information
+│   ├── Footer.tsx               # Footer with newsletter signup
+│   ├── Hero.tsx                 # Hero section with video background
+│   ├── MarqueeSection.tsx       # Scrolling text animations
+│   ├── Navbar.tsx               # Navigation component
+│   ├── News.tsx                 # News section placeholder
+│   ├── Quote.tsx                # Testimonial quote section
+│   ├── Schedule.tsx             # Event schedule placeholder
+│   ├── ScrollToTop.tsx          # Scroll to top button
+│   ├── Speakers.tsx             # Speaker profiles placeholder
+│   ├── Sponsors.tsx             # Sponsor logos placeholder
+│   ├── Tickets.tsx              # Pricing tiers placeholder
+│   └── WhyAttend.tsx            # Feature cards with hover effects
+├── lib/
+│   └── utils.ts                 # Utility functions
+├── types/
+│   └── index.ts                 # TypeScript type definitions
+├── public/
+│   └── assets/                  # Official AIvent assets
+│       ├── images/              # All original images from template
+│       ├── videos/              # Video backgrounds
+│       └── css/                 # Original CSS files for reference
+├── tailwind.config.ts           # Tailwind configuration with official colors
+├── next.config.js               # Next.js configuration
+└── package.json                 # Dependencies and scripts
 ```
-
-## 🔧 API Endpoints
-
-### Tickets
-- `GET /api/tickets` - Get all ticket types for an event
-- `POST /api/tickets` - Create a new ticket type
-- `PUT /api/tickets` - Update a ticket type
-- `DELETE /api/tickets` - Delete a ticket type
-- `POST /api/tickets/purchase` - Purchase tickets
-
-### Agenda
-- `GET /api/agenda` - Get event sessions with filtering
-- `POST /api/agenda` - Create a new session
-- `PUT /api/agenda` - Update a session
-- `DELETE /api/agenda` - Delete a session
-
-### Analytics
-- `GET /api/analytics` - Get event analytics data
-- `POST /api/analytics/export` - Export analytics data
-
-### Authentication
-- `POST /api/auth/login` - User authentication
-- `POST /api/auth/logout` - User logout
 
 ## 🎨 Design System
 
-### Colors
-- **Primary**: #1E40AF (blue)
-- **Accent**: #FACC15 (yellow)
-- **Dark**: #111827 (charcoal)
-- **Light**: #F9FAFB (off-white)
+### Official AIvent Colors
+```css
+/* Primary Colors from scheme-01.css */
+--primary-color: #764DF0       /* Main purple */
+--secondary-color: #442490     /* Darker purple */
+```
 
 ### Typography
-- **Headings**: Inter font family with various weights
-- **Body**: System font stack for optimal performance
-- **Code**: Monospace for technical content
+- **Primary Font**: Manrope (Google Fonts)
+- **Font Weights**: 200, 300, 400, 500, 600, 700, 800
 
-## 🧪 Testing
+### Key Components
+- **Hero Section**: Video background with countdown timer
+- **About Section**: Rotating image with animated content
+- **Marquee Section**: Scrolling text with rotation effects
+- **Why Attend**: Feature cards with hover animations
+- **Quote Section**: Testimonial with profile image
 
-```bash
-# Run unit tests
-npm run test
+## 🧩 Component Features
 
-# Run integration tests
-npm run test:integration
+### Hero Section
+- **Video Background** with poster fallback
+- **Real-time Countdown Timer** to October 1, 2025
+- **Animated Statistics** and floating elements
+- **Responsive CTAs** with smooth scroll navigation
+- **Bottom info card** with event details
 
-# Run e2e tests
-npm run test:e2e
+### About Section
+- **Rotating Image** with continuous animation
+- **Animated Content** with staggered reveals
+- **Checklist Items** with checkmark icons
+- **Floating Elements** for visual interest
+
+### Marquee Section
+- **Dual Marquee Rows** with opposite directions
+- **Rotation Effects** matching original template
+- **Smooth Animations** with proper timing
+
+### Why Attend Section
+- **6 Feature Cards** with hover effects
+- **Image Overlays** with gradient transitions
+- **Scale Animations** on hover
+- **Staggered Reveals** for smooth loading
+
+## 📱 Responsive Design
+
+### Breakpoints
+- **Mobile**: < 768px
+- **Tablet**: 768px - 1024px  
+- **Desktop**: > 1024px
+
+### Mobile Features
+- **Hamburger Menu** with slide-out navigation
+- **Touch-Optimized** interactions
+- **Stacked Layouts** for mobile screens
+- **Optimized Performance** for mobile devices
+
+## 🎭 Animations & Effects
+
+### Framer Motion Features
+- **Page Transitions** with staggered children
+- **Scroll-Triggered** animations using Intersection Observer
+- **Hover States** with scale and movement effects
+- **Loading States** with smooth reveals
+- **Custom Variants** for reusable animations
+
+### CSS Effects
+- **Glass Morphism** with backdrop blur
+- **Gradient Backgrounds** and text effects
+- **Rotating Elements** with CSS animations
+- **Smooth Scrolling** behavior
+- **Custom Scrollbar** styling
+
+## 🔧 Customization
+
+### Content Updates
+```typescript
+// Update event details in Hero.tsx
+const EVENT_DATE = new Date('2025-10-01T09:00:00-07:00')
+
+// Modify features in WhyAttend.tsx
+const features = [
+  {
+    title: "Your Feature",
+    description: "Feature description",
+    image: "/assets/images/misc/your-image.webp"
+  }
+]
 ```
 
-## 📦 Deployment
-
-### Vercel (Recommended for Frontend)
-1. Connect your repository to Vercel
-2. Configure environment variables
-3. Deploy automatically on push
-
-### Docker
-```bash
-# Build the container
-docker build -t wecon-masawat .
-
-# Run the container
-docker run -p 3000:3000 wecon-masawat
+### Styling Changes
+```css
+/* Update colors in tailwind.config.ts */
+colors: {
+  primary: {
+    DEFAULT: '#764DF0', // Official AIvent primary
+    // ... other shades
+  }
+}
 ```
 
-### Manual Deployment
-```bash
-# Build the application
-npm run build
+## 🚀 Deployment
 
-# Start the production server
-npm start
-```
+### Vercel (Recommended)
+1. Push code to GitHub
+2. Connect repository to Vercel
+3. Deploy automatically with optimizations
+
+### Netlify
+1. Build the project: `npm run build`
+2. Deploy the `.next` folder
+
+### Other Platforms
+Compatible with any platform supporting Next.js applications.
+
+## 📊 Performance
+
+### Optimizations
+- **Image Optimization** with Next.js Image component
+- **Code Splitting** automatic with Next.js
+- **Lazy Loading** for components and images
+- **Font Optimization** with Google Fonts
+- **Asset Optimization** with proper sizing
+
+### Expected Lighthouse Scores
+- **Performance**: 90+
+- **Accessibility**: 95+
+- **Best Practices**: 100
+- **SEO**: 100
+
+## 🎯 Official Assets
+
+This implementation uses the official AIvent Demo 1 template assets:
+- **High-resolution images** from `/assets/images/`
+- **Video backgrounds** from `/assets/videos/`
+- **Logo files** and branding assets
+- **Original color schemes** from scheme-01.css
+- **Typography** matching official template
 
 ## 🤝 Contributing
 
@@ -210,18 +272,19 @@ npm start
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is open source and available under the [MIT License](LICENSE).
 
 ## 🙏 Acknowledgments
 
-- Inspired by Attendize, Indico, Mobilizon, and OSEM
-- Built with modern web technologies and best practices
-- Community-driven development approach
-
-## 📞 Support
-
-For support, email support@weconmasawat.com or join our community Discord.
+- **Next.js Team** for the incredible framework
+- **Tailwind CSS** for utility-first styling
+- **shadcn/ui** for beautiful, accessible components
+- **Framer Motion** for smooth animations
+- **Lucide** for consistent iconography
+- **Official AIvent Template** for design inspiration and assets
 
 ---
 
-**WECON Masawat** - Building the future of event management, one event at a time.
+**Built with ❤️ and pixel-perfect attention to detail**
+
+For questions or support, please open an issue or contact the development team.
