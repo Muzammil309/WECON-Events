@@ -1,6 +1,6 @@
 {
   "name": "wecon-masawat-aivent",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "WECON Masawat - Official AIvent Demo 1 Implementation",
   "private": true,
   "scripts": {
