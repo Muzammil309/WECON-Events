@@ -53,3 +53,8 @@ secrets/
 next-env.d.ts
 
 /src/generated/prisma
+
+# Submodule directories to ignore
+figma-mcp/
+screenpipe/
+website-downloader/
