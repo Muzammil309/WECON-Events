@@ -2,72 +2,44 @@
 
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { 
-  Brain, 
-  Network, 
-  Rocket, 
-  Users, 
-  Trophy, 
-  Zap,
-  Target,
-  Globe,
-  BookOpen
-} from 'lucide-react'
+import Image from 'next/image'
 
-const reasons = [
+const features = [
   {
-    icon: Brain,
-    title: 'Cutting-Edge AI Research',
-    description: 'Discover the latest breakthroughs in machine learning, deep learning, and neural networks from leading researchers worldwide.',
-    color: 'from-blue-500 to-cyan-500'
+    id: 1,
+    title: "Cutting-Edge Knowledge",
+    description: "Stay ahead of the curve with insights from AI leaders shaping tomorrow's technology.",
+    image: "/assets/images/misc/s3.webp"
   },
   {
-    icon: Network,
-    title: 'Industry Networking',
-    description: 'Connect with AI pioneers, tech leaders, investors, and innovators who are shaping the future of artificial intelligence.',
-    color: 'from-purple-500 to-pink-500'
+    id: 2,
+    title: "Hands-On Learning",
+    description: "Join live workshops and labs to build practical skills in AI and machine learning.",
+    image: "/assets/images/misc/s4.webp"
   },
   {
-    icon: Rocket,
-    title: 'Startup Showcase',
-    description: 'Witness groundbreaking AI startups pitch their revolutionary solutions and discover the next unicorns in the AI space.',
-    color: 'from-green-500 to-emerald-500'
+    id: 3,
+    title: "Global Networking",
+    description: "Meet developers, founders, and researchers from around the world to collaborate and grow.",
+    image: "/assets/images/misc/s5.webp"
   },
   {
-    icon: Users,
-    title: 'Expert Workshops',
-    description: 'Participate in hands-on workshops led by industry experts and gain practical skills in AI implementation.',
-    color: 'from-orange-500 to-red-500'
+    id: 4,
+    title: "Startup Showcase",
+    description: "Explore the latest AI tools and ideas from promising startups and research labs.",
+    image: "/assets/images/misc/s6.webp"
   },
   {
-    icon: Trophy,
-    title: 'Innovation Awards',
-    description: 'Celebrate the most innovative AI solutions and breakthrough technologies that are transforming industries.',
-    color: 'from-yellow-500 to-orange-500'
+    id: 5,
+    title: "AI Career Boost",
+    description: "Access exclusive job fairs, mentorship sessions, and recruiting events to grow your career.",
+    image: "/assets/images/misc/s7.webp"
   },
   {
-    icon: Zap,
-    title: 'Live Demonstrations',
-    description: 'Experience cutting-edge AI technologies in action with live demos and interactive exhibitions.',
-    color: 'from-indigo-500 to-purple-500'
-  },
-  {
-    icon: Target,
-    title: 'Business Applications',
-    description: 'Learn how to implement AI solutions in your business with real-world case studies and success stories.',
-    color: 'from-teal-500 to-cyan-500'
-  },
-  {
-    icon: Globe,
-    title: 'Global Perspective',
-    description: 'Gain insights into AI development and adoption across different countries and cultural contexts.',
-    color: 'from-rose-500 to-pink-500'
-  },
-  {
-    icon: BookOpen,
-    title: 'Educational Content',
-    description: 'Access comprehensive learning materials, research papers, and educational resources from top institutions.',
-    color: 'from-violet-500 to-purple-500'
+    id: 6,
+    title: "Ethics & Future",
+    description: "Engage in vital conversations around AI ethics, policy, and the future of intelligence.",
+    image: "/assets/images/misc/s8.webp"
   }
 ]
 
@@ -98,117 +70,91 @@ export default function WhyAttend() {
   }
 
   const cardVariants = {
-    hidden: { scale: 0.8, opacity: 0 },
+    hidden: { scale: 0.9, opacity: 0 },
     visible: {
       scale: 1,
       opacity: 1,
-      transition: { duration: 0.5, ease: "easeOut" },
+      transition: { duration: 0.6, ease: "easeOut" },
     },
   }
 
   return (
-    <section id="why-attend" className="section-padding relative">
-      {/* Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl" />
-      </div>
-
+    <section id="section-why-attend" className="section-padding bg-dark text-white">
       <motion.div
         ref={ref}
         variants={containerVariants}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
-        className="container-custom relative z-10"
+        className="container-custom"
       >
         {/* Section Header */}
-        <motion.div variants={itemVariants} className="text-center mb-16">
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={inView ? { scale: 1 } : { scale: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-effect border border-white/20 mb-6"
-          >
-            <Trophy className="w-5 h-5 text-purple-400" />
-            <span className="text-sm font-medium text-gray-300">Why Attend</span>
+        <div className="text-center mb-16">
+          <motion.div variants={itemVariants} className="subtitle mb-4">
+            Why Attend
           </motion.div>
           
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-6">
-            Why Join{' '}
-            <span className="aivent-text-gradient">AI Summit 2025</span>
-          </h2>
+          <motion.h2 
+            variants={itemVariants}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
+          >
+            What You'll <span className="aivent-text-gradient">Gain</span>
+          </motion.h2>
           
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            Discover compelling reasons to be part of the most influential AI event of the year, 
-            where innovation meets opportunity and the future takes shape.
-          </p>
-        </motion.div>
+          <motion.p 
+            variants={itemVariants}
+            className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
+          >
+            Hear from global AI pioneers, industry disruptors, and bold thinkers shaping the future across every domain.
+          </motion.p>
+        </div>
 
-        {/* Reasons Grid */}
+        {/* Features Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {reasons.map((reason, index) => (
+          {features.map((feature, index) => (
             <motion.div
-              key={index}
+              key={feature.id}
               variants={cardVariants}
-              whileHover={{ 
-                y: -10,
-                transition: { duration: 0.3 }
-              }}
-              className="group relative"
+              whileHover={{ scale: 1.05 }}
+              className="group relative overflow-hidden rounded-xl bg-gray-900/50 hover:bg-transparent transition-all duration-500"
             >
-              <div className="card-aivent h-full p-8 relative overflow-hidden">
-                {/* Background Gradient */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${reason.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
+              {/* Background Image */}
+              <div className="relative h-80 overflow-hidden">
+                <Image
+                  src={feature.image}
+                  alt={feature.title}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                />
                 
-                {/* Icon */}
-                <div className={`w-16 h-16 bg-gradient-to-r ${reason.color} rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  <reason.icon className="w-8 h-8 text-white" />
-                </div>
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/50 to-transparent" />
                 
-                {/* Content */}
-                <h3 className="text-xl font-bold text-white mb-4 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-white group-hover:to-gray-300 transition-all duration-300">
-                  {reason.title}
-                </h3>
-                
-                <p className="text-gray-400 leading-relaxed group-hover:text-gray-300 transition-colors duration-300">
-                  {reason.description}
-                </p>
-
-                {/* Hover Effect Border */}
-                <div className={`absolute inset-0 rounded-xl bg-gradient-to-r ${reason.color} opacity-0 group-hover:opacity-20 transition-opacity duration-300 pointer-events-none`} />
+                {/* Hover Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/80 to-secondary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
+
+              {/* Content */}
+              <div className="absolute bottom-0 left-0 right-0 p-8 z-10">
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                >
+                  <h4 className="text-2xl font-bold text-white mb-3 group-hover:text-white transition-colors">
+                    {feature.title}
+                  </h4>
+                  <p className="text-gray-300 group-hover:text-white/90 transition-colors leading-relaxed">
+                    {feature.description}
+                  </p>
+                </motion.div>
+              </div>
+
+              {/* Hover Border Effect */}
+              <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/50 rounded-xl transition-colors duration-500" />
             </motion.div>
           ))}
         </div>
-
-        {/* Bottom CTA */}
-        <motion.div
-          variants={itemVariants}
-          className="text-center mt-16"
-        >
-          <div className="max-w-2xl mx-auto">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Ready to Shape the Future?
-            </h3>
-            <p className="text-gray-400 mb-8">
-              Join thousands of AI enthusiasts, researchers, and industry leaders 
-              at the most comprehensive AI summit of 2025.
-            </p>
-            
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-block"
-            >
-              <button
-                onClick={() => document.getElementById('tickets')?.scrollIntoView({ behavior: 'smooth' })}
-                className="btn-aivent-primary text-lg px-10 py-4"
-              >
-                Secure Your Spot Now
-              </button>
-            </motion.div>
-          </div>
-        </motion.div>
       </motion.div>
     </section>
   )

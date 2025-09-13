@@ -1,27 +1,29 @@
 # 🚀 AIvent Official - Pixel-Perfect AI Summit Website
 
-A stunning, pixel-perfect implementation of the official AIvent conference website built with Next.js 14, React 18, TypeScript, Tailwind CSS, and shadcn/ui components. This project demonstrates modern web development practices with exceptional attention to detail and performance.
+A stunning, pixel-perfect implementation of the official AIvent Demo 1 template built with Next.js 14, React 18, TypeScript, Tailwind CSS, and shadcn/ui components. This project demonstrates modern web development practices with exceptional attention to detail and performance.
 
 ## ✨ Features
 
 ### 🎨 Design & UI
-- **Pixel-Perfect Recreation** of the official AIvent template
-- **Dark Theme** with indigo/purple/cyan gradient aesthetics
+- **Pixel-Perfect Recreation** of the official AIvent Demo 1 template
+- **Official Color Scheme** (#764DF0 primary, #442490 secondary)
+- **Dark Theme** with purple/blue gradient aesthetics
 - **Fully Responsive** mobile-first design
 - **Smooth Animations** powered by Framer Motion
 - **Glass Morphism Effects** for modern visual appeal
 - **Interactive Elements** with hover states and micro-interactions
 
 ### 🧩 Components & Sections
-- **Hero Section** with countdown timer and video background
-- **About Section** with animated statistics and counters
+- **Hero Section** with video background and countdown timer
+- **About Section** with rotating image and animated statistics
+- **Marquee Section** with scrolling text animations
 - **Why Attend Section** with feature cards and hover effects
-- **Speakers Section** with profiles and social media overlays
-- **Schedule Section** with tabbed interface for multi-day agenda
-- **Tickets Section** with 3-tier pricing cards and features
-- **Venue Section** with location info and embedded map
-- **FAQ Section** with accordion functionality
-- **Footer** with newsletter signup and social links
+- **Quote Section** with testimonial and profile image
+- **Speakers Section** (placeholder for speaker profiles)
+- **Schedule Section** (placeholder for event agenda)
+- **Tickets Section** (placeholder for pricing tiers)
+- **Contact Section** with form and event information
+- **Footer** with newsletter signup and links
 - **Responsive Navigation** with smooth scroll and mobile menu
 
 ### 🛠 Technical Stack
@@ -32,8 +34,7 @@ A stunning, pixel-perfect implementation of the official AIvent conference websi
 - **Framer Motion** for smooth animations and transitions
 - **Lucide React** for beautiful, consistent icons
 - **React Intersection Observer** for scroll-triggered animations
-- **React CountUp** for animated number counters
-- **AOS (Animate On Scroll)** for additional scroll animations
+- **Official AIvent Assets** integrated from template
 
 ## 🚀 Quick Start
 
@@ -43,9 +44,8 @@ A stunning, pixel-perfect implementation of the official AIvent conference websi
 
 ### Installation
 
-1. **Clone the repository**
+1. **Navigate to the project directory**
 ```bash
-git clone <repository-url>
 cd aivent-official
 ```
 
@@ -83,8 +83,8 @@ npm run start
 ```
 aivent-official/
 ├── app/
-│   ├── globals.css              # Global styles and design system
-│   ├── layout.tsx               # Root layout with metadata
+│   ├── globals.css              # Global styles with official AIvent design system
+│   ├── layout.tsx               # Root layout with metadata and fonts
 │   └── page.tsx                 # Main page component
 ├── components/
 │   ├── ui/                      # shadcn/ui components
@@ -93,99 +93,79 @@ aivent-official/
 │   │   ├── dialog.tsx
 │   │   ├── input.tsx
 │   │   └── tabs.tsx
-│   ├── About.tsx                # About section with stats
-│   ├── FAQ.tsx                  # FAQ with accordion
-│   ├── Footer.tsx               # Footer with newsletter
-│   ├── Hero.tsx                 # Hero section with countdown
+│   ├── About.tsx                # About section with rotating image
+│   ├── Contact.tsx              # Contact form and information
+│   ├── Footer.tsx               # Footer with newsletter signup
+│   ├── Hero.tsx                 # Hero section with video background
+│   ├── MarqueeSection.tsx       # Scrolling text animations
 │   ├── Navbar.tsx               # Navigation component
-│   ├── Schedule.tsx             # Event schedule with tabs
+│   ├── News.tsx                 # News section placeholder
+│   ├── Quote.tsx                # Testimonial quote section
+│   ├── Schedule.tsx             # Event schedule placeholder
 │   ├── ScrollToTop.tsx          # Scroll to top button
-│   ├── Speakers.tsx             # Speaker profiles
-│   ├── Tickets.tsx              # Pricing tiers
-│   ├── Venue.tsx                # Venue information
-│   └── WhyAttend.tsx            # Feature cards
+│   ├── Speakers.tsx             # Speaker profiles placeholder
+│   ├── Sponsors.tsx             # Sponsor logos placeholder
+│   ├── Tickets.tsx              # Pricing tiers placeholder
+│   └── WhyAttend.tsx            # Feature cards with hover effects
 ├── lib/
 │   └── utils.ts                 # Utility functions
 ├── types/
 │   └── index.ts                 # TypeScript type definitions
 ├── public/
 │   └── assets/                  # Official AIvent assets
-│       ├── images/              # Images from official template
+│       ├── images/              # All original images from template
 │       ├── videos/              # Video backgrounds
-│       ├── css/                 # Original CSS files
-│       ├── js/                  # Original JavaScript files
-│       └── fonts/               # Font files
-├── tailwind.config.ts           # Tailwind configuration
+│       └── css/                 # Original CSS files for reference
+├── tailwind.config.ts           # Tailwind configuration with official colors
 ├── next.config.js               # Next.js configuration
 └── package.json                 # Dependencies and scripts
 ```
 
 ## 🎨 Design System
 
-### Color Palette
+### Official AIvent Colors
 ```css
-/* Primary Colors */
---aivent-primary: #6366f1       /* Indigo */
---aivent-secondary: #0f172a     /* Slate 900 */
---aivent-accent: #f59e0b        /* Amber */
---aivent-dark: #0f172a          /* Slate 900 */
---aivent-darker: #020617        /* Slate 950 */
-
-/* Gradients */
-aivent-gradient: from-indigo-600 via-purple-600 to-cyan-500
-aivent-text-gradient: from-indigo-400 via-purple-400 to-cyan-400
+/* Primary Colors from scheme-01.css */
+--primary-color: #764DF0       /* Main purple */
+--secondary-color: #442490     /* Darker purple */
 ```
 
 ### Typography
-- **Primary Font**: Inter (Google Fonts)
-- **Font Weights**: 300, 400, 500, 600, 700, 800, 900
+- **Primary Font**: Manrope (Google Fonts)
+- **Font Weights**: 200, 300, 400, 500, 600, 700, 800
 
-### Animations
-- **Fade In**: Smooth entrance animations
-- **Slide In**: Left/right slide animations
-- **Scale In**: Zoom entrance effects
-- **Float**: Continuous floating motion
-- **Pulse Glow**: Pulsing glow effects
-- **Marquee**: Scrolling animations
-- **Gradient X**: Animated gradients
+### Key Components
+- **Hero Section**: Video background with countdown timer
+- **About Section**: Rotating image with animated content
+- **Marquee Section**: Scrolling text with rotation effects
+- **Why Attend**: Feature cards with hover animations
+- **Quote Section**: Testimonial with profile image
 
 ## 🧩 Component Features
 
 ### Hero Section
-- **Real-time Countdown Timer** to event date (October 1, 2025)
-- **Video Background** with overlay effects
+- **Video Background** with poster fallback
+- **Real-time Countdown Timer** to October 1, 2025
 - **Animated Statistics** and floating elements
-- **Responsive CTAs** with hover effects
+- **Responsive CTAs** with smooth scroll navigation
+- **Bottom info card** with event details
 
 ### About Section
-- **Animated Counters** using React CountUp
-- **Intersection Observer** for scroll triggers
-- **Feature Cards** with hover animations
-- **Statistics Grid** with icon animations
+- **Rotating Image** with continuous animation
+- **Animated Content** with staggered reveals
+- **Checklist Items** with checkmark icons
+- **Floating Elements** for visual interest
 
-### Speakers Section
-- **Speaker Cards** with social media overlays
-- **Hover Effects** revealing social links
-- **Professional Profiles** with bio information
-- **Responsive Grid** layout
+### Marquee Section
+- **Dual Marquee Rows** with opposite directions
+- **Rotation Effects** matching original template
+- **Smooth Animations** with proper timing
 
-### Schedule Section
-- **Tabbed Interface** for 3-day schedule
-- **Session Cards** with time, speaker, location
-- **Color-coded** session types
-- **Responsive Timeline** layout
-
-### Tickets Section
-- **3-Tier Pricing** cards with features
-- **Early Bird Pricing** with savings display
-- **Feature Lists** with checkmark icons
-- **Hover Animations** and scaling effects
-
-### Venue Section
-- **Embedded Google Maps**
-- **Transportation Options**
-- **Venue Features** and amenities
-- **Hotel Recommendations**
+### Why Attend Section
+- **6 Feature Cards** with hover effects
+- **Image Overlays** with gradient transitions
+- **Scale Animations** on hover
+- **Staggered Reveals** for smooth loading
 
 ## 📱 Responsive Design
 
@@ -195,7 +175,7 @@ aivent-text-gradient: from-indigo-400 via-purple-400 to-cyan-400
 - **Desktop**: > 1024px
 
 ### Mobile Features
-- **Hamburger Menu** with smooth animations
+- **Hamburger Menu** with slide-out navigation
 - **Touch-Optimized** interactions
 - **Stacked Layouts** for mobile screens
 - **Optimized Performance** for mobile devices
@@ -204,15 +184,15 @@ aivent-text-gradient: from-indigo-400 via-purple-400 to-cyan-400
 
 ### Framer Motion Features
 - **Page Transitions** with staggered children
-- **Scroll-Triggered** animations
-- **Hover States** with scale and movement
-- **Loading States** with skeleton effects
+- **Scroll-Triggered** animations using Intersection Observer
+- **Hover States** with scale and movement effects
+- **Loading States** with smooth reveals
 - **Custom Variants** for reusable animations
 
 ### CSS Effects
 - **Glass Morphism** with backdrop blur
 - **Gradient Backgrounds** and text effects
-- **Floating Orbs** with CSS animations
+- **Rotating Elements** with CSS animations
 - **Smooth Scrolling** behavior
 - **Custom Scrollbar** styling
 
@@ -223,23 +203,12 @@ aivent-text-gradient: from-indigo-400 via-purple-400 to-cyan-400
 // Update event details in Hero.tsx
 const EVENT_DATE = new Date('2025-10-01T09:00:00-07:00')
 
-// Modify speakers in Speakers.tsx
-const speakers = [
+// Modify features in WhyAttend.tsx
+const features = [
   {
-    name: "Your Speaker",
-    title: "Their Title",
-    company: "Company Name",
-    // ...
-  }
-]
-
-// Update pricing in Tickets.tsx
-const pricingTiers = [
-  {
-    name: "Plan Name",
-    price: 299,
-    features: ["Feature 1", "Feature 2"],
-    // ...
+    title: "Your Feature",
+    description: "Feature description",
+    image: "/assets/images/misc/your-image.webp"
   }
 ]
 ```
@@ -248,15 +217,10 @@ const pricingTiers = [
 ```css
 /* Update colors in tailwind.config.ts */
 colors: {
-  aivent: {
-    primary: "#your-color",
-    secondary: "#your-color"
+  primary: {
+    DEFAULT: '#764DF0', // Official AIvent primary
+    // ... other shades
   }
-}
-
-/* Modify animations in globals.css */
-@keyframes your-animation {
-  /* keyframe definitions */
 }
 ```
 
@@ -281,22 +245,22 @@ Compatible with any platform supporting Next.js applications.
 - **Code Splitting** automatic with Next.js
 - **Lazy Loading** for components and images
 - **Font Optimization** with Google Fonts
-- **Bundle Analysis** and tree shaking
+- **Asset Optimization** with proper sizing
 
-### Lighthouse Scores
-- **Performance**: 95+
-- **Accessibility**: 100
+### Expected Lighthouse Scores
+- **Performance**: 90+
+- **Accessibility**: 95+
 - **Best Practices**: 100
 - **SEO**: 100
 
 ## 🎯 Official Assets
 
-This implementation uses the official AIvent template assets:
-- **High-resolution images** from the original template
-- **Video backgrounds** and promotional content
+This implementation uses the official AIvent Demo 1 template assets:
+- **High-resolution images** from `/assets/images/`
+- **Video backgrounds** from `/assets/videos/`
 - **Logo files** and branding assets
-- **Font files** and typography
-- **Original color schemes** and design tokens
+- **Original color schemes** from scheme-01.css
+- **Typography** matching official template
 
 ## 🤝 Contributing
 

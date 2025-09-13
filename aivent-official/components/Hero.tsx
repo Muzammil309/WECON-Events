@@ -2,35 +2,21 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Calendar, MapPin, Play } from 'lucide-react'
+import { Calendar, MapPin } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { calculateTimeRemaining, scrollToElement } from '@/lib/utils'
-import type { CountdownTime } from '@/types'
+import { getTimeRemaining, scrollToElement } from '@/lib/utils'
 
-// Event date - October 1, 2025 at 9:00 AM PST
 const EVENT_DATE = new Date('2025-10-01T09:00:00-07:00')
 
 export default function Hero() {
-  const [timeRemaining, setTimeRemaining] = useState<CountdownTime>({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-    isExpired: false
-  })
+  const [timeLeft, setTimeLeft] = useState(getTimeRemaining(EVENT_DATE))
 
   useEffect(() => {
-    const updateCountdown = () => {
-      setTimeRemaining(calculateTimeRemaining(EVENT_DATE))
-    }
+    const timer = setInterval(() => {
+      setTimeLeft(getTimeRemaining(EVENT_DATE))
+    }, 1000)
 
-    // Update immediately
-    updateCountdown()
-
-    // Update every second
-    const interval = setInterval(updateCountdown, 1000)
-
-    return () => clearInterval(interval)
+    return () => clearInterval(timer)
   }, [])
 
   const containerVariants = {
@@ -38,8 +24,8 @@ export default function Hero() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3,
+        staggerChildren: 0.3,
+        delayChildren: 0.2,
       },
     },
   }
@@ -53,230 +39,179 @@ export default function Hero() {
     },
   }
 
-  const countdownVariants = {
+  const scaleVariants = {
     hidden: { scale: 0.8, opacity: 0 },
     visible: {
       scale: 1,
       opacity: 1,
-      transition: { duration: 0.6, ease: "easeOut" },
+      transition: { duration: 3, ease: "easeOut" },
     },
   }
 
   return (
-    <section id="hero" className="hero-aivent relative">
+    <section 
+      id="section-hero" 
+      className="relative min-h-screen flex items-center justify-center bg-dark text-white overflow-hidden"
+    >
       {/* Video Background */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 z-0">
         <video
           autoPlay
           muted
           loop
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          poster="/assets/images/background/1.webp"
+          className="w-full h-full object-cover"
+          poster="/assets/images/background/2.webp"
         >
-          <source src="/assets/videos/hero-background.mp4" type="video/mp4" />
+          <source src="/assets/videos/2.mp4" type="video/mp4" />
         </video>
         
-        {/* Video Overlay */}
-        <div className="hero-video-overlay" />
-        
-        {/* Additional gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/30 via-slate-900/60 to-slate-900/80" />
+        {/* Gradient Overlays */}
+        <div className="absolute inset-0 bg-gradient-to-t from-dark/80 via-transparent to-dark/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-dark" />
+        <div className="absolute inset-0 bg-dark/80" />
       </div>
 
-      {/* Floating Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          animate={{
-            y: [0, -20, 0],
-            x: [0, 10, 0],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-          className="absolute top-1/4 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{
-            y: [0, 20, 0],
-            x: [0, -15, 0],
-          }}
-          transition={{
-            duration: 10,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2,
-          }}
-          className="absolute top-1/2 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"
-        />
-        <motion.div
-          animate={{
-            y: [0, -15, 0],
-            x: [0, 20, 0],
-          }}
-          transition={{
-            duration: 12,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 4,
-          }}
-          className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl"
-        />
-      </div>
-
-      {/* Hero Content */}
-      <div className="relative z-10 container-custom h-full flex items-center justify-center">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="text-center max-w-5xl mx-auto"
-        >
+      {/* Main Content */}
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="relative z-10 w-full max-w-4xl mx-auto px-4 text-center"
+      >
+        <motion.div variants={scaleVariants} className="space-y-8">
           {/* Subtitle */}
-          <motion.div
-            variants={itemVariants}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full glass-effect border border-white/20 mb-8"
-          >
-            <Play className="w-4 h-4 text-indigo-400" />
-            <span className="text-sm font-medium text-gray-300 tracking-wider uppercase">
-              [ The Future of Intelligence ]
+          <motion.div variants={itemVariants}>
+            <span className="subtitle text-primary font-semibold tracking-wider uppercase">
+              The Future of Intelligence
             </span>
           </motion.div>
 
           {/* Main Title */}
-          <motion.h1
+          <motion.h1 
             variants={itemVariants}
-            className="text-6xl md:text-7xl lg:text-8xl font-black mb-8 leading-none"
+            className="text-6xl md:text-8xl lg:text-9xl font-bold uppercase leading-none mb-8"
+            style={{ fontSize: 'clamp(3rem, 12vw, 8rem)' }}
           >
-            <span className="block aivent-text-gradient">AI Summit</span>
-            <span className="block text-white text-shadow-lg">2025</span>
+            AI Summit 2025
           </motion.h1>
 
-          {/* Event Info */}
-          <motion.div
+          {/* Event Details */}
+          <motion.div 
             variants={itemVariants}
             className="flex flex-col md:flex-row items-center justify-center gap-8 mb-12"
           >
-            <div className="flex items-center gap-3 text-xl text-gray-300">
-              <div className="w-12 h-12 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center">
-                <Calendar className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h4 className="font-semibold text-white">October 1–5, 2025</h4>
-                <p className="text-sm text-gray-400">5 Days of Innovation</p>
-              </div>
+            <div className="flex items-center gap-3">
+              <Calendar className="w-6 h-6 text-primary" />
+              <h4 className="text-xl md:text-2xl font-semibold">October 1–5, 2025</h4>
             </div>
             
-            <div className="flex items-center gap-3 text-xl text-gray-300">
-              <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-cyan-500 rounded-xl flex items-center justify-center">
-                <MapPin className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h4 className="font-semibold text-white">San Francisco, CA</h4>
-                <p className="text-sm text-gray-400">Moscone Center</p>
-              </div>
+            <div className="flex items-center gap-3">
+              <MapPin className="w-6 h-6 text-primary" />
+              <h4 className="text-xl md:text-2xl font-semibold">San Francisco, CA</h4>
             </div>
           </motion.div>
 
-          {/* CTA Buttons */}
-          <motion.div
+          {/* Call to Action Buttons */}
+          <motion.div 
             variants={itemVariants}
-            className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16"
+            className="flex flex-col sm:flex-row items-center justify-center gap-4"
           >
             <Button
               variant="aivent"
               size="xl"
-              onClick={() => scrollToElement('tickets')}
-              className="group relative overflow-hidden"
+              onClick={() => scrollToElement('section-tickets')}
+              className="min-w-[200px]"
             >
-              <span className="relative z-10 flex items-center gap-2">
-                Get Tickets
-                <motion.div
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  →
-                </motion.div>
-              </span>
+              Get Tickets
             </Button>
             
             <Button
-              variant="aivent-outline"
+              variant="aivent-secondary"
               size="xl"
-              onClick={() => scrollToElement('schedule')}
-              className="group"
+              onClick={() => scrollToElement('section-schedule')}
+              className="min-w-[200px]"
             >
-              <span className="flex items-center gap-2">
-                <Play className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                View Schedule
-              </span>
+              View Schedule
             </Button>
           </motion.div>
-
-          {/* Countdown Timer */}
-          {!timeRemaining.isExpired && (
-            <motion.div
-              variants={countdownVariants}
-              className="max-w-2xl mx-auto"
-            >
-              <h3 className="text-2xl font-semibold text-white mb-8 text-shadow">
-                Hurry Up! Book Your Seat Now
-              </h3>
-              
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[
-                  { label: 'Days', value: timeRemaining.days },
-                  { label: 'Hours', value: timeRemaining.hours },
-                  { label: 'Minutes', value: timeRemaining.minutes },
-                  { label: 'Seconds', value: timeRemaining.seconds },
-                ].map((item, index) => (
-                  <motion.div
-                    key={item.label}
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 0.6, delay: index * 0.1 }}
-                    className="glass-effect rounded-xl p-6 border border-white/20 hover:border-indigo-500/50 transition-all duration-300"
-                  >
-                    <motion.div
-                      key={item.value}
-                      initial={{ y: -20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ duration: 0.3 }}
-                      className="text-4xl md:text-5xl font-black text-white mb-2 text-shadow"
-                    >
-                      {item.value.toString().padStart(2, '0')}
-                    </motion.div>
-                    <div className="text-sm font-medium text-gray-400 uppercase tracking-wider">
-                      {item.label}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          )}
         </motion.div>
-      </div>
+      </motion.div>
+
+      {/* Bottom Info Card */}
+      <motion.div
+        initial={{ y: 100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, delay: 1 }}
+        className="absolute bottom-8 left-0 right-0 z-20 px-4"
+      >
+        <div className="container-custom">
+          <div className="hidden md:block">
+            <div className="glass-effect border border-white/20 p-8 rounded-xl relative overflow-hidden">
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10 opacity-50" />
+              
+              <div className="relative z-10 grid lg:grid-cols-3 gap-6 items-center">
+                {/* Urgency Message */}
+                <div className="text-center lg:text-left">
+                  <h2 className="text-2xl font-bold mb-1">Hurry Up!</h2>
+                  <h4 className="text-lg text-gray-300">Book Your Seat Now</h4>
+                </div>
+
+                {/* Countdown Timer */}
+                <div className="text-center">
+                  <div className="flex items-center justify-center gap-4">
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-primary">{timeLeft.days}</div>
+                      <div className="text-sm text-gray-400">Days</div>
+                    </div>
+                    <div className="text-2xl text-gray-500">:</div>
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-primary">{timeLeft.hours}</div>
+                      <div className="text-sm text-gray-400">Hours</div>
+                    </div>
+                    <div className="text-2xl text-gray-500">:</div>
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-primary">{timeLeft.minutes}</div>
+                      <div className="text-sm text-gray-400">Minutes</div>
+                    </div>
+                    <div className="text-2xl text-gray-500">:</div>
+                    <div className="text-center">
+                      <div className="text-3xl font-bold text-primary">{timeLeft.seconds}</div>
+                      <div className="text-sm text-gray-400">Seconds</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Location Info */}
+                <div className="flex items-center justify-center lg:justify-end gap-4">
+                  <MapPin className="w-12 h-12 text-primary flex-shrink-0" />
+                  <div className="text-center lg:text-left">
+                    <h4 className="text-lg font-semibold leading-tight">
+                      121 AI Blvd,<br />
+                      San Francisco BCA 94107
+                    </h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
 
       {/* Scroll Indicator */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 1.5 }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1, delay: 2 }}
+        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white/60 animate-bounce z-10"
       >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center"
-        >
-          <motion.div
-            animate={{ y: [0, 12, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-1 h-3 bg-white/60 rounded-full mt-2"
-          />
-        </motion.div>
+        <div className="flex flex-col items-center gap-2">
+          <span className="text-sm">Scroll to explore</span>
+          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-white/60 rounded-full mt-2 animate-pulse" />
+          </div>
+        </div>
       </motion.div>
     </section>
   )

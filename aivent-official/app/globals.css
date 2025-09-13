@@ -2,275 +2,358 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Google Fonts Import */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+/* Import Manrope font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
 
-/* CSS Variables - Official AIvent Colors */
+/* CSS Variables for Official AIvent Theme */
 @layer base {
   :root {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 94.1%;
+    /* Official AIvent Colors */
+    --primary-color: #764DF0;
+    --primary-color-rgb: 118, 77, 240;
+    --secondary-color: #442490;
+    --secondary-color-rgb: 68, 36, 144;
+    
+    /* shadcn/ui variables */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 258 89% 66%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 258 89% 66%;
     --radius: 0.5rem;
+  }
 
-    /* AIvent Official Variables */
-    --aivent-primary: #6366f1;
-    --aivent-secondary: #0f172a;
-    --aivent-accent: #f59e0b;
-    --aivent-text-primary: #ffffff;
-    --aivent-text-secondary: #94a3b8;
-    --aivent-text-muted: #64748b;
-    --aivent-bg-primary: #0f172a;
-    --aivent-bg-secondary: #1e293b;
-    --aivent-bg-tertiary: #334155;
-    --aivent-border: #334155;
+  .dark {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 258 89% 66%;
+    --primary-foreground: 0 0% 9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 14.9%;
+    --input: 0 0% 14.9%;
+    --ring: 258 89% 66%;
   }
 }
 
-/* Base Styles */
+/* Base styles */
 @layer base {
   * {
     @apply border-border;
   }
   
   body {
-    @apply bg-aivent-secondary text-aivent-text-primary font-sans;
-    font-feature-settings: "rlig" 1, "calt" 1;
-    scroll-behavior: smooth;
-    overflow-x: hidden;
+    @apply bg-background text-foreground;
+    font-family: 'Manrope', Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.6;
   }
 
+  /* Dark theme by default */
   html {
-    scroll-behavior: smooth;
+    @apply dark;
+  }
+
+  body.dark-scheme {
+    background-color: #0A0A0A;
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  /* Typography matching official AIvent */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Manrope', Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    color: #ffffff;
+  }
+
+  h1 {
+    font-size: 60px;
+    line-height: 1.25em;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-size: 48px;
+    line-height: 1.2em;
+    letter-spacing: -0.015em;
+    margin-bottom: 25px;
+  }
+
+  h3 {
+    font-size: 26px;
+    line-height: 1.5em;
+    margin-bottom: 10px;
+  }
+
+  h4 {
+    font-size: 20px;
+    line-height: 1.6em;
+    margin-bottom: 10px;
   }
 }
 
-/* Component Classes */
+/* Component styles */
 @layer components {
-  /* Container */
+  /* Container matching official AIvent */
   .container-custom {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
-  /* Section Padding */
+  /* Section padding */
   .section-padding {
-    @apply py-16 lg:py-24;
+    @apply py-20 lg:py-32;
   }
 
-  /* AIvent Gradient Backgrounds */
+  /* Background colors */
+  .bg-dark {
+    background-color: #0A0A0A;
+  }
+
+  .bg-dark-2 {
+    background-color: #1A1A1A;
+  }
+
+  /* Primary gradient */
   .aivent-gradient {
-    background: linear-gradient(135deg, var(--aivent-primary) 0%, #8b5cf6 100%);
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   }
 
-  .aivent-gradient-secondary {
-    background: linear-gradient(135deg, var(--aivent-accent) 0%, #f97316 100%);
-  }
-
-  /* AIvent Text Gradients */
+  /* Text gradient */
   .aivent-text-gradient {
-    @apply bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent;
-  }
-
-  /* Glass Effect */
-  .glass-effect {
-    @apply backdrop-blur-md bg-white/5 border border-white/10;
-  }
-
-  /* Button Styles */
-  .btn-aivent-primary {
-    @apply px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-lg 
-           hover:from-indigo-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-300 
-           shadow-lg hover:shadow-xl;
-  }
-
-  .btn-aivent-secondary {
-    @apply px-8 py-4 bg-transparent border-2 border-indigo-500 text-indigo-400 font-semibold rounded-lg 
-           hover:bg-indigo-500 hover:text-white transform hover:scale-105 transition-all duration-300;
-  }
-
-  /* Card Styles */
-  .card-aivent {
-    @apply bg-slate-800/50 backdrop-blur-md border border-slate-700 rounded-xl p-6 
-           hover:border-indigo-500/50 transition-all duration-300 hover:shadow-xl;
-  }
-
-  /* Navigation Styles */
-  .navbar-aivent {
-    @apply fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-slate-900/80 border-b border-slate-800;
-  }
-
-  /* Hero Styles */
-  .hero-aivent {
-    @apply min-h-screen relative flex items-center justify-center overflow-hidden;
-  }
-
-  .hero-video-overlay {
-    @apply absolute inset-0 bg-gradient-to-b from-slate-900/50 via-slate-900/70 to-slate-900/90;
-  }
-
-  /* Speaker Card */
-  .speaker-card-aivent {
-    @apply bg-slate-800/50 rounded-xl overflow-hidden border border-slate-700 
-           hover:border-indigo-500/50 transition-all duration-300 group;
-  }
-
-  .speaker-image-overlay {
-    @apply absolute inset-0 bg-gradient-to-t from-indigo-600/90 to-transparent 
-           opacity-0 group-hover:opacity-100 transition-opacity duration-300 
-           flex items-center justify-center;
-  }
-
-  /* Schedule Styles */
-  .schedule-tab-aivent {
-    @apply bg-slate-800/50 border border-slate-700 rounded-lg p-4 cursor-pointer 
-           transition-all duration-300 hover:border-indigo-500/50;
-  }
-
-  .schedule-tab-active {
-    @apply bg-gradient-to-r from-indigo-600 to-purple-600 border-indigo-500 text-white;
-  }
-
-  /* Pricing Card */
-  .pricing-card-aivent {
-    @apply bg-slate-800/50 border border-slate-700 rounded-xl p-8 relative 
-           hover:border-indigo-500/50 transition-all duration-300 hover:shadow-xl;
-  }
-
-  .pricing-card-popular {
-    @apply border-indigo-500 bg-gradient-to-b from-indigo-600/10 to-purple-600/10;
-  }
-
-  /* Footer */
-  .footer-aivent {
-    @apply bg-slate-950 border-t border-slate-800;
-  }
-}
-
-/* Utility Classes */
-@layer utilities {
-  /* Text Shadows */
-  .text-shadow-sm {
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
-  }
-
-  .text-shadow {
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  }
-
-  .text-shadow-lg {
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-  }
-
-  /* Scrollbar Styles */
-  .scrollbar-thin {
-    scrollbar-width: thin;
-    scrollbar-color: var(--aivent-primary) var(--aivent-bg-secondary);
-  }
-
-  .scrollbar-thin::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-track {
-    background: var(--aivent-bg-secondary);
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: var(--aivent-primary);
-    border-radius: 3px;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background: #8b5cf6;
-  }
-
-  /* Floating Animation */
-  .animate-float-slow {
-    animation: float 6s ease-in-out infinite;
-  }
-
-  .animate-float-delayed {
-    animation: float 4s ease-in-out infinite 2s;
-  }
-
-  /* Gradient Text Animation */
-  .animate-gradient-text {
-    background: linear-gradient(-45deg, #6366f1, #8b5cf6, #06b6d4, #10b981);
-    background-size: 400% 400%;
-    animation: gradient-x 15s ease infinite;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  /* Buttons */
+  .btn-aivent-primary {
+    @apply inline-flex items-center justify-center px-8 py-4 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-xl;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  }
+
+  .btn-aivent-secondary {
+    @apply inline-flex items-center justify-center px-8 py-4 text-white font-semibold rounded-lg border-2 transition-all duration-300 hover:scale-105;
+    border-color: var(--primary-color);
+    background: transparent;
+  }
+
+  .btn-aivent-secondary:hover {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border-color: transparent;
+  }
+
+  /* Cards */
+  .card-aivent {
+    @apply bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 transition-all duration-300;
+  }
+
+  .card-aivent:hover {
+    @apply border-primary/50 shadow-xl;
+    box-shadow: 0 25px 50px -12px rgba(118, 77, 240, 0.25);
+  }
+
+  /* Glass effect */
+  .glass-effect {
+    @apply bg-white/5 backdrop-blur-md border border-white/10;
+  }
+
+  /* Subtitle style */
+  .subtitle {
+    @apply text-sm font-semibold tracking-wider uppercase;
+    color: var(--primary-color);
+  }
+
+  /* Hover effects */
+  .hover-scale-1-1:hover {
+    transform: scale(1.1);
+  }
+
+  .hover-bg-color:hover {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  }
+
+  .hover-text-light:hover {
+    color: #ffffff;
+  }
+
+  /* Gradient overlays */
+  .gradient-edge-bottom {
+    background: linear-gradient(to bottom, transparent 0%, rgba(10, 10, 10, 0.8) 100%);
+  }
+
+  .gradient-edge-top {
+    background: linear-gradient(to top, transparent 0%, rgba(10, 10, 10, 0.8) 100%);
+  }
+
+  .radial-gradient-color {
+    background: radial-gradient(circle, var(--primary-color) 0%, var(--secondary-color) 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Rotation animation */
+  .rotate-animation {
+    animation: rotate 20s linear infinite;
+  }
+
+  /* Marquee animations */
+  .de-marquee-list-1 {
+    animation: marquee 30s linear infinite;
+    white-space: nowrap;
+  }
+
+  .de-marquee-list-2 {
+    animation: marquee-reverse 30s linear infinite;
+    white-space: nowrap;
+  }
+
+  /* Scroll indicator */
+  .scroll-indicator {
+    @apply absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white/60 animate-bounce;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #1a1a1a;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-color);
+  }
 }
 
-/* Custom Animations */
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
+/* Utility classes */
+@layer utilities {
+  .text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   }
-  50% {
-    transform: translateY(-20px);
-  }
-}
 
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+  .bg-color {
+    background-color: var(--primary-color);
   }
-  50% {
-    box-shadow: 0 0 40px rgba(99, 102, 241, 0.8);
-  }
-}
 
-@keyframes marquee {
-  0% {
-    transform: translateX(100%);
+  .bg-color-2 {
+    background-color: var(--secondary-color);
   }
-  100% {
-    transform: translateX(-100%);
-  }
-}
 
-@keyframes gradient-x {
-  0%, 100% {
-    background-position: 0% 50%;
+  .text-color {
+    color: var(--primary-color);
   }
-  50% {
-    background-position: 100% 50%;
-  }
-}
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .container-custom {
-    @apply px-4;
+  .border-color {
+    border-color: var(--primary-color);
   }
-  
-  .section-padding {
-    @apply py-12;
-  }
-}
 
-/* Print Styles */
-@media print {
-  .no-print {
-    display: none !important;
+  /* Responsive font sizes */
+  .fs-60 {
+    font-size: 60px;
+  }
+
+  .fs-40 {
+    font-size: 40px;
+  }
+
+  .fs-32 {
+    font-size: 32px;
+  }
+
+  /* Opacity utilities */
+  .op-2 {
+    opacity: 0.2;
+  }
+
+  .op-8 {
+    opacity: 0.8;
+  }
+
+  /* Positioning utilities */
+  .abs {
+    position: absolute;
+  }
+
+  .relative {
+    position: relative;
+  }
+
+  /* Z-index utilities */
+  .z-2 {
+    z-index: 2;
+  }
+
+  .z-4 {
+    z-index: 4;
+  }
+
+  /* Rotation utilities */
+  .rot-2 {
+    transform: rotate(2deg);
+  }
+
+  .rot-min-1 {
+    transform: rotate(-1deg);
+  }
+
+  /* Margin utilities */
+  .mt-min-20 {
+    margin-top: -20px;
+  }
+
+  /* Padding utilities */
+  .p-40 {
+    padding: 40px;
+  }
+
+  .pt-3 {
+    padding-top: 12px;
+  }
+
+  /* Width utilities */
+  .w-80px {
+    width: 80px;
+  }
+
+  .h-80px {
+    height: 80px;
+  }
+
+  /* Line height */
+  .lh-1 {
+    line-height: 1;
   }
 }

@@ -5,36 +5,37 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-// Date and Time Utilities
+// Smooth scroll to element
+export function scrollToElement(elementId: string) {
+  const element = document.getElementById(elementId)
+  if (element) {
+    element.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    })
+  }
+}
+
+// Format date for countdown
 export function formatDate(date: Date): string {
-  return new Intl.DateTimeFormat('en-US', {
+  return date.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-  }).format(date)
+  })
 }
 
+// Format time for countdown
 export function formatTime(date: Date): string {
-  return new Intl.DateTimeFormat('en-US', {
+  return date.toLocaleTimeString('en-US', {
     hour: '2-digit',
     minute: '2-digit',
-    hour12: true,
-  }).format(date)
+    timeZoneName: 'short',
+  })
 }
 
-export function formatDateTime(date: Date): string {
-  return new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: true,
-  }).format(date)
-}
-
-// Countdown Timer Utilities
-export function calculateTimeRemaining(targetDate: Date) {
+// Calculate time remaining for countdown
+export function getTimeRemaining(targetDate: Date) {
   const now = new Date().getTime()
   const target = targetDate.getTime()
   const difference = target - now
@@ -45,7 +46,7 @@ export function calculateTimeRemaining(targetDate: Date) {
       hours: 0,
       minutes: 0,
       seconds: 0,
-      isExpired: true
+      total: 0,
     }
   }
 
@@ -59,11 +60,11 @@ export function calculateTimeRemaining(targetDate: Date) {
     hours,
     minutes,
     seconds,
-    isExpired: false
+    total: difference,
   }
 }
 
-// Performance Utilities
+// Debounce function
 export function debounce<T extends (...args: any[]) => any>(
   func: T,
   wait: number
@@ -76,6 +77,7 @@ export function debounce<T extends (...args: any[]) => any>(
   }
 }
 
+// Throttle function
 export function throttle<T extends (...args: any[]) => any>(
   func: T,
   limit: number
@@ -86,148 +88,170 @@ export function throttle<T extends (...args: any[]) => any>(
     if (!inThrottle) {
       func(...args)
       inThrottle = true
-      setTimeout(() => inThrottle = false, limit)
+      setTimeout(() => (inThrottle = false), limit)
     }
   }
 }
 
-// URL and Asset Utilities
-export function getAssetUrl(path: string): string {
-  // Remove leading slash if present
-  const cleanPath = path.startsWith('/') ? path.slice(1) : path
-  return `/assets/${cleanPath}`
+// Generate image URL helper
+export function getImageUrl(path: string): string {
+  return `/assets/images/${path}`
 }
 
-export function getImageUrl(imagePath: string): string {
-  return getAssetUrl(`images/${imagePath}`)
+// Generate video URL helper
+export function getVideoUrl(path: string): string {
+  return `/assets/videos/${path}`
 }
 
-export function getVideoUrl(videoPath: string): string {
-  return getAssetUrl(`videos/${videoPath}`)
+// Check if element is in viewport
+export function isInViewport(element: Element): boolean {
+  const rect = element.getBoundingClientRect()
+  return (
+    rect.top >= 0 &&
+    rect.left >= 0 &&
+    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+  )
 }
 
-// Scroll Utilities
-export function scrollToElement(elementId: string, offset: number = 80) {
-  const element = document.getElementById(elementId)
-  if (element) {
-    const elementPosition = element.offsetTop - offset
-    window.scrollTo({
-      top: elementPosition,
-      behavior: 'smooth'
-    })
+// Animate number counting
+export function animateValue(
+  start: number,
+  end: number,
+  duration: number,
+  callback: (value: number) => void
+) {
+  const startTime = performance.now()
+  const change = end - start
+
+  function updateValue(currentTime: number) {
+    const elapsed = currentTime - startTime
+    const progress = Math.min(elapsed / duration, 1)
+    
+    // Easing function (ease-out)
+    const easeOut = 1 - Math.pow(1 - progress, 3)
+    const currentValue = Math.round(start + change * easeOut)
+    
+    callback(currentValue)
+    
+    if (progress < 1) {
+      requestAnimationFrame(updateValue)
+    }
   }
+  
+  requestAnimationFrame(updateValue)
 }
 
-export function scrollToTop() {
-  window.scrollTo({
-    top: 0,
-    behavior: 'smooth'
-  })
+// Format number with commas
+export function formatNumber(num: number): string {
+  return num.toLocaleString()
 }
 
-// Animation Utilities
-export function getRandomDelay(min: number = 0, max: number = 1): number {
-  return Math.random() * (max - min) + min
+// Generate random ID
+export function generateId(): string {
+  return Math.random().toString(36).substr(2, 9)
 }
 
-export function getStaggerDelay(index: number, baseDelay: number = 0.1): number {
-  return baseDelay * index
-}
-
-// Validation Utilities
+// Validate email
 export function isValidEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   return emailRegex.test(email)
 }
 
-export function isValidPhone(phone: string): boolean {
-  const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/
-  return phoneRegex.test(phone.replace(/\s/g, ''))
+// Get scroll progress
+export function getScrollProgress(): number {
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop
+  const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
+  return (scrollTop / scrollHeight) * 100
 }
 
-// Local Storage Utilities
-export function getFromLocalStorage<T>(key: string, defaultValue: T): T {
-  if (typeof window === 'undefined') return defaultValue
-  
+// Preload image
+export function preloadImage(src: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.onload = () => resolve()
+    img.onerror = reject
+    img.src = src
+  })
+}
+
+// Preload video
+export function preloadVideo(src: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const video = document.createElement('video')
+    video.onloadeddata = () => resolve()
+    video.onerror = reject
+    video.src = src
+    video.preload = 'metadata'
+  })
+}
+
+// Copy to clipboard
+export async function copyToClipboard(text: string): Promise<boolean> {
   try {
-    const item = window.localStorage.getItem(key)
-    return item ? JSON.parse(item) : defaultValue
-  } catch (error) {
-    console.warn(`Error reading localStorage key "${key}":`, error)
-    return defaultValue
+    await navigator.clipboard.writeText(text)
+    return true
+  } catch (err) {
+    // Fallback for older browsers
+    const textArea = document.createElement('textarea')
+    textArea.value = text
+    document.body.appendChild(textArea)
+    textArea.focus()
+    textArea.select()
+    
+    try {
+      document.execCommand('copy')
+      document.body.removeChild(textArea)
+      return true
+    } catch (err) {
+      document.body.removeChild(textArea)
+      return false
+    }
   }
 }
 
-export function setToLocalStorage<T>(key: string, value: T): void {
-  if (typeof window === 'undefined') return
+// Get device type
+export function getDeviceType(): 'mobile' | 'tablet' | 'desktop' {
+  const width = window.innerWidth
   
-  try {
-    window.localStorage.setItem(key, JSON.stringify(value))
-  } catch (error) {
-    console.warn(`Error setting localStorage key "${key}":`, error)
+  if (width < 768) return 'mobile'
+  if (width < 1024) return 'tablet'
+  return 'desktop'
+}
+
+// Check if user prefers reduced motion
+export function prefersReducedMotion(): boolean {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
+
+// Local storage helpers
+export const storage = {
+  get: (key: string) => {
+    if (typeof window === 'undefined') return null
+    try {
+      const item = localStorage.getItem(key)
+      return item ? JSON.parse(item) : null
+    } catch {
+      return null
+    }
+  },
+  
+  set: (key: string, value: any) => {
+    if (typeof window === 'undefined') return
+    try {
+      localStorage.setItem(key, JSON.stringify(value))
+    } catch {
+      // Handle storage quota exceeded
+    }
+  },
+  
+  remove: (key: string) => {
+    if (typeof window === 'undefined') return
+    localStorage.removeItem(key)
+  },
+  
+  clear: () => {
+    if (typeof window === 'undefined') return
+    localStorage.clear()
   }
-}
-
-// Number Formatting Utilities
-export function formatNumber(num: number): string {
-  return new Intl.NumberFormat('en-US').format(num)
-}
-
-export function formatCurrency(amount: number, currency: string = 'USD'): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: currency,
-  }).format(amount)
-}
-
-// String Utilities
-export function truncateText(text: string, maxLength: number): string {
-  if (text.length <= maxLength) return text
-  return text.slice(0, maxLength) + '...'
-}
-
-export function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^\w ]+/g, '')
-    .replace(/ +/g, '-')
-}
-
-// Device Detection
-export function isMobile(): boolean {
-  if (typeof window === 'undefined') return false
-  return window.innerWidth < 768
-}
-
-export function isTablet(): boolean {
-  if (typeof window === 'undefined') return false
-  return window.innerWidth >= 768 && window.innerWidth < 1024
-}
-
-export function isDesktop(): boolean {
-  if (typeof window === 'undefined') return false
-  return window.innerWidth >= 1024
-}
-
-// Color Utilities
-export function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-  return result ? {
-    r: parseInt(result[1], 16),
-    g: parseInt(result[2], 16),
-    b: parseInt(result[3], 16)
-  } : null
-}
-
-export function rgbToHex(r: number, g: number, b: number): string {
-  return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
-}
-
-// Event Utilities
-export function preventDefault(e: Event) {
-  e.preventDefault()
-}
-
-export function stopPropagation(e: Event) {
-  e.stopPropagation()
 }

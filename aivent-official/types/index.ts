@@ -1,12 +1,6 @@
-// Base Types
-export interface BaseEntity {
+// Speaker interface
+export interface Speaker {
   id: string
-  createdAt: Date
-  updatedAt: Date
-}
-
-// Speaker Types
-export interface Speaker extends BaseEntity {
   name: string
   title: string
   company: string
@@ -16,121 +10,118 @@ export interface Speaker extends BaseEntity {
     twitter?: string
     linkedin?: string
     website?: string
-    github?: string
   }
-  featured: boolean
-  sessions: string[]
+  featured?: boolean
 }
 
-// Schedule Types
-export interface ScheduleSession {
+// Schedule/Agenda interface
+export interface ScheduleItem {
   id: string
   title: string
   description: string
+  speaker?: Speaker
+  speakers?: Speaker[]
   startTime: string
   endTime: string
-  duration: number // in minutes
-  type: 'keynote' | 'workshop' | 'panel' | 'break' | 'networking' | 'presentation'
-  speakers: string[] // Speaker IDs
+  duration: number
+  type: 'keynote' | 'workshop' | 'panel' | 'break' | 'networking'
   location: string
-  capacity?: number
-  tags: string[]
-  level: 'beginner' | 'intermediate' | 'advanced' | 'all'
+  day: number
 }
 
-export interface ScheduleDay {
-  date: string
-  dayName: string
-  sessions: ScheduleSession[]
-}
-
-export interface Schedule {
-  days: ScheduleDay[]
-  timezone: string
-}
-
-// Pricing Types
-export interface PricingFeature {
-  name: string
-  included: boolean
-  description?: string
-}
-
+// Pricing tier interface
 export interface PricingTier {
   id: string
   name: string
-  description: string
   price: number
   originalPrice?: number
   currency: string
   period: string
-  features: PricingFeature[]
-  popular: boolean
-  available: boolean
-  maxQuantity?: number
-  earlyBird?: {
-    price: number
-    deadline: Date
-  }
-  cta: string
-  benefits: string[]
+  description: string
+  features: string[]
+  popular?: boolean
+  buttonText: string
+  buttonVariant: 'primary' | 'secondary' | 'outline'
 }
 
-// Gallery Types
+// FAQ interface
+export interface FAQ {
+  id: string
+  question: string
+  answer: string
+  category: string
+}
+
+// Gallery image interface
 export interface GalleryImage {
   id: string
   src: string
   alt: string
-  title?: string
-  description?: string
-  category: 'conference' | 'networking' | 'workshops' | 'venue' | 'speakers'
-  year?: number
-  photographer?: string
-  width: number
-  height: number
+  caption?: string
+  category?: string
 }
 
-export interface GalleryCategory {
-  id: string
-  name: string
-  description: string
-  images: GalleryImage[]
-}
-
-// Sponsor Types
+// Sponsor interface
 export interface Sponsor {
   id: string
   name: string
   logo: string
   website: string
-  description: string
-  tier: 'platinum' | 'gold' | 'silver' | 'bronze' | 'partner'
-  featured: boolean
-  benefits: string[]
+  tier: 'platinum' | 'gold' | 'silver' | 'bronze'
+  description?: string
 }
 
-// Contact Types
+// News/Blog post interface
+export interface NewsPost {
+  id: string
+  title: string
+  excerpt: string
+  content: string
+  image: string
+  author: string
+  publishedAt: string
+  category: string
+  tags: string[]
+  slug: string
+}
+
+// Contact form interface
 export interface ContactForm {
   name: string
   email: string
-  subject: string
+  subject?: string
   message: string
   company?: string
   phone?: string
-  type: 'general' | 'sponsorship' | 'speaking' | 'media' | 'partnership'
 }
 
-export interface ContactInfo {
+// Newsletter subscription interface
+export interface NewsletterSubscription {
   email: string
-  phone: string
-  address: {
-    street: string
+  name?: string
+  interests?: string[]
+}
+
+// Event details interface
+export interface EventDetails {
+  name: string
+  tagline: string
+  description: string
+  startDate: string
+  endDate: string
+  location: {
+    venue: string
+    address: string
     city: string
-    state: string
-    zipCode: string
     country: string
+    coordinates?: {
+      lat: number
+      lng: number
+    }
   }
-  socialMedia: {
+  capacity: number
+  website: string
+  social: {
     twitter?: string
     linkedin?: string
     facebook?: string
@@ -139,88 +130,58 @@ export interface ContactInfo {
   }
 }
 
-// Venue Types
-export interface VenueLocation {
-  name: string
-  address: string
-  city: string
-  state: string
-  country: string
-  zipCode: string
-  coordinates: {
-    lat: number
-    lng: number
-  }
-  description: string
-  capacity: number
-  amenities: string[]
-  images: string[]
-  transportation: {
-    parking: boolean
-    publicTransport: string[]
-    accessibility: string[]
-  }
-}
-
-// FAQ Types
-export interface FAQ {
+// Statistics interface
+export interface Statistic {
   id: string
-  question: string
-  answer: string
-  category: 'general' | 'tickets' | 'venue' | 'speakers' | 'schedule' | 'accommodation'
-  order: number
+  label: string
+  value: number
+  suffix?: string
+  prefix?: string
+  description?: string
+  icon?: string
 }
 
-// Newsletter Types
-export interface NewsletterSubscription {
-  email: string
-  preferences: {
-    updates: boolean
-    speakers: boolean
-    schedule: boolean
-    sponsors: boolean
-  }
-  subscribeDate: Date
-}
-
-// Event Types
-export interface EventInfo {
-  name: string
-  tagline: string
+// Feature interface
+export interface Feature {
+  id: string
+  title: string
   description: string
-  startDate: Date
-  endDate: Date
-  venue: VenueLocation
-  capacity: number
-  registrationOpen: boolean
-  registrationDeadline: Date
-  earlyBirdDeadline: Date
-  theme: string
-  year: number
-  edition: number
+  icon: string
+  image?: string
 }
 
-// Statistics Types
-export interface EventStats {
-  attendees: number
-  speakers: number
-  sessions: number
-  countries: number
-  companies: number
-  sponsors: number
-  years: number
+// Testimonial interface
+export interface Testimonial {
+  id: string
+  content: string
+  author: {
+    name: string
+    title: string
+    company: string
+    image: string
+  }
+  rating?: number
 }
 
-// Animation Types
+// Navigation menu item interface
+export interface MenuItem {
+  id: string
+  label: string
+  href: string
+  children?: MenuItem[]
+  external?: boolean
+}
+
+// Animation configuration interface
 export interface AnimationConfig {
   duration: number
-  delay: number
-  easing: string
-  direction: 'up' | 'down' | 'left' | 'right' | 'fade' | 'scale'
+  delay?: number
+  easing?: string
+  direction?: 'up' | 'down' | 'left' | 'right' | 'scale' | 'fade'
 }
 
-// Modal Types
-export interface ModalProps {
+// Modal configuration interface
+export interface ModalConfig {
   isOpen: boolean
   onClose: () => void
   title?: string
@@ -229,81 +190,35 @@ export interface ModalProps {
   closeOnEscape?: boolean
 }
 
-// Form Types
-export interface FormField {
-  name: string
-  label: string
-  type: 'text' | 'email' | 'tel' | 'textarea' | 'select' | 'checkbox' | 'radio'
-  required: boolean
-  placeholder?: string
-  options?: { value: string; label: string }[]
-  validation?: {
-    pattern?: string
-    minLength?: number
-    maxLength?: number
-    min?: number
-    max?: number
-  }
-}
-
-export interface FormState {
-  values: Record<string, any>
-  errors: Record<string, string>
-  touched: Record<string, boolean>
-  isSubmitting: boolean
-  isValid: boolean
-}
-
-// API Response Types
-export interface APIResponse<T = any> {
+// API response interface
+export interface ApiResponse<T = any> {
   success: boolean
   data?: T
   message?: string
   error?: string
-  timestamp: string
+  code?: number
 }
 
-export interface PaginatedResponse<T> extends APIResponse<T[]> {
-  pagination: {
-    page: number
-    limit: number
-    total: number
-    totalPages: number
-    hasNext: boolean
-    hasPrev: boolean
-  }
+// Form validation interface
+export interface ValidationRule {
+  required?: boolean
+  minLength?: number
+  maxLength?: number
+  pattern?: RegExp
+  custom?: (value: any) => boolean | string
 }
 
-// Component Props Types
-export interface ComponentProps {
-  className?: string
-  children?: React.ReactNode
-}
-
-export interface SectionProps extends ComponentProps {
-  id?: string
-  background?: 'primary' | 'secondary' | 'tertiary' | 'transparent'
-  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
-}
-
-// Navigation Types
-export interface NavItem {
+export interface FormField {
+  name: string
   label: string
-  href: string
-  external?: boolean
-  children?: NavItem[]
+  type: 'text' | 'email' | 'tel' | 'textarea' | 'select' | 'checkbox' | 'radio'
+  placeholder?: string
+  options?: { label: string; value: string }[]
+  validation?: ValidationRule
+  defaultValue?: any
 }
 
-export interface NavigationConfig {
-  items: NavItem[]
-  cta?: {
-    label: string
-    href: string
-    variant: 'primary' | 'secondary'
-  }
-}
-
-// Theme Types
+// Theme configuration interface
 export interface ThemeConfig {
   colors: {
     primary: string
@@ -313,27 +228,79 @@ export interface ThemeConfig {
     foreground: string
   }
   fonts: {
-    sans: string[]
-    serif: string[]
-    mono: string[]
+    heading: string
+    body: string
   }
-  spacing: Record<string, string>
-  borderRadius: Record<string, string>
+  spacing: {
+    section: string
+    container: string
+  }
 }
 
-// Countdown Timer Types
+// SEO metadata interface
+export interface SEOMetadata {
+  title: string
+  description: string
+  keywords?: string[]
+  image?: string
+  url?: string
+  type?: string
+  siteName?: string
+  locale?: string
+}
+
+// Component props interfaces
+export interface BaseComponentProps {
+  className?: string
+  children?: React.ReactNode
+  id?: string
+}
+
+export interface SectionProps extends BaseComponentProps {
+  background?: 'light' | 'dark' | 'gradient'
+  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
+  container?: boolean
+}
+
+export interface ButtonProps extends BaseComponentProps {
+  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'link'
+  size?: 'sm' | 'md' | 'lg' | 'xl'
+  disabled?: boolean
+  loading?: boolean
+  onClick?: () => void
+  href?: string
+  external?: boolean
+}
+
+export interface CardProps extends BaseComponentProps {
+  title?: string
+  description?: string
+  image?: string
+  href?: string
+  hover?: boolean
+  gradient?: boolean
+}
+
+// Countdown timer interface
 export interface CountdownTime {
   days: number
   hours: number
   minutes: number
   seconds: number
-  isExpired: boolean
+  total: number
 }
 
-// Social Media Types
-export interface SocialLink {
-  platform: 'twitter' | 'linkedin' | 'facebook' | 'instagram' | 'youtube' | 'github' | 'website'
-  url: string
-  label: string
-  icon: string
-}
+// Device type
+export type DeviceType = 'mobile' | 'tablet' | 'desktop'
+
+// Animation direction
+export type AnimationDirection = 'up' | 'down' | 'left' | 'right' | 'scale' | 'fade'
+
+// Button variants
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'link'
+
+// Section backgrounds
+export type SectionBackground = 'light' | 'dark' | 'gradient'
+
+// Component sizes
+export type ComponentSize = 'sm' | 'md' | 'lg' | 'xl'
