@@ -1,284 +1,326 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
-import { Menu, X } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { scrollToElement } from '@/lib/utils'
-
-const navigationItems = [
-  { label: 'Home', href: 'section-hero' },
-  { label: 'About', href: 'section-about' },
-  { label: 'Why Attend', href: 'section-why-attend' },
-  { label: 'Speakers', href: 'section-speakers' },
-  { label: 'Schedule', href: 'section-schedule' },
-  { label: 'Tickets', href: 'section-tickets' },
-  { label: 'Venue', href: 'section-venue' },
-  { label: 'FAQ', href: 'section-faq' },
-]
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [activeSection, setActiveSection] = useState('section-hero')
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
     }
 
-    const handleSectionChange = () => {
-      const sections = navigationItems.map(item => item.href)
-      const scrollPosition = window.scrollY + 100
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = document.getElementById(sections[i])
-        if (section && section.offsetTop <= scrollPosition) {
-          setActiveSection(sections[i])
-          break
-        }
-      }
-    }
-
     window.addEventListener('scroll', handleScroll)
-    window.addEventListener('scroll', handleSectionChange)
-    
+
     return () => {
       window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('scroll', handleSectionChange)
     }
   }, [])
 
   const handleNavClick = (href: string) => {
-    scrollToElement(href)
+    if (href.startsWith('#section-')) {
+      scrollToElement(href.replace('#', ''))
+    }
     setIsMobileMenuOpen(false)
-  }
-
-  const navbarVariants = {
-    transparent: {
-      backgroundColor: 'rgba(0, 0, 0, 0)',
-      backdropFilter: 'blur(0px)',
-    },
-    scrolled: {
-      backgroundColor: 'rgba(10, 10, 10, 0.95)',
-      backdropFilter: 'blur(20px)',
-    },
-  }
-
-  const mobileMenuVariants = {
-    closed: {
-      opacity: 0,
-      x: '100%',
-      transition: {
-        duration: 0.3,
-        ease: 'easeInOut',
-      },
-    },
-    open: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.3,
-        ease: 'easeInOut',
-      },
-    },
-  }
-
-  const menuItemVariants = {
-    closed: { opacity: 0, y: 20 },
-    open: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.1,
-        duration: 0.3,
-      },
-    }),
   }
 
   return (
     <>
-      <motion.header
-        variants={navbarVariants}
-        animate={isScrolled ? 'scrolled' : 'transparent'}
-        className="fixed top-0 left-0 right-0 z-50 border-b border-white/10"
-      >
-        <div className="container-custom">
-          <div className="flex items-center justify-between py-4">
+      {/* Header */}
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-dark/95 backdrop-blur-md border-b border-white/10'
+          : 'bg-transparent'
+      }`}>
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-20">
             {/* Logo */}
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              className="flex items-center"
-            >
-              <button
-                onClick={() => handleNavClick('section-hero')}
-                className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
-              >
-                <div className="relative w-10 h-10">
-                  <Image
-                    src="/assets/images/logo.webp"
-                    alt="AIvent Logo"
-                    fill
-                    className="object-contain"
-                    priority
-                  />
-                </div>
-                <span className="text-2xl font-bold aivent-text-gradient">
-                  AIvent
-                </span>
-              </button>
-            </motion.div>
+            <div className="flex-shrink-0">
+              <Image
+                src="/aivent-original/images/logo.webp"
+                alt="AIvent"
+                width={120}
+                height={40}
+                className="h-10 w-auto"
+              />
+            </div>
 
             {/* Desktop Navigation */}
-            <motion.nav
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="hidden lg:flex items-center space-x-8"
-            >
-              {navigationItems.map((item, index) => (
+            <nav className="hidden lg:flex items-center space-x-8">
+              <div className="relative group">
                 <button
-                  key={item.href}
-                  onClick={() => handleNavClick(item.href)}
-                  className={`relative text-sm font-medium transition-colors hover:text-primary ${
-                    activeSection === item.href
-                      ? 'text-primary'
-                      : 'text-white/80'
-                  }`}
+                  className="text-white hover:text-primary transition-colors duration-200 flex items-center space-x-1"
+                  onClick={() => handleNavClick('#section-hero')}
                 >
-                  {item.label}
-                  {activeSection === item.href && (
-                    <motion.div
-                      layoutId="activeSection"
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
-                      transition={{ duration: 0.3 }}
-                    />
-                  )}
+                  <span>Home</span>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
                 </button>
-              ))}
-            </motion.nav>
 
-            {/* Desktop CTA Button */}
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="hidden lg:block"
-            >
-              <Button
-                variant="aivent"
-                onClick={() => handleNavClick('section-tickets')}
-                className="px-6"
-              >
-                Buy Tickets
-              </Button>
-            </motion.div>
-
-            {/* Mobile Menu Button */}
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3 }}
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden p-2 text-white hover:text-primary transition-colors"
-              aria-label="Toggle mobile menu"
-            >
-              {isMobileMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
-            </motion.button>
-          </div>
-        </div>
-      </motion.header>
-
-      {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {isMobileMenuOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
-            />
-
-            {/* Mobile Menu */}
-            <motion.div
-              variants={mobileMenuVariants}
-              initial="closed"
-              animate="open"
-              exit="closed"
-              className="fixed top-0 right-0 bottom-0 w-80 bg-dark/95 backdrop-blur-xl border-l border-white/10 z-50 lg:hidden"
-            >
-              <div className="flex flex-col h-full">
-                {/* Header */}
-                <div className="flex items-center justify-between p-6 border-b border-white/10">
-                  <div className="flex items-center space-x-2">
-                    <div className="relative w-8 h-8">
-                      <Image
-                        src="/assets/images/logo.webp"
-                        alt="AIvent Logo"
-                        fill
-                        className="object-contain"
-                      />
+                {/* Home Mega Menu */}
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 bg-dark/95 backdrop-blur-md border border-white/10 rounded-lg p-6 w-96">
+                  <div className="grid grid-cols-5 gap-4">
+                    <div className="text-center">
+                      <div className="relative overflow-hidden rounded-lg mb-2">
+                        <Image
+                          src="/aivent-original/images/demo/homepage-1.webp"
+                          alt="Demo 1"
+                          width={80}
+                          height={60}
+                          className="w-full h-auto hover:scale-110 transition-transform duration-300"
+                        />
+                      </div>
+                      <h6 className="text-white text-sm">Demo 1</h6>
                     </div>
-                    <span className="text-xl font-bold aivent-text-gradient">
-                      AIvent
-                    </span>
+                    <div className="text-center">
+                      <div className="relative overflow-hidden rounded-lg mb-2">
+                        <Image
+                          src="/aivent-original/images/demo/homepage-2.webp"
+                          alt="Demo 2"
+                          width={80}
+                          height={60}
+                          className="w-full h-auto hover:scale-110 transition-transform duration-300"
+                        />
+                      </div>
+                      <h6 className="text-white text-sm">Demo 2</h6>
+                    </div>
+                    <div className="text-center">
+                      <div className="relative overflow-hidden rounded-lg mb-2">
+                        <Image
+                          src="/aivent-original/images/demo/homepage-3.webp"
+                          alt="Demo 3"
+                          width={80}
+                          height={60}
+                          className="w-full h-auto hover:scale-110 transition-transform duration-300"
+                        />
+                      </div>
+                      <h6 className="text-white text-sm">Demo 3</h6>
+                    </div>
+                    <div className="text-center">
+                      <div className="relative overflow-hidden rounded-lg mb-2">
+                        <Image
+                          src="/aivent-original/images/demo/homepage-4.webp"
+                          alt="Demo 4"
+                          width={80}
+                          height={60}
+                          className="w-full h-auto hover:scale-110 transition-transform duration-300"
+                        />
+                      </div>
+                      <h6 className="text-white text-sm">Demo 4</h6>
+                    </div>
+                    <div className="text-center">
+                      <div className="relative overflow-hidden rounded-lg mb-2">
+                        <Image
+                          src="/aivent-original/images/demo/homepage-5.webp"
+                          alt="Demo 5"
+                          width={80}
+                          height={60}
+                          className="w-full h-auto hover:scale-110 transition-transform duration-300"
+                        />
+                      </div>
+                      <h6 className="text-white text-sm">Demo 5</h6>
+                    </div>
                   </div>
-                  <button
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="p-2 text-white hover:text-primary transition-colors"
-                  >
-                    <X className="w-6 h-6" />
-                  </button>
-                </div>
-
-                {/* Navigation Items */}
-                <div className="flex-1 py-6">
-                  <nav className="space-y-2">
-                    {navigationItems.map((item, index) => (
-                      <motion.button
-                        key={item.href}
-                        custom={index}
-                        variants={menuItemVariants}
-                        initial="closed"
-                        animate="open"
-                        onClick={() => handleNavClick(item.href)}
-                        className={`w-full text-left px-6 py-3 text-lg font-medium transition-colors hover:text-primary hover:bg-white/5 ${
-                          activeSection === item.href
-                            ? 'text-primary bg-white/5'
-                            : 'text-white/80'
-                        }`}
-                      >
-                        {item.label}
-                      </motion.button>
-                    ))}
-                  </nav>
-                </div>
-
-                {/* Mobile CTA */}
-                <div className="p-6 border-t border-white/10">
-                  <Button
-                    variant="aivent"
-                    onClick={() => handleNavClick('section-tickets')}
-                    className="w-full"
-                  >
-                    Buy Tickets
-                  </Button>
                 </div>
               </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
+
+              <button
+                className="text-white hover:text-primary transition-colors duration-200"
+                onClick={() => handleNavClick('#section-about')}
+              >
+                About
+              </button>
+
+              <button
+                className="text-white hover:text-primary transition-colors duration-200"
+                onClick={() => handleNavClick('#section-why-attend')}
+              >
+                Why Attend
+              </button>
+
+              <button
+                className="text-white hover:text-primary transition-colors duration-200"
+                onClick={() => handleNavClick('#section-speakers')}
+              >
+                Speakers
+              </button>
+
+              <button
+                className="text-white hover:text-primary transition-colors duration-200"
+                onClick={() => handleNavClick('#section-schedule')}
+              >
+                Schedule
+              </button>
+
+              <button
+                className="text-white hover:text-primary transition-colors duration-200"
+                onClick={() => handleNavClick('#section-tickets')}
+              >
+                Tickets
+              </button>
+
+              <button
+                className="text-white hover:text-primary transition-colors duration-200"
+                onClick={() => handleNavClick('#section-venue')}
+              >
+                Venue
+              </button>
+
+              <button
+                className="text-white hover:text-primary transition-colors duration-200"
+                onClick={() => handleNavClick('#section-faq')}
+              >
+                FAQ
+              </button>
+
+              <div className="relative group">
+                <button className="text-white hover:text-primary transition-colors duration-200 flex items-center space-x-1">
+                  <span>Pages</span>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                {/* Pages Submenu */}
+                <div className="absolute top-full left-0 mt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 bg-dark/95 backdrop-blur-md border border-white/10 rounded-lg p-4 w-48">
+                  <div className="space-y-2">
+                    <a href="#" className="block text-white hover:text-primary transition-colors duration-200 py-1">Tickets Style 1</a>
+                    <a href="#" className="block text-white hover:text-primary transition-colors duration-200 py-1">Tickets Style 2</a>
+                    <a href="#" className="block text-white hover:text-primary transition-colors duration-200 py-1">News</a>
+                    <a href="#" className="block text-white hover:text-primary transition-colors duration-200 py-1">News Single</a>
+                    <a href="#" className="block text-white hover:text-primary transition-colors duration-200 py-1">Contact</a>
+                  </div>
+                </div>
+              </div>
+            </nav>
+
+            {/* Buy Tickets Button */}
+            <div className="hidden lg:flex">
+              <button
+                onClick={() => handleNavClick('#section-tickets')}
+                className="bg-gradient-to-r from-primary to-secondary px-6 py-2.5 rounded-full text-white font-medium text-sm transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 hover:scale-105"
+              >
+                Buy Tickets
+              </button>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="lg:hidden p-2 text-white hover:text-primary transition-colors"
+            >
+              <div className="w-6 h-6 flex flex-col justify-center items-center">
+                <span className={`bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${isMobileMenuOpen ? 'rotate-45 translate-y-1' : '-translate-y-0.5'}`}></span>
+                <span className={`bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm my-0.5 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
+                <span className={`bg-current block transition-all duration-300 ease-out h-0.5 w-6 rounded-sm ${isMobileMenuOpen ? '-rotate-45 -translate-y-1' : 'translate-y-0.5'}`}></span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Menu */}
+      {isMobileMenuOpen && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden"
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+
+          {/* Mobile Menu Panel */}
+          <div className="fixed top-0 right-0 bottom-0 w-80 bg-dark/95 backdrop-blur-xl border-l border-white/10 z-50 lg:hidden">
+            <div className="flex flex-col h-full">
+              {/* Header */}
+              <div className="flex items-center justify-between p-6 border-b border-white/10">
+                <Image
+                  src="/aivent-original/images/logo.webp"
+                  alt="AIvent"
+                  width={100}
+                  height={32}
+                  className="h-8 w-auto"
+                />
+                <button
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="p-2 text-white hover:text-primary transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Navigation Items */}
+              <div className="flex-1 py-6">
+                <nav className="space-y-2 px-6">
+                  <button
+                    onClick={() => handleNavClick('#section-hero')}
+                    className="block w-full text-left text-white hover:text-primary transition-colors duration-200 py-3 border-b border-white/10"
+                  >
+                    Home
+                  </button>
+                  <button
+                    onClick={() => handleNavClick('#section-about')}
+                    className="block w-full text-left text-white hover:text-primary transition-colors duration-200 py-3 border-b border-white/10"
+                  >
+                    About
+                  </button>
+                  <button
+                    onClick={() => handleNavClick('#section-why-attend')}
+                    className="block w-full text-left text-white hover:text-primary transition-colors duration-200 py-3 border-b border-white/10"
+                  >
+                    Why Attend
+                  </button>
+                  <button
+                    onClick={() => handleNavClick('#section-speakers')}
+                    className="block w-full text-left text-white hover:text-primary transition-colors duration-200 py-3 border-b border-white/10"
+                  >
+                    Speakers
+                  </button>
+                  <button
+                    onClick={() => handleNavClick('#section-schedule')}
+                    className="block w-full text-left text-white hover:text-primary transition-colors duration-200 py-3 border-b border-white/10"
+                  >
+                    Schedule
+                  </button>
+                  <button
+                    onClick={() => handleNavClick('#section-tickets')}
+                    className="block w-full text-left text-white hover:text-primary transition-colors duration-200 py-3 border-b border-white/10"
+                  >
+                    Tickets
+                  </button>
+                  <button
+                    onClick={() => handleNavClick('#section-venue')}
+                    className="block w-full text-left text-white hover:text-primary transition-colors duration-200 py-3 border-b border-white/10"
+                  >
+                    Venue
+                  </button>
+                  <button
+                    onClick={() => handleNavClick('#section-faq')}
+                    className="block w-full text-left text-white hover:text-primary transition-colors duration-200 py-3 border-b border-white/10"
+                  >
+                    FAQ
+                  </button>
+                </nav>
+              </div>
+
+              {/* Mobile CTA */}
+              <div className="p-6 border-t border-white/10">
+                <button
+                  onClick={() => handleNavClick('#section-tickets')}
+                  className="w-full bg-gradient-to-r from-primary to-secondary px-6 py-3 rounded-full text-white font-medium text-sm transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
+                >
+                  Buy Tickets
+                </button>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   )
 }
