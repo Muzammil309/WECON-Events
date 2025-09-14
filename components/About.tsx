@@ -115,7 +115,7 @@ export default function About() {
                 className="relative w-full aspect-square"
               >
                 <Image
-                  src="/assets/images/misc/c1.webp"
+                  src="/aivent-original/images/misc/c1.webp"
                   alt="AI Innovation Visualization"
                   fill
                   className="object-contain"

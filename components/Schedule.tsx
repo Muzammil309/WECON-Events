@@ -17,7 +17,7 @@ const scheduleData = [
         speaker: {
           name: "Joshua Henry",
           title: "AI Research Lead, DeepTech Labs",
-          image: "/assets/images/team/1.webp"
+          image: "/aivent-original/images/team/1.webp"
         },
         session: "Opening Keynote – The State of AI 2025",
         description: "Kick off the event with an insightful overview of where artificial intelligence is headed. Ava will explore breakthroughs, global shifts, and what's next in deep learning, generative models, and AI ethics."
@@ -27,7 +27,7 @@ const scheduleData = [
         speaker: {
           name: "Leila Zhang",
           title: "VP of Machine Learning, Google",
-          image: "/assets/images/team/2.webp"
+          image: "/aivent-original/images/team/2.webp"
         },
         session: "Building Human-Centered AI Products",
         description: "This session covers how to design AI solutions that prioritize usability, fairness, and real-world impact. Bring your laptop—hands-on UX exercises included."
@@ -37,7 +37,7 @@ const scheduleData = [
         speaker: {
           name: "Carlos Rivera",
           title: "Founder & CEO, NeuralCore",
-          image: "/assets/images/team/3.webp"
+          image: "/aivent-original/images/team/3.webp"
         },
         session: "AI Policy & Regulation – A Global Overview",
         description: "Learn how nations and organizations are approaching AI governance, including frameworks for data privacy, bias mitigation, and accountability in model deployment."
@@ -47,7 +47,7 @@ const scheduleData = [
         speaker: {
           name: "Maria Gonzalez",
           title: "Founder & CEO, SynthCore AI",
-          image: "/assets/images/team/4.webp"
+          image: "/aivent-original/images/team/4.webp"
         },
         session: "Building a Startup with AI at the Core",
         description: "Marco shares his journey launching an AI-first startup. Discover tips on tech stacks, team-building, funding, and scaling responsibly."
@@ -138,7 +138,7 @@ export default function Schedule() {
         variants={containerVariants}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
-        className="container-custom"
+        className="w-full max-w-none px-4 md:px-8"
       >
         {/* Section Header */}
         <div className="text-center mb-16">

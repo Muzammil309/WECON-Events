@@ -9,37 +9,37 @@ const features = [
     id: 1,
     title: "Cutting-Edge Knowledge",
     description: "Stay ahead of the curve with insights from AI leaders shaping tomorrow's technology.",
-    image: "/assets/images/misc/s3.webp"
+    image: "/aivent-original/images/misc/s3.webp"
   },
   {
     id: 2,
     title: "Hands-On Learning",
     description: "Join live workshops and labs to build practical skills in AI and machine learning.",
-    image: "/assets/images/misc/s4.webp"
+    image: "/aivent-original/images/misc/s4.webp"
   },
   {
     id: 3,
     title: "Global Networking",
     description: "Meet developers, founders, and researchers from around the world to collaborate and grow.",
-    image: "/assets/images/misc/s5.webp"
+    image: "/aivent-original/images/misc/s5.webp"
   },
   {
     id: 4,
     title: "Startup Showcase",
     description: "Explore the latest AI tools and ideas from promising startups and research labs.",
-    image: "/assets/images/misc/s6.webp"
+    image: "/aivent-original/images/misc/s6.webp"
   },
   {
     id: 5,
     title: "AI Career Boost",
     description: "Access exclusive job fairs, mentorship sessions, and recruiting events to grow your career.",
-    image: "/assets/images/misc/s7.webp"
+    image: "/aivent-original/images/misc/s7.webp"
   },
   {
     id: 6,
     title: "Ethics & Future",
     description: "Engage in vital conversations around AI ethics, policy, and the future of intelligence.",
-    image: "/assets/images/misc/s8.webp"
+    image: "/aivent-original/images/misc/s8.webp"
   }
 ]
 

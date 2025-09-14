@@ -45,7 +45,7 @@ export default function Quote() {
       {/* Background Image with Parallax Effect */}
       <div className="absolute inset-0">
         <Image
-          src="/assets/images/background/2.webp"
+          src="/aivent-original/images/background/2.webp"
           alt="Background"
           fill
           className="object-cover"
@@ -81,7 +81,7 @@ export default function Quote() {
               <div className="relative w-full max-w-md mx-auto">
                 <div className="relative aspect-square rounded-xl overflow-hidden">
                   <Image
-                    src="/assets/images/misc/s9.webp"
+                    src="/aivent-original/images/misc/s9.webp"
                     alt="Elon Musk"
                     fill
                     className="object-cover"

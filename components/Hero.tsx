@@ -38,10 +38,10 @@ export default function Hero() {
           <source src="/aivent-original/video/2.mp4" type="video/mp4" />
         </video>
 
-        {/* Gradient Overlays - matching original template */}
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent h-1/2 top-0" />
+        {/* Gradient Overlays - matching original template exactly */}
+        <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent h-1/2 top-0 opacity-60" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-dark" />
-        <div className="absolute inset-0 bg-dark/80" />
+        <div className="absolute inset-0 bg-dark/80 opacity-80" />
       </div>
 
       {/* Main Content */}

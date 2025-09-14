@@ -4,49 +4,28 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import Image from 'next/image'
 
-// Official AIvent Demo 1 speakers data
+// Official AIvent Demo 1 speakers data - showing exactly 3 speakers as in original
 const speakers = [
   {
     id: 1,
     name: "Joshua Henry",
     title: "AI Research Lead, DeepTech Labs",
-    image: "/assets/images/team/1.webp",
+    image: "/aivent-original/images/team/1.webp",
     session: "Opening Keynote – The State of AI 2025"
   },
   {
     id: 2,
     name: "Leila Zhang",
     title: "VP of Machine Learning, Google",
-    image: "/assets/images/team/2.webp",
+    image: "/aivent-original/images/team/2.webp",
     session: "Building Human-Centered AI Products"
   },
   {
     id: 3,
     name: "Carlos Rivera",
     title: "Founder & CEO, NeuralCore",
-    image: "/assets/images/team/3.webp",
+    image: "/aivent-original/images/team/3.webp",
     session: "AI Policy & Regulation – A Global Overview"
-  },
-  {
-    id: 4,
-    name: "Maria Gonzalez",
-    title: "Founder & CEO, SynthCore AI",
-    image: "/assets/images/team/4.webp",
-    session: "Building a Startup with AI at the Core"
-  },
-  {
-    id: 5,
-    name: "Lisa Zhang",
-    title: "AI Ethics Researcher, FairAI Group",
-    image: "/assets/images/team/6.webp",
-    session: "Bias in Data — Hidden Dangers in AI Pipelines"
-  },
-  {
-    id: 6,
-    name: "Markus Blom",
-    title: "CTO, SynthMind AI",
-    image: "/assets/images/team/7.webp",
-    session: "Generative Models Beyond Text"
   }
 ]
 

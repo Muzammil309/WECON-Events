@@ -6,16 +6,16 @@ import Image from 'next/image'
 
 // Official AIvent Demo 1 sponsor logos
 const sponsors = [
-  { id: 1, name: "Sponsor 1", logo: "/assets/images/logo-light/1.webp" },
-  { id: 2, name: "Sponsor 2", logo: "/assets/images/logo-light/2.webp" },
-  { id: 3, name: "Sponsor 3", logo: "/assets/images/logo-light/3.webp" },
-  { id: 4, name: "Sponsor 4", logo: "/assets/images/logo-light/4.webp" },
-  { id: 5, name: "Sponsor 5", logo: "/assets/images/logo-light/5.webp" },
-  { id: 6, name: "Sponsor 6", logo: "/assets/images/logo-light/6.webp" },
-  { id: 7, name: "Sponsor 7", logo: "/assets/images/logo-light/7.webp" },
-  { id: 8, name: "Sponsor 8", logo: "/assets/images/logo-light/8.webp" },
-  { id: 9, name: "Sponsor 9", logo: "/assets/images/logo-light/9.webp" },
-  { id: 10, name: "Sponsor 10", logo: "/assets/images/logo-light/10.webp" }
+  { id: 1, name: "Sponsor 1", logo: "/aivent-original/images/logo-light/1.webp" },
+  { id: 2, name: "Sponsor 2", logo: "/aivent-original/images/logo-light/2.webp" },
+  { id: 3, name: "Sponsor 3", logo: "/aivent-original/images/logo-light/3.webp" },
+  { id: 4, name: "Sponsor 4", logo: "/aivent-original/images/logo-light/4.webp" },
+  { id: 5, name: "Sponsor 5", logo: "/aivent-original/images/logo-light/5.webp" },
+  { id: 6, name: "Sponsor 6", logo: "/aivent-original/images/logo-light/6.webp" },
+  { id: 7, name: "Sponsor 7", logo: "/aivent-original/images/logo-light/7.webp" },
+  { id: 8, name: "Sponsor 8", logo: "/aivent-original/images/logo-light/8.webp" },
+  { id: 9, name: "Sponsor 9", logo: "/aivent-original/images/logo-light/9.webp" },
+  { id: 10, name: "Sponsor 10", logo: "/aivent-original/images/logo-light/10.webp" }
 ]
 
 export default function Sponsors() {
@@ -29,7 +29,7 @@ export default function Sponsors() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/assets/images/background/1.webp"
+          src="/aivent-original/images/background/1.webp"
           alt="Background"
           fill
           className="object-cover"

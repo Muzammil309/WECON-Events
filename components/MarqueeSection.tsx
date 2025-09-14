@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 
 const marqueeItems = [
   "Next Intelligence",
-  "Future Now", 
+  "Future Now",
   "Empowering Innovation",
   "Smarter Tomorrow",
   "Think Forward",
@@ -19,10 +19,18 @@ export default function MarqueeSection() {
         initial={{ opacity: 0, x: -100 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 3 }}
-        className="bg-primary text-white py-6 transform rotate-2 relative"
+        className="bg-primary text-white py-6 transform rotate-2 relative overflow-hidden"
       >
-        <div className="de-marquee-list-1 flex items-center whitespace-nowrap">
-          {[...Array(3)].map((_, setIndex) => (
+        <motion.div
+          animate={{ x: [0, -100] }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          className="de-marquee-list-1 flex items-center whitespace-nowrap"
+        >
+          {[...Array(6)].map((_, setIndex) => (
             <div key={setIndex} className="flex items-center">
               {marqueeItems.map((item, index) => (
                 <div key={`${setIndex}-${index}`} className="flex items-center">
@@ -36,7 +44,7 @@ export default function MarqueeSection() {
               ))}
             </div>
           ))}
-        </div>
+        </motion.div>
       </motion.div>
 
       {/* Second Marquee Row */}
@@ -44,10 +52,18 @@ export default function MarqueeSection() {
         initial={{ opacity: 0, x: 100 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 3 }}
-        className="bg-secondary text-white py-6 transform -rotate-1 -mt-5 relative"
+        className="bg-secondary text-white py-6 transform -rotate-1 -mt-5 relative overflow-hidden"
       >
-        <div className="de-marquee-list-2 flex items-center whitespace-nowrap">
-          {[...Array(3)].map((_, setIndex) => (
+        <motion.div
+          animate={{ x: [-100, 0] }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+          className="de-marquee-list-2 flex items-center whitespace-nowrap"
+        >
+          {[...Array(6)].map((_, setIndex) => (
             <div key={setIndex} className="flex items-center">
               {marqueeItems.map((item, index) => (
                 <div key={`${setIndex}-${index}`} className="flex items-center">
@@ -61,7 +77,7 @@ export default function MarqueeSection() {
               ))}
             </div>
           ))}
-        </div>
+        </motion.div>
       </motion.div>
     </section>
   )
