@@ -6,7 +6,7 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Check } from 'lucide-react'
 
-// Official AIvent Demo 1 ticket data
+// Official AIvent Demo 1 ticket data - exactly 3 tickets as in original
 const tickets = [
   {
     id: 1,
@@ -14,10 +14,10 @@ const tickets = [
     price: 299,
     description: "October 1 to 5 - 10:00 AM",
     features: [
-      "Access to keynotes and sessions",
-      "Admission to exhibitions and demos",
-      "Networking opportunities",
-      "Digital materials and session recordings"
+      "Access to keynotes and sessions.",
+      "Admission to exhibitions and demos.",
+      "Networking opportunities.",
+      "Digital materials and session recordings."
     ],
     popular: false,
     variant: "standard"
@@ -28,10 +28,10 @@ const tickets = [
     price: 699,
     description: "October 1 to 5 - 10:00 AM",
     features: [
-      "All Standard benefits",
-      "VIP lounge access and exclusive events",
-      "Front-row seating and priority workshop access",
-      "VIP swag bag and exclusive content"
+      "All Standard benefits.",
+      "VIP lounge access and exclusive events.",
+      "Front-row seating and priority workshop access.",
+      "VIP swag bag and exclusive content."
     ],
     popular: true,
     variant: "vip"
@@ -42,41 +42,13 @@ const tickets = [
     price: 1199,
     description: "October 1 to 5 - 10:00 AM",
     features: [
-      "All VIP benefits",
-      "Access to all workshops and breakout sessions",
-      "Personalized session scheduling",
-      "Speaker meet-and-greet and after-party access"
+      "All VIP benefits.",
+      "Access to all workshops and breakout sessions.",
+      "Personalized session scheduling.",
+      "Speaker meet-and-greet and after-party access."
     ],
     popular: false,
     variant: "premium"
-  },
-  {
-    id: 4,
-    name: "Student",
-    price: 149,
-    description: "October 1 to 5 - 10:00 AM",
-    features: [
-      "Access to keynotes and workshops",
-      "Student-specific networking events",
-      "Discounted online resources post-event",
-      "Special student meetups for networking"
-    ],
-    popular: false,
-    variant: "student"
-  },
-  {
-    id: 5,
-    name: "Virtual",
-    price: 99,
-    description: "October 1 to 5 - 10:00 AM",
-    features: [
-      "Live-streamed keynotes and workshops",
-      "On-demand access to recorded sessions",
-      "Interactive Q&A with speakers",
-      "Virtual networking and digital swag"
-    ],
-    popular: false,
-    variant: "virtual"
   }
 ]
 
@@ -98,9 +70,9 @@ export default function Tickets() {
   }
 
   const itemVariants = {
-    hidden: { y: 50, opacity: 0 },
+    hidden: { x: 100, opacity: 0 },
     visible: {
-      y: 0,
+      x: 0,
       opacity: 1,
       transition: { duration: 0.6, ease: "easeOut" },
     },
@@ -109,20 +81,20 @@ export default function Tickets() {
   return (
     <section
       id="section-tickets"
-      className="section-padding bg-dark text-white relative overflow-hidden"
+      className="section-padding bg-dark text-white relative overflow-hidden pt-20"
     >
-      {/* Background Image */}
+      {/* Background Image - exactly like original template */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/assets/images/background/7.webp"
+          src="/aivent-original/images/background/7.webp"
           alt="Background"
           fill
           className="object-cover"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-dark/70" />
-        <div className="absolute inset-0 bg-gradient-to-t from-dark via-transparent to-dark/60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-dark via-transparent to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-dark" />
+        <div className="absolute inset-0 bg-dark/70" />
       </div>
 
       <motion.div
@@ -151,8 +123,8 @@ export default function Tickets() {
           </motion.p>
         </div>
 
-        {/* Tickets Grid */}
-        <div className="grid lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-7xl mx-auto">
+        {/* Tickets Carousel - exactly 3 cards like original */}
+        <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {tickets.map((ticket, index) => (
             <motion.div
               key={ticket.id}
@@ -171,17 +143,16 @@ export default function Tickets() {
               <div className={`relative overflow-hidden rounded-2xl transition-all duration-300 group-hover:scale-105 ${
                 ticket.popular ? 'ring-2 ring-primary shadow-lg shadow-primary/25' : ''
               }`}>
-                {/* Ticket Header - Styled like actual ticket */}
+                {/* Ticket Header - Styled exactly like original template */}
                 <div className={`relative p-6 text-center ${
                   ticket.variant === 'premium' ? 'bg-gradient-to-br from-primary to-secondary' :
                   ticket.variant === 'vip' ? 'bg-gradient-to-br from-secondary to-primary' :
-                  ticket.variant === 'student' || ticket.variant === 'virtual' ? 'bg-gradient-to-br from-gray-700 to-gray-800' :
                   'bg-gradient-to-br from-dark-2 to-dark-3'
                 }`}>
                   {/* AIvent Logo */}
                   <div className="mb-4">
                     <Image
-                      src="/assets/logo.webp"
+                      src="/aivent-original/images/logo.webp"
                       alt="AIvent Logo"
                       width={80}
                       height={40}
@@ -192,7 +163,7 @@ export default function Tickets() {
                   {/* Barcode */}
                   <div className="absolute top-4 right-4">
                     <Image
-                      src="/assets/images/misc/barcode.webp"
+                      src="/aivent-original/images/misc/barcode.webp"
                       alt="Barcode"
                       width={40}
                       height={20}
@@ -201,9 +172,9 @@ export default function Tickets() {
                   </div>
 
                   {/* Background Logo */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-10">
+                  <div className="absolute inset-0 flex items-center justify-center opacity-20">
                     <Image
-                      src="/assets/logo-big-white.webp"
+                      src="/aivent-original/images/logo-big-white.webp"
                       alt="Background Logo"
                       width={120}
                       height={60}

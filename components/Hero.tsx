@@ -41,21 +41,21 @@ export default function Hero() {
         {/* Gradient Overlays - matching original template exactly */}
         <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent h-1/2 top-0 opacity-60" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-dark" />
-        <div className="absolute inset-0 bg-dark/80 opacity-80" />
+        <div className="absolute inset-0 bg-dark/20 opacity-80" />
       </div>
 
-      {/* Main Content */}
-      <div className="absolute inset-0 z-20 flex items-center justify-center">
+      {/* Main Content - positioned exactly like original template */}
+      <div className="absolute inset-0 z-20 flex items-center justify-center w-4/5 mx-auto">
         <div className="container mx-auto px-4">
           <div className="text-center">
             <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 3 }}
               className="mb-8"
             >
               <div className="text-primary text-lg mb-4 font-medium">The Future of Intelligence</div>
-              <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold uppercase mb-8 leading-none">
+              <h1 className="text-7xl md:text-8xl lg:text-[120px] font-bold uppercase mb-8 leading-none tracking-tight">
                 AI Summit 2025
               </h1>
 
