@@ -108,7 +108,7 @@ export default function About() {
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{
-                  duration: 20,
+                  duration: 10,
                   repeat: Infinity,
                   ease: "linear"
                 }}
