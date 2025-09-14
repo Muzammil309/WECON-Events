@@ -48,85 +48,14 @@ export default function Navbar() {
               />
             </div>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation - Simplified as requested */}
             <nav className="hidden lg:flex items-center space-x-8">
-              <div className="relative group">
-                <button
-                  className="text-white hover:text-primary transition-colors duration-200 flex items-center space-x-1"
-                  onClick={() => handleNavClick('#section-hero')}
-                >
-                  <span>Home</span>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
-
-                {/* Home Mega Menu */}
-                <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 bg-dark/95 backdrop-blur-md border border-white/10 rounded-lg p-6 w-96">
-                  <div className="grid grid-cols-5 gap-4">
-                    <div className="text-center">
-                      <div className="relative overflow-hidden rounded-lg mb-2">
-                        <Image
-                          src="/aivent-original/images/demo/homepage-1.webp"
-                          alt="Demo 1"
-                          width={80}
-                          height={60}
-                          className="w-full h-auto hover:scale-110 transition-transform duration-300"
-                        />
-                      </div>
-                      <h6 className="text-white text-sm">Demo 1</h6>
-                    </div>
-                    <div className="text-center">
-                      <div className="relative overflow-hidden rounded-lg mb-2">
-                        <Image
-                          src="/aivent-original/images/demo/homepage-2.webp"
-                          alt="Demo 2"
-                          width={80}
-                          height={60}
-                          className="w-full h-auto hover:scale-110 transition-transform duration-300"
-                        />
-                      </div>
-                      <h6 className="text-white text-sm">Demo 2</h6>
-                    </div>
-                    <div className="text-center">
-                      <div className="relative overflow-hidden rounded-lg mb-2">
-                        <Image
-                          src="/aivent-original/images/demo/homepage-3.webp"
-                          alt="Demo 3"
-                          width={80}
-                          height={60}
-                          className="w-full h-auto hover:scale-110 transition-transform duration-300"
-                        />
-                      </div>
-                      <h6 className="text-white text-sm">Demo 3</h6>
-                    </div>
-                    <div className="text-center">
-                      <div className="relative overflow-hidden rounded-lg mb-2">
-                        <Image
-                          src="/aivent-original/images/demo/homepage-4.webp"
-                          alt="Demo 4"
-                          width={80}
-                          height={60}
-                          className="w-full h-auto hover:scale-110 transition-transform duration-300"
-                        />
-                      </div>
-                      <h6 className="text-white text-sm">Demo 4</h6>
-                    </div>
-                    <div className="text-center">
-                      <div className="relative overflow-hidden rounded-lg mb-2">
-                        <Image
-                          src="/aivent-original/images/demo/homepage-5.webp"
-                          alt="Demo 5"
-                          width={80}
-                          height={60}
-                          className="w-full h-auto hover:scale-110 transition-transform duration-300"
-                        />
-                      </div>
-                      <h6 className="text-white text-sm">Demo 5</h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <button
+                className="text-white hover:text-primary transition-colors duration-200"
+                onClick={() => handleNavClick('#section-hero')}
+              >
+                Home
+              </button>
 
               <button
                 className="text-white hover:text-primary transition-colors duration-200"
@@ -177,25 +106,7 @@ export default function Navbar() {
                 FAQ
               </button>
 
-              <div className="relative group">
-                <button className="text-white hover:text-primary transition-colors duration-200 flex items-center space-x-1">
-                  <span>Pages</span>
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </button>
 
-                {/* Pages Submenu */}
-                <div className="absolute top-full left-0 mt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 bg-dark/95 backdrop-blur-md border border-white/10 rounded-lg p-4 w-48">
-                  <div className="space-y-2">
-                    <a href="#" className="block text-white hover:text-primary transition-colors duration-200 py-1">Tickets Style 1</a>
-                    <a href="#" className="block text-white hover:text-primary transition-colors duration-200 py-1">Tickets Style 2</a>
-                    <a href="#" className="block text-white hover:text-primary transition-colors duration-200 py-1">News</a>
-                    <a href="#" className="block text-white hover:text-primary transition-colors duration-200 py-1">News Single</a>
-                    <a href="#" className="block text-white hover:text-primary transition-colors duration-200 py-1">Contact</a>
-                  </div>
-                </div>
-              </div>
             </nav>
 
             {/* Buy Tickets Button */}

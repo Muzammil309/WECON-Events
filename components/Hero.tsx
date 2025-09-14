@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { getTimeRemaining, scrollToElement } from '@/lib/utils'
 
-const EVENT_DATE = new Date('2025-10-01T09:00:00-07:00')
+const EVENT_DATE = new Date('2025-12-10T08:00:00-08:00')
 
 export default function Hero() {
   const [timeLeft, setTimeLeft] = useState(getTimeRemaining(EVENT_DATE))

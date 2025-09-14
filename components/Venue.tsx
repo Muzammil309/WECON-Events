@@ -81,7 +81,7 @@ export default function Venue() {
         <div className="grid md:grid-cols-2 gap-6 mb-16">
           <motion.div variants={itemVariants} className="relative overflow-hidden rounded-xl">
             <Image
-              src="/assets/images/misc/l1.webp"
+              src="/aivent-original/images/misc/l1.webp"
               alt="Venue Interior"
               width={600}
               height={400}
@@ -89,10 +89,10 @@ export default function Venue() {
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           </motion.div>
-          
+
           <motion.div variants={itemVariants} className="relative overflow-hidden rounded-xl">
             <Image
-              src="/assets/images/misc/l2.webp"
+              src="/aivent-original/images/misc/l2.webp"
               alt="Venue Exterior"
               width={600}
               height={400}
@@ -124,13 +124,13 @@ export default function Venue() {
         {/* Additional Venue Images */}
         <div className="grid md:grid-cols-3 gap-6 mt-16">
           {[3, 4, 5].map((num) => (
-            <motion.div 
+            <motion.div
               key={num}
-              variants={itemVariants} 
+              variants={itemVariants}
               className="relative overflow-hidden rounded-xl"
             >
               <Image
-                src={`/assets/images/misc/l${num}.webp`}
+                src={`/aivent-original/images/misc/l${num}.webp`}
                 alt={`Venue Image ${num}`}
                 width={400}
                 height={300}

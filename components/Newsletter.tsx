@@ -47,7 +47,7 @@ export default function Newsletter() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/assets/images/background/3.webp"
+          src="/aivent-original/images/background/3.webp"
           alt="Background"
           fill
           className="object-cover"

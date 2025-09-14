@@ -29,7 +29,7 @@ export default function Footer() {
           <div className="text-center">
             <div className="mb-6">
               <Image
-                src="/assets/logo.webp"
+                src="/aivent-original/images/logo.webp"
                 alt="AIvent Logo"
                 width={150}
                 height={75}
