@@ -12,7 +12,7 @@ export default function Footer() {
   ]
 
   return (
-    <footer className="bg-dark text-white">
+    <footer className="text-white" style={{ backgroundColor: '#101435' }}>
       {/* Main Footer */}
       <div className="container-custom py-16">
         <div className="grid lg:grid-cols-3 gap-8 items-center text-center lg:text-left">

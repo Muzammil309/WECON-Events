@@ -47,7 +47,7 @@ export default function About() {
   ]
 
   return (
-    <section id="section-about" className="section-padding bg-dark text-white">
+    <section id="section-about" className="section-padding text-white" style={{ backgroundColor: '#101435' }}>
       <motion.div
         ref={ref}
         variants={containerVariants}

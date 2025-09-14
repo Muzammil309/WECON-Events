@@ -79,7 +79,7 @@ export default function WhyAttend() {
   }
 
   return (
-    <section id="section-why-attend" className="section-padding bg-dark text-white">
+    <section id="section-why-attend" className="section-padding text-white" style={{ backgroundColor: '#101435' }}>
       <motion.div
         ref={ref}
         variants={containerVariants}
@@ -114,8 +114,8 @@ export default function WhyAttend() {
             <motion.div
               key={feature.id}
               variants={cardVariants}
-              whileHover={{ scale: 1.05 }}
-              className="group relative overflow-hidden rounded-xl bg-gray-900/50 hover:bg-transparent transition-all duration-500"
+              whileHover={{ scale: 1.02 }}
+              className="group relative overflow-hidden rounded-xl bg-gray-900/30 border-2 border-gray-800 hover:border-primary transition-all duration-300"
             >
               {/* Background Image */}
               <div className="relative h-80 overflow-hidden">
@@ -123,15 +123,12 @@ export default function WhyAttend() {
                   src={feature.image}
                   alt={feature.title}
                   fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
-                
+
                 {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/50 to-transparent" />
-                
-                {/* Hover Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/80 to-secondary/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
               </div>
 
               {/* Content */}
@@ -141,17 +138,14 @@ export default function WhyAttend() {
                   whileInView={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                 >
-                  <h4 className="text-2xl font-bold text-white mb-3 group-hover:text-white transition-colors">
+                  <h4 className="text-2xl font-bold text-white mb-3 transition-colors">
                     {feature.title}
                   </h4>
-                  <p className="text-gray-300 group-hover:text-white/90 transition-colors leading-relaxed">
+                  <p className="text-gray-300 transition-colors leading-relaxed">
                     {feature.description}
                   </p>
                 </motion.div>
               </div>
-
-              {/* Hover Border Effect */}
-              <div className="absolute inset-0 border-2 border-transparent group-hover:border-primary/50 rounded-xl transition-colors duration-500" />
             </motion.div>
           ))}
         </div>

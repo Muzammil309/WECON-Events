@@ -71,7 +71,7 @@ export default function FAQ() {
   }
 
   return (
-    <section id="section-faq" className="section-padding bg-dark text-white">
+    <section id="section-faq" className="section-padding text-white" style={{ backgroundColor: '#101435' }}>
       <motion.div
         ref={ref}
         variants={containerVariants}

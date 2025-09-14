@@ -40,8 +40,8 @@ export default function Hero() {
 
         {/* Gradient Overlays - matching original template exactly */}
         <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent h-1/2 top-0 opacity-60" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-dark" />
-        <div className="absolute inset-0 bg-dark/20 opacity-80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#101435]" />
+        <div className="absolute inset-0 bg-[#101435]/20 opacity-80" />
       </div>
 
       {/* Main Content - positioned exactly like original template */}

@@ -13,13 +13,14 @@ const marqueeItems = [
 
 export default function MarqueeSection() {
   return (
-    <section className="relative py-0 overflow-hidden">
-      {/* First Marquee Row */}
+    <section className="relative py-0 overflow-hidden" style={{ backgroundColor: '#101435' }}>
+      {/* First Marquee Row - Crossed formation */}
       <motion.div
         initial={{ opacity: 0, x: -100 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 3 }}
-        className="bg-primary text-white py-6 transform rotate-2 relative overflow-hidden"
+        className="bg-primary text-white py-8 transform rotate-3 relative overflow-hidden"
+        style={{ marginTop: '40px', marginBottom: '-20px' }}
       >
         <motion.div
           animate={{ x: [0, -100] }}
@@ -47,12 +48,13 @@ export default function MarqueeSection() {
         </motion.div>
       </motion.div>
 
-      {/* Second Marquee Row */}
+      {/* Second Marquee Row - Crossed formation */}
       <motion.div
         initial={{ opacity: 0, x: 100 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 3 }}
-        className="bg-secondary text-white py-6 transform -rotate-1 -mt-5 relative overflow-hidden"
+        className="bg-secondary text-white py-8 transform -rotate-3 relative overflow-hidden"
+        style={{ marginTop: '-40px', marginBottom: '40px' }}
       >
         <motion.div
           animate={{ x: [-100, 0] }}

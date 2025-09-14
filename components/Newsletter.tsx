@@ -43,7 +43,7 @@ export default function Newsletter() {
   }
 
   return (
-    <section className="section-padding bg-dark text-white relative overflow-hidden">
+    <section className="section-padding text-white relative overflow-hidden" style={{ backgroundColor: '#101435' }}>
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image

@@ -81,7 +81,8 @@ export default function Tickets() {
   return (
     <section
       id="section-tickets"
-      className="section-padding bg-dark text-white relative overflow-hidden pt-20"
+      className="section-padding text-white relative overflow-hidden pt-20"
+      style={{ backgroundColor: '#101435' }}
     >
       {/* Background Image - exactly like original template */}
       <div className="absolute inset-0 z-0">
@@ -92,9 +93,9 @@ export default function Tickets() {
           className="object-cover"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-dark via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-dark" />
-        <div className="absolute inset-0 bg-dark/70" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#101435] via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#101435]" />
+        <div className="absolute inset-0 bg-[#101435]/70" />
       </div>
 
       <motion.div

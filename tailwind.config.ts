@@ -45,9 +45,9 @@ const config: Config = {
           800: '#221248',
           900: '#110924',
         },
-        // Dark theme colors
+        // Dark theme colors - Official AIvent background
         dark: {
-          DEFAULT: '#0A0A0A',
+          DEFAULT: '#101435', // Official AIvent background color
           50: '#F5F5F5',
           100: '#E5E5E5',
           200: '#CCCCCC',
@@ -57,7 +57,7 @@ const config: Config = {
           600: '#666666',
           700: '#4D4D4D',
           800: '#1A1A1A',
-          900: '#0A0A0A',
+          900: '#101435', // Official AIvent background color
         },
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

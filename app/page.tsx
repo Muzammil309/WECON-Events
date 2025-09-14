@@ -34,7 +34,8 @@ export default function HomePage() {
       variants={pageVariants}
       initial="initial"
       animate="animate"
-      className="min-h-screen bg-dark text-white"
+      className="min-h-screen text-white"
+      style={{ backgroundColor: '#101435' }}
     >
       {/* Navigation */}
       <Navbar />

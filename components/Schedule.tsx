@@ -132,7 +132,7 @@ export default function Schedule() {
   const currentDayData = scheduleData.find(day => day.day === activeDay)
 
   return (
-    <section id="section-schedule" className="section-padding bg-dark text-white">
+    <section id="section-schedule" className="section-padding text-white" style={{ backgroundColor: '#101435' }}>
       <motion.div
         ref={ref}
         variants={containerVariants}

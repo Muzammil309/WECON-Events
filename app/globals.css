@@ -80,7 +80,7 @@
   }
 
   body.dark-scheme {
-    background-color: #0A0A0A;
+    background-color: #101435; /* Official AIvent background color */
     color: rgba(255, 255, 255, 0.75);
   }
 
@@ -130,13 +130,17 @@
     @apply py-20 lg:py-32;
   }
 
-  /* Background colors */
+  /* Background colors - Official AIvent theme */
   .bg-dark {
-    background-color: #0A0A0A;
+    background-color: #101435; /* Official AIvent background color */
   }
 
   .bg-dark-2 {
-    background-color: #1A1A1A;
+    background-color: #1A1A3A; /* Slightly lighter variant */
+  }
+
+  .bg-dark-3 {
+    background-color: #0F1230; /* Slightly darker variant */
   }
 
   /* Primary gradient */

@@ -1,12 +1,21 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
+import { useRef } from 'react'
 import Image from 'next/image'
 import { Quote as QuoteIcon } from 'lucide-react'
 
 export default function Quote() {
-  const [ref, inView] = useInView({
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  })
+
+  const y = useTransform(scrollYProgress, [0, 1], [0, -100])
+
+  const [inViewRef, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   })
@@ -41,9 +50,12 @@ export default function Quote() {
   }
 
   return (
-    <section className="relative py-20 bg-dark text-white overflow-hidden">
+    <section ref={ref} className="relative py-20 text-white overflow-hidden" style={{ backgroundColor: '#101435' }}>
       {/* Background Image with Parallax Effect */}
-      <div className="absolute inset-0">
+      <motion.div
+        className="absolute inset-0"
+        style={{ y }}
+      >
         <Image
           src="/aivent-original/images/background/2.webp"
           alt="Background"
@@ -51,15 +63,15 @@ export default function Quote() {
           className="object-cover"
           priority={false}
         />
-        
+
         {/* Gradient Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/50 to-dark/80" />
-        <div className="absolute inset-0 bg-gradient-to-b from-dark/60 via-transparent to-dark" />
-        <div className="absolute inset-0 bg-dark/80" />
-      </div>
+        <div className="absolute inset-0 bg-gradient-to-t from-[#101435] via-[#101435]/50 to-[#101435]/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#101435]/60 via-transparent to-[#101435]" />
+        <div className="absolute inset-0 bg-[#101435]/80" />
+      </motion.div>
 
       <motion.div
-        ref={ref}
+        ref={inViewRef}
         variants={containerVariants}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}

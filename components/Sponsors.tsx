@@ -25,7 +25,7 @@ export default function Sponsors() {
   })
 
   return (
-    <section className="section-padding bg-dark text-white relative overflow-hidden">
+    <section className="section-padding text-white relative overflow-hidden" style={{ backgroundColor: '#101435' }}>
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -35,9 +35,9 @@ export default function Sponsors() {
           className="object-cover"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-dark/80" />
-        <div className="absolute inset-0 bg-gradient-to-t from-dark via-transparent to-dark/60" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-dark" />
+        <div className="absolute inset-0 bg-[#101435]/80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#101435] via-transparent to-[#101435]/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#101435]" />
       </div>
 
       <motion.div
@@ -55,8 +55,8 @@ export default function Sponsors() {
           className="relative overflow-hidden"
         >
           {/* Gradient Masks */}
-          <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-dark to-transparent z-10" />
-          <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-dark to-transparent z-10" />
+          <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-[#101435] to-transparent z-10" />
+          <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-[#101435] to-transparent z-10" />
 
           {/* Scrolling Container */}
           <div className="flex animate-marquee">
@@ -69,10 +69,10 @@ export default function Sponsors() {
                 <Image
                   src={sponsor.logo}
                   alt={sponsor.name}
-                  width={150}
-                  height={80}
-                  className="h-16 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity duration-300 filter brightness-0 invert"
-                  sizes="150px"
+                  width={120}
+                  height={60}
+                  className="h-12 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity duration-300 filter brightness-0 invert"
+                  sizes="120px"
                 />
               </div>
             ))}
@@ -86,10 +86,10 @@ export default function Sponsors() {
                 <Image
                   src={sponsor.logo}
                   alt={sponsor.name}
-                  width={150}
-                  height={80}
-                  className="h-16 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity duration-300 filter brightness-0 invert"
-                  sizes="150px"
+                  width={120}
+                  height={60}
+                  className="h-12 w-auto object-contain opacity-60 hover:opacity-100 transition-opacity duration-300 filter brightness-0 invert"
+                  sizes="120px"
                 />
               </div>
             ))}

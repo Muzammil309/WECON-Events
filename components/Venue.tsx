@@ -50,7 +50,7 @@ export default function Venue() {
   ]
 
   return (
-    <section id="section-venue" className="section-padding bg-dark text-white">
+    <section id="section-venue" className="section-padding text-white" style={{ backgroundColor: '#101435' }}>
       <motion.div
         ref={ref}
         variants={containerVariants}
