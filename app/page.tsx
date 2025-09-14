@@ -8,11 +8,12 @@ import MarqueeSection from '@/components/MarqueeSection'
 import WhyAttend from '@/components/WhyAttend'
 import Quote from '@/components/Quote'
 import Speakers from '@/components/Speakers'
+import Sponsors from '@/components/Sponsors'
 import Schedule from '@/components/Schedule'
 import Tickets from '@/components/Tickets'
-import Sponsors from '@/components/Sponsors'
-import News from '@/components/News'
-import Contact from '@/components/Contact'
+import Venue from '@/components/Venue'
+import FAQ from '@/components/FAQ'
+import Newsletter from '@/components/Newsletter'
 import Footer from '@/components/Footer'
 import ScrollToTop from '@/components/ScrollToTop'
 
@@ -40,37 +41,40 @@ export default function HomePage() {
       
       {/* Hero Section */}
       <Hero />
-      
+
       {/* About Section */}
       <About />
-      
+
       {/* Marquee Section */}
       <MarqueeSection />
-      
+
       {/* Why Attend Section */}
       <WhyAttend />
-      
+
       {/* Quote Section */}
       <Quote />
-      
+
       {/* Speakers Section */}
       <Speakers />
-      
-      {/* Schedule Section */}
-      <Schedule />
-      
-      {/* Tickets Section */}
-      <Tickets />
-      
+
       {/* Sponsors Section */}
       <Sponsors />
-      
-      {/* News Section */}
-      <News />
-      
-      {/* Contact Section */}
-      <Contact />
-      
+
+      {/* Schedule Section */}
+      <Schedule />
+
+      {/* Tickets Section */}
+      <Tickets />
+
+      {/* Venue Section */}
+      <Venue />
+
+      {/* FAQ Section */}
+      <FAQ />
+
+      {/* Newsletter Section */}
+      <Newsletter />
+
       {/* Footer */}
       <Footer />
       

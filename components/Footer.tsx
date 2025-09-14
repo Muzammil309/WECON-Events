@@ -1,73 +1,74 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Image from 'next/image'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Facebook, Instagram, Twitter, Youtube } from 'lucide-react'
 
 export default function Footer() {
+  const socialLinks = [
+    { icon: Facebook, href: "#", label: "Facebook" },
+    { icon: Instagram, href: "#", label: "Instagram" },
+    { icon: Twitter, href: "#", label: "Twitter" },
+    { icon: Youtube, href: "#", label: "YouTube" }
+  ]
+
   return (
-    <footer className="bg-dark text-white border-t border-gray-800">
+    <footer className="bg-dark text-white">
+      {/* Main Footer */}
       <div className="container-custom py-16">
-        <div className="grid lg:grid-cols-4 gap-8">
-          {/* Brand */}
-          <div className="space-y-6">
-            <div className="flex items-center space-x-2">
-              <div className="relative w-10 h-10">
-                <Image
-                  src="/assets/images/logo.webp"
-                  alt="AIvent Logo"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-              <span className="text-2xl font-bold aivent-text-gradient">
-                AIvent
-              </span>
-            </div>
-            <p className="text-gray-400">
-              The premier AI conference bringing together the brightest minds in artificial intelligence.
+        <div className="grid lg:grid-cols-3 gap-8 items-center text-center lg:text-left">
+          {/* Address */}
+          <div>
+            <h3 className="text-xl font-bold mb-4">Address</h3>
+            <p className="text-gray-300 leading-relaxed">
+              121 AI Blvd, San Francisco<br />
+              BCA 94107
             </p>
           </div>
-          
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
-            <ul className="space-y-2 text-gray-400">
-              <li><a href="#section-about" className="hover:text-primary transition-colors">About</a></li>
-              <li><a href="#section-speakers" className="hover:text-primary transition-colors">Speakers</a></li>
-              <li><a href="#section-schedule" className="hover:text-primary transition-colors">Schedule</a></li>
-              <li><a href="#section-tickets" className="hover:text-primary transition-colors">Tickets</a></li>
-            </ul>
-          </div>
-          
-          {/* Contact */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Contact</h4>
-            <div className="space-y-2 text-gray-400">
-              <p>San Francisco, CA</p>
-              <p>October 1-5, 2025</p>
-              <p>info@aisummit2025.com</p>
+
+          {/* Logo and Social */}
+          <div className="text-center">
+            <div className="mb-6">
+              <Image
+                src="/assets/logo.webp"
+                alt="AIvent Logo"
+                width={150}
+                height={75}
+                className="mx-auto"
+              />
+            </div>
+
+            {/* Social Icons */}
+            <div className="flex justify-center gap-4">
+              {socialLinks.map((social, index) => (
+                <a
+                  key={index}
+                  href={social.href}
+                  aria-label={social.label}
+                  className="w-12 h-12 bg-dark-2 rounded-full flex items-center justify-center hover:bg-primary transition-colors duration-300 group"
+                >
+                  <social.icon className="w-5 h-5 text-gray-400 group-hover:text-white" />
+                </a>
+              ))}
             </div>
           </div>
-          
-          {/* Newsletter */}
+
+          {/* Contact */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Stay Updated</h4>
-            <div className="space-y-4">
-              <Input 
-                placeholder="Enter your email" 
-                className="bg-gray-800 border-gray-700"
-              />
-              <Button variant="aivent" className="w-full">
-                Subscribe
-              </Button>
+            <h3 className="text-xl font-bold mb-4">Contact Us</h3>
+            <div className="text-gray-300 space-y-2">
+              <p>T. +1 123 456 789</p>
+              <p>M. contact@aivent.com</p>
             </div>
           </div>
         </div>
-        
-        <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-          <p>&copy; 2025 AI Summit. All rights reserved.</p>
+      </div>
+
+      {/* Sub Footer */}
+      <div className="border-t border-gray-800">
+        <div className="container-custom py-6">
+          <div className="text-center text-gray-400">
+            <p>&copy; 2025 - AIvent by Designesia</p>
+          </div>
         </div>
       </div>
     </footer>
