@@ -116,13 +116,13 @@ export default function Navbar() {
             <div className="hidden lg:flex space-x-3">
               <button
                 onClick={() => window.location.href = '/register'}
-                className="bg-gradient-to-r from-primary to-secondary px-6 py-2.5 rounded-full text-white font-medium text-sm transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 hover:scale-105"
+                className="border border-white/30 px-6 py-2.5 rounded-full text-white font-medium text-sm transition-all duration-300 hover:bg-white/10 hover:border-white/50"
               >
                 Sign Up
               </button>
               <button
                 onClick={() => window.location.href = '/login'}
-                className="border border-white/30 px-6 py-2.5 rounded-full text-white font-medium text-sm transition-all duration-300 hover:bg-white/10 hover:border-white/50"
+                className="bg-gradient-to-r from-primary to-secondary px-6 py-2.5 rounded-full text-white font-medium text-sm transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 hover:scale-105"
               >
                 Login
               </button>
@@ -235,13 +235,13 @@ export default function Navbar() {
               <div className="p-6 border-t border-white/10 space-y-3">
                 <button
                   onClick={() => window.location.href = '/register'}
-                  className="w-full bg-gradient-to-r from-primary to-secondary px-6 py-3 rounded-full text-white font-medium text-sm transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
+                  className="w-full border border-white/30 px-6 py-3 rounded-full text-white font-medium text-sm transition-all duration-300 hover:bg-white/10 hover:border-white/50"
                 >
                   Sign Up
                 </button>
                 <button
                   onClick={() => window.location.href = '/login'}
-                  className="w-full border border-white/30 px-6 py-3 rounded-full text-white font-medium text-sm transition-all duration-300 hover:bg-white/10 hover:border-white/50"
+                  className="w-full bg-gradient-to-r from-primary to-secondary px-6 py-3 rounded-full text-white font-medium text-sm transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
                 >
                   Login
                 </button>
