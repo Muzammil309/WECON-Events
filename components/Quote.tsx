@@ -89,17 +89,15 @@ export default function Quote() {
                 <QuoteIcon className="w-10 h-10 text-white" />
               </motion.div>
               
-              {/* Profile Image */}
+              {/* Profile Image - Alternative loading method */}
               <div className="relative w-full max-w-md mx-auto">
                 <div className="relative aspect-square rounded-xl overflow-hidden">
-                  <Image
+                  {/* Using regular img tag for better compatibility */}
+                  <img
                     src="/aivent-original/images/misc/s9.webp"
                     alt="Elon Musk"
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    priority
-                    unoptimized
+                    className="w-full h-full object-cover"
+                    style={{ display: 'block' }}
                   />
                 </div>
                 

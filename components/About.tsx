@@ -114,14 +114,12 @@ export default function About() {
                 }}
                 className="relative w-full aspect-square"
               >
-                <Image
+                {/* Alternative image loading using regular img tag */}
+                <img
                   src="/aivent-original/images/misc/c1.webp"
                   alt="AI Innovation Visualization"
-                  fill
-                  className="object-contain"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  priority
-                  unoptimized
+                  className="w-full h-full object-contain"
+                  style={{ display: 'block' }}
                 />
               </motion.div>
               

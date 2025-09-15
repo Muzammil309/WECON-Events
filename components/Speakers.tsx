@@ -64,59 +64,57 @@ export default function Speakers() {
         animate={inView ? "visible" : "hidden"}
         className="container-custom"
       >
-        {/* Section Header */}
+        {/* Section Header - Official AIvent Style */}
         <div className="text-center mb-16">
           <motion.div variants={itemVariants} className="subtitle mb-4">
-            Our Speakers
+            Speakers
           </motion.div>
           <motion.h2
             variants={itemVariants}
             className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
           >
-            World-Class <span className="aivent-text-gradient">Experts</span>
+            Meet the <span className="aivent-text-gradient">Visionaries</span>
           </motion.h2>
           <motion.p
             variants={itemVariants}
             className="text-xl text-gray-300 max-w-3xl mx-auto"
           >
-            Learn from the brightest minds in artificial intelligence, machine learning, and technology innovation.
+            Whether it's a quick refresh or a deep clean transformation, our expert touch leaves your home or office shining.
           </motion.p>
         </div>
 
-        {/* Speakers Grid */}
+        {/* Speakers Grid - Official AIvent Design */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {speakers.map((speaker, index) => (
             <motion.div
               key={speaker.id}
               variants={itemVariants}
-              className="group"
+              className="group relative rounded-lg overflow-hidden hover:scale-105 transition-all duration-300"
             >
-              <div className="card-aivent p-8 text-center h-full hover:scale-105 transition-all duration-300">
-                {/* Speaker Image */}
-                <div className="relative w-32 h-32 mx-auto mb-6 overflow-hidden rounded-full">
-                  <Image
-                    src={speaker.image}
-                    alt={speaker.name}
-                    fill
-                    className="object-cover group-hover:scale-110 transition-transform duration-300"
-                    sizes="(max-width: 768px) 128px, 128px"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                </div>
+              {/* Full-width Speaker Image */}
+              <div className="relative aspect-[4/5] overflow-hidden">
+                <img
+                  src={speaker.image}
+                  alt={speaker.name}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                />
 
-                {/* Speaker Info */}
-                <div className="space-y-3">
-                  <h4 className="text-xl font-bold text-white group-hover:text-primary transition-colors duration-300">
-                    {speaker.name}
-                  </h4>
-                  <p className="text-gray-400 text-sm leading-relaxed">
-                    {speaker.title}
-                  </p>
-                  <div className="pt-2">
-                    <p className="text-primary text-sm font-medium">
-                      {speaker.session}
-                    </p>
+                {/* Radial gradient overlay on hover */}
+                <div className="absolute inset-0 bg-gradient-radial from-primary/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                {/* Speaker Info at Bottom */}
+                <div className="absolute bottom-0 left-0 right-0 z-10">
+                  <div className="bg-black/60 backdrop-blur-sm p-4 m-4 rounded-lg text-center">
+                    <h3 className="text-xl font-bold text-white mb-1">
+                      {speaker.name}
+                    </h3>
+                    <span className="text-gray-300 text-sm">
+                      {speaker.title}
+                    </span>
                   </div>
+
+                  {/* Bottom gradient edge */}
+                  <div className="absolute bottom-0 left-0 right-0 h-full bg-gradient-to-t from-black/40 to-transparent opacity-80" />
                 </div>
               </div>
             </motion.div>

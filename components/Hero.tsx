@@ -38,18 +38,18 @@ export default function Hero() {
           <source src="/aivent-original/video/2.mp4" type="video/mp4" />
         </video>
 
-        {/* Full Coverage Background Overlay - Official AIvent Demo 1 Style */}
-        {/* Primary overlay covering entire hero section */}
-        <div className="absolute inset-0 bg-[#101435]/70" />
+        {/* Lightened Background Overlay - Enhanced Video Visibility */}
+        {/* Primary overlay with reduced opacity for better video visibility */}
+        <div className="absolute inset-0 bg-[#101435]/40" />
 
-        {/* Top gradient edge effect - full coverage */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#101435]/95 via-[#101435]/50 to-[#101435]/30" />
+        {/* Top gradient edge effect - lighter for video visibility */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#101435]/70 via-[#101435]/30 to-transparent" />
 
-        {/* Bottom gradient edge effect - full coverage */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#101435]/90 via-[#101435]/40 to-transparent" />
+        {/* Bottom gradient edge effect - lighter coverage */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#101435]/75 via-[#101435]/25 to-transparent" />
 
-        {/* Additional overlay for consistent text readability */}
-        <div className="absolute inset-0 bg-black/25" />
+        {/* Minimal additional overlay for text contrast */}
+        <div className="absolute inset-0 bg-black/15" />
       </div>
 
       {/* Main Content - positioned exactly like original template */}
