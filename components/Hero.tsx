@@ -38,15 +38,18 @@ export default function Hero() {
           <source src="/aivent-original/video/2.mp4" type="video/mp4" />
         </video>
 
-        {/* Gradient Overlays - matching official AIvent website exactly */}
-        {/* Top gradient from header down to content area */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#101435]/80 via-[#101435]/40 to-transparent h-1/3 top-0" />
+        {/* Enhanced Background Overlay - Official AIvent Demo 1 Style */}
+        {/* Primary overlay for text readability */}
+        <div className="absolute inset-0 bg-[#101435]/60" />
 
-        {/* Bottom gradient from countdown area upward with darker top */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#101435]/90 via-[#101435]/60 to-transparent h-1/2 bottom-0" />
+        {/* Top gradient edge effect */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#101435]/90 via-transparent to-transparent h-1/2 top-0" />
 
-        {/* Overall color overlay for proper blending */}
-        <div className="absolute inset-0 bg-[#101435]/30" />
+        {/* Bottom gradient edge effect */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#101435]/95 via-[#101435]/40 to-transparent h-2/3 bottom-0" />
+
+        {/* Additional overlay for proper video background blending */}
+        <div className="absolute inset-0 bg-black/20" />
       </div>
 
       {/* Main Content - positioned exactly like original template */}
@@ -80,7 +83,8 @@ export default function Hero() {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+              {/* CTA Buttons with increased spacing from countdown bar */}
+              <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-20">
                 <button
                   onClick={() => handleNavClick('section-tickets')}
                   className="bg-gradient-to-r from-primary to-secondary px-8 py-3 rounded-full text-white font-medium transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 hover:scale-105"
