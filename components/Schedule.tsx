@@ -63,7 +63,7 @@ const scheduleData = [
         speaker: {
           name: "Leila Zhang",
           title: "Head of AI Strategy, VisionFlow",
-          image: "/assets/images/team/5.webp"
+          image: "/aivent-original/images/team/5.webp"
         },
         session: "Ethical AI — From Theory to Practice",
         description: "Explore how leading companies are implementing fairness, accountability, and transparency in real-world AI systems across healthcare and finance."
@@ -73,7 +73,7 @@ const scheduleData = [
         speaker: {
           name: "Lisa Zhang",
           title: "AI Ethics Researcher, FairAI Group",
-          image: "/assets/images/team/6.webp"
+          image: "/aivent-original/images/team/6.webp"
         },
         session: "Bias in Data — Hidden Dangers in AI Pipelines",
         description: "Lisa dives deep into the causes of bias in training data and showcases methods to detect and mitigate harm before deployment."
@@ -83,7 +83,7 @@ const scheduleData = [
         speaker: {
           name: "Markus Blom",
           title: "CTO, SynthMind AI",
-          image: "/assets/images/team/7.webp"
+          image: "/aivent-original/images/team/7.webp"
         },
         session: "Generative Models Beyond Text",
         description: "A practical tour of the next generation of multimodal models generating images, video, and even 3D environments with AI."
@@ -93,7 +93,7 @@ const scheduleData = [
         speaker: {
           name: "Priya Natarajan",
           title: "Senior AI Researcher, Meta",
-          image: "/assets/images/team/8.webp"
+          image: "/aivent-original/images/team/8.webp"
         },
         session: "The Future of AI in Social Media",
         description: "Discover how AI is transforming social platforms and what's next for content creation, moderation, and user experience."
