@@ -11,16 +11,16 @@ import { Checkbox } from '@/components/ui/checkbox'
 export default function Newsletter() {
   const [email, setEmail] = useState('')
   const [isSubscribed, setIsSubscribed] = useState(true)
-  const sectionRef = useRef(null)
-
+  const sectionRef = useRef<HTMLElement>(null)
+  
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"]
   })
 
   const y = useTransform(scrollYProgress, [0, 1], [0, -50])
-
-  const [ref, inView] = useInView({
+  
+  const [inViewRef, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
   })
@@ -47,14 +47,17 @@ export default function Newsletter() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle newsletter signup
     console.log('Newsletter signup:', { email, isSubscribed })
   }
 
   return (
-    <section ref={sectionRef} className="section-padding text-white relative overflow-hidden" style={{ backgroundColor: '#101435' }}>
+    <section 
+      ref={sectionRef}
+      className="section-padding text-white relative overflow-hidden"
+      style={{ backgroundColor: '#101435' }}
+    >
       {/* Background Image with Parallax Effect */}
-      <motion.div
+      <motion.div 
         className="absolute inset-0 z-0"
         style={{ y }}
       >
@@ -68,10 +71,10 @@ export default function Newsletter() {
         <div className="absolute inset-0 bg-dark/80" />
         <div className="absolute inset-0 bg-gradient-to-t from-dark via-transparent to-dark/60" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-dark" />
-      </div>
+      </motion.div>
 
       <motion.div
-        ref={ref}
+        ref={inViewRef}
         variants={containerVariants}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
@@ -90,7 +93,7 @@ export default function Newsletter() {
           </motion.h2>
           <motion.p 
             variants={itemVariants}
-            className="text-xl text-gray-300 max-w-3xl mx-auto"
+            className="text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto"
           >
             Making better things takes time. Drop us your email to stay in the know as we work to reduce our environmental impact. We'll share other exciting news and exclusive offers, too.
           </motion.p>
@@ -102,47 +105,36 @@ export default function Newsletter() {
           onSubmit={handleSubmit}
           className="max-w-2xl mx-auto"
         >
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
-            <div className="flex-1">
-              <Input
-                type="email"
-                placeholder="Enter Your Email Address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="h-14 text-center md:text-left bg-dark-2 border-gray-600 text-white placeholder:text-gray-400 focus:border-primary focus:ring-primary"
-              />
-            </div>
-            <Button
+          <div className="flex flex-col sm:flex-row gap-4 mb-6">
+            <Input
+              type="email"
+              placeholder="Enter your email address"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="flex-1 bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:border-primary"
+              required
+            />
+            <Button 
               type="submit"
-              variant="aivent"
-              size="lg"
-              className="h-14 px-8 font-bold"
+              className="bg-primary hover:bg-primary/90 text-white px-8 py-3 font-semibold"
             >
               SIGN UP
             </Button>
           </div>
 
-          {/* Checkbox and Terms */}
-          <div className="text-center space-y-4">
-            <motion.div 
-              variants={itemVariants}
-              className="flex items-center justify-center gap-3"
-            >
-              <Checkbox
-                id="updates"
+          <div className="space-y-4">
+            <div className="flex items-start space-x-3">
+              <Checkbox 
+                id="newsletter-consent"
                 checked={isSubscribed}
                 onCheckedChange={(checked) => setIsSubscribed(checked as boolean)}
-                className="border-gray-400 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                className="border-white/30 data-[state=checked]:bg-primary data-[state=checked]:border-primary mt-1"
               />
-              <label 
-                htmlFor="updates" 
-                className="text-gray-300 cursor-pointer"
-              >
+              <label htmlFor="newsletter-consent" className="text-sm text-gray-300 leading-relaxed">
                 Keep me updated on other news and exclusive offers
               </label>
-            </motion.div>
-
+            </div>
+            
             <motion.p 
               variants={itemVariants}
               className="text-sm text-gray-400"
@@ -150,8 +142,8 @@ export default function Newsletter() {
               Note: You can opt-out at any time. See our{' '}
               <a href="#" className="text-primary hover:underline">
                 Privacy Policy
-              </a>{' '}
-              and{' '}
+              </a>
+              {' '}and{' '}
               <a href="#" className="text-primary hover:underline">
                 Terms
               </a>
