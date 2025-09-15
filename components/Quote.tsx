@@ -64,10 +64,10 @@ export default function Quote() {
           priority={false}
         />
 
-        {/* Gradient Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#101435] via-[#101435]/50 to-[#101435]/80" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#101435]/60 via-transparent to-[#101435]" />
-        <div className="absolute inset-0 bg-[#101435]/80" />
+        {/* Enhanced Gradient Overlays for better background visibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#101435] via-[#101435]/30 to-[#101435]/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#101435]/40 via-transparent to-[#101435]" />
+        <div className="absolute inset-0 bg-[#101435]/50" />
       </motion.div>
 
       <motion.div

@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
@@ -11,6 +11,15 @@ import { Checkbox } from '@/components/ui/checkbox'
 export default function Newsletter() {
   const [email, setEmail] = useState('')
   const [isSubscribed, setIsSubscribed] = useState(true)
+  const sectionRef = useRef(null)
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"]
+  })
+
+  const y = useTransform(scrollYProgress, [0, 1], [0, -50])
+
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1,
@@ -43,9 +52,12 @@ export default function Newsletter() {
   }
 
   return (
-    <section className="section-padding text-white relative overflow-hidden" style={{ backgroundColor: '#101435' }}>
-      {/* Background Image */}
-      <div className="absolute inset-0 z-0">
+    <section ref={sectionRef} className="section-padding text-white relative overflow-hidden" style={{ backgroundColor: '#101435' }}>
+      {/* Background Image with Parallax Effect */}
+      <motion.div
+        className="absolute inset-0 z-0"
+        style={{ y }}
+      >
         <Image
           src="/aivent-original/images/background/3.webp"
           alt="Background"

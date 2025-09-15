@@ -38,24 +38,29 @@ export default function Hero() {
           <source src="/aivent-original/video/2.mp4" type="video/mp4" />
         </video>
 
-        {/* Gradient Overlays - matching original template exactly */}
-        <div className="absolute inset-0 bg-gradient-to-t from-primary/60 via-transparent to-transparent h-1/2 top-0 opacity-60" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#101435]" />
-        <div className="absolute inset-0 bg-[#101435]/20 opacity-80" />
+        {/* Gradient Overlays - matching official AIvent website exactly */}
+        {/* Top gradient from header down to content area */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#101435]/80 via-[#101435]/40 to-transparent h-1/3 top-0" />
+
+        {/* Bottom gradient from countdown area upward with darker top */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#101435]/90 via-[#101435]/60 to-transparent h-1/2 bottom-0" />
+
+        {/* Overall color overlay for proper blending */}
+        <div className="absolute inset-0 bg-[#101435]/30" />
       </div>
 
       {/* Main Content - positioned exactly like original template */}
       <div className="absolute inset-0 z-20 flex items-center justify-center w-4/5 mx-auto">
         <div className="container mx-auto px-4">
-          <div className="text-center">
+          <div className="text-center pt-16">
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 3 }}
               className="mb-8"
             >
-              <div className="text-primary text-lg mb-4 font-medium">The Future of Intelligence</div>
-              <h1 className="text-7xl md:text-8xl lg:text-[120px] font-bold uppercase mb-8 leading-none tracking-tight">
+              <div className="text-primary text-lg mb-6 font-medium">The Future of Intelligence</div>
+              <h1 className="text-7xl md:text-8xl lg:text-[120px] font-bold uppercase mb-12 leading-none tracking-tight">
                 AI Summit 2025
               </h1>
 

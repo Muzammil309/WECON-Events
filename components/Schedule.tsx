@@ -215,13 +215,13 @@ export default function Schedule() {
                   {/* Speaker */}
                   <div className="md:col-span-4">
                     <div className="flex items-center gap-4">
-                      <div className="relative w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                      <div className="relative w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
                         <Image
                           src={session.speaker.image}
                           alt={session.speaker.name}
                           fill
                           className="object-cover"
-                          sizes="64px"
+                          sizes="80px"
                         />
                       </div>
                       <div>
