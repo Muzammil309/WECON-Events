@@ -101,19 +101,19 @@ export default function FAQ() {
                   key={item.id}
                   className="border border-gray-700 rounded-lg overflow-hidden transition-all duration-300 hover:border-primary/50"
                 >
-                  {/* Question */}
+                  {/* Question - Reduced sizing for compact appearance */}
                   <button
                     onClick={() => toggleItem(item.id)}
-                    className="w-full px-6 py-5 text-left flex items-center justify-between bg-dark-2 hover:bg-dark-3 transition-colors duration-300"
+                    className="w-full px-4 py-3 text-left flex items-center justify-between bg-dark-2 hover:bg-dark-3 transition-colors duration-300"
                   >
-                    <h3 className="text-lg font-semibold text-white pr-4">
+                    <h3 className="text-base font-semibold text-white pr-3">
                       {item.question}
                     </h3>
                     <div className="flex-shrink-0">
                       {activeItem === item.id ? (
-                        <ChevronUp className="w-5 h-5 text-primary" />
+                        <ChevronUp className="w-4 h-4 text-primary" />
                       ) : (
-                        <ChevronDown className="w-5 h-5 text-gray-400" />
+                        <ChevronDown className="w-4 h-4 text-gray-400" />
                       )}
                     </div>
                   </button>
@@ -128,8 +128,8 @@ export default function FAQ() {
                     transition={{ duration: 0.3, ease: "easeInOut" }}
                     className="overflow-hidden"
                   >
-                    <div className="px-6 py-5 bg-dark-3">
-                      <p className="text-gray-300 leading-relaxed">
+                    <div className="px-4 py-3 bg-dark-3">
+                      <p className="text-sm text-gray-300 leading-relaxed">
                         {item.answer}
                       </p>
                     </div>

@@ -38,18 +38,18 @@ export default function Hero() {
           <source src="/aivent-original/video/2.mp4" type="video/mp4" />
         </video>
 
-        {/* Enhanced Background Overlay - Official AIvent Demo 1 Style */}
-        {/* Primary overlay for text readability */}
-        <div className="absolute inset-0 bg-[#101435]/60" />
+        {/* Full Coverage Background Overlay - Official AIvent Demo 1 Style */}
+        {/* Primary overlay covering entire hero section */}
+        <div className="absolute inset-0 bg-[#101435]/70" />
 
-        {/* Top gradient edge effect */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#101435]/90 via-transparent to-transparent h-1/2 top-0" />
+        {/* Top gradient edge effect - full coverage */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#101435]/95 via-[#101435]/50 to-[#101435]/30" />
 
-        {/* Bottom gradient edge effect */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#101435]/95 via-[#101435]/40 to-transparent h-2/3 bottom-0" />
+        {/* Bottom gradient edge effect - full coverage */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#101435]/90 via-[#101435]/40 to-transparent" />
 
-        {/* Additional overlay for proper video background blending */}
-        <div className="absolute inset-0 bg-black/20" />
+        {/* Additional overlay for consistent text readability */}
+        <div className="absolute inset-0 bg-black/25" />
       </div>
 
       {/* Main Content - positioned exactly like original template */}
@@ -83,8 +83,8 @@ export default function Hero() {
                 </div>
               </div>
 
-              {/* CTA Buttons with increased spacing from countdown bar */}
-              <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-20">
+              {/* CTA Buttons with significantly increased spacing from countdown bar */}
+              <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 mb-32">
                 <button
                   onClick={() => handleNavClick('section-tickets')}
                   className="bg-gradient-to-r from-primary to-secondary px-8 py-3 rounded-full text-white font-medium transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 hover:scale-105"
