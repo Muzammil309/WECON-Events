@@ -40,11 +40,11 @@ export default function Navbar() {
       >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-20">
-            {/* Logo */}
+            {/* WECON Logo */}
             <div className="flex-shrink-0">
               <Image
-                src="/aivent-original/images/logo.webp"
-                alt="AIvent"
+                src="/wecon-logo.svg"
+                alt="WECON Movement"
                 width={120}
                 height={40}
                 className="h-10 w-auto"
@@ -112,13 +112,19 @@ export default function Navbar() {
 
             </nav>
 
-            {/* Buy Tickets Button */}
-            <div className="hidden lg:flex">
+            {/* Sign Up and Login Buttons */}
+            <div className="hidden lg:flex space-x-3">
               <button
-                onClick={() => handleNavClick('#section-tickets')}
+                onClick={() => window.location.href = '/register'}
                 className="bg-gradient-to-r from-primary to-secondary px-6 py-2.5 rounded-full text-white font-medium text-sm transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 hover:scale-105"
               >
-                Buy Tickets
+                Sign Up
+              </button>
+              <button
+                onClick={() => window.location.href = '/login'}
+                className="border border-white/30 px-6 py-2.5 rounded-full text-white font-medium text-sm transition-all duration-300 hover:bg-white/10 hover:border-white/50"
+              >
+                Login
               </button>
             </div>
 
@@ -226,12 +232,18 @@ export default function Navbar() {
               </div>
 
               {/* Mobile CTA */}
-              <div className="p-6 border-t border-white/10">
+              <div className="p-6 border-t border-white/10 space-y-3">
                 <button
-                  onClick={() => handleNavClick('#section-tickets')}
+                  onClick={() => window.location.href = '/register'}
                   className="w-full bg-gradient-to-r from-primary to-secondary px-6 py-3 rounded-full text-white font-medium text-sm transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
                 >
-                  Buy Tickets
+                  Sign Up
+                </button>
+                <button
+                  onClick={() => window.location.href = '/login'}
+                  className="w-full border border-white/30 px-6 py-3 rounded-full text-white font-medium text-sm transition-all duration-300 hover:bg-white/10 hover:border-white/50"
+                >
+                  Login
                 </button>
               </div>
             </div>

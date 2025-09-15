@@ -14,18 +14,18 @@ const marqueeItems = [
 export default function MarqueeSection() {
   return (
     <section className="relative py-0 overflow-hidden" style={{ backgroundColor: '#101435' }}>
-      {/* First Marquee Row - Enhanced X-formation with increased tilt */}
+      {/* First Marquee Row - Enhanced X-formation with more dramatic tilt */}
       <motion.div
         initial={{ opacity: 0, x: -100 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 3 }}
-        className="bg-primary text-white py-8 transform -rotate-3 relative overflow-hidden"
+        className="bg-primary text-white py-8 transform -rotate-6 relative overflow-hidden"
         style={{ marginTop: '40px', marginBottom: '-20px', zIndex: 2 }}
       >
         <motion.div
           animate={{ x: [0, -100] }}
           transition={{
-            duration: 10,
+            duration: 8,
             repeat: Infinity,
             ease: "linear"
           }}
@@ -48,18 +48,18 @@ export default function MarqueeSection() {
         </motion.div>
       </motion.div>
 
-      {/* Second Marquee Row - Enhanced X-formation with increased opposite tilt */}
+      {/* Second Marquee Row - Enhanced X-formation with more dramatic opposite tilt */}
       <motion.div
         initial={{ opacity: 0, x: 100 }}
         whileInView={{ opacity: 1, x: 0 }}
         transition={{ duration: 3 }}
-        className="bg-secondary text-white py-8 transform rotate-3 relative overflow-hidden"
+        className="bg-secondary text-white py-8 transform rotate-6 relative overflow-hidden"
         style={{ marginTop: '-20px', marginBottom: '40px', zIndex: 1 }}
       >
         <motion.div
           animate={{ x: [-100, 0] }}
           transition={{
-            duration: 12,
+            duration: 9,
             repeat: Infinity,
             ease: "linear"
           }}

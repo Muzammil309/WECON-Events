@@ -25,12 +25,12 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Logo and Social */}
+          {/* WECON Logo and Social */}
           <div className="text-center">
             <div className="mb-6">
               <Image
-                src="/aivent-original/images/logo.webp"
-                alt="AIvent Logo"
+                src="/wecon-logo.svg"
+                alt="WECON Movement Logo"
                 width={150}
                 height={75}
                 className="mx-auto"

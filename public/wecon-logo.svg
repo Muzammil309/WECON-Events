@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300">
+  <!-- WECON text -->
+  <text x="50" y="150" font-family="Arial, sans-serif" font-size="120" font-weight="bold" fill="#333333">WE</text>
+  <text x="280" y="150" font-family="Arial, sans-serif" font-size="120" font-weight="bold" fill="#C53A7A">CON</text>
+  
+  <!-- MOVEMENT text -->
+  <text x="50" y="250" font-family="Arial, sans-serif" font-size="40" font-weight="normal" fill="#C53A7A" letter-spacing="8">MOVEMENT</text>
+</svg>

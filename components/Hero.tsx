@@ -62,8 +62,8 @@ export default function Hero() {
               transition={{ duration: 3 }}
               className="mb-8"
             >
-              <div className="text-primary text-lg mb-6 font-medium">The Future of Intelligence</div>
-              <h1 className="text-7xl md:text-8xl lg:text-[120px] font-bold uppercase mb-12 leading-none tracking-tight">
+              <div className="text-primary text-lg mb-10 font-medium">The Future of Intelligence</div>
+              <h1 className="text-6xl md:text-7xl lg:text-[100px] font-bold uppercase mb-12 leading-none tracking-tight">
                 AI Summit 2025
               </h1>
 
