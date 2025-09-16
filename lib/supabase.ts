@@ -315,6 +315,84 @@ export const api = {
     return data
   },
 
+  // Analytics and Statistics
+  async getEventStats(eventId: string) {
+    try {
+      // Get total attendees
+      const { count: totalAttendees } = await supabase
+        .from('users')
+        .select('*', { count: 'exact', head: true })
+        .eq('role', 'ATTENDEE')
+
+      // Get active sessions today
+      const today = new Date().toISOString().split('T')[0]
+      const { count: activeSessions } = await supabase
+        .from('sessions')
+        .select('*', { count: 'exact', head: true })
+        .eq('event_id', eventId)
+        .gte('start_time', today)
+        .lte('start_time', today + 'T23:59:59')
+
+      // Get check-ins today
+      const { count: checkInsToday } = await supabase
+        .from('session_registrations')
+        .select('*', { count: 'exact', head: true })
+        .eq('checked_in', true)
+        .gte('checked_in_at', today)
+
+      // Calculate revenue (mock for now)
+      const revenue = (totalAttendees || 0) * 150 // $150 per ticket
+
+      return {
+        totalAttendees: totalAttendees || 0,
+        activeSessions: activeSessions || 0,
+        revenue: revenue,
+        checkInsToday: checkInsToday || 0
+      }
+    } catch (error) {
+      console.error('Error fetching event stats:', error)
+      return {
+        totalAttendees: 0,
+        activeSessions: 0,
+        revenue: 0,
+        checkInsToday: 0
+      }
+    }
+  },
+
+  async getRecentActivities(limit: number = 10) {
+    try {
+      // Get recent user registrations
+      const { data: recentUsers } = await supabase
+        .from('users')
+        .select('first_name, last_name, created_at, role')
+        .order('created_at', { ascending: false })
+        .limit(limit)
+
+      const activities = (recentUsers || []).map(user => ({
+        action: user.role === 'SPEAKER' ? 'New speaker registered' : 'New attendee registered',
+        user: `${user.first_name} ${user.last_name}`,
+        time: this.formatTimeAgo(user.created_at)
+      }))
+
+      return activities
+    } catch (error) {
+      console.error('Error fetching recent activities:', error)
+      return []
+    }
+  },
+
+  formatTimeAgo(dateString: string): string {
+    const date = new Date(dateString)
+    const now = new Date()
+    const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60))
+
+    if (diffInMinutes < 1) return 'Just now'
+    if (diffInMinutes < 60) return `${diffInMinutes} min ago`
+    if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)} hour${Math.floor(diffInMinutes / 60) > 1 ? 's' : ''} ago`
+    return `${Math.floor(diffInMinutes / 1440)} day${Math.floor(diffInMinutes / 1440) > 1 ? 's' : ''} ago`
+  },
+
   async updateUserProfile(userId: string, updates: Partial<User>) {
     const { data, error } = await supabase
       .from('users')

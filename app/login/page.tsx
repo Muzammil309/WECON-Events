@@ -178,9 +178,12 @@ export default function LoginPage() {
           </div>
 
           {/* Back to Home */}
-          <div className="mt-4 text-center">
-            <Link href="/" className="text-gray-500 hover:text-gray-300 transition-colors text-sm">
+          <div className="mt-4 text-center space-y-2">
+            <Link href="/" className="block text-gray-500 hover:text-gray-300 transition-colors text-sm">
               ← Back to Home
+            </Link>
+            <Link href="/setup" className="block text-primary hover:text-primary/80 transition-colors text-xs">
+              🔧 First time? Setup super admin
             </Link>
           </div>
         </motion.div>

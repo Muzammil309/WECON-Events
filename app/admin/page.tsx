@@ -43,6 +43,13 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('analytics')
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
+  const [stats, setStats] = useState({
+    totalAttendees: 0,
+    activeSessions: 0,
+    revenue: 0,
+    checkInsToday: 0
+  })
+  const [recentActivities, setRecentActivities] = useState<any[]>([])
 
   // Import components dynamically
   const RealTimeAnalytics = dynamic(() => import('@/components/admin/RealTimeAnalytics'), { ssr: false })
@@ -69,24 +76,15 @@ export default function AdminDashboard() {
 
         // Load admin user profile
         const currentUser = await api.getCurrentUser()
-        if (currentUser && currentUser.role === 'ADMIN') {
+        if (currentUser && (currentUser.role === 'ADMIN' || currentUser.role === 'SUPER_ADMIN' || currentUser.role === 'EVENT_MANAGER')) {
           setUser(currentUser)
+
+          // Load dashboard data
+          await loadDashboardData()
         } else {
-          // Fallback for demo
-          setUser({
-            id: 'admin-1',
-            email: 'admin@wecon.com',
-            role: 'ADMIN',
-            first_name: 'WECON',
-            last_name: 'Admin',
-            networking_available: false,
-            privacy_level: 'PRIVATE',
-            email_notifications: true,
-            push_notifications: true,
-            email_verified: true,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          })
+          console.error('User does not have admin privileges')
+          localStorage.clear()
+          window.location.href = '/login'
         }
       } catch (error) {
         console.error('Error initializing admin:', error)
@@ -97,6 +95,20 @@ export default function AdminDashboard() {
 
     initializeAdmin()
   }, [])
+
+  const loadDashboardData = async () => {
+    try {
+      // Load event statistics
+      const eventStats = await api.getEventStats('wecon-masawat-2024')
+      setStats(eventStats)
+
+      // Load recent activities
+      const activities = await api.getRecentActivities(10)
+      setRecentActivities(activities)
+    } catch (error) {
+      console.error('Error loading dashboard data:', error)
+    }
+  }
 
   const handleLogout = async () => {
     await supabase.auth.signOut()
@@ -133,18 +145,31 @@ export default function AdminDashboard() {
     )
   }
 
-  const stats = [
-    { label: 'Total Attendees', value: '1,247', change: '+12%', icon: Users },
-    { label: 'Active Sessions', value: '24', change: '+3', icon: Calendar },
-    { label: 'Revenue', value: '$89,420', change: '+18%', icon: TrendingUp },
-    { label: 'Check-ins Today', value: '892', change: '+5%', icon: UserCheck },
-  ]
-
-  const recentActivities = [
-    { action: 'New attendee registered', user: 'John Smith', time: '2 min ago' },
-    { action: 'Session "AI Ethics" started', user: 'Dr. Sarah Chen', time: '15 min ago' },
-    { action: 'Venue capacity updated', user: 'Admin', time: '1 hour ago' },
-    { action: 'New sponsor added', user: 'Marketing Team', time: '2 hours ago' },
+  const statsDisplay = [
+    {
+      label: 'Total Attendees',
+      value: stats.totalAttendees.toLocaleString(),
+      change: '+12%',
+      icon: Users
+    },
+    {
+      label: 'Active Sessions',
+      value: stats.activeSessions.toString(),
+      change: '+3',
+      icon: Calendar
+    },
+    {
+      label: 'Revenue',
+      value: `$${stats.revenue.toLocaleString()}`,
+      change: '+18%',
+      icon: TrendingUp
+    },
+    {
+      label: 'Check-ins Today',
+      value: stats.checkInsToday.toLocaleString(),
+      change: '+5%',
+      icon: UserCheck
+    },
   ]
 
   return (
@@ -314,7 +339,7 @@ export default function AdminDashboard() {
 
               {/* Stats Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {stats.map((stat, index) => (
+                {statsDisplay.map((stat, index) => (
                   <motion.div
                     key={stat.label}
                     initial={{ opacity: 0, y: 20 }}
