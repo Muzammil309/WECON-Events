@@ -85,6 +85,7 @@ interface Speaker {
     instagram?: string
     facebook?: string
     youtube?: string
+    github?: string
   }
   expertise: string[]
   sessions: string[]

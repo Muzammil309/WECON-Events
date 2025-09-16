@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { 
-  Zap, 
-  Play, 
-  Pause, 
-  Stop, 
-  Plus, 
+  Zap,
+  Play,
+  Pause,
+  Square as Stop,
+  Plus,
   Edit, 
   Trash2, 
   Copy, 

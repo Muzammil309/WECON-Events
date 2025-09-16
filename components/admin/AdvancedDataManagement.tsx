@@ -61,7 +61,8 @@ import {
   Trash,
   Star,
   Tag,
-  Flag
+  Flag,
+  Play
 } from 'lucide-react'
 
 interface DataSource {
@@ -359,7 +360,7 @@ export default function AdvancedDataManagement() {
       case 'api': return Globe
       case 'file': return FileText
       case 'webhook': return Zap
-      case 'integration': return Link as any
+      case 'integration': return LinkIcon
       default: return Database
     }
   }

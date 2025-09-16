@@ -16,7 +16,7 @@ import {
   Download,
   Heart,
   Share2,
-  User,
+  User as UserIcon,
   Settings,
   MessageCircle,
   Video,
@@ -62,7 +62,20 @@ export default function AttendeeDashboard() {
 
   // Profile Management State
   const [isEditingProfile, setIsEditingProfile] = useState(false)
-  const [profileForm, setProfileForm] = useState({
+  const [profileForm, setProfileForm] = useState<{
+    first_name: string
+    last_name: string
+    bio: string
+    job_title: string
+    company: string
+    industry: string
+    location: string
+    linkedin_url: string
+    twitter_url: string
+    website_url: string
+    networking_available: boolean
+    privacy_level: 'PUBLIC' | 'ATTENDEES_ONLY' | 'CONNECTIONS_ONLY' | 'PRIVATE'
+  }>({
     first_name: '',
     last_name: '',
     bio: '',
@@ -74,7 +87,7 @@ export default function AttendeeDashboard() {
     twitter_url: '',
     website_url: '',
     networking_available: true,
-    privacy_level: 'PUBLIC' as const
+    privacy_level: 'PUBLIC'
   })
 
   // Check authentication and load user data
@@ -102,8 +115,8 @@ export default function AttendeeDashboard() {
             linkedin_url: currentUser.linkedin_url || '',
             twitter_url: currentUser.twitter_url || '',
             website_url: currentUser.website_url || '',
-            networking_available: currentUser.networking_available,
-            privacy_level: currentUser.privacy_level
+            networking_available: currentUser.networking_available || false,
+            privacy_level: currentUser.privacy_level || 'PUBLIC'
           })
 
           // Load user's sessions, connections, and notifications
@@ -314,7 +327,7 @@ export default function AttendeeDashboard() {
           <nav className="p-6">
             <div className="space-y-2">
               {[
-                { id: 'profile', label: 'My Profile', icon: User },
+                { id: 'profile', label: 'My Profile', icon: UserIcon },
                 { id: 'agenda', label: 'Agenda Builder', icon: Calendar },
                 { id: 'networking', label: 'Networking Hub', icon: Network },
                 { id: 'sessions', label: 'Live Sessions', icon: Video },

@@ -386,14 +386,14 @@ export class RBACManager {
       const permissions: Permission[] = []
 
       // Add role permissions
-      rolePermissions?.forEach(rp => {
+      rolePermissions?.forEach((rp: any) => {
         if (rp.permissions) {
           permissions.push(rp.permissions)
         }
       })
 
       // Add user-specific permissions (not expired)
-      userPermissions?.forEach(up => {
+      userPermissions?.forEach((up: any) => {
         if (up.permissions && (!up.expires_at || new Date(up.expires_at) > new Date())) {
           permissions.push(up.permissions)
         }

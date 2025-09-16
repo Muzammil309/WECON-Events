@@ -23,7 +23,7 @@ import {
   Eye,
   Heart,
   Award,
-  Certificate,
+  Award as Certificate,
   TrendingUp,
   BarChart3,
   PieChart,
@@ -36,7 +36,9 @@ import {
   Edit,
   Trash2,
   Flag,
-  MoreVertical
+  MoreVertical,
+  Plus,
+  Pin
 } from 'lucide-react'
 import { Session, User } from '@/lib/supabase'
 

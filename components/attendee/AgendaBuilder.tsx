@@ -142,7 +142,7 @@ export default function AgendaBuilder({
       }
     }
     
-    setConflicts([...new Set(conflictingSessions)])
+    setConflicts(Array.from(new Set(conflictingSessions)))
   }
 
   const filteredSessions = mockSessions.filter(session => {

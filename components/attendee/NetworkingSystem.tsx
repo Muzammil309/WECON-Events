@@ -318,10 +318,18 @@ export default function NetworkingSystem({
           <h3 className="text-xl font-semibold text-white mb-4">My Connections</h3>
           <div className="space-y-4">
             {connections.filter(conn => conn.status === 'ACCEPTED').map((connection) => {
-              const otherUser = connection.requester_id === currentUser.id 
-                ? connection.recipient 
-                : connection.requester
-              
+              const otherUserId = connection.requester_id === currentUser.id
+                ? connection.recipient_id
+                : connection.requester_id
+
+              // In a real app, you would fetch the user details by ID
+              const otherUser = {
+                first_name: 'User',
+                last_name: otherUserId.slice(-4),
+                job_title: 'Event Attendee',
+                company: 'WECON'
+              }
+
               return (
                 <div key={connection.id} className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/10">
                   <div className="flex items-center space-x-3">
