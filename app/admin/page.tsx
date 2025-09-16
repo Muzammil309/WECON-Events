@@ -3,44 +3,133 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
-import Link from 'next/link'
-import { 
-  Users, 
-  Calendar, 
-  BarChart3, 
-  Settings, 
-  Bell, 
+
+import {
+  Users,
+  Calendar,
+  BarChart3,
+  Settings,
+  Bell,
   Search,
   Plus,
   TrendingUp,
   UserCheck,
-  MapPin
+  MapPin,
+  Activity,
+  DollarSign,
+  MessageCircle,
+  Video,
+  FileText,
+  Award,
+  Shield,
+  Zap,
+  Monitor,
+  Megaphone,
+  CreditCard,
+  Building,
+  UserPlus,
+  Mail,
+  QrCode,
+  PieChart,
+  Download,
+  Database
 } from 'lucide-react'
+import dynamic from 'next/dynamic'
+
+// Import Supabase client and types
+import { supabase, api, type User } from '@/lib/supabase'
 
 export default function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState('overview')
-  const [userEmail, setUserEmail] = useState('')
+  const [activeTab, setActiveTab] = useState('analytics')
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(true)
 
-  // Check authentication and user role on component mount
+  // Import components dynamically
+  const RealTimeAnalytics = dynamic(() => import('@/components/admin/RealTimeAnalytics'), { ssr: false })
+  const EventConfiguration = dynamic(() => import('@/components/admin/EventConfiguration'), { ssr: false })
+  const AdvancedTicketing = dynamic(() => import('@/components/admin/AdvancedTicketing'), { ssr: false })
+  const ContentManagement = dynamic(() => import('@/components/admin/ContentManagement'), { ssr: false })
+  const AttendeeManagement = dynamic(() => import('@/components/admin/AttendeeManagement'), { ssr: false })
+  const RoleBasedAccessControl = dynamic(() => import('@/components/admin/RoleBasedAccessControl'), { ssr: false })
+  const AutomatedWorkflowEngine = dynamic(() => import('@/components/admin/AutomatedWorkflowEngine'), { ssr: false })
+  const AdvancedDataManagement = dynamic(() => import('@/components/admin/AdvancedDataManagement'), { ssr: false })
+
+  // Check authentication and load user data
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem('isAuthenticated')
-    const userRole = localStorage.getItem('userRole')
-    const email = localStorage.getItem('userEmail')
+    const initializeAdmin = async () => {
+      try {
+        const isAuthenticated = localStorage.getItem('isAuthenticated')
+        const userRole = localStorage.getItem('userRole')
 
-    if (!isAuthenticated || userRole !== 'admin') {
-      // Redirect to login if not authenticated or not admin
-      window.location.href = '/login'
-      return
+        if (!isAuthenticated || userRole !== 'admin') {
+          window.location.href = '/login'
+          return
+        }
+
+        // Load admin user profile
+        const currentUser = await api.getCurrentUser()
+        if (currentUser && currentUser.role === 'ADMIN') {
+          setUser(currentUser)
+        } else {
+          // Fallback for demo
+          setUser({
+            id: 'admin-1',
+            email: 'admin@wecon.com',
+            role: 'ADMIN',
+            first_name: 'WECON',
+            last_name: 'Admin',
+            networking_available: false,
+            privacy_level: 'PRIVATE',
+            email_notifications: true,
+            push_notifications: true,
+            email_verified: true,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          })
+        }
+      } catch (error) {
+        console.error('Error initializing admin:', error)
+      } finally {
+        setLoading(false)
+      }
     }
 
-    setUserEmail(email || 'admin@wecon.com')
+    initializeAdmin()
   }, [])
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await supabase.auth.signOut()
     localStorage.removeItem('isAuthenticated')
     localStorage.removeItem('userRole')
     localStorage.removeItem('userEmail')
     window.location.href = '/'
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-white">Loading admin dashboard...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-white mb-4">Unable to load admin data</p>
+          <button
+            onClick={() => window.location.href = '/login'}
+            className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/80 transition-colors"
+          >
+            Return to Login
+          </button>
+        </div>
+      </div>
+    )
   }
 
   const stats = [
@@ -104,10 +193,17 @@ export default function AdminDashboard() {
           <nav className="p-6">
             <div className="space-y-2">
               {[
-                { id: 'overview', label: 'Overview', icon: BarChart3 },
-                { id: 'attendees', label: 'Attendees', icon: Users },
-                { id: 'sessions', label: 'Sessions', icon: Calendar },
-                { id: 'venues', label: 'Venues', icon: MapPin },
+                { id: 'analytics', label: 'Real-Time Analytics', icon: Activity },
+                { id: 'events', label: 'Event Management', icon: Calendar },
+                { id: 'tickets', label: 'Ticketing System', icon: CreditCard },
+                { id: 'content', label: 'Content Management', icon: FileText },
+                { id: 'attendees', label: 'Attendee Management', icon: Users },
+                { id: 'communications', label: 'Communications', icon: Mail },
+                { id: 'workflows', label: 'Workflow Engine', icon: Zap },
+                { id: 'data', label: 'Data Management', icon: Database },
+                { id: 'onsite', label: 'On-Site Tools', icon: QrCode },
+                { id: 'reports', label: 'Analytics & Reports', icon: PieChart },
+                { id: 'rbac', label: 'Access Control', icon: Shield },
                 { id: 'settings', label: 'Settings', icon: Settings },
               ].map((item) => (
                 <button
@@ -129,6 +225,83 @@ export default function AdminDashboard() {
 
         {/* Main Content */}
         <main className="flex-1 p-6">
+          {/* Real-Time Analytics */}
+          {activeTab === 'analytics' && (
+            <RealTimeAnalytics
+              eventId="wecon-masawat-2024"
+              refreshInterval={30000}
+            />
+          )}
+
+          {/* Event Management */}
+          {activeTab === 'events' && (
+            <EventConfiguration />
+          )}
+
+          {/* Ticketing System */}
+          {activeTab === 'tickets' && (
+            <AdvancedTicketing />
+          )}
+
+          {/* Content Management */}
+          {activeTab === 'content' && (
+            <ContentManagement />
+          )}
+
+          {/* Attendee Management */}
+          {activeTab === 'attendees' && (
+            <AttendeeManagement />
+          )}
+
+          {/* Communications */}
+          {activeTab === 'communications' && (
+            <div className="space-y-6">
+              <div className="bg-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10">
+                <h2 className="text-2xl font-bold text-white mb-4">Communication & Engagement Suite</h2>
+                <p className="text-gray-400 mb-6">Email campaigns, push notifications, and Q&A moderation.</p>
+
+                <div className="text-center py-12">
+                  <Megaphone className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <h4 className="text-lg font-medium text-white mb-2">Communication Tools</h4>
+                  <p className="text-gray-400">Advanced communication features coming soon</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* On-Site Tools */}
+          {activeTab === 'onsite' && (
+            <div className="space-y-6">
+              <div className="bg-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10">
+                <h2 className="text-2xl font-bold text-white mb-4">On-Site Management Tools</h2>
+                <p className="text-gray-400 mb-6">Check-in dashboard, badge printing, and digital signage.</p>
+
+                <div className="text-center py-12">
+                  <Monitor className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <h4 className="text-lg font-medium text-white mb-2">On-Site Management</h4>
+                  <p className="text-gray-400">On-site management tools coming soon</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Reports */}
+          {activeTab === 'reports' && (
+            <div className="space-y-6">
+              <div className="bg-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10">
+                <h2 className="text-2xl font-bold text-white mb-4">Analytics & Reporting</h2>
+                <p className="text-gray-400 mb-6">Registration analytics, session metrics, and automated reports.</p>
+
+                <div className="text-center py-12">
+                  <Download className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <h4 className="text-lg font-medium text-white mb-2">Advanced Reporting</h4>
+                  <p className="text-gray-400">Comprehensive reporting tools coming soon</p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Legacy Overview Tab */}
           {activeTab === 'overview' && (
             <div className="space-y-6">
               {/* Welcome */}
@@ -201,21 +374,75 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* Other tabs content would go here */}
-          {activeTab !== 'overview' && (
+          {/* Real-Time Analytics */}
+          {activeTab === 'analytics' && (
+            <RealTimeAnalytics eventId="default-event" />
+          )}
+
+          {/* Event Management */}
+          {activeTab === 'events' && (
+            <EventConfiguration />
+          )}
+
+          {/* Ticketing System */}
+          {activeTab === 'tickets' && (
+            <AdvancedTicketing />
+          )}
+
+          {/* Content Management */}
+          {activeTab === 'content' && (
+            <ContentManagement />
+          )}
+
+          {/* Attendee Management */}
+          {activeTab === 'attendees' && (
+            <AttendeeManagement />
+          )}
+
+          {/* Role-Based Access Control */}
+          {activeTab === 'rbac' && (
+            <RoleBasedAccessControl />
+          )}
+
+          {/* Communications */}
+          {activeTab === 'communications' && (
             <div className="bg-white/5 backdrop-blur-lg rounded-xl p-8 border border-white/10 text-center">
-              <h3 className="text-xl font-semibold text-white mb-4">
-                {activeTab.charAt(0).toUpperCase() + activeTab.slice(1)} Management
-              </h3>
-              <p className="text-gray-400 mb-6">
-                This section is under development. Full functionality will be available soon.
-              </p>
-              <Link 
-                href="/"
-                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary to-secondary rounded-lg text-white font-medium hover:shadow-lg hover:shadow-primary/25 transition-all"
-              >
-                Back to Main Site
-              </Link>
+              <h3 className="text-xl font-semibold text-white mb-4">Communication & Engagement Suite</h3>
+              <p className="text-gray-400 mb-6">Email campaigns, push notifications, and Q&A moderation coming soon.</p>
+            </div>
+          )}
+
+          {/* Automated Workflow Engine */}
+          {activeTab === 'workflows' && (
+            <AutomatedWorkflowEngine />
+          )}
+
+          {/* Advanced Data Management */}
+          {activeTab === 'data' && (
+            <AdvancedDataManagement />
+          )}
+
+          {/* On-Site Tools */}
+          {activeTab === 'onsite' && (
+            <div className="bg-white/5 backdrop-blur-lg rounded-xl p-8 border border-white/10 text-center">
+              <h3 className="text-xl font-semibold text-white mb-4">On-Site Management Tools</h3>
+              <p className="text-gray-400 mb-6">Check-in dashboard, badge printing, and digital signage coming soon.</p>
+            </div>
+          )}
+
+          {/* Reports */}
+          {activeTab === 'reports' && (
+            <div className="bg-white/5 backdrop-blur-lg rounded-xl p-8 border border-white/10 text-center">
+              <h3 className="text-xl font-semibold text-white mb-4">Analytics & Reporting</h3>
+              <p className="text-gray-400 mb-6">Registration analytics, session metrics, and automated reports coming soon.</p>
+            </div>
+          )}
+
+          {/* Settings */}
+          {activeTab === 'settings' && (
+            <div className="bg-white/5 backdrop-blur-lg rounded-xl p-8 border border-white/10 text-center">
+              <h3 className="text-xl font-semibold text-white mb-4">System Settings</h3>
+              <p className="text-gray-400 mb-6">System configuration and preferences coming soon.</p>
             </div>
           )}
         </main>
