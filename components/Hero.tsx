@@ -38,9 +38,12 @@ export default function Hero() {
           <source src="/aivent-original/video/2.mp4" type="video/mp4" />
         </video>
 
-        {/* Lightened Background Overlay - Enhanced Video Visibility */}
+        {/* Enhanced Background Overlay with Gradient Color */}
         {/* Primary overlay with reduced opacity for better video visibility */}
         <div className="absolute inset-0 bg-[#101435]/40" />
+
+        {/* New gradient overlay from header to center with #47359B */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#47359B]/60 via-[#47359B]/30 to-transparent" style={{ height: '60%' }} />
 
         {/* Top gradient edge effect - lighter for video visibility */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#101435]/70 via-[#101435]/30 to-transparent" />

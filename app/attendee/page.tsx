@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -20,6 +20,28 @@ import {
 
 export default function AttendeeDashboard() {
   const [activeTab, setActiveTab] = useState('schedule')
+  const [userEmail, setUserEmail] = useState('')
+
+  // Check authentication on component mount
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem('isAuthenticated')
+    const email = localStorage.getItem('userEmail')
+
+    if (!isAuthenticated) {
+      // Redirect to login if not authenticated
+      window.location.href = '/login'
+      return
+    }
+
+    setUserEmail(email || 'user@wecon.com')
+  }, [])
+
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated')
+    localStorage.removeItem('userRole')
+    localStorage.removeItem('userEmail')
+    window.location.href = '/'
+  }
 
   const upcomingSessions = [
     {
@@ -90,8 +112,8 @@ export default function AttendeeDashboard() {
                 <Bell className="w-5 h-5" />
                 <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
               </button>
-              <button 
-                onClick={() => window.location.href = '/'}
+              <button
+                onClick={handleLogout}
                 className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
               >
                 Logout

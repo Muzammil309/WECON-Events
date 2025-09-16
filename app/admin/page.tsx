@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -19,6 +19,29 @@ import {
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('overview')
+  const [userEmail, setUserEmail] = useState('')
+
+  // Check authentication and user role on component mount
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem('isAuthenticated')
+    const userRole = localStorage.getItem('userRole')
+    const email = localStorage.getItem('userEmail')
+
+    if (!isAuthenticated || userRole !== 'admin') {
+      // Redirect to login if not authenticated or not admin
+      window.location.href = '/login'
+      return
+    }
+
+    setUserEmail(email || 'admin@wecon.com')
+  }, [])
+
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated')
+    localStorage.removeItem('userRole')
+    localStorage.removeItem('userEmail')
+    window.location.href = '/'
+  }
 
   const stats = [
     { label: 'Total Attendees', value: '1,247', change: '+12%', icon: Users },
@@ -64,8 +87,8 @@ export default function AdminDashboard() {
                 <Bell className="w-5 h-5" />
                 <span className="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full"></span>
               </button>
-              <button 
-                onClick={() => window.location.href = '/'}
+              <button
+                onClick={handleLogout}
                 className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
               >
                 Logout

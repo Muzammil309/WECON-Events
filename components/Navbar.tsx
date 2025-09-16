@@ -51,8 +51,8 @@ export default function Navbar() {
               />
             </div>
 
-            {/* Desktop Navigation - Simplified as requested */}
-            <nav className="hidden lg:flex items-center space-x-8">
+            {/* Desktop Navigation - Enhanced spacing to match official AIvent */}
+            <nav className="hidden lg:flex items-center space-x-12">
               <button
                 className="text-white hover:text-primary transition-colors duration-200"
                 onClick={() => handleNavClick('#section-hero')}
@@ -179,7 +179,7 @@ export default function Navbar() {
 
               {/* Navigation Items */}
               <div className="flex-1 py-6">
-                <nav className="space-y-2 px-6">
+                <nav className="space-y-3 px-6">
                   <button
                     onClick={() => handleNavClick('#section-hero')}
                     className="block w-full text-left text-white hover:text-primary transition-colors duration-200 py-3 border-b border-white/10"

@@ -20,27 +20,35 @@ export default function LoginPage() {
     setIsLoading(true)
     setError('')
 
-    // Simulate authentication process
+    // Enhanced authentication process with role-based routing
     setTimeout(() => {
       setIsLoading(false)
-      
-      // Mock authentication logic - in real app, this would be API call
+
+      // Enhanced authentication logic with comprehensive dashboard integration
       if (formData.email && formData.password) {
-        // Determine user role based on email domain or other logic
-        // For demo purposes, using email patterns
-        const isAdmin = formData.email.includes('admin') || formData.email.includes('manager')
-        
+        // Store user session data
+        localStorage.setItem('userEmail', formData.email)
+        localStorage.setItem('isAuthenticated', 'true')
+
+        // Determine user role based on email patterns or credentials
+        const isAdmin = formData.email.includes('admin') ||
+                       formData.email.includes('manager') ||
+                       formData.email === 'admin@wecon.com'
+
+        // Store user role for dashboard access
+        localStorage.setItem('userRole', isAdmin ? 'admin' : 'attendee')
+
         if (isAdmin) {
-          // Redirect to admin dashboard
+          // Redirect to comprehensive admin dashboard
           window.location.href = '/admin'
         } else {
-          // Redirect to attendee dashboard
+          // Redirect to comprehensive attendee dashboard
           window.location.href = '/attendee'
         }
       } else {
-        setError('Please enter valid credentials')
+        setError('Please enter valid email and password')
       }
-    }, 2000)
+    }, 1500)
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
