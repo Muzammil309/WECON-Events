@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import { api } from '@/lib/supabase'
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -20,35 +21,37 @@ export default function LoginPage() {
     setIsLoading(true)
     setError('')
 
-    // Enhanced authentication process with role-based routing
-    setTimeout(() => {
-      setIsLoading(false)
+    try {
+      // Authenticate with Supabase
+      const { user } = await api.signIn(formData.email, formData.password)
 
-      // Enhanced authentication logic with comprehensive dashboard integration
-      if (formData.email && formData.password) {
-        // Store user session data
-        localStorage.setItem('userEmail', formData.email)
-        localStorage.setItem('isAuthenticated', 'true')
+      if (user) {
+        // Get user profile to determine role
+        const userProfile = await api.getCurrentUser()
 
-        // Determine user role based on email patterns or credentials
-        const isAdmin = formData.email.includes('admin') ||
-                       formData.email.includes('manager') ||
-                       formData.email === 'admin@wecon.com'
+        if (userProfile) {
+          // Store authentication state
+          localStorage.setItem('userEmail', formData.email)
+          localStorage.setItem('isAuthenticated', 'true')
+          localStorage.setItem('userRole', userProfile.role)
+          localStorage.setItem('userId', userProfile.id)
 
-        // Store user role for dashboard access
-        localStorage.setItem('userRole', isAdmin ? 'admin' : 'attendee')
-
-        if (isAdmin) {
-          // Redirect to comprehensive admin dashboard
-          window.location.href = '/admin'
+          // Role-based routing
+          if (userProfile.role === 'SUPER_ADMIN' || userProfile.role === 'ADMIN' || userProfile.role === 'EVENT_MANAGER') {
+            window.location.href = '/admin'
+          } else {
+            window.location.href = '/attendee'
+          }
         } else {
-          // Redirect to comprehensive attendee dashboard
-          window.location.href = '/attendee'
+          setError('Unable to load user profile. Please try again.')
         }
-      } else {
-        setError('Please enter valid email and password')
       }
-    }, 1500)
+    } catch (error: any) {
+      console.error('Login error:', error)
+      setError(error.message || 'Invalid email or password. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -159,8 +162,8 @@ export default function LoginPage() {
           <div className="mt-6 p-4 bg-white/5 rounded-lg border border-white/10">
             <h3 className="text-sm font-medium text-gray-300 mb-2">Demo Credentials:</h3>
             <div className="text-xs text-gray-400 space-y-1">
-              <p><strong>Admin:</strong> admin@wecon.com / password</p>
-              <p><strong>Attendee:</strong> user@wecon.com / password</p>
+              <p><strong>Super Admin:</strong> superadmin@wecon.com / SuperAdmin123!</p>
+              <p><strong>Note:</strong> Register as attendee or speaker through the signup form</p>
             </div>
           </div>
 

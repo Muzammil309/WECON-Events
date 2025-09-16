@@ -159,19 +159,160 @@ export interface Notification {
 
 // API Functions
 export const api = {
+  // Authentication
+  async signUp(email: string, password: string, userData: Partial<User>) {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    })
+
+    if (error) throw error
+
+    if (data.user) {
+      // Create user profile in users table
+      const { error: profileError } = await supabase
+        .from('users')
+        .insert({
+          id: data.user.id,
+          email: data.user.email,
+          role: userData.role || 'ATTENDEE',
+          first_name: userData.first_name || '',
+          last_name: userData.last_name || '',
+          privacy_level: 'PUBLIC',
+          networking_available: true,
+          email_notifications: true,
+          push_notifications: true,
+          email_verified: false,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        })
+
+      if (profileError) throw profileError
+    }
+
+    return data
+  },
+
+  async signIn(email: string, password: string) {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    })
+
+    if (error) throw error
+    return data
+  },
+
+  async signOut() {
+    const { error } = await supabase.auth.signOut()
+    if (error) throw error
+  },
+
   // User Management
   async getCurrentUser() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return null
-    
+
     const { data, error } = await supabase
       .from('users')
       .select('*')
       .eq('id', user.id)
       .single()
-    
-    if (error) throw error
+
+    if (error) {
+      console.error('Error fetching user profile:', error)
+      return null
+    }
     return data as User
+  },
+
+  async createSuperAdmin() {
+    // Check if super admin already exists
+    const { data: existingSuperAdmin } = await supabase
+      .from('users')
+      .select('id')
+      .eq('role', 'SUPER_ADMIN')
+      .single()
+
+    if (existingSuperAdmin) {
+      console.log('Super admin already exists')
+      return existingSuperAdmin
+    }
+
+    // Create super admin account
+    const { data, error } = await supabase.auth.signUp({
+      email: 'superadmin@wecon.com',
+      password: 'SuperAdmin123!',
+    })
+
+    if (error) throw error
+
+    if (data.user) {
+      const { error: profileError } = await supabase
+        .from('users')
+        .insert({
+          id: data.user.id,
+          email: 'superadmin@wecon.com',
+          role: 'SUPER_ADMIN',
+          first_name: 'Super',
+          last_name: 'Admin',
+          display_name: 'WECON Super Administrator',
+          privacy_level: 'PRIVATE',
+          networking_available: false,
+          email_notifications: true,
+          push_notifications: true,
+          email_verified: true,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        })
+
+      if (profileError) throw profileError
+    }
+
+    return data
+  },
+
+  async createAdminAccount(email: string, password: string, adminData: Partial<User>, createdBy: string) {
+    // Only super admin can create admin accounts
+    const currentUser = await this.getCurrentUser()
+    if (!currentUser || currentUser.role !== 'SUPER_ADMIN') {
+      throw new Error('Only super administrators can create admin accounts')
+    }
+
+    // Create admin account
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+    })
+
+    if (error) throw error
+
+    if (data.user) {
+      const { error: profileError } = await supabase
+        .from('users')
+        .insert({
+          id: data.user.id,
+          email: data.user.email,
+          role: adminData.role || 'ADMIN',
+          first_name: adminData.first_name || '',
+          last_name: adminData.last_name || '',
+          display_name: adminData.display_name || '',
+          privacy_level: 'PRIVATE',
+          networking_available: false,
+          email_notifications: true,
+          push_notifications: true,
+          email_verified: false,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        })
+
+      if (profileError) throw profileError
+
+      // Log admin creation
+      console.log(`Admin account created: ${email} by ${createdBy}`)
+    }
+
+    return data
   },
 
   async updateUserProfile(userId: string, updates: Partial<User>) {

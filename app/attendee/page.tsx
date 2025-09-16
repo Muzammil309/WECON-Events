@@ -125,9 +125,18 @@ export default function AttendeeDashboard() {
             loadConnections(currentUser.id),
             loadNotifications(currentUser.id)
           ])
+        } else {
+          // User profile not found, redirect to login
+          console.error('User profile not found')
+          localStorage.clear()
+          window.location.href = '/login'
         }
       } catch (error) {
         console.error('Error initializing user:', error)
+        // Show error message and redirect to login
+        alert('Unable to load user data. Please try logging in again.')
+        localStorage.clear()
+        window.location.href = '/login'
       } finally {
         setLoading(false)
       }

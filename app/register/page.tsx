@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
+import { api } from '@/lib/supabase'
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -12,21 +13,63 @@ export default function RegisterPage() {
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'attendee'
+    role: 'ATTENDEE'
   })
 
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
+    setError('')
+    setSuccess('')
 
-    // Simulate registration process
-    setTimeout(() => {
+    // Validation
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match')
       setIsLoading(false)
-      // Redirect to login page after successful registration
-      window.location.href = '/login'
-    }, 2000)
+      return
+    }
+
+    if (formData.password.length < 8) {
+      setError('Password must be at least 8 characters long')
+      setIsLoading(false)
+      return
+    }
+
+    try {
+      // Register with Supabase
+      await api.signUp(formData.email, formData.password, {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        role: formData.role as any
+      })
+
+      setSuccess('Account created successfully! Please check your email to verify your account, then sign in.')
+
+      // Clear form
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        role: 'ATTENDEE'
+      })
+
+      // Redirect to login after 3 seconds
+      setTimeout(() => {
+        window.location.href = '/login'
+      }, 3000)
+
+    } catch (error: any) {
+      console.error('Registration error:', error)
+      setError(error.message || 'Registration failed. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -66,6 +109,19 @@ export default function RegisterPage() {
           className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10"
         >
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Error Message */}
+            {error && (
+              <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 text-red-400 text-sm">
+                {error}
+              </div>
+            )}
+
+            {/* Success Message */}
+            {success && (
+              <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3 text-green-400 text-sm">
+                {success}
+              </div>
+            )}
             {/* Name Fields */}
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -125,9 +181,12 @@ export default function RegisterPage() {
                 onChange={handleInputChange}
                 className="w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white focus:outline-none focus:border-primary transition-colors"
               >
-                <option value="attendee" className="bg-[#101435]">Attendee</option>
-                <option value="admin" className="bg-[#101435]">Administrator</option>
+                <option value="ATTENDEE" className="bg-[#101435]">Attendee</option>
+                <option value="SPEAKER" className="bg-[#101435]">Speaker</option>
               </select>
+              <p className="text-xs text-gray-400 mt-1">
+                Admin accounts can only be created by super administrators
+              </p>
             </div>
 
             {/* Password Fields */}

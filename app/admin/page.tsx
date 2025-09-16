@@ -53,6 +53,7 @@ export default function AdminDashboard() {
   const RoleBasedAccessControl = dynamic(() => import('@/components/admin/RoleBasedAccessControl'), { ssr: false })
   const AutomatedWorkflowEngine = dynamic(() => import('@/components/admin/AutomatedWorkflowEngine'), { ssr: false })
   const AdvancedDataManagement = dynamic(() => import('@/components/admin/AdvancedDataManagement'), { ssr: false })
+  const AdminAccountCreation = dynamic(() => import('@/components/admin/AdminAccountCreation'), { ssr: false })
 
   // Check authentication and load user data
   useEffect(() => {
@@ -204,6 +205,7 @@ export default function AdminDashboard() {
                 { id: 'onsite', label: 'On-Site Tools', icon: QrCode },
                 { id: 'reports', label: 'Analytics & Reports', icon: PieChart },
                 { id: 'rbac', label: 'Access Control', icon: Shield },
+                { id: 'admin-creation', label: 'Create Admin', icon: UserPlus },
                 { id: 'settings', label: 'Settings', icon: Settings },
               ].map((item) => (
                 <button
@@ -402,6 +404,11 @@ export default function AdminDashboard() {
           {/* Role-Based Access Control */}
           {activeTab === 'rbac' && (
             <RoleBasedAccessControl />
+          )}
+
+          {/* Admin Account Creation */}
+          {activeTab === 'admin-creation' && (
+            <AdminAccountCreation />
           )}
 
           {/* Communications */}
