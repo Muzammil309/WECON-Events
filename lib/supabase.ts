@@ -4,6 +4,13 @@ import { createClient } from '@supabase/supabase-js'
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-anon-key'
 
+// Check if Supabase is properly configured
+export const isSupabaseConfigured = () => {
+  return supabaseUrl !== 'https://placeholder.supabase.co' &&
+         supabaseAnonKey !== 'placeholder-anon-key' &&
+         supabaseUrl.includes('.supabase.co')
+}
+
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // Database Types
@@ -161,6 +168,10 @@ export interface Notification {
 export const api = {
   // Authentication
   async signUp(email: string, password: string, userData: Partial<User>) {
+    if (!isSupabaseConfigured()) {
+      throw new Error('Supabase is not configured. Please set up your Supabase project credentials in .env.local')
+    }
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -194,6 +205,10 @@ export const api = {
   },
 
   async signIn(email: string, password: string) {
+    if (!isSupabaseConfigured()) {
+      throw new Error('Supabase is not configured. Please set up your Supabase project credentials in .env.local')
+    }
+
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
