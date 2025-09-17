@@ -254,9 +254,9 @@ export const api = {
       return existingSuperAdmin
     }
 
-    // Create super admin account
+    // Create super admin account with valid email format
     const { data, error } = await supabase.auth.signUp({
-      email: 'superadmin@wecon.com',
+      email: 'admin@weconmasawat.com',
       password: 'SuperAdmin123!',
     })
 
@@ -267,7 +267,7 @@ export const api = {
         .from('users')
         .insert({
           id: data.user.id,
-          email: 'superadmin@wecon.com',
+          email: 'admin@weconmasawat.com',
           role: 'SUPER_ADMIN',
           first_name: 'Super',
           last_name: 'Admin',
