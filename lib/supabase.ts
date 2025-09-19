@@ -242,49 +242,68 @@ export const api = {
   },
 
   async createSuperAdmin() {
-    // Check if super admin already exists
-    const { data: existingSuperAdmin } = await supabase
-      .from('users')
-      .select('id')
-      .eq('role', 'SUPER_ADMIN')
-      .single()
-
-    if (existingSuperAdmin) {
-      console.log('Super admin already exists')
-      return existingSuperAdmin
-    }
-
-    // Create super admin account with valid email format
-    const { data, error } = await supabase.auth.signUp({
-      email: 'admin@weconmasawat.com',
-      password: 'SuperAdmin123!',
-    })
-
-    if (error) throw error
-
-    if (data.user) {
-      const { error: profileError } = await supabase
+    try {
+      // Check if super admin already exists
+      const { data: existingSuperAdmin, error: checkError } = await supabase
         .from('users')
-        .insert({
-          id: data.user.id,
-          email: 'admin@weconmasawat.com',
-          role: 'SUPER_ADMIN',
-          first_name: 'Super',
-          last_name: 'Admin',
-          display_name: 'WECON Super Administrator',
-          privacy_level: 'PRIVATE',
-          networking_available: false,
-          email_notifications: true,
-          push_notifications: true,
-          email_verified: true,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString()
-        })
+        .select('id, email, role')
+        .eq('role', 'SUPER_ADMIN')
+        .maybeSingle()
 
-      if (profileError) throw profileError
+      if (checkError && checkError.code !== 'PGRST116') {
+        console.error('Error checking for existing super admin:', checkError)
+        throw checkError
+      }
+
+      if (existingSuperAdmin) {
+        console.log('Super admin already exists:', existingSuperAdmin.email)
+        return { user: existingSuperAdmin, session: null }
+      }
+
+      // Create super admin account with valid email format
+      const { data, error } = await supabase.auth.signUp({
+        email: 'admin@wecon.events',
+        password: 'SuperAdmin123!',
+      })
+
+      if (error) {
+        console.error('Auth signup error:', error)
+        throw error
+      }
+
+      if (data.user) {
+        // Insert user profile with proper error handling
+        const { error: profileError } = await supabase
+          .from('users')
+          .insert({
+            id: data.user.id,
+            email: 'admin@wecon.events',
+            role: 'SUPER_ADMIN',
+            first_name: 'Super',
+            last_name: 'Admin',
+            display_name: 'WECON Super Administrator',
+            privacy_level: 'PRIVATE',
+            networking_available: false,
+            email_notifications: true,
+            push_notifications: true,
+            email_verified: true,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          })
+
+        if (profileError) {
+          console.error('Profile creation error:', profileError)
+          throw profileError
+        }
+
+        console.log('Super admin created successfully')
+      }
+
+      return data
+    } catch (error) {
+      console.error('Super admin creation failed:', error)
+      throw error
     }
-
-    return data
   },
 
   async createAdminAccount(email: string, password: string, adminData: Partial<User>, createdBy: string) {

@@ -18,7 +18,7 @@ export default function SetupPage() {
 
     try {
       await api.createSuperAdmin()
-      setSuccess('Super admin account created successfully! You can now login with: admin@weconmasawat.com / SuperAdmin123!')
+      setSuccess('Super admin account created successfully! You can now login with: admin@wecon.events / SuperAdmin123!')
     } catch (error: any) {
       console.error('Super admin creation error:', error)
       if (error.message?.includes('already exists')) {
@@ -95,7 +95,7 @@ export default function SetupPage() {
             <div className="mt-6 p-4 bg-white/5 rounded-lg border border-white/10">
               <h4 className="text-sm font-medium text-gray-300 mb-2">Super Admin Credentials:</h4>
               <div className="text-xs text-gray-400 space-y-1">
-                <p><strong>Email:</strong> admin@weconmasawat.com</p>
+                <p><strong>Email:</strong> admin@wecon.events</p>
                 <p><strong>Password:</strong> SuperAdmin123!</p>
                 <p className="text-yellow-400 mt-2">⚠️ Please change the password after first login</p>
               </div>

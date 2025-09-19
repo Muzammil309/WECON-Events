@@ -1,4 +1,4 @@
--- WECON Event Management System - Row Level Security Policies
+-- WECON Event Management System - Row Level Security Policies (CORRECTED)
 -- Execute this AFTER running wecon_schema.sql
 
 -- =============================================
@@ -32,7 +32,7 @@ CREATE POLICY "Users can update their own profile" ON users
 -- Public user profiles are viewable by authenticated users
 CREATE POLICY "Public user profiles are viewable" ON users
   FOR SELECT USING (
-    auth.role() = 'authenticated' AND
+    auth.role() = 'authenticated' AND 
     (privacy_level = 'PUBLIC' OR auth.uid() = id)
   );
 
@@ -40,8 +40,8 @@ CREATE POLICY "Public user profiles are viewable" ON users
 CREATE POLICY "Admins can view all users" ON users
   FOR SELECT USING (
     EXISTS (
-      SELECT 1 FROM users
-      WHERE id = auth.uid()
+      SELECT 1 FROM users 
+      WHERE id = auth.uid() 
       AND role IN ('SUPER_ADMIN', 'ADMIN', 'EVENT_MANAGER')
     )
   );
@@ -53,7 +53,7 @@ CREATE POLICY "Admins can view all users" ON users
 -- Published events are viewable by all authenticated users
 CREATE POLICY "Published events are viewable by all" ON events
   FOR SELECT USING (
-    auth.role() = 'authenticated' AND
+    auth.role() = 'authenticated' AND 
     (status = 'PUBLISHED' OR status = 'LIVE' OR status = 'COMPLETED')
   );
 
@@ -65,8 +65,8 @@ CREATE POLICY "Event creators can manage their events" ON events
 CREATE POLICY "Admins can manage all events" ON events
   FOR ALL USING (
     EXISTS (
-      SELECT 1 FROM users
-      WHERE id = auth.uid()
+      SELECT 1 FROM users 
+      WHERE id = auth.uid() 
       AND role IN ('SUPER_ADMIN', 'ADMIN', 'EVENT_MANAGER')
     )
   );
@@ -80,8 +80,8 @@ CREATE POLICY "Sessions are viewable for published events" ON sessions
   FOR SELECT USING (
     auth.role() = 'authenticated' AND
     EXISTS (
-      SELECT 1 FROM events
-      WHERE id = sessions.event_id
+      SELECT 1 FROM events 
+      WHERE id = sessions.event_id 
       AND (status = 'PUBLISHED' OR status = 'LIVE' OR status = 'COMPLETED')
     )
   );
@@ -90,13 +90,13 @@ CREATE POLICY "Sessions are viewable for published events" ON sessions
 CREATE POLICY "Event creators and admins can manage sessions" ON sessions
   FOR ALL USING (
     EXISTS (
-      SELECT 1 FROM events
-      WHERE id = sessions.event_id
+      SELECT 1 FROM events 
+      WHERE id = sessions.event_id 
       AND (
         created_by = auth.uid() OR
         EXISTS (
-          SELECT 1 FROM users
-          WHERE id = auth.uid()
+          SELECT 1 FROM users 
+          WHERE id = auth.uid() 
           AND role IN ('SUPER_ADMIN', 'ADMIN', 'EVENT_MANAGER')
         )
       )
@@ -116,9 +116,9 @@ CREATE POLICY "Users can register for events" ON event_registrations
   FOR INSERT WITH CHECK (
     auth.uid() = user_id AND
     EXISTS (
-      SELECT 1 FROM events
-      WHERE id = event_id
-      AND registration_open = true
+      SELECT 1 FROM events 
+      WHERE id = event_id 
+      AND registration_open = true 
       AND (registration_deadline IS NULL OR registration_deadline > NOW())
     )
   );
@@ -131,13 +131,13 @@ CREATE POLICY "Users can update their own registrations" ON event_registrations
 CREATE POLICY "Event creators and admins can view registrations" ON event_registrations
   FOR SELECT USING (
     EXISTS (
-      SELECT 1 FROM events
-      WHERE id = event_id
+      SELECT 1 FROM events 
+      WHERE id = event_id 
       AND (
         created_by = auth.uid() OR
         EXISTS (
-          SELECT 1 FROM users
-          WHERE id = auth.uid()
+          SELECT 1 FROM users 
+          WHERE id = auth.uid() 
           AND role IN ('SUPER_ADMIN', 'ADMIN', 'EVENT_MANAGER')
         )
       )
@@ -159,7 +159,7 @@ CREATE POLICY "Users can register for sessions" ON session_registrations
     EXISTS (
       SELECT 1 FROM sessions s
       JOIN events e ON s.event_id = e.id
-      WHERE s.id = session_id
+      WHERE s.id = session_id 
       AND e.registration_open = true
     )
   );
@@ -220,8 +220,8 @@ CREATE POLICY "System can create notifications" ON notifications
 CREATE POLICY "Admins can view all tasks" ON admin_tasks
   FOR SELECT USING (
     EXISTS (
-      SELECT 1 FROM users
-      WHERE id = auth.uid()
+      SELECT 1 FROM users 
+      WHERE id = auth.uid() 
       AND role IN ('SUPER_ADMIN', 'ADMIN', 'EVENT_MANAGER')
     )
   );
@@ -230,8 +230,8 @@ CREATE POLICY "Admins can view all tasks" ON admin_tasks
 CREATE POLICY "Admins can manage tasks" ON admin_tasks
   FOR ALL USING (
     EXISTS (
-      SELECT 1 FROM users
-      WHERE id = auth.uid()
+      SELECT 1 FROM users 
+      WHERE id = auth.uid() 
       AND role IN ('SUPER_ADMIN', 'ADMIN', 'EVENT_MANAGER')
     )
   );
@@ -252,8 +252,8 @@ CREATE POLICY "Everyone can view active digital signage" ON digital_signage
 CREATE POLICY "Admins can manage digital signage" ON digital_signage
   FOR ALL USING (
     EXISTS (
-      SELECT 1 FROM users
-      WHERE id = auth.uid()
+      SELECT 1 FROM users 
+      WHERE id = auth.uid() 
       AND role IN ('SUPER_ADMIN', 'ADMIN', 'EVENT_MANAGER')
     )
   );

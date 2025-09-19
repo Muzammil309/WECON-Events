@@ -41,6 +41,11 @@ import { supabase, api, type User } from '@/lib/supabase'
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('analytics')
+
+  // Add navigation to new features
+  const navigateToLiveDashboard = () => {
+    window.location.href = '/admin/live'
+  }
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const [stats, setStats] = useState({
@@ -383,18 +388,25 @@ export default function AdminDashboard() {
               {/* Quick Actions */}
               <div className="bg-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10">
                 <h3 className="text-lg font-semibold text-white mb-6">Quick Actions</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <button className="flex items-center space-x-3 p-4 bg-primary/10 border border-primary/20 rounded-lg hover:bg-primary/20 transition-colors">
-                    <Plus className="w-5 h-5 text-primary" />
-                    <span className="text-white">Add New Session</span>
-                  </button>
-                  <button className="flex items-center space-x-3 p-4 bg-secondary/10 border border-secondary/20 rounded-lg hover:bg-secondary/20 transition-colors">
-                    <Users className="w-5 h-5 text-secondary" />
-                    <span className="text-white">Manage Attendees</span>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <button
+                    onClick={navigateToLiveDashboard}
+                    className="flex items-center space-x-3 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg hover:bg-blue-500/20 transition-colors"
+                  >
+                    <Activity className="w-5 h-5 text-blue-400" />
+                    <span className="text-white">Live Dashboard</span>
                   </button>
                   <button className="flex items-center space-x-3 p-4 bg-green-500/10 border border-green-500/20 rounded-lg hover:bg-green-500/20 transition-colors">
-                    <BarChart3 className="w-5 h-5 text-green-400" />
-                    <span className="text-white">View Reports</span>
+                    <MessageCircle className="w-5 h-5 text-green-400" />
+                    <span className="text-white">Communications</span>
+                  </button>
+                  <button className="flex items-center space-x-3 p-4 bg-purple-500/10 border border-purple-500/20 rounded-lg hover:bg-purple-500/20 transition-colors">
+                    <MapPin className="w-5 h-5 text-purple-400" />
+                    <span className="text-white">Venue Map</span>
+                  </button>
+                  <button className="flex items-center space-x-3 p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg hover:bg-yellow-500/20 transition-colors">
+                    <Plus className="w-5 h-5 text-yellow-400" />
+                    <span className="text-white">Add Session</span>
                   </button>
                 </div>
               </div>
