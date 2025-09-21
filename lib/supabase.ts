@@ -262,8 +262,11 @@ export const api = {
 
       // Create super admin account with valid email format
       const { data, error } = await supabase.auth.signUp({
-        email: 'admin@wecon.events',
+        email: 'admin@wecon.events', // Use a real domain format for better compatibility
         password: 'SuperAdmin123!',
+        options: {
+          emailRedirectTo: undefined, // Disable email confirmation for admin setup
+        }
       })
 
       if (error) {

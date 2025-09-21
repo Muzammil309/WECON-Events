@@ -162,7 +162,7 @@ export default function LoginPage() {
           <div className="mt-6 p-4 bg-white/5 rounded-lg border border-white/10">
             <h3 className="text-sm font-medium text-gray-300 mb-2">Demo Credentials:</h3>
             <div className="text-xs text-gray-400 space-y-1">
-              <p><strong>Super Admin:</strong> admin@weconmasawat.com / SuperAdmin123!</p>
+              <p><strong>Super Admin:</strong> admin@wecon.events / SuperAdmin123!</p>
               <p><strong>Note:</strong> Register as attendee or speaker through the signup form</p>
             </div>
           </div>

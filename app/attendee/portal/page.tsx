@@ -110,8 +110,9 @@ export default function AttendeePortalPage() {
       if (publicError) throw publicError
 
       // Combine and deduplicate events
-      const allEvents = [...userEvents, ...(publicEvents || [])]
-      const uniqueEvents = allEvents.filter((event, index, self) => 
+      const publicEventsArray = Array.isArray(publicEvents) ? publicEvents : (publicEvents ? [publicEvents] : [])
+      const allEvents = [...userEvents, ...publicEventsArray]
+      const uniqueEvents = allEvents.filter((event, index, self) =>
         index === self.findIndex(e => e.id === event.id)
       )
 
