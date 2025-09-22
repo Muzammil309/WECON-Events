@@ -101,7 +101,7 @@ export default function AdvancedAnalytics({ eventId }: AdvancedAnalyticsProps) {
     // Calculate trend
     const recent = daily.slice(-3).reduce((a, b) => a + b, 0)
     const previous = daily.slice(-6, -3).reduce((a, b) => a + b, 0)
-    const trend = recent > previous ? 'up' : recent < previous ? 'down' : 'stable'
+    const trend: 'up' | 'down' | 'stable' = recent > previous ? 'up' : recent < previous ? 'down' : 'stable'
 
     return {
       daily,
@@ -169,16 +169,16 @@ export default function AdvancedAnalytics({ eventId }: AdvancedAnalyticsProps) {
 
     // Company distribution
     const companyCounts: { [key: string]: number } = {}
-    users.forEach(user => {
-      if (user.company) {
+    users.forEach((user: any) => {
+      if (user?.company) {
         companyCounts[user.company] = (companyCounts[user.company] || 0) + 1
       }
     })
 
     // Job title distribution
     const titleCounts: { [key: string]: number } = {}
-    users.forEach(user => {
-      if (user.job_title) {
+    users.forEach((user: any) => {
+      if (user?.job_title) {
         titleCounts[user.job_title] = (titleCounts[user.job_title] || 0) + 1
       }
     })
@@ -215,12 +215,15 @@ export default function AdvancedAnalytics({ eventId }: AdvancedAnalyticsProps) {
       .select('id, title, max_attendees, current_attendees')
       .eq('event_id', eventId)
 
-    const capacityAlerts = sessions?.map(session => ({
-      sessionId: session.id,
-      sessionTitle: session.title,
-      riskLevel: session.current_attendees / session.max_attendees > 0.8 ? 'high' : 
-                 session.current_attendees / session.max_attendees > 0.6 ? 'medium' : 'low'
-    })).filter(alert => alert.riskLevel !== 'low') || []
+    const capacityAlerts = sessions?.map(session => {
+      const ratio = session.current_attendees / session.max_attendees
+      const riskLevel: 'high' | 'medium' | 'low' = ratio > 0.8 ? 'high' : ratio > 0.6 ? 'medium' : 'low'
+      return {
+        sessionId: session.id,
+        sessionTitle: session.title,
+        riskLevel
+      }
+    }).filter(alert => alert.riskLevel !== 'low') || []
 
     return {
       expectedAttendance: 847, // Predicted final attendance

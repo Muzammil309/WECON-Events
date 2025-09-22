@@ -23,6 +23,11 @@ interface Event {
   status: string
 }
 
+interface EventRegistration {
+  event_id: number
+  events: Event | null
+}
+
 export default function AttendeePortalPage() {
   const [user, setUser] = useState<User | null>(null)
   const [events, setEvents] = useState<Event[]>([])
@@ -98,8 +103,17 @@ export default function AttendeePortalPage() {
 
       if (regError) throw regError
 
-      const userEvents = registrations?.map(reg => reg.events).filter(Boolean) || []
-      
+      // Extract events from registrations with proper type safety
+      // Note: reg.events is a single event object from the nested Supabase query
+      const userEvents: Event[] = []
+      if (registrations) {
+        for (const reg of registrations as any[]) {
+          if (reg.events && typeof reg.events === 'object' && 'id' in reg.events) {
+            userEvents.push(reg.events as unknown as Event)
+          }
+        }
+      }
+
       // Also get published events that user can register for
       const { data: publicEvents, error: publicError } = await supabase
         .from('events')
@@ -109,11 +123,14 @@ export default function AttendeePortalPage() {
 
       if (publicError) throw publicError
 
-      // Combine and deduplicate events
-      const publicEventsArray = Array.isArray(publicEvents) ? publicEvents : (publicEvents ? [publicEvents] : [])
-      const allEvents = [...userEvents, ...publicEventsArray]
+      // Ensure publicEvents is an array and has proper type
+      const publicEventsArray: Event[] = Array.isArray(publicEvents) ? publicEvents : (publicEvents ? [publicEvents] : [])
+
+      // Combine and deduplicate events with type safety
+      const allEvents: Event[] = [...userEvents, ...publicEventsArray]
       const uniqueEvents = allEvents.filter((event, index, self) =>
-        index === self.findIndex(e => e.id === event.id)
+        event && typeof event === 'object' && 'id' in event &&
+        index === self.findIndex(e => e && typeof e === 'object' && 'id' in e && e.id === event.id)
       )
 
       setEvents(uniqueEvents)

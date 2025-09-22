@@ -92,11 +92,12 @@ export class WeconRealtime {
             filter: `event_id=eq.${eventId}`
           },
           (payload) => {
-            if (payload.new?.status === 'CHECKED_IN') {
+            const newRecord = payload.new as any
+            if (newRecord?.status === 'CHECKED_IN') {
               const checkInData: CheckInEvent = {
-                userId: payload.new.user_id,
-                eventId: payload.new.event_id,
-                timestamp: payload.new.check_in_time || new Date().toISOString(),
+                userId: newRecord.user_id,
+                eventId: newRecord.event_id,
+                timestamp: newRecord.check_in_time || new Date().toISOString(),
                 status: 'CHECKED_IN'
               }
               callback(checkInData)

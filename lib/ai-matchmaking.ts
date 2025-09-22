@@ -258,12 +258,12 @@ export class AIMatchmakingEngine {
         .neq('user_id', excludeUserId)
         .eq('status', 'CONFIRMED')
 
-      return (data || []).map(reg => ({
+      return (data || []).map((reg: any) => ({
         ...reg.users,
-        interests: this.parseSkillsOrInterests(reg.users.bio, 'interests'),
-        skills: this.parseSkillsOrInterests(reg.users.bio, 'skills'),
-        goals: this.parseSkillsOrInterests(reg.users.bio, 'goals')
-      }))
+        interests: this.parseSkillsOrInterests(reg.users?.bio || '', 'interests'),
+        skills: this.parseSkillsOrInterests(reg.users?.bio || '', 'skills'),
+        goals: this.parseSkillsOrInterests(reg.users?.bio || '', 'goals')
+      })) as UserProfile[]
     } catch (error) {
       console.error('Error fetching event attendees:', error)
       return []
