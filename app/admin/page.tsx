@@ -73,8 +73,9 @@ export default function AdminDashboard() {
       try {
         const isAuthenticated = localStorage.getItem('isAuthenticated')
         const userRole = localStorage.getItem('userRole')
+        const allowedRoles = ['SUPER_ADMIN', 'ADMIN', 'EVENT_MANAGER']
 
-        if (!isAuthenticated || userRole !== 'admin') {
+        if (!isAuthenticated || !allowedRoles.includes(userRole || '')) {
           window.location.href = '/login'
           return
         }

@@ -17,7 +17,9 @@ export default function SetupPage() {
     setSuccess('')
 
     try {
-      await api.createSuperAdmin()
+      const res = await fetch('/api/setup/superadmin', { method: 'POST' })
+      const json = await res.json()
+      if (!res.ok || !json.ok) throw new Error(json.error || 'Failed to create super admin')
       setSuccess('Super admin account created successfully! You can now login with: admin@wecon.events / SuperAdmin123!')
     } catch (error: any) {
       console.error('Super admin creation error:', error)
