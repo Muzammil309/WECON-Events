@@ -437,7 +437,7 @@ export const api = {
       .eq('id', userId)
       .select()
       .single()
-    
+
     if (error) throw error
     return data as User
   },
@@ -448,7 +448,7 @@ export const api = {
       .from('events')
       .select('*')
       .order('start_date', { ascending: true })
-    
+
     if (error) throw error
     return data as Event[]
   },
@@ -459,47 +459,143 @@ export const api = {
       .select('*')
       .eq('id', eventId)
       .single()
-    
+
     if (error) throw error
     return data as Event
   },
 
-  // Sessions
-  async getEventSessions(eventId: string) {
+  async createEvent(input: Partial<Event>) {
+    const { data, error } = await supabase
+      .from('events')
+      .insert({
+        name: input.name,
+        slug: input.slug,
+        description: input.description,
+        short_description: input.short_description,
+        venue_name: input.venue_name,
+        venue_address: input.venue_address,
+        timezone: input.timezone || 'UTC',
+        start_date: input.start_date,
+        end_date: input.end_date,
+        registration_start: input.registration_start,
+        registration_end: input.registration_end,
+        status: input.status || 'DRAFT',
+        logo_url: input.logo_url,
+        banner_url: input.banner_url,
+        primary_color: input.primary_color || '#764DF0',
+        secondary_color: input.secondary_color || '#442490',
+        custom_css: input.custom_css,
+        max_attendees: input.max_attendees,
+        current_attendees: input.current_attendees || 0,
+        networking_enabled: input.networking_enabled ?? true,
+        qa_enabled: input.qa_enabled ?? true,
+        chat_enabled: input.chat_enabled ?? true,
+        virtual_enabled: input.virtual_enabled ?? false,
+        organizer_id: input.organizer_id,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      })
+      .select('*')
+      .single()
+    if (error) throw error
+    return data as Event
+  },
+
+  async updateEvent(eventId: string | number, updates: Partial<Event>) {
+    const { data, error } = await supabase
+      .from('events')
+      .update({
+        ...updates,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', eventId)
+      .select('*')
+      .single()
+    if (error) throw error
+    return data as Event
+  },
+
+  async deleteEvent(eventId: string | number) {
+    const { error } = await supabase
+      .from('events')
+      .delete()
+      .eq('id', eventId)
+    if (error) throw error
+  },
+
+  async createSession(input: Partial<Session> & { event_id: string | number; title: string; start_time: string; end_time: string }) {
     const { data, error } = await supabase
       .from('sessions')
-      .select(`
-        *,
-        session_speakers (
-          user_id,
-          role,
-          users (first_name, last_name, job_title, company)
-        ),
-        rooms (name, capacity)
-      `)
+      .insert({
+        event_id: input.event_id,
+        title: input.title,
+        description: input.description,
+        session_type: input.session_type || 'KEYNOTE',
+        track: input.track,
+        difficulty_level: input.difficulty_level,
+        start_time: input.start_time,
+        end_time: input.end_time,
+        room_name: (input as any).room_name,
+        room_capacity: (input as any).room_capacity,
+        max_attendees: input.max_attendees,
+        current_attendees: input.current_attendees || 0,
+        requires_registration: input.requires_registration ?? false,
+        virtual_url: input.virtual_url,
+        recording_url: input.recording_url,
+        live_stream_url: input.live_stream_url,
+        slides_url: input.slides_url,
+        resources_url: input.resources_url,
+        qa_enabled: input.qa_enabled ?? true,
+        chat_enabled: input.chat_enabled ?? true,
+        polling_enabled: input.polling_enabled ?? false,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      })
+      .select('*')
+      .single()
+    if (error) throw error
+    return data as Session
+  },
+
+  async updateSession(sessionId: string | number, updates: Partial<Session>) {
+    const { data, error } = await supabase
+      .from('sessions')
+      .update({
+        ...updates,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', sessionId)
+      .select('*')
+      .single()
+    if (error) throw error
+    return data as Session
+  },
+
+  async deleteSession(sessionId: string | number) {
+    const { error } = await supabase
+      .from('sessions')
+      .delete()
+      .eq('id', sessionId)
+    if (error) throw error
+  },
+
+  // Sessions (schema: sessions table with speaker_ids[] and room fields)
+  async getEventSessions(eventId: string | number) {
+    const { data, error } = await supabase
+      .from('sessions')
+      .select('*')
       .eq('event_id', eventId)
       .order('start_time', { ascending: true })
-    
     if (error) throw error
     return data
   },
 
-  async getUserSessions(userId: string, eventId: string) {
+  async getUserSessions(userId: string, eventId: string | number) {
     const { data, error } = await supabase
       .from('session_registrations')
-      .select(`
-        *,
-        sessions (
-          *,
-          session_speakers (
-            users (first_name, last_name, job_title, company)
-          ),
-          rooms (name)
-        )
-      `)
+      .select(`*, sessions(*)`)
       .eq('user_id', userId)
       .eq('sessions.event_id', eventId)
-    
     if (error) throw error
     return data
   },
@@ -515,7 +611,7 @@ export const api = {
       `)
       .or(`requester_id.eq.${userId},recipient_id.eq.${userId}`)
       .order('created_at', { ascending: false })
-    
+
     if (error) throw error
     return data
   },
@@ -531,7 +627,7 @@ export const api = {
       })
       .select()
       .single()
-    
+
     if (error) throw error
     return data
   },
@@ -544,9 +640,54 @@ export const api = {
       .eq('user_id', userId)
       .order('created_at', { ascending: false })
       .limit(50)
-    
+
     if (error) throw error
     return data as Notification[]
+  },
+
+  // Attendees
+  async getAttendees(limit: number = 100, offset: number = 0) {
+    const { data, error, count } = await supabase
+      .from('users')
+      .select('*', { count: 'exact' })
+      .eq('role', 'ATTENDEE')
+      .order('created_at', { ascending: false })
+      .range(offset, offset + limit - 1)
+    if (error) throw error
+    return { data: data as User[], count: count || 0 }
+  },
+
+  async getEventAttendees(eventId: string | number, limit: number = 100, offset: number = 0) {
+    const { data, error, count } = await supabase
+      .from('event_registrations')
+      .select('*, users(*)', { count: 'exact' })
+      .eq('event_id', eventId)
+      .order('registered_at', { ascending: false })
+      .range(offset, offset + limit - 1)
+    if (error) throw error
+    return { data, count: count || 0 }
+  },
+
+  async updateEventRegistration(registrationId: number, updates: Partial<{ status: string; payment_status: string; ticket_type: string }>) {
+    const { data, error } = await supabase
+      .from('event_registrations')
+      .update({ ...updates, updated_at: new Date().toISOString() })
+      .eq('id', registrationId)
+      .select('*')
+      .single()
+    if (error) throw error
+    return data
+  },
+
+  async checkInAttendee(registrationId: number) {
+    const { data, error } = await supabase
+      .from('event_registrations')
+      .update({ status: 'CHECKED_IN', check_in_time: new Date().toISOString(), updated_at: new Date().toISOString() })
+      .eq('id', registrationId)
+      .select('*')
+      .single()
+    if (error) throw error
+    return data
   },
 
   async markNotificationRead(notificationId: string) {
@@ -554,7 +695,7 @@ export const api = {
       .from('notifications')
       .update({ is_read: true, read_at: new Date().toISOString() })
       .eq('id', notificationId)
-    
+
     if (error) throw error
   }
 }

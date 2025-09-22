@@ -58,7 +58,7 @@ export default function AdminDashboard() {
 
   // Import components dynamically
   const RealTimeAnalytics = dynamic(() => import('@/components/admin/RealTimeAnalytics'), { ssr: false })
-  const EventConfiguration = dynamic(() => import('@/components/admin/EventConfiguration'), { ssr: false })
+  const EventManager = dynamic(() => import('@/components/admin/EventManager'), { ssr: false })
   const AdvancedTicketing = dynamic(() => import('@/components/admin/AdvancedTicketing'), { ssr: false })
   const ContentManagement = dynamic(() => import('@/components/admin/ContentManagement'), { ssr: false })
   const AttendeeManagement = dynamic(() => import('@/components/admin/AttendeeManagement'), { ssr: false })
@@ -268,7 +268,7 @@ export default function AdminDashboard() {
 
           {/* Event Management */}
           {activeTab === 'events' && (
-            <EventConfiguration />
+            <EventManager />
           )}
 
           {/* Ticketing System */}
@@ -421,7 +421,7 @@ export default function AdminDashboard() {
 
           {/* Event Management */}
           {activeTab === 'events' && (
-            <EventConfiguration />
+            <EventManager />
           )}
 
           {/* Ticketing System */}
