@@ -2,33 +2,33 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  Plus, 
-  Edit, 
-  Trash2, 
-  Save, 
-  X, 
-  CreditCard, 
-  DollarSign, 
-  Users, 
-  Calendar, 
-  Clock, 
-  Star, 
-  Gift, 
-  Percent, 
-  Tag, 
-  Settings, 
-  Eye, 
-  Copy, 
-  Download, 
-  Upload, 
-  Search, 
-  Filter, 
-  BarChart3, 
-  TrendingUp, 
-  AlertCircle, 
-  CheckCircle, 
-  XCircle, 
+import {
+  Plus,
+  Edit,
+  Trash2,
+  Save,
+  X,
+  CreditCard,
+  DollarSign,
+  Users,
+  Calendar,
+  Clock,
+  Star,
+  Gift,
+  Percent,
+  Tag,
+  Settings,
+  Eye,
+  Copy,
+  Download,
+  Upload,
+  Search,
+  Filter,
+  BarChart3,
+  TrendingUp,
+  AlertCircle,
+  CheckCircle,
+  XCircle,
   Zap,
   Globe,
   Shield,
@@ -40,6 +40,8 @@ import {
   Image as ImageIcon,
   Link as LinkIcon
 } from 'lucide-react'
+import { api } from '@/lib/supabase'
+
 
 interface TicketTier {
   id: string
@@ -143,223 +145,153 @@ export default function AdvancedTicketing() {
   const [searchQuery, setSearchQuery] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
   const [loading, setLoading] = useState(true)
+  const [events, setEvents] = useState<any[]>([])
+  const [selectedEventId, setSelectedEventId] = useState<string | number | undefined>(undefined)
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(12)
+  const [totalCount, setTotalCount] = useState(0)
+  const [saving, setSaving] = useState(false)
+
 
   useEffect(() => {
     loadTicketingData()
-  }, [])
+    // Subscribe to realtime updates for ticketing-related tables
+    const cleanup = selectedEventId ? api.subscribeTicketing(selectedEventId, () => loadTicketingData()) : undefined
+    return () => {
+      try { cleanup && cleanup() } catch {}
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedEventId])
+
+  useEffect(() => {
+    // Reload when filters/pagination change
+    loadTicketingData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery, page, pageSize])
 
   const loadTicketingData = async () => {
+    setLoading(true)
     try {
-      // Mock ticket tiers
-      const mockTiers: TicketTier[] = [
-        {
-          id: 'tier-1',
-          name: 'Early Bird',
-          description: 'Limited time early bird pricing with exclusive perks',
-          price: 299,
-          currency: 'USD',
-          quantity: 500,
-          sold: 387,
-          available: 113,
-          status: 'active',
-          saleStart: '2024-01-01T00:00:00Z',
-          saleEnd: '2024-02-15T23:59:59Z',
-          features: [
-            'Full conference access',
-            'Welcome kit',
-            'Networking sessions',
-            'Digital materials',
-            'Certificate of attendance'
-          ],
-          restrictions: [
-            'Non-transferable',
-            'No refunds after Feb 1st'
-          ],
-          customFields: [
-            {
-              id: 'field-1',
-              name: 'Dietary Requirements',
-              type: 'select',
-              required: false,
-              options: ['None', 'Vegetarian', 'Vegan', 'Gluten-free', 'Other']
-            },
-            {
-              id: 'field-2',
-              name: 'Company',
-              type: 'text',
-              required: true,
-              placeholder: 'Enter your company name'
-            }
-          ],
-          discounts: [],
-          earlyBird: {
-            price: 249,
-            endDate: '2024-01-31T23:59:59Z'
-          }
-        },
-        {
-          id: 'tier-2',
-          name: 'VIP Experience',
-          description: 'Premium experience with exclusive access and perks',
-          price: 799,
-          currency: 'USD',
-          quantity: 100,
-          sold: 67,
-          available: 33,
-          status: 'active',
-          saleStart: '2024-01-01T00:00:00Z',
-          saleEnd: '2024-03-10T23:59:59Z',
-          features: [
-            'All Early Bird features',
-            'VIP lounge access',
-            'Priority seating',
-            'Exclusive speaker meet & greet',
-            'Premium welcome kit',
-            'Dedicated concierge',
-            'Private networking dinner'
-          ],
-          restrictions: [
-            'Limited to 100 tickets',
-            'ID verification required'
-          ],
-          customFields: [
-            {
-              id: 'field-3',
-              name: 'Special Requests',
-              type: 'textarea',
-              required: false,
-              placeholder: 'Any special requests or accommodations needed'
-            }
-          ],
-          discounts: [],
-          groupDiscount: {
-            minQuantity: 5,
-            discountPercent: 15
-          }
-        },
-        {
-          id: 'tier-3',
-          name: 'Student',
-          description: 'Special pricing for students with valid ID',
-          price: 99,
-          currency: 'USD',
-          quantity: 200,
-          sold: 156,
-          available: 44,
-          status: 'active',
-          saleStart: '2024-01-15T00:00:00Z',
-          saleEnd: '2024-03-10T23:59:59Z',
-          features: [
-            'Full conference access',
-            'Digital materials',
-            'Student networking session',
-            'Certificate of attendance'
-          ],
-          restrictions: [
-            'Valid student ID required',
-            'One ticket per student',
-            'Non-transferable'
-          ],
-          customFields: [
-            {
-              id: 'field-4',
-              name: 'Student ID',
-              type: 'file',
-              required: true
-            },
-            {
-              id: 'field-5',
-              name: 'University',
-              type: 'text',
-              required: true,
-              placeholder: 'Enter your university name'
-            }
-          ],
-          discounts: []
+      // Events (for scoping ticket types)
+      const evs = await (api.getEvents ? api.getEvents() : Promise.resolve([]))
+      if (Array.isArray(evs)) {
+        setEvents(evs)
+        if (!selectedEventId && evs.length) {
+          setSelectedEventId(evs[0].id)
         }
-      ]
-
-      // Mock discounts
-      const mockDiscounts: Discount[] = [
-        {
-          id: 'discount-1',
-          code: 'WECON2024',
-          type: 'percentage',
-          value: 20,
-          maxUses: 100,
-          used: 67,
-          validFrom: '2024-01-01T00:00:00Z',
-          validTo: '2024-02-29T23:59:59Z',
-          applicableTickets: ['tier-1', 'tier-2']
-        },
-        {
-          id: 'discount-2',
-          code: 'FIRSTTIME',
-          type: 'fixed',
-          value: 50,
-          maxUses: 500,
-          used: 234,
-          validFrom: '2024-01-01T00:00:00Z',
-          validTo: '2024-03-15T23:59:59Z',
-          applicableTickets: ['tier-1'],
-          conditions: {
-            firstTimeBuyer: true
-          }
-        }
-      ]
-
-      // Mock payment providers
-      const mockProviders: PaymentProvider[] = [
-        {
-          id: 'stripe',
-          name: 'Stripe',
-          type: 'stripe',
-          enabled: true,
-          fees: { percentage: 2.9, fixed: 0.30 },
-          currencies: ['USD', 'EUR', 'GBP', 'AED'],
-          settings: {}
-        },
-        {
-          id: 'paypal',
-          name: 'PayPal',
-          type: 'paypal',
-          enabled: true,
-          fees: { percentage: 3.49, fixed: 0.49 },
-          currencies: ['USD', 'EUR', 'GBP'],
-          settings: {}
-        }
-      ]
-
-      // Mock analytics
-      const mockAnalytics: TicketingAnalytics = {
-        totalRevenue: 234567,
-        totalSold: 610,
-        conversionRate: 12.5,
-        averageOrderValue: 384.5,
-        refundRate: 2.1,
-        topSellingTier: 'Early Bird',
-        salesByDay: [
-          { date: '2024-03-01', sales: 23, revenue: 8970 },
-          { date: '2024-03-02', sales: 31, revenue: 12450 },
-          { date: '2024-03-03', sales: 18, revenue: 7230 },
-          { date: '2024-03-04', sales: 45, revenue: 17890 },
-          { date: '2024-03-05', sales: 29, revenue: 11670 }
-        ],
-        salesByTier: [
-          { tierId: 'tier-1', name: 'Early Bird', sold: 387, revenue: 115713 },
-          { tierId: 'tier-2', name: 'VIP Experience', sold: 67, revenue: 53533 },
-          { tierId: 'tier-3', name: 'Student', sold: 156, revenue: 15444 }
-        ]
       }
+      const eventId = selectedEventId || (Array.isArray(evs) && evs[0]?.id)
 
-      setTicketTiers(mockTiers)
-      setDiscounts(mockDiscounts)
-      setPaymentProviders(mockProviders)
-      setAnalytics(mockAnalytics)
+      // Ticket Types from DB
+      const { data, count } = await api.getTicketTypes({
+        eventId,
+        search: searchQuery || undefined,
+        limit: pageSize,
+        offset: (page - 1) * pageSize,
+      })
+      setTotalCount(count || 0)
+
+      const tiers: TicketTier[] = (data || []).map((d: any) => ({
+        id: d.id,
+        name: d.name,
+        description: d.description || '',
+        price: (d.price_cents || 0) / 100,
+        currency: d.currency || 'USD',
+        quantity: d.quantity_total || 0,
+        sold: d.quantity_sold || 0,
+        available: Math.max(0, (d.quantity_total || 0) - (d.quantity_sold || 0)),
+        status: String(d.status || 'active').toLowerCase() as TicketTier['status'],
+        saleStart: d.sales_start || '',
+        saleEnd: d.sales_end || '',
+        features: Array.isArray(d.features) ? d.features : [],
+        restrictions: [],
+        customFields: [],
+        discounts: [],
+      }))
+      setTicketTiers(tiers)
+
+      // Analytics from registrations/payments
+      const a = await api.getTicketingAnalytics(eventId as any)
+      setAnalytics({
+        totalRevenue: a.revenue || 0,
+        totalSold: a.sold || 0,
+        conversionRate: 0,
+        averageOrderValue: (a.sold ? (a.revenue / a.sold) : 0),
+        refundRate: 0,
+        topSellingTier: tiers.slice().sort((x, y) => y.sold - x.sold)[0]?.name || '',
+        salesByDay: [],
+        salesByTier: tiers.map(t => ({ tierId: t.id, name: t.name, sold: t.sold, revenue: t.sold * t.price })),
+      })
+
+      // Placeholder: Discounts/Providers until backend tables are ready
+      setDiscounts([])
+      setPaymentProviders([])
     } catch (error) {
       console.error('Error loading ticketing data:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleCreateTier = async () => {
+    if (!selectedEventId) {
+      alert('Please create/select an event first')
+      return
+    }
+    const name = prompt('Tier name?')
+    if (!name) return
+    const priceStr = prompt('Price (e.g., 199.99)?') ?? '0'
+    const qtyStr = prompt('Total quantity?') ?? '0'
+    setSaving(true)
+    try {
+      await api.createTicketType({
+        event_id: selectedEventId as any,
+        name,
+        price_cents: Math.round((parseFloat(priceStr) || 0) * 100),
+        quantity_total: parseInt(qtyStr || '0', 10) || 0,
+        currency: 'USD',
+        status: 'active',
+      })
+      await loadTicketingData()
+    } catch (e) {
+      console.error(e)
+      alert('Failed to create ticket tier')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleEditTier = async (tier: TicketTier) => {
+    const name = prompt('Tier name?', tier.name) ?? tier.name
+    const priceStr = prompt('Price?', String(tier.price)) ?? String(tier.price)
+    const qtyStr = prompt('Total quantity?', String(tier.quantity)) ?? String(tier.quantity)
+    setSaving(true)
+    try {
+      await api.updateTicketType(tier.id, {
+        name,
+        price_cents: Math.round((parseFloat(priceStr) || 0) * 100),
+        quantity_total: parseInt(qtyStr || '0', 10) || tier.quantity,
+      })
+      await loadTicketingData()
+    } catch (e) {
+      console.error(e)
+      alert('Failed to update ticket tier')
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleDeleteTier = async (tier: TicketTier) => {
+    if (!confirm(`Delete tier "${tier.name}"? This cannot be undone.`)) return
+    setSaving(true)
+    try {
+      await api.deleteTicketType(tier.id)
+      await loadTicketingData()
+    } catch (e) {
+      console.error(e)
+      alert('Failed to delete ticket tier')
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -401,6 +333,9 @@ export default function AdvancedTicketing() {
     return matchesSearch && matchesStatus
   })
 
+  const totalPages = Math.max(1, Math.ceil(totalCount / pageSize))
+
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -420,7 +355,7 @@ export default function AdvancedTicketing() {
           <h2 className="text-2xl font-bold text-white">Advanced Ticketing System</h2>
           <p className="text-gray-400">Create unlimited ticket tiers, custom forms, and payment processing</p>
         </div>
-        
+
         <div className="flex items-center space-x-3">
           <button
             onClick={() => setShowDiscountForm(true)}
@@ -430,8 +365,9 @@ export default function AdvancedTicketing() {
             <span>Add Discount</span>
           </button>
           <button
-            onClick={() => setShowTierForm(true)}
-            className="flex items-center space-x-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/80 transition-colors"
+            onClick={handleCreateTier}
+            disabled={saving}
+            className="flex items-center space-x-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/80 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <Plus className="w-4 h-4" />
             <span>Create Tier</span>
@@ -469,6 +405,7 @@ export default function AdvancedTicketing() {
           >
             <div className="flex items-center justify-between mb-4">
               <div className="p-3 bg-blue-500/20 rounded-lg">
+
                 <Users className="w-6 h-6 text-blue-400" />
               </div>
               <TrendingUp className="w-4 h-4 text-green-400" />
@@ -587,7 +524,7 @@ export default function AdvancedTicketing() {
                   className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-primary transition-colors"
                 />
               </div>
-              
+
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
@@ -612,12 +549,34 @@ export default function AdvancedTicketing() {
               </div>
             </div>
 
+            {/* Pagination */}
+            <div className="flex items-center justify-between">
+              <div className="text-sm text-gray-400">Page {page} of {totalPages}</div>
+              <div className="space-x-2">
+                <button
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
+                  disabled={page <= 1}
+                  className="px-3 py-1 bg-white/5 border border-white/20 rounded text-sm text-gray-300 disabled:opacity-40 hover:bg-white/10 transition-colors"
+                >
+                  Previous
+                </button>
+                <button
+                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                  disabled={page >= totalPages}
+                  className="px-3 py-1 bg-white/5 border border-white/20 rounded text-sm text-gray-300 disabled:opacity-40 hover:bg-white/10 transition-colors"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+
+
             {/* Ticket Tiers Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
               {filteredTiers.map((tier) => {
                 const StatusIcon = getStatusIcon(tier.status)
                 const progress = calculateProgress(tier.sold, tier.quantity)
-                
+
                 return (
                   <motion.div
                     key={tier.id}
@@ -658,7 +617,7 @@ export default function AdvancedTicketing() {
                             <span className="text-white">{tier.sold} / {tier.quantity}</span>
                           </div>
                           <div className="w-full bg-white/10 rounded-full h-2">
-                            <div 
+                            <div
                               className="bg-primary h-2 rounded-full transition-all duration-300"
                               style={{ width: `${progress}%` }}
                             />
@@ -676,6 +635,8 @@ export default function AdvancedTicketing() {
                                 key={index}
                                 className="px-2 py-1 bg-primary/20 text-primary text-xs rounded-full"
                               >
+
+
                                 {feature}
                               </span>
                             ))}
@@ -691,7 +652,7 @@ export default function AdvancedTicketing() {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-2">
                           <button
-                            onClick={() => setSelectedTier(tier)}
+                            onClick={() => handleEditTier(tier)}
                             className="px-3 py-1 bg-primary/20 text-primary border border-primary/30 rounded text-sm hover:bg-primary/30 transition-colors"
                           >
                             Edit
@@ -699,11 +660,11 @@ export default function AdvancedTicketing() {
                           <button className="p-1 text-gray-400 hover:text-white transition-colors" title="Duplicate">
                             <Copy className="w-4 h-4" />
                           </button>
-                          <button className="p-1 text-gray-400 hover:text-white transition-colors" title="Preview">
-                            <Eye className="w-4 h-4" />
+                          <button onClick={() => handleDeleteTier(tier)} className="p-1 text-red-400 hover:text-red-300 transition-colors" title="Delete">
+                            <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
-                        
+
                         <div className="text-xs text-gray-500">
                           Revenue: {formatCurrency(tier.sold * tier.price, tier.currency)}
                         </div>
@@ -769,9 +730,9 @@ export default function AdvancedTicketing() {
                     <div key={day.date} className="flex items-center justify-between p-3 bg-white/5 rounded-lg">
                       <div>
                         <h5 className="font-medium text-white">
-                          {new Date(day.date).toLocaleDateString('en-US', { 
-                            month: 'short', 
-                            day: 'numeric' 
+                          {new Date(day.date).toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric'
                           })}
                         </h5>
                         <p className="text-sm text-gray-400">{day.sales} tickets</p>

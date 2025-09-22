@@ -469,7 +469,7 @@ export const api = {
     const now = new Date().toISOString()
     const base: any = {
       slug: input.slug,
-      description: input.description,
+      // Intentionally omitting 'description' to avoid schema mismatches across deployments
       timezone: input.timezone || 'UTC',
       status: input.status || 'DRAFT',
       created_at: now,
@@ -501,10 +501,10 @@ export const api = {
     const base: any = { updated_at: now }
 
     const variants: any[] = [
-      { ...base, name: updates.name, start_date: updates.start_date, end_date: updates.end_date, description: updates.description, timezone: updates.timezone, status: updates.status },
-      { ...base, title: (updates as any).title ?? updates.name, start_date: updates.start_date, end_date: updates.end_date, description: updates.description, timezone: updates.timezone, status: updates.status },
-      { ...base, name: updates.name, start_time: updates.start_date, end_time: updates.end_date, description: updates.description, timezone: updates.timezone, status: updates.status },
-      { ...base, title: (updates as any).title ?? updates.name, start_time: updates.start_date, end_time: updates.end_date, description: updates.description, timezone: updates.timezone, status: updates.status },
+      { ...base, name: updates.name, start_date: updates.start_date, end_date: updates.end_date, timezone: updates.timezone, status: updates.status },
+      { ...base, title: (updates as any).title ?? updates.name, start_date: updates.start_date, end_date: updates.end_date, timezone: updates.timezone, status: updates.status },
+      { ...base, name: updates.name, start_time: updates.start_date, end_time: updates.end_date, timezone: updates.timezone, status: updates.status },
+      { ...base, title: (updates as any).title ?? updates.name, start_time: updates.start_date, end_time: updates.end_date, timezone: updates.timezone, status: updates.status },
     ]
 
     const errors: string[] = []
@@ -618,9 +618,165 @@ export const api = {
       .or(`requester_id.eq.${userId},recipient_id.eq.${userId}`)
       .order('created_at', { ascending: false })
 
-    if (error) throw error
-    return data
+	  if (error) throw error
+	  return data
+	},
+
+
+  // Ticketing (flexible across snake_case 'ticket_types' and camelCase 'TicketType')
+  async getTicketTypes(params?: { eventId?: string | number; search?: string; limit?: number; offset?: number; status?: string }) {
+    const mapRows = (rows: any[], variant: 'snake' | 'camel') => {
+      return (rows || []).map((r: any) => ({
+        id: r.id,
+        event_id: variant === 'snake' ? r.event_id : r.eventId,
+        name: r.name,
+        description: r.description ?? '',
+        price_cents: variant === 'snake' ? (r.price_cents ?? (r.price ? Math.round(parseFloat(r.price) * 100) : 0)) : r.priceCents,
+        currency: r.currency ?? 'USD',
+        quantity_total: variant === 'snake' ? (r.quantity_total ?? r.totalQuantity) : r.quantityTotal,
+        quantity_sold: variant === 'snake' ? (r.quantity_sold ?? r.soldQuantity ?? 0) : (r.quantitySold ?? 0),
+        sales_start: variant === 'snake' ? (r.sales_start ?? r.saleStart) : r.salesStart,
+        sales_end: variant === 'snake' ? (r.sales_end ?? r.saleEnd) : r.salesEnd,
+        features: Array.isArray(r.features) ? r.features : (typeof r.features === 'string' ? r.features.split(',').map((s: string)=>s.trim()).filter(Boolean) : []),
+        status: r.status || 'active',
+      }))
+    }
+
+    const limit = params?.limit ?? 20
+    const offset = params?.offset ?? 0
+
+    // Try snake_case table first
+    let { data, error, count } = await supabase
+      .from('ticket_types')
+      .select('*', { count: 'exact' })
+      .ilike(params?.search ? 'name' : 'id', params?.search ? `%${params?.search}%` : undefined as any)
+      .range(offset, offset + limit - 1)
+
+    if (!error) {
+      return { data: mapRows(data as any[], 'snake'), count: count || 0 }
+    }
+
+    // Fallback to camelCase table name
+    const camel = await supabase
+      .from('TicketType')
+      .select('*', { count: 'exact' })
+      .range(offset, offset + limit - 1)
+    if (camel.error) throw camel.error
+    return { data: mapRows(camel.data as any[], 'camel'), count: camel.count || 0 }
   },
+
+  async createTicketType(input: Partial<{ id: string; event_id: string | number; name: string; description?: string; price_cents?: number; currency?: string; quantity_total?: number; quantity_sold?: number; sales_start?: string; sales_end?: string; features?: string[]; status?: string }>) {
+    const now = new Date().toISOString()
+    const snakePayload: any = {
+      event_id: input.event_id,
+      name: input.name,
+      description: input.description,
+      price_cents: input.price_cents,
+      currency: input.currency || 'USD',
+      quantity_total: input.quantity_total ?? 0,
+      quantity_sold: input.quantity_sold ?? 0,
+      sales_start: input.sales_start,
+      sales_end: input.sales_end,
+      features: input.features,
+      status: input.status || 'active',
+      created_at: now,
+      updated_at: now,
+    }
+    let ins = await supabase.from('ticket_types').insert(snakePayload).select('*').single()
+    if (!ins.error) return ins.data
+
+    // Fallback camelCase
+    const camelPayload: any = {
+      eventId: input.event_id,
+      name: input.name,
+      description: input.description,
+      priceCents: input.price_cents,
+      currency: input.currency || 'USD',
+      quantityTotal: input.quantity_total ?? 0,
+      quantitySold: input.quantity_sold ?? 0,
+      salesStart: input.sales_start,
+      salesEnd: input.sales_end,
+      features: input.features,
+      status: input.status || 'ACTIVE',
+      createdAt: now,
+      updatedAt: now,
+    }
+    const ins2 = await supabase.from('TicketType').insert(camelPayload).select('*').single()
+    if (ins2.error) throw ins2.error
+    return ins2.data
+  },
+
+  async updateTicketType(id: string, updates: Partial<{ name: string; description?: string; price_cents?: number; currency?: string; quantity_total?: number; quantity_sold?: number; sales_start?: string; sales_end?: string; features?: string[]; status?: string }>) {
+    const now = new Date().toISOString()
+    let up = await supabase
+      .from('ticket_types')
+      .update({ ...updates, updated_at: now })
+      .eq('id', id)
+      .select('*')
+      .single()
+    if (!up.error) return up.data
+
+    // Fallback camelCase mapping
+    const camelMap: any = {
+      ...(updates.name !== undefined ? { name: updates.name } : {}),
+      ...(updates.description !== undefined ? { description: updates.description } : {}),
+      ...(updates.price_cents !== undefined ? { priceCents: updates.price_cents } : {}),
+      ...(updates.currency !== undefined ? { currency: updates.currency } : {}),
+      ...(updates.quantity_total !== undefined ? { quantityTotal: updates.quantity_total } : {}),
+      ...(updates.quantity_sold !== undefined ? { quantitySold: updates.quantity_sold } : {}),
+      ...(updates.sales_start !== undefined ? { salesStart: updates.sales_start } : {}),
+      ...(updates.sales_end !== undefined ? { salesEnd: updates.sales_end } : {}),
+      ...(updates.features !== undefined ? { features: updates.features } : {}),
+      ...(updates.status !== undefined ? { status: updates.status } : {}),
+      updatedAt: now,
+    }
+    const up2 = await supabase
+      .from('TicketType')
+      .update(camelMap)
+      .eq('id', id)
+      .select('*')
+      .single()
+    if (up2.error) throw up2.error
+    return up2.data
+  },
+
+  async deleteTicketType(id: string) {
+    let del = await supabase.from('ticket_types').delete().eq('id', id)
+    if (!del.error) return
+    const del2 = await supabase.from('TicketType').delete().eq('id', id)
+    if (del2.error) throw del2.error
+  },
+
+  async getTicketingAnalytics(eventId?: string | number) {
+    // Revenue = sum(payment_amount) for PAID registrations; tickets sold = count registrations
+    const regQuery = supabase
+      .from('event_registrations')
+      .select('payment_amount, payment_status, event_id')
+    const { data, error } = await regQuery
+    if (error) return { revenue: 0, sold: 0 }
+    const filtered = eventId ? (data || []).filter((r: any) => r.event_id === eventId) : (data || [])
+    const revenue = filtered.filter((r: any) => (r.payment_status || '').toUpperCase() === 'PAID').reduce((sum: number, r: any) => sum + (parseFloat(r.payment_amount) || 0), 0)
+    const sold = filtered.length
+    return { revenue, sold }
+  },
+
+  subscribeTicketing(eventId: string | number | undefined, onChange: () => void) {
+    const ch1 = supabase
+      .channel('ticketing-types')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'ticket_types' }, (_payload) => onChange())
+      .subscribe()
+
+    const ch2 = supabase
+      .channel('ticketing-registrations')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'event_registrations' }, (_payload) => onChange())
+      .subscribe()
+
+    return () => {
+      try { supabase.removeChannel(ch1) } catch {}
+      try { supabase.removeChannel(ch2) } catch {}
+    }
+  },
+
 
   async sendConnectionRequest(requesterId: string, recipientId: string, message?: string) {
     const { data, error } = await supabase
