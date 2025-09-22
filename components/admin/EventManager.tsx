@@ -60,15 +60,18 @@ export default function EventManager() {
     setIsFormOpen(true)
   }
 
-  function openEdit(evt: Event) {
+  function openEdit(evt: any) {
+    const name = evt.name ?? evt.title ?? ""
+    const startRaw = evt.start_date ?? evt.start_time ?? evt.startAt ?? ""
+    const endRaw = evt.end_date ?? evt.end_time ?? evt.endAt ?? ""
     setEditingId(evt.id as any)
     setForm({
-      name: evt.name,
+      name,
       slug: evt.slug,
       description: evt.description,
       timezone: evt.timezone,
-      start_date: evt.start_date?.slice(0, 16),
-      end_date: evt.end_date?.slice(0, 16),
+      start_date: startRaw ? String(startRaw).slice(0, 16) : "",
+      end_date: endRaw ? String(endRaw).slice(0, 16) : "",
       status: evt.status,
       primary_color: evt.primary_color,
       secondary_color: evt.secondary_color,
@@ -116,8 +119,9 @@ export default function EventManager() {
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase()
     if (!q) return events
-    return events.filter((e) =>
-      [e.name, e.slug, e.description].some((v) => (v || "").toLowerCase().includes(q))
+    return events.filter((e: any) =>
+      [e.name ?? e.title ?? "", e.slug, e.description]
+        .some((v) => (v || "").toLowerCase().includes(q))
     )
   }, [events, search])
 
@@ -163,8 +167,8 @@ export default function EventManager() {
           <motion.div key={String(evt.id)} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-white/5 backdrop-blur-lg rounded-xl border border-white/10 p-6">
             <div className="flex items-start justify-between mb-3">
               <div>
-                <h3 className="text-lg font-semibold text-white">{evt.name}</h3>
-                <p className="text-xs text-gray-400">{evt.slug}</p>
+                <h3 className="text-lg font-semibold text-white">{(evt as any).name ?? (evt as any).title ?? "Untitled"}</h3>
+                <p className="text-xs text-gray-400">{(evt as any).slug}</p>
               </div>
               <span className="px-2 py-1 rounded-full text-xs bg-white/10 text-gray-300 capitalize">{(evt.status || "DRAFT").toString().toLowerCase()}</span>
             </div>
@@ -174,7 +178,7 @@ export default function EventManager() {
             <div className="flex items-center space-x-2 text-sm text-gray-400 mb-4">
               <Calendar className="w-4 h-4" />
               <span>
-                {evt.start_date ? new Date(evt.start_date).toLocaleString() : ""} — {evt.end_date ? new Date(evt.end_date).toLocaleString() : ""}
+                {(() => { const s = (evt as any).start_date ?? (evt as any).start_time ?? (evt as any).startAt; return s ? new Date(s).toLocaleString() : "" })()} — {(() => { const e = (evt as any).end_date ?? (evt as any).end_time ?? (evt as any).endAt; return e ? new Date(e).toLocaleString() : "" })()}
               </span>
             </div>
             <div className="flex items-center justify-end space-x-2">

@@ -444,13 +444,13 @@ export const api = {
 
   // Events
   async getEvents() {
+    // Avoid ordering by a column that may not exist across schema variants
     const { data, error } = await supabase
       .from('events')
       .select('*')
-      .order('start_date', { ascending: true })
 
     if (error) throw error
-    return data as Event[]
+    return data as any[]
   },
 
   async getEvent(eventId: string) {
@@ -465,54 +465,60 @@ export const api = {
   },
 
   async createEvent(input: Partial<Event>) {
-    const { data, error } = await supabase
-      .from('events')
-      .insert({
-        name: input.name,
-        slug: input.slug,
-        description: input.description,
-        short_description: input.short_description,
-        venue_name: input.venue_name,
-        venue_address: input.venue_address,
-        timezone: input.timezone || 'UTC',
-        start_date: input.start_date,
-        end_date: input.end_date,
-        registration_start: input.registration_start,
-        registration_end: input.registration_end,
-        status: input.status || 'DRAFT',
-        logo_url: input.logo_url,
-        banner_url: input.banner_url,
-        primary_color: input.primary_color || '#764DF0',
-        secondary_color: input.secondary_color || '#442490',
-        custom_css: input.custom_css,
-        max_attendees: input.max_attendees,
-        current_attendees: input.current_attendees || 0,
-        networking_enabled: input.networking_enabled ?? true,
-        qa_enabled: input.qa_enabled ?? true,
-        chat_enabled: input.chat_enabled ?? true,
-        virtual_enabled: input.virtual_enabled ?? false,
-        organizer_id: input.organizer_id,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      })
-      .select('*')
-      .single()
-    if (error) throw error
-    return data as Event
+    // Some deployments use start_date/end_date, others use start_time/end_time and name/title
+    const now = new Date().toISOString()
+    const base: any = {
+      slug: input.slug,
+      description: input.description,
+      timezone: input.timezone || 'UTC',
+      status: input.status || 'DRAFT',
+      created_at: now,
+      updated_at: now,
+    }
+
+    const variants: any[] = [
+      { ...base, name: input.name, start_date: input.start_date, end_date: input.end_date },
+      { ...base, title: (input as any).title ?? input.name, start_date: input.start_date, end_date: input.end_date },
+      { ...base, name: input.name, start_time: input.start_date, end_time: input.end_date },
+      { ...base, title: (input as any).title ?? input.name, start_time: input.start_date, end_time: input.end_date },
+    ]
+
+    const errors: string[] = []
+    for (const payload of variants) {
+      const { data, error } = await supabase
+        .from('events')
+        .insert(payload)
+        .select('*')
+        .single()
+      if (!error) return data as Event
+      errors.push(error.message)
+    }
+    throw new Error(`Failed to create event due to schema mismatch: ${errors.join(' | ')}`)
   },
 
   async updateEvent(eventId: string | number, updates: Partial<Event>) {
-    const { data, error } = await supabase
-      .from('events')
-      .update({
-        ...updates,
-        updated_at: new Date().toISOString(),
-      })
-      .eq('id', eventId)
-      .select('*')
-      .single()
-    if (error) throw error
-    return data as Event
+    const now = new Date().toISOString()
+    const base: any = { updated_at: now }
+
+    const variants: any[] = [
+      { ...base, name: updates.name, start_date: updates.start_date, end_date: updates.end_date, description: updates.description, timezone: updates.timezone, status: updates.status },
+      { ...base, title: (updates as any).title ?? updates.name, start_date: updates.start_date, end_date: updates.end_date, description: updates.description, timezone: updates.timezone, status: updates.status },
+      { ...base, name: updates.name, start_time: updates.start_date, end_time: updates.end_date, description: updates.description, timezone: updates.timezone, status: updates.status },
+      { ...base, title: (updates as any).title ?? updates.name, start_time: updates.start_date, end_time: updates.end_date, description: updates.description, timezone: updates.timezone, status: updates.status },
+    ]
+
+    const errors: string[] = []
+    for (const payload of variants) {
+      const { data, error } = await supabase
+        .from('events')
+        .update(payload)
+        .eq('id', eventId)
+        .select('*')
+        .single()
+      if (!error) return data as Event
+      errors.push(error.message)
+    }
+    throw new Error(`Failed to update event due to schema mismatch: ${errors.join(' | ')}`)
   },
 
   async deleteEvent(eventId: string | number) {

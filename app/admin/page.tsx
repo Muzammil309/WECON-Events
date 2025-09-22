@@ -414,30 +414,6 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {/* Real-Time Analytics */}
-          {activeTab === 'analytics' && (
-            <RealTimeAnalytics eventId="default-event" />
-          )}
-
-          {/* Event Management */}
-          {activeTab === 'events' && (
-            <EventManager />
-          )}
-
-          {/* Ticketing System */}
-          {activeTab === 'tickets' && (
-            <AdvancedTicketing />
-          )}
-
-          {/* Content Management */}
-          {activeTab === 'content' && (
-            <ContentManagement />
-          )}
-
-          {/* Attendee Management */}
-          {activeTab === 'attendees' && (
-            <AttendeeManagement />
-          )}
 
           {/* Role-Based Access Control */}
           {activeTab === 'rbac' && (
@@ -449,13 +425,6 @@ export default function AdminDashboard() {
             <AdminAccountCreation />
           )}
 
-          {/* Communications */}
-          {activeTab === 'communications' && (
-            <div className="bg-white/5 backdrop-blur-lg rounded-xl p-8 border border-white/10 text-center">
-              <h3 className="text-xl font-semibold text-white mb-4">Communication & Engagement Suite</h3>
-              <p className="text-gray-400 mb-6">Email campaigns, push notifications, and Q&A moderation coming soon.</p>
-            </div>
-          )}
 
           {/* Automated Workflow Engine */}
           {activeTab === 'workflows' && (
@@ -467,21 +436,7 @@ export default function AdminDashboard() {
             <AdvancedDataManagement />
           )}
 
-          {/* On-Site Tools */}
-          {activeTab === 'onsite' && (
-            <div className="bg-white/5 backdrop-blur-lg rounded-xl p-8 border border-white/10 text-center">
-              <h3 className="text-xl font-semibold text-white mb-4">On-Site Management Tools</h3>
-              <p className="text-gray-400 mb-6">Check-in dashboard, badge printing, and digital signage coming soon.</p>
-            </div>
-          )}
 
-          {/* Reports */}
-          {activeTab === 'reports' && (
-            <div className="bg-white/5 backdrop-blur-lg rounded-xl p-8 border border-white/10 text-center">
-              <h3 className="text-xl font-semibold text-white mb-4">Analytics & Reporting</h3>
-              <p className="text-gray-400 mb-6">Registration analytics, session metrics, and automated reports coming soon.</p>
-            </div>
-          )}
 
           {/* Settings */}
           {activeTab === 'settings' && (

@@ -2,26 +2,26 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  Plus, 
-  Edit, 
-  Trash2, 
-  Save, 
-  X, 
-  Calendar, 
-  Clock, 
-  Users, 
-  MapPin, 
-  Mic, 
-  Star, 
-  Upload, 
-  Download, 
-  Search, 
-  Filter, 
-  Settings, 
-  Eye, 
-  Copy, 
-  Move, 
+import {
+  Plus,
+  Edit,
+  Trash2,
+  Save,
+  X,
+  Calendar,
+  Clock,
+  Users,
+  MapPin,
+  Mic,
+  Star,
+  Upload,
+  Download,
+  Search,
+  Filter,
+  Settings,
+  Eye,
+  Copy,
+  Move,
   GripVertical,
   FileText,
   Image as ImageIcon,
@@ -157,6 +157,7 @@ interface Track {
 
 export default function ContentManagement() {
   const [activeTab, setActiveTab] = useState('agenda')
+  const [eventId, setEventId] = useState<string | number | null>(null)
   const [sessions, setSessions] = useState<Session[]>([])
   const [speakers, setSpeakers] = useState<Speaker[]>([])
   const [sponsors, setSponsors] = useState<Sponsor[]>([])
@@ -171,12 +172,51 @@ export default function ContentManagement() {
   const [filterType, setFilterType] = useState('all')
   const [loading, setLoading] = useState(true)
 
+  // Session form state (minimal CRUD wired to Supabase)
+  const [sessionForm, setSessionForm] = useState<{ id?: string | number; title: string; description: string; type: Session['type']; track?: string; start: string; end: string; venue?: string; capacity?: number }>({
+    title: '', description: '', type: 'keynote', start: '', end: ''
+  })
+
   useEffect(() => {
     loadContentData()
   }, [])
 
   const loadContentData = async () => {
     try {
+      // Load events and pick first as context for sessions
+      const { api } = await import('@/lib/supabase')
+      const events: any[] = await api.getEvents()
+      if (events && events.length > 0) {
+        setEventId(events[0].id)
+        try {
+          const realSessions: any[] = await api.getEventSessions(events[0].id)
+          // Normalize to local Session shape
+          const normalized: Session[] = realSessions.map((s: any) => ({
+            id: s.id,
+            title: s.title ?? s.name ?? 'Untitled Session',
+            description: s.description ?? '',
+            type: (s.session_type?.toLowerCase?.() ?? 'keynote') as Session['type'],
+            track: s.track ?? '',
+            startTime: s.start_time ?? s.start ?? s.startDate ?? s.start_date,
+            endTime: s.end_time ?? s.end ?? s.endDate ?? s.end_date,
+            duration: s.duration_minutes ?? s.duration ?? 60,
+            venue: s.room_name ?? s.venue ?? '',
+            capacity: s.room_capacity ?? s.max_attendees ?? 0,
+            speakers: [],
+            materials: [],
+            status: (s.status?.toLowerCase?.() ?? 'draft') as Session['status'],
+            tags: [],
+            level: (s.difficulty_level?.toLowerCase?.() ?? 'beginner') as Session['level'],
+            language: s.language ?? 'English',
+            recordingEnabled: s.recording_enabled ?? !!s.recording_url,
+            liveStreamEnabled: s.live_stream_enabled ?? !!s.live_stream_url,
+          }))
+          setSessions(normalized)
+        } catch (e) {
+          console.warn('Sessions load failed; falling back to mock for now:', e)
+        }
+      }
+
       // Mock tracks
       const mockTracks: Track[] = [
         {
@@ -349,6 +389,7 @@ export default function ContentManagement() {
           },
           benefits: [
             'Workshop speaking slot',
+
             'Standard booth space',
             'Logo on website',
             'Networking access'
@@ -437,11 +478,61 @@ export default function ContentManagement() {
   }
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD'
-    }).format(amount)
+    return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)
   }
+
+  async function handleSaveSession() {
+    try {
+      const { api } = await import('@/lib/supabase')
+      if (!eventId) {
+        alert('No event selected for sessions')
+        return
+      }
+      const payload: any = {
+        title: sessionForm.title,
+        description: sessionForm.description,
+        session_type: sessionForm.type.toUpperCase(),
+        start_time: sessionForm.start ? new Date(sessionForm.start).toISOString() : undefined,
+        end_time: sessionForm.end ? new Date(sessionForm.end).toISOString() : undefined,
+        room_name: sessionForm.venue,
+        room_capacity: sessionForm.capacity,
+        track: sessionForm.track,
+      }
+      if (selectedSession) {
+        await api.updateSession(sessionForm.id!, payload)
+      } else {
+        await api.createSession({ event_id: eventId, ...payload })
+      }
+      // Reload
+      const real = await api.getEventSessions(eventId)
+      const normalized: Session[] = real.map((s: any) => ({
+        id: s.id,
+        title: s.title ?? s.name ?? 'Untitled Session',
+        description: s.description ?? '',
+        type: (s.session_type?.toLowerCase?.() ?? 'keynote') as Session['type'],
+        track: s.track ?? '',
+        startTime: s.start_time ?? s.start ?? s.startDate ?? s.start_date,
+        endTime: s.end_time ?? s.end ?? s.endDate ?? s.end_date,
+        duration: s.duration_minutes ?? s.duration ?? 60,
+        venue: s.room_name ?? s.venue ?? '',
+        capacity: s.room_capacity ?? s.max_attendees ?? 0,
+        speakers: [],
+        materials: [],
+        status: (s.status?.toLowerCase?.() ?? 'draft') as Session['status'],
+        tags: [],
+        level: (s.difficulty_level?.toLowerCase?.() ?? 'beginner') as Session['level'],
+        language: s.language ?? 'English',
+        recordingEnabled: s.recording_enabled ?? !!s.recording_url,
+        liveStreamEnabled: s.live_stream_enabled ?? !!s.live_stream_url,
+      }))
+      setSessions(normalized)
+      setShowSessionForm(false)
+    } catch (e) {
+      alert('Failed to save session')
+      console.error(e)
+    }
+  }
+
 
   const formatDateTime = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -471,7 +562,7 @@ export default function ContentManagement() {
           <h2 className="text-2xl font-bold text-white">Content Management System</h2>
           <p className="text-gray-400">Drag-and-drop agenda builder, speaker portal, and sponsor management</p>
         </div>
-        
+
         <div className="flex items-center space-x-3">
           <button className="flex items-center space-x-2 px-4 py-2 bg-secondary/20 text-secondary border border-secondary/30 rounded-lg hover:bg-secondary/30 transition-colors">
             <Download className="w-4 h-4" />
@@ -479,8 +570,11 @@ export default function ContentManagement() {
           </button>
           <button
             onClick={() => {
-              if (activeTab === 'agenda') setShowSessionForm(true)
-              else if (activeTab === 'speakers') setShowSpeakerForm(true)
+              if (activeTab === 'agenda') {
+                setSelectedSession(null)
+                setSessionForm({ title: '', description: '', type: 'keynote', start: '', end: '', venue: '', capacity: 0 })
+                setShowSessionForm(true)
+              } else if (activeTab === 'speakers') setShowSpeakerForm(true)
               else if (activeTab === 'sponsors') setShowSponsorForm(true)
             }}
             className="flex items-center space-x-2 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/80 transition-colors"
@@ -539,7 +633,7 @@ export default function ContentManagement() {
                   className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-primary transition-colors"
                 />
               </div>
-              
+
               <select
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value)}
@@ -622,7 +716,20 @@ export default function ContentManagement() {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-2">
                         <button
-                          onClick={() => setSelectedSession(session)}
+                          onClick={() => {
+                            setSelectedSession(session)
+                            setSessionForm({
+                              id: session.id,
+                              title: session.title,
+                              description: session.description,
+                              type: session.type,
+                              start: session.startTime?.slice(0,16) || '',
+                              end: session.endTime?.slice(0,16) || '',
+                              venue: session.venue,
+                              capacity: session.capacity,
+                            })
+                            setShowSessionForm(true)
+                          }}
                           className="px-3 py-1 bg-primary/20 text-primary border border-primary/30 rounded text-sm hover:bg-primary/30 transition-colors"
                         >
                           Edit
@@ -633,8 +740,48 @@ export default function ContentManagement() {
                         <button className="p-1 text-gray-400 hover:text-white transition-colors" title="Move">
                           <Move className="w-4 h-4" />
                         </button>
+                        <button
+                          className="p-1 text-red-400 hover:text-red-300 transition-colors"
+                          title="Delete"
+                          onClick={async () => {
+                            if (!confirm('Delete this session?')) return
+                            try {
+                              const { api } = await import('@/lib/supabase')
+                              await api.deleteSession(session.id)
+                              // reload sessions
+                              if (eventId != null) {
+                                const real = await api.getEventSessions(eventId)
+                                const normalized: Session[] = real.map((s: any) => ({
+                                  id: s.id,
+                                  title: s.title ?? s.name ?? 'Untitled Session',
+                                  description: s.description ?? '',
+                                  type: (s.session_type?.toLowerCase?.() ?? 'keynote') as Session['type'],
+                                  track: s.track ?? '',
+                                  startTime: s.start_time ?? s.start ?? s.startDate ?? s.start_date,
+                                  endTime: s.end_time ?? s.end ?? s.endDate ?? s.end_date,
+                                  duration: s.duration_minutes ?? s.duration ?? 60,
+                                  venue: s.room_name ?? s.venue ?? '',
+                                  capacity: s.room_capacity ?? s.max_attendees ?? 0,
+                                  speakers: [],
+                                  materials: [],
+                                  status: (s.status?.toLowerCase?.() ?? 'draft') as Session['status'],
+                                  tags: [],
+                                  level: (s.difficulty_level?.toLowerCase?.() ?? 'beginner') as Session['level'],
+                                  language: s.language ?? 'English',
+                                  recordingEnabled: s.recording_enabled ?? !!s.recording_url,
+                                  liveStreamEnabled: s.live_stream_enabled ?? !!s.live_stream_url,
+                                }))
+                                setSessions(normalized)
+                              }
+                            } catch (e) {
+                              alert('Failed to delete')
+                            }
+                          }}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
                       </div>
-                      
+
                       <div className="flex items-center space-x-1 text-xs text-gray-500">
                         {session.recordingEnabled && <Video className="w-3 h-3" />}
                         {session.liveStreamEnabled && <Zap className="w-3 h-3" />}
@@ -654,7 +801,7 @@ export default function ContentManagement() {
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
               {speakers.map((speaker) => {
                 const StatusIcon = getStatusIcon(speaker.status)
-                
+
                 return (
                   <motion.div
                     key={speaker.id}
@@ -730,7 +877,7 @@ export default function ContentManagement() {
                             <Eye className="w-4 h-4" />
                           </button>
                         </div>
-                        
+
                         <div className="flex items-center space-x-1">
                           {speaker.social.twitter && (
                             <a href={`https://twitter.com/${speaker.social.twitter}`} target="_blank" rel="noopener noreferrer" className="p-1 text-gray-400 hover:text-blue-400 transition-colors">
@@ -763,7 +910,7 @@ export default function ContentManagement() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {sponsors.map((sponsor) => {
                 const StatusIcon = getStatusIcon(sponsor.status)
-                
+
                 return (
                   <motion.div
                     key={sponsor.id}
@@ -839,7 +986,7 @@ export default function ContentManagement() {
                             <ExternalLink className="w-4 h-4" />
                           </button>
                         </div>
-                        
+
                         <div className="flex items-center space-x-2 text-xs">
                           {sponsor.contractSigned && (
                             <div className="flex items-center space-x-1 text-green-400">
@@ -874,6 +1021,67 @@ export default function ContentManagement() {
           </div>
         )}
       </div>
+
+      {showSessionForm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="bg-background border border-white/10 rounded-xl w-full max-w-2xl">
+            <div className="flex items-center justify-between p-4 border-b border-white/10">
+              <h3 className="text-lg text-white font-semibold">{selectedSession ? 'Edit Session' : 'Add Session'}</h3>
+              <button onClick={() => setShowSessionForm(false)} className="p-2 text-gray-400 hover:text-white"><X className="w-5 h-5" /></button>
+            </div>
+            <form
+              onSubmit={async (e) => { e.preventDefault(); await handleSaveSession(); }}
+              className="p-4 space-y-4"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm text-gray-300 mb-2">Title</label>
+                  <input value={sessionForm.title} onChange={(e)=>setSessionForm(f=>({...f,title:e.target.value}))} className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded text-white" required />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-300 mb-2">Type</label>
+                  <select value={sessionForm.type} onChange={(e)=>setSessionForm(f=>({...f,type:e.target.value as any}))} className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded text-white">
+                    <option value="keynote">Keynote</option>
+                    <option value="workshop">Workshop</option>
+                    <option value="panel">Panel</option>
+                    <option value="networking">Networking</option>
+                    <option value="break">Break</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-300 mb-2">Start</label>
+                  <input type="datetime-local" value={sessionForm.start} onChange={(e)=>setSessionForm(f=>({...f,start:e.target.value}))} className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded text-white" required />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-300 mb-2">End</label>
+                  <input type="datetime-local" value={sessionForm.end} onChange={(e)=>setSessionForm(f=>({...f,end:e.target.value}))} className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded text-white" required />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-300 mb-2">Venue</label>
+                  <input value={sessionForm.venue || ''} onChange={(e)=>setSessionForm(f=>({...f,venue:e.target.value}))} className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded text-white" />
+                </div>
+                <div>
+                  <label className="block text-sm text-gray-300 mb-2">Capacity</label>
+                  <input type="number" value={sessionForm.capacity || 0} onChange={(e)=>setSessionForm(f=>({...f,capacity:parseInt(e.target.value||'0',10)}))} className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded text-white" />
+                </div>
+                <div className="md:col-span-2">
+                  <label className="block text-sm text-gray-300 mb-2">Description</label>
+                  <textarea value={sessionForm.description} onChange={(e)=>setSessionForm(f=>({...f,description:e.target.value}))} rows={3} className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded text-white" />
+                </div>
+              </div>
+              <div className="flex items-center justify-end gap-2 pt-2">
+                <button type="button" onClick={()=>setShowSessionForm(false)} className="px-4 py-2 bg-white/10 text-white rounded hover:bg-white/20 flex items-center gap-2">
+                  <X className="w-4 h-4" /> Cancel
+                </button>
+                <button className="px-4 py-2 bg-primary text-white rounded hover:bg-primary/80 flex items-center gap-2">
+                  <Save className="w-4 h-4" /> Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
     </div>
   )
 }
